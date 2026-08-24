@@ -1,83 +1,52 @@
 import Image from "next/image";
-import {
-  CalendarDays,
-  Droplets,
-  Flower2,
-  Leaf,
-  MapPin,
-  Ruler,
-  Shovel,
-  Sparkles,
-  Sprout,
-} from "lucide-react";
+import { Flower2, Leaf, Shovel, Sprout } from "lucide-react";
 
 const features = [
   {
-    Icon: Sparkles,
-    title: "Intelligent Garden Planning",
-    body: "Generate complete layouts based on your yard size, experience level, goals, sunlight conditions, and climate zone.",
+    title: "Guided Inputs",
+    body: "Simple prompts for ZIP, sun, and size keep decision fatigue low while still collecting what matters.",
   },
   {
-    Icon: Sprout,
-    title: "Plant Compatibility Guidance",
-    body: "Discover which vegetables, herbs, flowers, and fruit trees thrive together while avoiding harmful combinations.",
+    title: "Plant Intent",
+    body: "Pick flowers, vegetables, herbs, medicinal plants, basic plants, or all of the above with guided examples.",
   },
   {
-    Icon: MapPin,
-    title: "Local Nursery & Store Finder",
-    body: "Find nearby nurseries, garden centers, and hardware stores carrying the exact plants and supplies you need.",
-  },
-  {
-    Icon: CalendarDays,
-    title: "Seasonal Planting Calendars",
-    body: "Receive customized planting and harvesting schedules tailored to your local weather patterns.",
-  },
-  {
-    Icon: Ruler,
-    title: "Beautiful Layout Visualizations",
-    body: "Turn rough ideas into polished, inspiring garden concepts with a hand-crafted visual aesthetic.",
-  },
-  {
-    Icon: Droplets,
-    title: "Maintenance & Watering Tips",
-    body: "Get realistic care guidance based on how much time, water, and effort you want to invest.",
+    title: "AI-Ready Output",
+    body: "Generate a structured garden prompt you can use immediately for layout and planting suggestions.",
   },
 ];
 
 const steps = [
   {
     number: "01",
-    title: "Tell us about your space",
-    body: "Share your location, climate, sunlight conditions, available space, and gardening goals.",
+    title: "Land Here",
+    body: "Get oriented quickly and see exactly what FloraScape will generate.",
   },
   {
     number: "02",
-    title: "Receive a personalized plan",
-    body: "FloraScape generates layouts, plant recommendations, schedules, and gardening strategies designed specifically for you.",
+    title: "Open Planner",
+    body: "Jump into the questionnaire in one click and add your garden details.",
   },
   {
     number: "03",
-    title: "Build your dream garden",
-    body: "Source your plants locally, follow guided tips, and grow a space that evolves beautifully season after season.",
+    title: "Generate Prompt",
+    body: "Review your personalized result and iterate toward your ideal layout.",
   },
 ];
 
 export default function Home() {
   return (
-    <>
+    <div className="landing-page">
       <nav>
         <div className="container nav-inner">
-          <a className="logo" href="#top" aria-label="FloraScape home">
+          <a className="logo" href="/" aria-label="FloraScape home">
             FloraScape
           </a>
-
-          <div className="nav-links" aria-label="Primary navigation">
+          <div className="nav-links">
+            <a href="#how-it-works">How It Works</a>
             <a href="#features">Features</a>
-            <a href="#planner">Garden Planner</a>
-            <a href="#plant-finder">Plant Finder</a>
-            <a href="#start" className="btn">
-              <Leaf size={18} strokeWidth={2.3} />
-              Start Designing
+            <a href="/planner" className="btn">
+              Start Planning
             </a>
           </div>
         </div>
@@ -87,37 +56,30 @@ export default function Home() {
         <section className="hero">
           <div className="container hero-grid">
             <div>
-              <div className="eyebrow">AI-Powered Garden Planning</div>
-
-              <h1>Design the garden you've always imagined.</h1>
-
+              <div className="eyebrow">Cozy AI Garden Design</div>
+              <h1>Plan a garden that actually fits your space and climate.</h1>
               <p>
-                FloraScape helps you plan beautiful, productive, and realistic
-                outdoor spaces based on your climate, sunlight, goals,
-                maintenance level, and available space. Get tailored layouts,
-                plant suggestions, companion planting tips, and nearby nursery
-                recommendations, all in one inspiring experience.
+                FloraScape turns your ZIP code, sunlight conditions, and plant
+                goals into a practical starter layout. Begin with a friendly
+                questionnaire, then generate a personalized garden blueprint.
               </p>
-
               <div className="hero-actions">
-                <a href="#start" className="btn">
+                <a href="/planner" className="btn">
                   <Sprout size={18} strokeWidth={2.3} />
-                  Start Your Garden
+                  Build My Garden Plan
                 </a>
-
-                <a href="#planner" className="btn secondary-btn">
+                <a href="#features" className="btn secondary-btn">
                   <Flower2 size={18} strokeWidth={2.2} />
-                  View Example Plans
+                  See How It Works
                 </a>
               </div>
-
             </div>
 
-            <div className="mockup-wrap" id="planner">
+            <div className="mockup-wrap">
               <div className="floating-card">
                 <Image
                   src="/garden-layout-example.png"
-                  alt="FloraScape garden planner mockup"
+                  alt="FloraScape planner example layout"
                   width={1024}
                   height={768}
                   priority
@@ -125,18 +87,18 @@ export default function Home() {
               </div>
 
               <div className="badge one">
-                <h4>Smart Climate Matching</h4>
+                <h4>Phase 1 MVP</h4>
                 <p>
-                  Personalized recommendations based on your USDA zone,
-                  sunlight, soil, and watering habits.
+                  Questionnaire, validation, and AI prompt generation in one
+                  clean flow.
                 </p>
               </div>
 
-              <div className="badge two" id="plant-finder">
-                <h4>Local Nursery Finder</h4>
+              <div className="badge two">
+                <h4>Natural Next Step</h4>
                 <p>
-                  Instantly locate nearby stores for seeds, flowers, soil,
-                  raised beds, and native plants.
+                  Move straight into the planner and start building your
+                  garden.
                 </p>
               </div>
             </div>
@@ -146,25 +108,17 @@ export default function Home() {
         <section className="section" id="features">
           <div className="container">
             <div className="section-header">
-              <h2>Everything you need to build your ideal outdoor space</h2>
-
+              <h2>What makes the flow useful</h2>
               <p>
-                Whether you're designing a raised-bed vegetable garden,
-                pollinator sanctuary, modern backyard retreat, or
-                self-sufficient homestead, FloraScape adapts to your vision and
-                turns inspiration into actionable plans.
+                We focus on practical setup first, then give you a clean
+                handoff into the planner so building your garden feels easy.
               </p>
             </div>
 
             <div className="features-grid">
-              {features.map(({ Icon, ...feature }) => (
+              {features.map((feature) => (
                 <article className="feature-card" key={feature.title}>
-                  <div className="feature-icon" aria-hidden="true">
-                    <Icon size={28} strokeWidth={2.1} />
-                  </div>
-
                   <h3>{feature.title}</h3>
-
                   <p>{feature.body}</p>
                 </article>
               ))}
@@ -172,42 +126,36 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section steps-section">
+        <section className="section steps-section" id="how-it-works">
           <div className="container">
             <div className="section-header">
-              <h2>How FloraScape works</h2>
-
-              <p>Planning your dream garden should feel inspiring, not overwhelming.</p>
+              <h2>Natural flow into building</h2>
+              <p>
+                Keep momentum from inspiration to a usable garden prompt
+                without switching tools.
+              </p>
             </div>
 
             <div className="steps">
               {steps.map((step) => (
                 <article className="step" key={step.number}>
                   <div className="step-number">{step.number}</div>
-
                   <h3>{step.title}</h3>
-
                   <p>{step.body}</p>
                 </article>
               ))}
             </div>
-          </div>
-        </section>
 
-        <section className="section">
-          <div className="container">
-            <div className="cta" id="start">
-              <h2>Start designing your future garden today.</h2>
-
+            <div className="cta">
+              <h2>Start building your garden today.</h2>
               <p>
-                From beginner-friendly raised beds to full backyard ecosystems,
-                FloraScape helps transform inspiration into thriving outdoor
-                spaces with intelligent guidance every step of the way.
+                You can begin with quick details now, generate your first
+                tailored prompt, and use that as the foundation for your
+                editable layout flow in the next phase.
               </p>
-
-              <a href="#top" className="btn">
+              <a href="/planner" className="btn">
                 <Shovel size={18} strokeWidth={2.3} />
-                Create My Garden Plan
+                Open Garden Planner
               </a>
             </div>
           </div>
@@ -215,6 +163,6 @@ export default function Home() {
       </main>
 
       <footer>© 2026 FloraScape - Grow beautifully.</footer>
-    </>
+    </div>
   );
 }
