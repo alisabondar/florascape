@@ -3,34 +3,34 @@ import { Flower2, Leaf, Shovel, Sprout } from "lucide-react";
 
 const features = [
   {
-    title: "Guided Inputs",
-    body: "Simple prompts for ZIP, sun, and size keep decision fatigue low while still collecting what matters.",
+    title: "Built for Your Space",
+    body: "Plan an in-ground plot, raised beds, or containers using the dimensions and sunlight each growing area actually has.",
   },
   {
-    title: "Plant Intent",
-    body: "Pick flowers, vegetables, herbs, medicinal plants, basic plants, or all of the above with guided examples.",
+    title: "A Garden You Can See",
+    body: "Turn your preferences into a hand-drawn interactive sketch with clear plant areas and practical placement reasoning.",
   },
   {
-    title: "AI-Ready Output",
-    body: "Generate a structured garden prompt you can use immediately for layout and planting suggestions.",
+    title: "Guidance You Can Use",
+    body: "Get companion tips, watering advice, common mistakes, quantities, spacing, and seasonal planting guidance in one plan.",
   },
 ];
 
 const steps = [
   {
     number: "01",
-    title: "Land Here",
-    body: "Get oriented quickly and see exactly what FloraScape will generate.",
+    title: "Describe Your Space",
+    body: "Share your ZIP code, garden type, dimensions, sunlight, and what you want to grow.",
   },
   {
     number: "02",
-    title: "Open Planner",
-    body: "Jump into the questionnaire in one click and add your garden details.",
+    title: "Generate a Blueprint",
+    body: "FloraScape arranges realistic plant groups inside a sketch sized to your growing areas.",
   },
   {
     number: "03",
-    title: "Generate Prompt",
-    body: "Review your personalized result and iterate toward your ideal layout.",
+    title: "Plant with Confidence",
+    body: "Use the linked tips and planting guide, adjust the sketch, and print the plan when you are ready.",
   },
 ];
 
@@ -56,12 +56,11 @@ export default function Home() {
         <section className="hero">
           <div className="container hero-grid">
             <div>
-              <div className="eyebrow">Cozy AI Garden Design</div>
               <h1>Plan a garden that actually fits your space and climate.</h1>
               <p>
-                FloraScape turns your ZIP code, sunlight conditions, and plant
-                goals into a practical starter layout. Begin with a friendly
-                questionnaire, then generate a personalized garden blueprint.
+                FloraScape turns your growing space, sunlight, location, and
+                plant goals into an illustrated blueprint with practical
+                planting and care guidance for beginners.
               </p>
               <div className="hero-actions">
                 <a href="/planner" className="btn">
@@ -78,27 +77,27 @@ export default function Home() {
             <div className="mockup-wrap">
               <div className="floating-card">
                 <Image
-                  src="/garden-layout-example.png"
-                  alt="FloraScape planner example layout"
-                  width={1024}
-                  height={768}
+                  src="/florascape-planner-example.png"
+                  alt="FloraScape garden blueprint with editable plant groups and six illustrated garden beds"
+                  width={1704}
+                  height={1726}
                   priority
                 />
               </div>
 
               <div className="badge one">
-                <h4>Phase 1 MVP</h4>
+                <h4>Sized to Your Garden</h4>
                 <p>
-                  Questionnaire, validation, and AI prompt generation in one
-                  clean flow.
+                  Every plot, bed, and container is drawn in proportion to the
+                  dimensions you enter.
                 </p>
               </div>
 
               <div className="badge two">
-                <h4>Natural Next Step</h4>
+                <h4>From Idea to Planting</h4>
                 <p>
-                  Move straight into the planner and start building your
-                  garden.
+                  See what goes where, why it belongs there, and how to get it
+                  growing.
                 </p>
               </div>
             </div>
@@ -108,10 +107,10 @@ export default function Home() {
         <section className="section" id="features">
           <div className="container">
             <div className="section-header">
-              <h2>What makes the flow useful</h2>
+              <h2>Everything you need to start planning</h2>
               <p>
-                We focus on practical setup first, then give you a clean
-                handoff into the planner so building your garden feels easy.
+                Make the early decisions with confidence, then carry one clear
+                plan into your yard, beds, or containers.
               </p>
             </div>
 
@@ -129,10 +128,10 @@ export default function Home() {
         <section className="section steps-section" id="how-it-works">
           <div className="container">
             <div className="section-header">
-              <h2>Natural flow into building</h2>
+              <h2>From an empty space to a workable plan</h2>
               <p>
-                Keep momentum from inspiration to a usable garden prompt
-                without switching tools.
+                FloraScape keeps the process approachable while still giving
+                you the dimensions, timing, and care details that matter.
               </p>
             </div>
 
@@ -149,9 +148,8 @@ export default function Home() {
             <div className="cta">
               <h2>Start building your garden today.</h2>
               <p>
-                You can begin with quick details now, generate your first
-                tailored prompt, and use that as the foundation for your
-                editable layout flow in the next phase.
+                Bring your dimensions and a few ideas. We will help turn them
+                into a garden blueprint you can adjust, print, and plant.
               </p>
               <a href="/planner" className="btn">
                 <Shovel size={18} strokeWidth={2.3} />
