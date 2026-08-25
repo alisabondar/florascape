@@ -1,104 +1,42 @@
 # FloraScape
 
-## Gemini API Setup
+FloraScape helps beginner gardeners turn the dimensions, sunlight, location, and goals for an outdoor space into an illustrated garden blueprint and practical planting guide.
 
-1. Create `.env.local` in the project root.
-2. Add:
+## Local setup
 
-```
+1. Install dependencies with `bun install`.
+2. Create `.env.local` in the project root.
+3. Add:
+
+```bash
 GEMINI_API_KEY=your_gemini_api_key_here
 GEMINI_MODEL=gemini-3.6-flash
 ```
 
-3. Restart dev server.
-4. Submit the planner form and open `/planner/result` to trigger the API call.
+4. Run `bun run dev`.
 
-### Sketch Pipeline
+## Planner flow
 
-`Gemini response -> Layout JSON -> SVG model -> Rough.js interactive sketch`
+- In-ground gardens collect the total dimensions, sunniest side, and whether the plot should remain continuous or be divided into sections.
+- Raised beds and containers use repeatable cards. Each card represents one growing area with its own dimensions and sun exposure.
+- Gemini returns a structured plan containing the garden description, plant placement, placement reasons, tips, and general planting guide.
+- Server-side geometry makes the submitted number and dimensions of growing areas authoritative before rendering.
+- Rough.js renders the validated plan as an interactive sketch with `roughness: 0.5`.
 
-If Gemini JSON parsing fails, the result page can still load a built-in example layout for testing the interaction layer.
+## Results and editing
 
-## Phase 1 — MVP
+- Hover a plant area for its placement reason.
+- Click a plant area to jump to its planting-guide entry.
+- Drag plant groups, copy/paste them, add another recommended group, delete a selected group, or reset the layout.
+- Bed/container geometry changes are made by editing planner inputs and regenerating the plan.
+- The print action includes the sketch, tips, container setup guidance when applicable, and planting guide.
 
-**Goal:** Basic garden generation
+## Validation
 
-### Landing Page
+Run a production compile with:
 
-* Pleasant green color palette
-* Cozy farming game aesthetic (Stardew Valley vibe)
-* Cartoonish / handwritten font
-
-### Prompt Questionnaire
-
-Users select the types of plants they want in their garden. Include info icons for tooltips with examples
-
-```
-[ ] Flowers
-[ ] Vegetables
-[ ] Herbs
-[ ] Medicinal Plants
-[ ] Basic Plants
-[ ] All of the above
+```bash
+bun run build
 ```
 
-### Location Input
-
-* Zipcode input
-* Used for weather and environmental data via API
-
-### AI Prompt Generation
-
-Example prompt structure sent to the AI system:
-
-```
-Generate a layout for a garden based on the following criteria:
-
-Location: 07030
-Garden Type: Raised beds
-Sun Exposure: Partial Shade
-Size: 10x12 feet
-
-Plants:
-- Herbs
-- Flowers
-
-Preferences:
-Lavender, tomatoes, pollinator friendly
-Budget conscious
-
-Keep in mind what the preferences are and provide any tips about what plants require more shade or should not be planted next to each other.
-
-If the user does not provide preferences based on the plants they selected, include your own suggestions based on the provided details.
-```
-Need to test which inputs can be optional vs required. 
-
-### Image Generation
-
-* Generate a **basic garden layout image**
-* Visual representation of beds, plants, and spacing
-
----
-
-## Phase 2 — Layout Editing
-
-* Drag-and-drop garden editor
-* Editable garden beds
-* Plant icons for visual placement
-* Save design functionality
-
----
-
-## Phase 3 — Accounts
-
-* User authentication
-* Profile settings
-* Saved gardens library
-
----
-
-## Phase 4 — Community
-
-* Upload real garden photos
-* Share generated designs
-* Inspiration feed for browsing other gardens
+If Gemini is unavailable or returns invalid data, FloraScape can construct a dimensionally accurate starter plan from the submitted inputs.
