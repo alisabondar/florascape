@@ -2,11 +2,15 @@
 
 import { Leaf, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
+import GardenSketch from "../../components/GardenSketch";
+import { createExampleGardenLayout } from "../../../lib/garden-layout";
 
 const STORAGE_KEY = "florascape_planner_result";
 
 export default function PlannerResultPage() {
   const [result, setResult] = useState(null);
+  const [status, setStatus] = useState("idle");
+  const [apiError, setApiError] = useState("");
 
   useEffect(() => {
     const rawResult = window.sessionStorage.getItem(STORAGE_KEY);
@@ -21,6 +25,93 @@ export default function PlannerResultPage() {
     }
   }, []);
 
+  useEffect(() => {
+    if (!result || result.layout || status !== "idle") {
+      return;
+    }
+
+    async function generateLayout() {
+      setStatus("loading");
+      setApiError("");
+
+      try {
+        const response = await fetch("/api/generate-garden-plan", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt: result.prompt }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.layout) {
+          throw new Error(data.error || "Failed to generate layout.");
+        }
+
+        const nextResult = {
+          ...result,
+          layout: data.layout,
+          modelUsed: data.modelUsed || "unknown",
+          apiWarning: data.warning || "",
+          aiGeneratedAt: new Date().toISOString(),
+        };
+
+        window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(nextResult));
+        setResult(nextResult);
+        setStatus("success");
+      } catch (error) {
+        setApiError(error.message);
+        setStatus("error");
+      }
+    }
+
+    generateLayout();
+  }, [result, status]);
+
+  function loadExample() {
+    const nextResult = {
+      generatedAt: new Date().toISOString(),
+      prompt: result?.prompt || "Example layout",
+      selectedPlants: result?.selectedPlants || [
+        "Herbs",
+        "Flowers",
+        "Vegetables",
+      ],
+      formValues: result?.formValues || {
+        zipCode: "07030",
+        gardenType: "Raised beds",
+        sunExposure: "Partial Shade",
+        width: 12,
+        height: 10,
+      },
+      ...result,
+      layout: createExampleGardenLayout(),
+      modelUsed: "example-layout",
+      apiWarning: "",
+      aiGeneratedAt: new Date().toISOString(),
+    };
+    window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(nextResult));
+    setResult(nextResult);
+    setStatus("success");
+  }
+
+  function handleSketchLayoutChange(nextLayout) {
+    setResult((prev) => {
+      if (!prev) {
+        return prev;
+      }
+      const nextResult = {
+        ...prev,
+        layout: nextLayout,
+      };
+      window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(nextResult));
+      return nextResult;
+    });
+  }
+
+  function printSketch() {
+    window.print();
+  }
+
   return (
     <div className="planner-page planner-result-page">
       <nav>
@@ -34,7 +125,7 @@ export default function PlannerResultPage() {
             </a>
             <a href="/planner" className="btn">
               <Leaf size={17} strokeWidth={2.3} />
-              New Result
+              Start Over
             </a>
           </div>
         </div>
@@ -44,7 +135,7 @@ export default function PlannerResultPage() {
         <section className="hero planner-result-hero">
           <div className="container hero-content">
             <div className="eyebrow">Result</div>
-            <h1>Generated Garden Result</h1>
+            <h1>Interactive Garden Sketch</h1>
           </div>
         </section>
 
@@ -65,25 +156,53 @@ export default function PlannerResultPage() {
                     {result.formValues.height} ft
                   </div>
 
-                  <pre>{result.prompt}</pre>
-
-                  <div className="layout-placeholder">
-                    <h3>Layout Preview</h3>
-                    <p>
-                      {result.formValues.width} x {result.formValues.height} ft
-                    </p>
-                    <p>{result.formValues.sunExposure}</p>
-                    <p>
-                      {new Date(result.generatedAt).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </p>
+                  <div className="ai-plan">
+                    <h3>
+                      <Sparkles size={18} strokeWidth={2.3} />
+                      LLM {"->"} JSON {"->"} SVG {"->"} Rough.js
+                    </h3>
+                    {status === "loading" ? (
+                      <p className="ai-state">Generating structured layout...</p>
+                    ) : null}
+                    {status === "error" ? (
+                      <p className="ai-error">{apiError}</p>
+                    ) : null}
+                    <button type="button" className="btn example-btn" onClick={loadExample}>
+                      Load Example Layout
+                    </button>
+                    <button type="button" className="btn example-btn" onClick={printSketch}>
+                      Print Sketch
+                    </button>
+                    {result.modelUsed ? (
+                      <p className="ai-state">Model: {result.modelUsed}</p>
+                    ) : null}
+                    {result.apiWarning ? (
+                      <p className="ai-state">{result.apiWarning}</p>
+                    ) : null}
                   </div>
+
+                  {result.layout ? (
+                    <>
+                      <GardenSketch
+                        layout={result.layout}
+                        onLayoutChange={handleSketchLayoutChange}
+                      />
+                      <details className="layout-json">
+                        <summary>Layout JSON</summary>
+                        <pre>{JSON.stringify(result.layout, null, 2)}</pre>
+                      </details>
+                    </>
+                  ) : null}
                 </>
               ) : (
                 <div className="empty-state">
-                  No result found. Complete the planner form first.
+                  <p>No result found.</p>
+                  <button type="button" className="btn example-btn" onClick={loadExample}>
+                    Load Example Layout
+                  </button>
+                  <button type="button" className="btn example-btn" onClick={printSketch}>
+                    Print Sketch
+                  </button>
                 </div>
               )}
             </div>

@@ -1,4 +1,24 @@
 # FloraScape
+
+## Gemini API Setup
+
+1. Create `.env.local` in the project root.
+2. Add:
+
+```
+GEMINI_API_KEY=your_gemini_api_key_here
+GEMINI_MODEL=gemini-3.6-flash
+```
+
+3. Restart dev server.
+4. Submit the planner form and open `/planner/result` to trigger the API call.
+
+### Sketch Pipeline
+
+`Gemini response -> Layout JSON -> SVG model -> Rough.js interactive sketch`
+
+If Gemini JSON parsing fails, the result page can still load a built-in example layout for testing the interaction layer.
+
 ## Phase 1 — MVP
 
 **Goal:** Basic garden generation
