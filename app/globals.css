@@ -131,17 +131,6 @@ a {
   align-items: center;
 }
 
-.landing-page .eyebrow {
-  display: inline-block;
-  background: #e5f0e3;
-  color: var(--green);
-  padding: 0.5rem 1rem;
-  border-radius: 999px;
-  font-size: 0.9rem;
-  margin-bottom: 1.5rem;
-  font-weight: 600;
-}
-
 .landing-page h1 {
   font-size: 4.5rem;
   line-height: 0.95;
@@ -431,22 +420,8 @@ a {
   padding: 1.7rem 0 1rem;
 }
 
-.planner-page .planner-hero {
-  padding-top: 2.3rem;
-}
-
 .planner-page .hero-content {
   max-width: 920px;
-}
-
-.planner-page .eyebrow {
-  display: inline-block;
-  background: var(--green-100);
-  color: var(--green-700);
-  font-weight: 600;
-  border-radius: 999px;
-  padding: 0.46rem 0.9rem;
-  margin-bottom: 1.2rem;
 }
 
 .planner-page h1 {
@@ -494,14 +469,10 @@ a {
   margin-bottom: 0.55rem;
 }
 
-.planner-page .panel-title-wrap p,
-.planner-page .output-intro {
+.planner-page .panel-title-wrap p {
   color: #5f6f62;
   line-height: 1.6;
   margin-bottom: 1.2rem;
-}
-
-.planner-page .panel-title-wrap p {
   max-width: 620px;
 }
 
@@ -509,14 +480,6 @@ a {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.9rem;
-}
-
-.planner-page .size-field {
-  gap: 0.48rem;
-}
-
-.planner-page .size-field span {
-  font-size: 0.94rem;
 }
 
 .planner-page .field {
@@ -622,12 +585,6 @@ a {
 .planner-page textarea:focus {
   outline: 2px solid rgba(93, 141, 97, 0.35);
   border-color: var(--green-500);
-}
-
-.planner-page .size-inputs {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.68rem;
 }
 
 .planner-page .plant-fieldset {
@@ -821,47 +778,6 @@ a {
   font-size: 0.8rem;
 }
 
-.planner-page .result-chip {
-  border-radius: 12px;
-  border: 1px dashed #bdd1bc;
-  background: #f4f9f0;
-  font-size: 0.9rem;
-  padding: 0.72rem 0.8rem;
-  margin-bottom: 0.9rem;
-  line-height: 1.6;
-}
-
-.planner-page pre {
-  white-space: pre-wrap;
-  border-radius: 14px;
-  border: 1px solid #c6d8c4;
-  background: #f7fbf5;
-  padding: 0.9rem;
-  font-size: 0.85rem;
-  line-height: 1.55;
-  color: #294130;
-  margin-bottom: 0.9rem;
-}
-
-.planner-page .layout-placeholder {
-  border-radius: 14px;
-  background: linear-gradient(150deg, #3b633f, #5d8d61);
-  color: #f8fff6;
-  padding: 1rem;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
-}
-
-.planner-page .layout-placeholder h3 {
-  font-family: "Caveat", cursive;
-  font-size: 1.95rem;
-  margin-bottom: 0.5rem;
-}
-
-.planner-page .layout-placeholder p {
-  margin-bottom: 0.36rem;
-  font-size: 0.92rem;
-}
-
 .planner-page .empty-state {
   border-radius: 14px;
   border: 1px dashed #bfd1bd;
@@ -870,39 +786,9 @@ a {
   color: #4e6452;
 }
 
-.planner-page .ai-plan {
-  margin-top: 0.9rem;
-  border: 1px solid #cde0cb;
-  border-radius: 14px;
-  background: #f7fbf5;
-  padding: 1rem;
-}
-
-.planner-page .ai-plan h3 {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.55rem;
-  color: #26472a;
-}
-
-.planner-page .ai-state {
-  color: #4e6452;
-}
-
 .planner-page .ai-error {
   color: var(--error);
   font-weight: 600;
-}
-
-.planner-page .ai-text {
-  white-space: pre-wrap;
-  line-height: 1.65;
-  color: #2d4230;
-}
-
-.planner-page .example-btn {
-  margin: 0.5rem 0 0.6rem;
 }
 
 .planner-page .garden-sketch-wrap {
@@ -930,42 +816,6 @@ a {
   color: #657066;
   font-size: 0.8rem;
   font-weight: 600;
-}
-
-.planner-page .garden-sketch-controls {
-  display: flex;
-  gap: 0.55rem;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.planner-page .garden-sketch-toolbar label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
-  color: #48614c;
-}
-
-.planner-page .sketch-mini-btn {
-  border: 1px solid #beb6a5;
-  background: #fffdf8;
-  color: #3f4d40;
-  border-radius: 999px;
-  padding: 0.4rem 0.7rem;
-  font-size: 0.78rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.planner-page .sketch-mini-btn:hover {
-  background: #f3ecdd;
-}
-
-.planner-page .garden-sketch-hint {
-  margin-bottom: 0.55rem;
-  color: #5a6255;
-  font-size: 0.86rem;
 }
 
 .planner-page .garden-sketch-editor {
@@ -1088,8 +938,7 @@ a {
   font-weight: 650;
 }
 
-.planner-page .sketch-editor-field .ui-select-trigger,
-.planner-page .sketch-editor-field input {
+.planner-page .sketch-editor-field .ui-select-trigger {
   min-height: 38px;
   padding: 0.52rem 0.62rem;
   font-size: 0.82rem;
@@ -1129,139 +978,6 @@ a {
   height: 13px;
   border: 1px solid;
   border-radius: 3px;
-}
-
-.planner-page .sketch-delete-btn {
-  color: #8e2f27;
-  border-color: #d9b4af;
-}
-
-.planner-page .sketch-delete-btn:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-
-.planner-page .garden-sketch-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.8rem;
-  margin-bottom: 0.6rem;
-  color: #4c564c;
-  font-size: 0.8rem;
-}
-
-.planner-page .planting-zone-key {
-  border: 1px solid #d2dcca;
-  border-radius: 10px;
-  background: #f7faf3;
-  padding: 0.6rem 0.7rem;
-  display: flex;
-  align-items: baseline;
-  gap: 0.55rem;
-  color: #566258;
-  line-height: 1.45;
-}
-
-.planner-page .planting-zone-key strong {
-  color: #345139;
-  white-space: nowrap;
-}
-
-.planner-page .legend-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-}
-
-.planner-page .shape-swatch {
-  width: 14px;
-  height: 14px;
-  display: inline-block;
-  border: 1px solid rgba(0, 0, 0, 0.35);
-}
-
-.planner-page .shape-swatch.square-solid {
-  border-radius: 2px;
-  background: #8fbe81;
-}
-
-.planner-page .shape-swatch.circle-sunburst {
-  border-radius: 999px;
-  background: conic-gradient(
-    from 0deg,
-    #f7df99 0deg 20deg,
-    #f4c968 20deg 40deg,
-    #f7df99 40deg 60deg,
-    #f4c968 60deg 80deg,
-    #f7df99 80deg 100deg,
-    #f4c968 100deg 120deg,
-    #f7df99 120deg 140deg,
-    #f4c968 140deg 160deg,
-    #f7df99 160deg 180deg,
-    #f4c968 180deg 200deg,
-    #f7df99 200deg 220deg,
-    #f4c968 220deg 240deg,
-    #f7df99 240deg 260deg,
-    #f4c968 260deg 280deg,
-    #f7df99 280deg 300deg,
-    #f4c968 300deg 320deg,
-    #f7df99 320deg 340deg,
-    #f4c968 340deg 360deg
-  );
-}
-
-.planner-page .sun-swatch {
-  width: 12px;
-  height: 12px;
-  border-radius: 3px;
-  display: inline-block;
-  border: 1px solid rgba(0, 0, 0, 0.25);
-}
-
-.planner-page .sun-swatch.full-sun {
-  background: #f6d785;
-}
-
-.planner-page .sun-swatch.partial-shade {
-  background: #dce7bc;
-}
-
-.planner-page .sun-swatch.shade {
-  background: #ccd9e8;
-}
-
-.planner-page .line-swatch {
-  width: 16px;
-  height: 0;
-  border-top: 2px dashed;
-  display: inline-block;
-}
-
-.planner-page .line-swatch.companion {
-  border-top-color: #4f8b4f;
-}
-
-.planner-page .line-swatch.avoid {
-  border-top-color: #c55757;
-}
-
-.planner-page .garden-sketch-hover {
-  border: 1px dashed #c6baa3;
-  border-radius: 10px;
-  background: #fffaf0;
-  padding: 0.58rem 0.68rem;
-  color: #4f554a;
-  margin-bottom: 0.58rem;
-  min-height: 56px;
-  display: flex;
-  flex-direction: column;
-  gap: 0.18rem;
-  font-size: 0.82rem;
-}
-
-.planner-page .garden-sketch-hover strong {
-  font-size: 0.84rem;
-  color: #2f4532;
 }
 
 .planner-page .garden-sketch-stage {
@@ -1333,23 +1049,6 @@ a {
   stroke-width: 2.5px;
 }
 
-.planner-page .plant-handle {
-  fill: transparent;
-  stroke: transparent;
-  stroke-width: 1.15;
-  cursor: grab;
-  transition: fill 0.15s ease, stroke 0.15s ease;
-}
-
-.planner-page .plant-handle:hover {
-  fill: rgba(255, 255, 255, 0.58);
-  stroke: rgba(45, 87, 52, 0.72);
-}
-
-.planner-page .plant-handle:active {
-  cursor: grabbing;
-}
-
 .planner-page .bed-label {
   font-size: 12px;
   fill: #2f2d29;
@@ -1366,18 +1065,6 @@ a {
   stroke: rgba(255, 255, 255, 0.86);
   stroke-width: 3px;
   stroke-linejoin: round;
-}
-
-.planner-page .bed-label-center {
-  text-transform: uppercase;
-  font-size: 11px;
-}
-
-.planner-page .plant-label {
-  font-size: 10px;
-  fill: #2f4f36;
-  pointer-events: none;
-  font-weight: 600;
 }
 
 .planner-page .plant-zone-label {
@@ -1398,27 +1085,6 @@ a {
   margin-top: 0.7rem;
   color: #5a6255;
   font-size: 0.86rem;
-}
-
-.planner-page .layout-json {
-  margin-top: 0.9rem;
-}
-
-.planner-page .layout-json summary {
-  cursor: pointer;
-  color: #2e5132;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-.planner-page .garden-sketch-selection {
-  margin-top: 0.65rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.8rem;
-  align-items: center;
-  font-size: 0.86rem;
-  color: #4c564c;
 }
 
 .planner-page footer {
@@ -1877,9 +1543,6 @@ a {
     grid-template-columns: 1fr;
   }
 
-  .planner-page .garden-sketch-controls {
-    width: 100%;
-  }
 }
 
 @page {
@@ -1902,7 +1565,6 @@ a {
   .planner-page .planner-nav-actions,
   .planner-page .garden-sketch-editor,
   .planner-page .garden-zone-tooltip,
-  .planner-page .layout-json,
   .planner-page .no-print,
   .planner-result-page .screen-guide-list,
   .planner-result-page .screen-tips-grid,

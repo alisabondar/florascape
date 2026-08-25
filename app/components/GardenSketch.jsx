@@ -15,15 +15,19 @@ const SUN_ZONE_COLORS = {
 };
 
 function deepCloneLayout(layout) {
-  return JSON.parse(JSON.stringify(layout));
+  return structuredClone(layout);
 }
 
 function newPlantId() {
-  return `plant-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`;
+  return `plant-${crypto.randomUUID()}`;
 }
 
 function cleanPlacementReason(value) {
   return String(value || "Fits this area's light and spacing.").trim();
+}
+
+function roundToQuarter(value) {
+  return Math.round(value * 4) / 4;
 }
 
 function zoneLabelText(plant, patch) {
@@ -182,16 +186,6 @@ export default function GardenSketch({
       });
     }
 
-    model.paths.forEach((path) => {
-      const pathBase = roughSvg.line(path.x1Px, path.y1Px, path.x2Px, path.y2Px, {
-        stroke: "#9f9483",
-        strokeWidth: path.widthPx + 3,
-        roughness: ROUGHNESS,
-      });
-      pathBase.setAttribute("opacity", "0.55");
-      svg.appendChild(pathBase);
-    });
-
     model.beds.forEach((bed) => {
       const options = {
         fill: "#faf8f0",
@@ -333,7 +327,7 @@ export default function GardenSketch({
       title: plant.name,
       target: `${plant.quantity || 1} mature ${plant.quantity === 1 ? "plant" : "plants"}`,
       spacing: `${plant.spacingInches || "?"} in spacing`,
-      section: `About ${Math.round(patch.width * 4) / 4} × ${Math.round(patch.height * 4) / 4} ft`,
+      section: `About ${roundToQuarter(patch.width)} × ${roundToQuarter(patch.height)} ft`,
       reason: cleanPlacementReason(plant.placementReason),
     });
   }
@@ -477,7 +471,7 @@ export default function GardenSketch({
                     height={patch.heightPx}
                     tabIndex={0}
                     role="button"
-                    aria-label={`${plant.name}, ${plant.quantity || 1} mature plants, about ${Math.round(patch.width * 4) / 4} by ${Math.round(patch.height * 4) / 4} feet`}
+                    aria-label={`${plant.name}, ${plant.quantity || 1} mature plants, about ${roundToQuarter(patch.width)} by ${roundToQuarter(patch.height)} feet`}
                     onClick={() => openGuide(plant)}
                     onMouseEnter={(event) => showPlantTooltip(event, plant, patch)}
                     onMouseMove={(event) => showPlantTooltip(event, plant, patch)}

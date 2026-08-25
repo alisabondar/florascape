@@ -8,8 +8,15 @@ import {
   createFallbackGardenPlan,
 } from "../../../lib/garden-plan";
 import { getPlantSectionSizes } from "../../../lib/garden-layout";
-
-const STORAGE_KEY = "florascape_planner_result";
+import {
+  getAreaCopy,
+  getGardenMethodLabel,
+} from "../../../lib/planner-config";
+import {
+  PLANNER_RESULT_KEY,
+  readSessionJson,
+  writeSessionJson,
+} from "../../../lib/session-storage";
 
 function inputSummary(input) {
   if (!input) {
@@ -21,29 +28,10 @@ function inputSummary(input) {
       : `${input.inGround.sectionCount} sections`;
     return `${input.zipCode} · In-ground · ${input.inGround.width} × ${input.inGround.length} ft · ${sections}`;
   }
-  const label =
-    input.gardenType === "containers"
-      ? "containers"
-      : input.gardenType === "any"
-        ? "available areas"
-        : "raised beds";
+  const areaCopy = getAreaCopy(input.gardenType);
   const sizes = input.units.map((unit) => `${unit.width}×${unit.length}`).join(", ");
-  const quantityLabel = input.units.length === 1
-    ? input.gardenType === "containers"
-      ? "container"
-      : input.gardenType === "any"
-        ? "available area"
-        : "raised bed"
-    : label;
+  const quantityLabel = input.units.length === 1 ? areaCopy.singular : areaCopy.plural;
   return `${input.zipCode} · ${input.units.length} ${quantityLabel} · ${sizes} ft`;
-}
-
-function gardenMethodLabel(value) {
-  return value === "in_ground"
-    ? "In-ground garden"
-    : value === "containers"
-      ? "Container garden"
-      : "Raised beds";
 }
 
 function GardenLoadingPage({ input }) {
@@ -215,47 +203,47 @@ function PlantingGuide({ guide, layout }) {
         {visibleGuide.map((item) => {
           const sizes = sectionSizes[item.plantName.toLowerCase()] || [];
           return (
-          <article className="guide-card" id={item.id} key={item.id}>
-            <div className="guide-card-heading">
-              <div>
-                <h3>{item.plantName}</h3>
-                <span>{item.timingLabel || item.whenToPlant}</span>
-              </div>
-              <strong>Target: {item.quantity} mature {item.quantity === 1 ? "plant" : "plants"}</strong>
-            </div>
-            <p className="guide-timing">{item.timingDetails}</p>
-            <dl>
-              <div>
-                <dt>Spacing</dt>
-                <dd>{item.spacingInches} inches</dd>
-              </div>
-              <div>
-                <dt>How much to sow</dt>
-                <dd>
-                  {item.sowingAmount || `Start a few extra seeds and thin to ${item.quantity} healthy plants.`}
-                </dd>
-              </div>
-              {sizes.length ? (
+            <article className="guide-card" id={item.id} key={item.id}>
+              <div className="guide-card-heading">
                 <div>
-                  <dt>Allocated space</dt>
-                  <dd>{sectionSizeText(sizes)}</dd>
+                  <h3>{item.plantName}</h3>
+                  <span>{item.timingLabel || item.whenToPlant}</span>
                 </div>
-              ) : null}
-              {item.plantingDepth ? (
+                <strong>Target: {item.quantity} mature {item.quantity === 1 ? "plant" : "plants"}</strong>
+              </div>
+              <p className="guide-timing">{item.timingDetails}</p>
+              <dl>
                 <div>
-                  <dt>Specific depth</dt>
-                  <dd>{item.plantingDepth}</dd>
+                  <dt>Spacing</dt>
+                  <dd>{item.spacingInches} inches</dd>
                 </div>
-              ) : null}
-              {item.watering ? (
                 <div>
-                  <dt>Specific watering</dt>
-                  <dd>{item.watering}</dd>
+                  <dt>How much to sow</dt>
+                  <dd>
+                    {item.sowingAmount || `Start a few extra seeds and thin to ${item.quantity} healthy plants.`}
+                  </dd>
                 </div>
-              ) : null}
-            </dl>
-            {item.notes ? <p className="guide-note">{item.notes}</p> : null}
-          </article>
+                {sizes.length ? (
+                  <div>
+                    <dt>Allocated space</dt>
+                    <dd>{sectionSizeText(sizes)}</dd>
+                  </div>
+                ) : null}
+                {item.plantingDepth ? (
+                  <div>
+                    <dt>Specific depth</dt>
+                    <dd>{item.plantingDepth}</dd>
+                  </div>
+                ) : null}
+                {item.watering ? (
+                  <div>
+                    <dt>Specific watering</dt>
+                    <dd>{item.watering}</dd>
+                  </div>
+                ) : null}
+              </dl>
+              {item.notes ? <p className="guide-note">{item.notes}</p> : null}
+            </article>
           );
         })}
       </div>
@@ -297,16 +285,7 @@ export default function PlannerResultPage() {
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    const rawResult = window.sessionStorage.getItem(STORAGE_KEY);
-    if (!rawResult) {
-      setHydrated(true);
-      return;
-    }
-    try {
-      setResult(JSON.parse(rawResult));
-    } catch {
-      setResult(null);
-    }
+    setResult(readSessionJson(PLANNER_RESULT_KEY));
     setHydrated(true);
   }, []);
 
@@ -338,11 +317,11 @@ export default function PlannerResultPage() {
           apiWarning: data.warning || "",
           aiGeneratedAt: new Date().toISOString(),
         };
-        window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(nextResult));
+        writeSessionJson(PLANNER_RESULT_KEY, nextResult);
         setResult(nextResult);
         setStatus("success");
       } catch (error) {
-        setApiError(error.message);
+        setApiError(error instanceof Error ? error.message : "Failed to generate a garden plan.");
         setStatus("error");
       }
     }
@@ -363,7 +342,7 @@ export default function PlannerResultPage() {
       apiWarning: "",
       aiGeneratedAt: new Date().toISOString(),
     };
-    window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(nextResult));
+    writeSessionJson(PLANNER_RESULT_KEY, nextResult);
     setResult(nextResult);
     setStatus("success");
   }
@@ -392,7 +371,7 @@ export default function PlannerResultPage() {
           })),
         },
       };
-      window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(nextResult));
+      writeSessionJson(PLANNER_RESULT_KEY, nextResult);
       return nextResult;
     });
   }
@@ -481,7 +460,7 @@ export default function PlannerResultPage() {
                       {result?.plannerInput?.gardenType === "any" && plan.recommendedGardenType ? (
                         <p className="garden-method-recommendation">
                           <strong>Recommended setup:</strong>{" "}
-                          {gardenMethodLabel(plan.recommendedGardenType)}
+                          {getGardenMethodLabel(plan.recommendedGardenType)}
                         </p>
                       ) : null}
                       <GardenSketch
