@@ -7,6 +7,23 @@ import {
   CheckboxControl,
   SelectControl,
 } from "../components/FormControls";
+import {
+  GARDEN_TYPE_OPTIONS,
+  SUN_EXPOSURE_OPTIONS,
+  getAreaCopy,
+  getAreaId,
+  getAreaName,
+  getGardenTypeLabel,
+  getSunExposureLabel,
+  isGardenType,
+  isRepeatableGardenType,
+} from "../../lib/planner-config";
+import {
+  PLANNER_DRAFT_KEY,
+  PLANNER_RESULT_KEY,
+  readSessionJson,
+  writeSessionJson,
+} from "../../lib/session-storage";
 
 const PLANT_OPTIONS = [
   {
@@ -36,19 +53,6 @@ const PLANT_OPTIONS = [
   },
 ];
 
-const GARDEN_TYPE_OPTIONS = [
-  { value: "any", label: "Any — recommend the best setup" },
-  { value: "in_ground", label: "In-ground" },
-  { value: "raised_beds", label: "Raised beds" },
-  { value: "containers", label: "Containers" },
-];
-
-const SUN_EXPOSURE_OPTIONS = [
-  { value: "full_sun", label: "Full sun (6+ hours)" },
-  { value: "partial_shade", label: "Partial shade (3–6 hours)" },
-  { value: "mostly_shade", label: "Mostly shade (under 3 hours)" },
-];
-
 const SUNNIEST_SIDE_OPTIONS = [
   { value: "north", label: "North side" },
   { value: "east", label: "East side" },
@@ -63,8 +67,6 @@ const PLOT_STYLE_OPTIONS = [
 ];
 
 const ALL_KEY = "all";
-const STORAGE_KEY = "florascape_planner_result";
-const DRAFT_KEY = "florascape_planner_draft";
 
 const INITIAL_FORM = {
   zipCode: "",
@@ -87,14 +89,6 @@ const INITIAL_FORM = {
     },
   ],
 };
-
-function gardenTypeLabel(value) {
-  return GARDEN_TYPE_OPTIONS.find((option) => option.value === value)?.label || value;
-}
-
-function sunExposureLabel(value) {
-  return SUN_EXPOSURE_OPTIONS.find((option) => option.value === value)?.label || value;
-}
 
 function validate(values) {
   const errors = {};
@@ -131,22 +125,17 @@ function validate(values) {
     }
   }
 
-  if (["any", "raised_beds", "containers"].includes(values.gardenType)) {
+  if (isRepeatableGardenType(values.gardenType)) {
+    const { formLabel } = getAreaCopy(values.gardenType);
     values.units.forEach((unit, index) => {
-      const label =
-        values.gardenType === "containers"
-          ? "Container"
-          : values.gardenType === "any"
-            ? "Available area"
-            : "Bed";
       if (Number(unit.width) <= 0) {
-        errors[`unit.${unit.id}.width`] = `${label} ${index + 1} needs a width.`;
+        errors[`unit.${unit.id}.width`] = `${formLabel} ${index + 1} needs a width.`;
       }
       if (Number(unit.length) <= 0) {
-        errors[`unit.${unit.id}.length`] = `${label} ${index + 1} needs a length.`;
+        errors[`unit.${unit.id}.length`] = `${formLabel} ${index + 1} needs a length.`;
       }
       if (!unit.sunExposure) {
-        errors[`unit.${unit.id}.sunExposure`] = `${label} ${index + 1} needs sun exposure.`;
+        errors[`unit.${unit.id}.sunExposure`] = `${formLabel} ${index + 1} needs sun exposure.`;
       }
     });
   }
@@ -156,7 +145,7 @@ function validate(values) {
 
 function createUnit() {
   return {
-    id: `garden-unit-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+    id: `garden-unit-${crypto.randomUUID()}`,
     width: "",
     length: "",
     sunExposure: "",
@@ -164,16 +153,10 @@ function createUnit() {
 }
 
 function formFromPlannerInput(input) {
-  const gardenType =
-    input?.gardenType === "any" || input?.gardenTypeLabel?.startsWith("Any")
-      ? "any"
-      : input?.gardenType === "in_ground" || input?.gardenTypeLabel === "In-ground"
-      ? "in_ground"
-      : input?.gardenType === "containers" || input?.gardenTypeLabel === "Containers"
-        ? "containers"
-        : input?.gardenType === "raised_beds" || input?.gardenTypeLabel === "Raised beds"
-          ? "raised_beds"
-          : "";
+  const gardenType = isGardenType(input?.gardenType)
+    ? input.gardenType
+    : GARDEN_TYPE_OPTIONS.find(({ label }) => label === input?.gardenTypeLabel)?.value ||
+      (input?.gardenTypeLabel?.startsWith("Any") ? "any" : "");
   if (!gardenType) {
     return null;
   }
@@ -258,11 +241,7 @@ function PlannerForm() {
   const shouldRestore = searchParams.get("edit") === "1";
   const [restoreComplete, setRestoreComplete] = useState(!shouldRestore);
   const requestedType = searchParams.get("type");
-  const requestedGardenType = GARDEN_TYPE_OPTIONS.some(
-    (option) => option.value === requestedType,
-  )
-    ? requestedType
-    : "";
+  const requestedGardenType = isGardenType(requestedType) ? requestedType : "";
 
   useEffect(() => {
     if (!shouldRestore) {
@@ -270,22 +249,10 @@ function PlannerForm() {
       return;
     }
 
-    let restoredForm = null;
-    try {
-      const savedDraft = JSON.parse(window.sessionStorage.getItem(DRAFT_KEY) || "null");
-      restoredForm = formFromDraft(savedDraft);
-    } catch {
-      restoredForm = null;
-    }
-
-    if (!restoredForm) {
-      try {
-        const savedResult = JSON.parse(window.sessionStorage.getItem(STORAGE_KEY) || "null");
-        restoredForm = formFromPlannerInput(savedResult?.plannerInput);
-      } catch {
-        restoredForm = null;
-      }
-    }
+    const savedDraft = readSessionJson(PLANNER_DRAFT_KEY);
+    const savedResult = readSessionJson(PLANNER_RESULT_KEY);
+    const restoredForm =
+      formFromDraft(savedDraft) || formFromPlannerInput(savedResult?.plannerInput);
 
     setFormValues((previous) => ({
       ...(restoredForm || previous),
@@ -367,7 +334,7 @@ function PlannerForm() {
     const plannerInput = {
       zipCode: formValues.zipCode.trim(),
       gardenType: formValues.gardenType,
-      gardenTypeLabel: gardenTypeLabel(formValues.gardenType),
+      gardenTypeLabel: getGardenTypeLabel(formValues.gardenType),
       plantTypes: [...formValues.plantTypes],
       selectedPlants,
       preferences: formValues.preferences.trim(),
@@ -384,14 +351,14 @@ function PlannerForm() {
                   : 1,
             }
           : null,
-      units: ["any", "raised_beds", "containers"].includes(formValues.gardenType)
+      units: isRepeatableGardenType(formValues.gardenType)
         ? formValues.units.map((unit, index) => ({
-            id: `${formValues.gardenType === "containers" ? "container" : formValues.gardenType === "any" ? "area" : "bed"}-${index + 1}`,
-            name: `${formValues.gardenType === "containers" ? "Container" : formValues.gardenType === "any" ? "Available area" : "Bed"} ${index + 1}`,
+            id: getAreaId(formValues.gardenType, index),
+            name: getAreaName(formValues.gardenType, index),
             width: Number(unit.width),
             length: Number(unit.length),
             sunExposure: unit.sunExposure,
-            sunExposureLabel: sunExposureLabel(unit.sunExposure),
+            sunExposureLabel: getSunExposureLabel(unit.sunExposure),
           }))
         : [],
     };
@@ -402,23 +369,16 @@ function PlannerForm() {
       plannerInput,
     };
 
-    window.sessionStorage.setItem(DRAFT_KEY, JSON.stringify(formValues));
-    window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(result));
+    writeSessionJson(PLANNER_DRAFT_KEY, formValues);
+    writeSessionJson(PLANNER_RESULT_KEY, result);
     router.push("/planner/result");
   }
 
   const allChecked = PLANT_OPTIONS.every((plant) =>
     formValues.plantTypes.includes(plant.key),
   );
-  const repeatableType = ["any", "raised_beds", "containers"].includes(
-    formValues.gardenType,
-  );
-  const unitLabel =
-    formValues.gardenType === "containers"
-      ? "Container"
-      : formValues.gardenType === "any"
-        ? "Available area"
-        : "Raised bed";
+  const repeatableType = isRepeatableGardenType(formValues.gardenType);
+  const areaCopy = getAreaCopy(formValues.gardenType);
 
   if (!restoreComplete) {
     return <PlannerRestoreLoading />;
@@ -565,7 +525,7 @@ function PlannerForm() {
 
                 {repeatableType ? (
                   <fieldset className="conditional-fieldset">
-                    <legend>{unitLabel} details</legend>
+                    <legend>{areaCopy.formLabel} details</legend>
                     <p className="field-help">
                       {formValues.gardenType === "any"
                         ? "Describe each space you could use. FloraScape will recommend in-ground planting, raised beds, or containers based on these dimensions and your preferences."
@@ -575,7 +535,7 @@ function PlannerForm() {
                       {formValues.units.map((unit, index) => (
                         <article className="garden-unit-card" key={unit.id}>
                           <div className="garden-unit-heading">
-                            <h3>{unitLabel} {index + 1}</h3>
+                            <h3>{areaCopy.formLabel} {index + 1}</h3>
                             {formValues.units.length > 1 ? (
                               <button
                                 type="button"
@@ -642,7 +602,7 @@ function PlannerForm() {
                     </div>
                     <button type="button" className="add-unit-button" onClick={addUnit}>
                       <Plus size={17} aria-hidden="true" />
-                      Add another {formValues.gardenType === "containers" ? "container" : formValues.gardenType === "any" ? "available area" : "bed"}
+                      Add another {areaCopy.singular}
                     </button>
                   </fieldset>
                 ) : null}

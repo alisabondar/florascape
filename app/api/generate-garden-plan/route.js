@@ -62,10 +62,13 @@ export async function POST(request) {
             ? ""
             : `\n\nRETRY REQUIREMENTS:\n- Return a complete JSON object within the token limit.\n- Use only the authoritative growing-area IDs.\n- Include at least one valid plant assigned to an existing growing area.\n- Keep every required array and object in the response schema.`;
         const response = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+          `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
           {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+              "Content-Type": "application/json",
+              "x-goog-api-key": apiKey,
+            },
             body: JSON.stringify({
               contents: [{ parts: [{ text: `${modelPrompt}${retryInstruction}` }] }],
               generationConfig: {
