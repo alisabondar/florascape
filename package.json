@@ -12,7 +12,8 @@
     "lucide-react": "^1.16.0",
     "next": "15.5.18",
     "react": "19.0.0",
-    "react-dom": "19.0.0"
+    "react-dom": "19.0.0",
+    "roughjs": "^4.6.6"
   },
   "devDependencies": {
     "@eslint/eslintrc": "3.3.1",

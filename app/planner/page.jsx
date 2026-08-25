@@ -61,7 +61,9 @@ function buildGardenPrompt(values) {
       ? "Keep in mind what the preferences are and provide any tips about what plants require more shade or should not be planted next to each other."
       : "The user did not provide preferences. Include your own suggestions based on the selected plants and provided details.";
 
-  return `Generate a layout for a garden based on the following criteria:
+  return `You are a practical home-garden planner.
+
+Generate a garden plan based on:
 
 Location: ${values.zipCode}
 Garden Type: ${values.gardenType}
@@ -74,7 +76,17 @@ ${selectedPlants.join("\n")}
 Preferences:
 ${preferencesLine}
 
-${preferenceGuidance}`;
+${preferenceGuidance}
+
+Return plain text with these sections:
+1) Layout Overview (4-6 bullets)
+2) Plant Placement with spacing suggestions
+3) Companion Pairings and Avoid List
+4) Planting + Weekly Care Checklist
+5) Budget-Friendly substitutions
+
+Keep recommendations realistic for the listed size and sunlight.
+If details are uncertain from ZIP alone, state assumptions briefly.`;
 }
 
 function validate(values) {
