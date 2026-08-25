@@ -1,36 +1,321 @@
 "use client";
 
-import { Leaf, Sparkles } from "lucide-react";
+import { Leaf, Printer, Sparkles, Sprout } from "lucide-react";
 import { useEffect, useState } from "react";
 import GardenSketch from "../../components/GardenSketch";
-import { createExampleGardenLayout } from "../../../lib/garden-layout";
+import {
+  createExampleGardenPlan,
+  createFallbackGardenPlan,
+} from "../../../lib/garden-plan";
+import { getPlantSectionSizes } from "../../../lib/garden-layout";
 
 const STORAGE_KEY = "florascape_planner_result";
+
+function inputSummary(input) {
+  if (!input) {
+    return "Example garden";
+  }
+  if (input.gardenType === "in_ground") {
+    const sections = input.inGround.sectionCount === 1
+      ? "one plot"
+      : `${input.inGround.sectionCount} sections`;
+    return `${input.zipCode} · In-ground · ${input.inGround.width} × ${input.inGround.length} ft · ${sections}`;
+  }
+  const label =
+    input.gardenType === "containers"
+      ? "containers"
+      : input.gardenType === "any"
+        ? "available areas"
+        : "raised beds";
+  const sizes = input.units.map((unit) => `${unit.width}×${unit.length}`).join(", ");
+  const quantityLabel = input.units.length === 1
+    ? input.gardenType === "containers"
+      ? "container"
+      : input.gardenType === "any"
+        ? "available area"
+        : "raised bed"
+    : label;
+  return `${input.zipCode} · ${input.units.length} ${quantityLabel} · ${sizes} ft`;
+}
+
+function gardenMethodLabel(value) {
+  return value === "in_ground"
+    ? "In-ground garden"
+    : value === "containers"
+      ? "Container garden"
+      : "Raised beds";
+}
+
+function GardenLoadingPage({ input }) {
+  const editHref = input
+    ? `/planner?edit=1&type=${encodeURIComponent(input.gardenType)}#planner`
+    : "/planner?edit=1#planner";
+  return (
+    <div className="planner-page planner-loading-page">
+      <nav>
+        <div className="container nav-inner">
+          <a className="logo" href="/" aria-label="FloraScape home">FloraScape</a>
+          {input ? (
+            <a href={editHref} className="planner-back-link">Edit Inputs</a>
+          ) : null}
+        </div>
+      </nav>
+      <main className="planner-loading-main">
+        <div className="planner-loading-card">
+          <div className="loading-sprout" aria-hidden="true">
+            <span />
+            <Sprout size={42} strokeWidth={1.8} />
+          </div>
+          <h1>Designing your garden…</h1>
+          <p>
+            We are matching plants to your dimensions, sunlight, location, and preferences.
+          </p>
+          {input ? <div className="loading-input-summary">{inputSummary(input)}</div> : null}
+          <div className="loading-steps" aria-label="Plan generation in progress">
+            <span>Choosing plants</span>
+            <i />
+            <span>Arranging growing zones</span>
+            <i />
+            <span>Preparing your guide</span>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}
+
+function TipsSection({ tips }) {
+  if (!tips) {
+    return null;
+  }
+
+  const groups = [
+    { key: "preferenceHelp", title: "Based on your preferences" },
+    { key: "companionPlanting", title: "Good neighbors" },
+    { key: "avoid", title: "What to avoid" },
+    { key: "watering", title: "Watering wisely" },
+    { key: "commonMistakes", title: "Common beginner mistakes" },
+  ].filter((group) => (tips[group.key] || []).length > 0);
+  const columns = [
+    groups.filter((_, index) => index % 2 === 0),
+    groups.filter((_, index) => index % 2 === 1),
+  ].filter((column) => column.length > 0);
+
+  return (
+    <section className="result-content-section tips-section print-section">
+      <div className="result-section-heading">
+        <span>03</span>
+        <div>
+          <h2>Tips for this garden</h2>
+          <p>Small decisions that will help the plan succeed.</p>
+        </div>
+      </div>
+
+      <div className="tips-flex screen-tips-grid">
+        {columns.map((column, columnIndex) => (
+          <div className="tips-column" key={`tips-column-${columnIndex}`}>
+            {column.map((group) => (
+              <article className="tip-group" key={group.key}>
+                <h3>{group.title}</h3>
+                <div className="tip-list">
+                  {(tips[group.key] || []).map((tip, index) => (
+                    <div className="tip-item" key={`${group.key}-${index}`}>
+                      <strong>{tip.title}</strong>
+                      <p>{tip.detail}</p>
+                    </div>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      <div className="print-only print-tips-list">
+        {groups.map((group) => (
+          <div key={`print-${group.key}`}>
+            <strong>{group.title}</strong>
+            {(tips[group.key] || []).map((tip, index) => (
+              <p key={`${group.key}-print-${index}`}>
+                <b>{tip.title}:</b> {tip.detail}
+              </p>
+            ))}
+          </div>
+        ))}
+        {tips.containerSetup ? (
+          <div>
+            <strong>Container setup: {tips.containerSetup.popularContainer}</strong>
+            <p>{tips.containerSetup.popularityReason}</p>
+            <p><b>Compost:</b> {tips.containerSetup.compostAdvice}</p>
+            <p><b>Drainage:</b> {tips.containerSetup.drainageAdvice}</p>
+          </div>
+        ) : null}
+      </div>
+
+      {tips.containerSetup ? (
+        <article className="container-setup-card screen-only">
+          <div>
+            <span className="section-kicker">Container setup for your area</span>
+            <h3>{tips.containerSetup.popularContainer}</h3>
+            <p>{tips.containerSetup.popularityReason}</p>
+          </div>
+          <div className="container-setup-grid">
+            <div>
+              <h4>Set it up</h4>
+              <ol>
+                {tips.containerSetup.setupSteps.map((step, index) => (
+                  <li key={`setup-${index}`}>{step}</li>
+                ))}
+              </ol>
+            </div>
+            <div>
+              <h4>Compost</h4>
+              <p>{tips.containerSetup.compostAdvice}</p>
+              <h4>Drainage</h4>
+              <p>{tips.containerSetup.drainageAdvice}</p>
+            </div>
+          </div>
+        </article>
+      ) : null}
+    </section>
+  );
+}
+
+function sectionSizeText(sections = []) {
+  return sections
+    .map((section) => `${section.bedName}: about ${section.width} × ${section.height} ft`)
+    .join("; ");
+}
+
+function PlantingGuide({ guide, layout }) {
+  const visibleGuide = guide?.filter((item) => item.quantity > 0) || [];
+  if (!visibleGuide.length) {
+    return null;
+  }
+  const sectionSizes = layout ? getPlantSectionSizes(layout) : {};
+
+  return (
+    <section className="result-content-section planting-guide print-section">
+      <div className="result-section-heading">
+        <span>02</span>
+        <div>
+          <h2>General Planting Guide</h2>
+          <p>Use this as a starting point for buying and planting.</p>
+        </div>
+      </div>
+
+      <p className="seed-disclaimer">
+        “Target” means the healthy mature plants the space can support. Sow a reasonable buffer
+        for germination, then thin to the target. You usually do not need to empty the whole packet.
+        Always follow the packet or plant tag because cultivars vary. Follow its planting depth and
+        keep the seedbed evenly moist while plants establish.
+      </p>
+
+      <div className="guide-list screen-guide-list">
+        {visibleGuide.map((item) => {
+          const sizes = sectionSizes[item.plantName.toLowerCase()] || [];
+          return (
+          <article className="guide-card" id={item.id} key={item.id}>
+            <div className="guide-card-heading">
+              <div>
+                <h3>{item.plantName}</h3>
+                <span>{item.timingLabel || item.whenToPlant}</span>
+              </div>
+              <strong>Target: {item.quantity} mature {item.quantity === 1 ? "plant" : "plants"}</strong>
+            </div>
+            <p className="guide-timing">{item.timingDetails}</p>
+            <dl>
+              <div>
+                <dt>Spacing</dt>
+                <dd>{item.spacingInches} inches</dd>
+              </div>
+              <div>
+                <dt>How much to sow</dt>
+                <dd>
+                  {item.sowingAmount || `Start a few extra seeds and thin to ${item.quantity} healthy plants.`}
+                </dd>
+              </div>
+              {sizes.length ? (
+                <div>
+                  <dt>Allocated space</dt>
+                  <dd>{sectionSizeText(sizes)}</dd>
+                </div>
+              ) : null}
+              {item.plantingDepth ? (
+                <div>
+                  <dt>Specific depth</dt>
+                  <dd>{item.plantingDepth}</dd>
+                </div>
+              ) : null}
+              {item.watering ? (
+                <div>
+                  <dt>Specific watering</dt>
+                  <dd>{item.watering}</dd>
+                </div>
+              ) : null}
+            </dl>
+            {item.notes ? <p className="guide-note">{item.notes}</p> : null}
+          </article>
+          );
+        })}
+      </div>
+
+      <table className="print-only print-guide-table">
+        <thead>
+          <tr>
+            <th>Plant and timing</th>
+            <th>Target and space</th>
+            <th>Spacing</th>
+            <th>How much to sow</th>
+            <th>Plant-specific care</th>
+          </tr>
+        </thead>
+        <tbody>
+          {visibleGuide.map((item) => {
+            const sizes = sectionSizes[item.plantName.toLowerCase()] || [];
+            const care = [item.plantingDepth, item.watering, item.notes].filter(Boolean).join(" ");
+            return (
+              <tr key={`print-${item.id}`}>
+                <td><strong>{item.plantName}</strong><br />{item.timingLabel}<br />{item.timingDetails}</td>
+                <td>{item.quantity} mature<br />{sectionSizeText(sizes)}</td>
+                <td>{item.spacingInches} in</td>
+                <td>{item.sowingAmount}</td>
+                <td>{care || "Follow the guide header."}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </section>
+  );
+}
 
 export default function PlannerResultPage() {
   const [result, setResult] = useState(null);
   const [status, setStatus] = useState("idle");
   const [apiError, setApiError] = useState("");
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     const rawResult = window.sessionStorage.getItem(STORAGE_KEY);
     if (!rawResult) {
+      setHydrated(true);
       return;
     }
-
     try {
       setResult(JSON.parse(rawResult));
     } catch {
       setResult(null);
     }
+    setHydrated(true);
   }, []);
 
   useEffect(() => {
-    if (!result || result.layout || status !== "idle") {
+    if (!result?.plannerInput || result.plan || status !== "idle") {
       return;
     }
 
-    async function generateLayout() {
+    async function generatePlan() {
       setStatus("loading");
       setApiError("");
 
@@ -38,23 +323,21 @@ export default function PlannerResultPage() {
         const response = await fetch("/api/generate-garden-plan", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt: result.prompt }),
+          body: JSON.stringify({ plannerInput: result.plannerInput }),
         });
-
         const data = await response.json();
 
-        if (!response.ok || !data.layout) {
-          throw new Error(data.error || "Failed to generate layout.");
+        if (!response.ok || !data.plan) {
+          throw new Error(data.error || "Failed to generate a garden plan.");
         }
 
         const nextResult = {
           ...result,
-          layout: data.layout,
+          plan: data.plan,
           modelUsed: data.modelUsed || "unknown",
           apiWarning: data.warning || "",
           aiGeneratedAt: new Date().toISOString(),
         };
-
         window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(nextResult));
         setResult(nextResult);
         setStatus("success");
@@ -64,28 +347,19 @@ export default function PlannerResultPage() {
       }
     }
 
-    generateLayout();
+    generatePlan();
   }, [result, status]);
 
-  function loadExample() {
+  function loadStarterPlan() {
+    const plan = result?.plannerInput
+      ? createFallbackGardenPlan(result.plannerInput)
+      : createExampleGardenPlan();
     const nextResult = {
-      generatedAt: new Date().toISOString(),
-      prompt: result?.prompt || "Example layout",
-      selectedPlants: result?.selectedPlants || [
-        "Herbs",
-        "Flowers",
-        "Vegetables",
-      ],
-      formValues: result?.formValues || {
-        zipCode: "07030",
-        gardenType: "Raised beds",
-        sunExposure: "Partial Shade",
-        width: 12,
-        height: 10,
-      },
       ...result,
-      layout: createExampleGardenLayout(),
-      modelUsed: "example-layout",
+      generatedAt: result?.generatedAt || new Date().toISOString(),
+      selectedPlants: result?.selectedPlants || ["Vegetables", "Herbs", "Flowers"],
+      plan,
+      modelUsed: "starter-plan",
       apiWarning: "",
       aiGeneratedAt: new Date().toISOString(),
     };
@@ -95,36 +369,63 @@ export default function PlannerResultPage() {
   }
 
   function handleSketchLayoutChange(nextLayout) {
-    setResult((prev) => {
-      if (!prev) {
-        return prev;
+    setResult((previous) => {
+      if (!previous?.plan) {
+        return previous;
       }
+      const quantityByPlant = new Map();
+      nextLayout.plants.forEach((plant) => {
+        const key = plant.name.toLowerCase();
+        quantityByPlant.set(
+          key,
+          (quantityByPlant.get(key) || 0) + (Number(plant.quantity) || 1),
+        );
+      });
       const nextResult = {
-        ...prev,
-        layout: nextLayout,
+        ...previous,
+        plan: {
+          ...previous.plan,
+          layout: nextLayout,
+          plantingGuide: previous.plan.plantingGuide.map((item) => ({
+            ...item,
+            quantity: quantityByPlant.get(item.plantName.toLowerCase()) || 0,
+          })),
+        },
       };
       window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(nextResult));
       return nextResult;
     });
   }
 
-  function printSketch() {
-    window.print();
+  function scrollToGuide(guideId) {
+    document.getElementById(guideId)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  const plan = result?.plan;
+  const editHref = result?.plannerInput
+    ? `/planner?edit=1&type=${encodeURIComponent(result.plannerInput.gardenType)}#planner`
+    : "/planner?edit=1#planner";
+  const isGenerating =
+    !hydrated ||
+    Boolean(
+      result?.plannerInput &&
+      !result.plan &&
+      (status === "idle" || status === "loading"),
+    );
+
+  if (isGenerating) {
+    return <GardenLoadingPage input={result?.plannerInput} />;
   }
 
   return (
     <div className="planner-page planner-result-page">
       <nav>
         <div className="container nav-inner">
-          <a className="logo" href="/" aria-label="FloraScape home">
-            FloraScape
-          </a>
+          <a className="logo" href="/" aria-label="FloraScape home">FloraScape</a>
           <div className="planner-nav-actions">
-            <a href="/planner" className="planner-back-link">
-              Edit Inputs
-            </a>
+            <a href={editHref} className="planner-back-link">Edit Inputs</a>
             <a href="/planner" className="btn">
-              <Leaf size={17} strokeWidth={2.3} />
+              <Leaf size={17} strokeWidth={2.3} aria-hidden="true" />
               Start Over
             </a>
           </div>
@@ -134,78 +435,75 @@ export default function PlannerResultPage() {
       <main>
         <section className="hero planner-result-hero">
           <div className="container hero-content">
-            <div className="eyebrow">Result</div>
-            <h1>Interactive Garden Sketch</h1>
+            <h1>Garden Blueprint</h1>
+            <p>{inputSummary(result?.plannerInput)}</p>
           </div>
         </section>
 
-        <section className="section">
-          <div className="container planner-grid">
-            <div className="panel">
-              {result ? (
-                <>
-                  <div className="result-chip">
-                    <strong>Plants:</strong>{" "}
-                    {result.selectedPlants?.join(", ") || "None"}
+        <section className="section result-shell-section">
+          <div className="container result-container">
+            {result ? (
+              <>
+                <div className="result-actions no-print">
+                  <div className="generation-state">
+                    <Sparkles size={18} aria-hidden="true" />
+                    {status === "loading" ? <span>Designing your garden…</span> : null}
+                    {status === "error" ? <span className="ai-error">{apiError}</span> : null}
+                    {status === "success" ? <span>Your plan is ready.</span> : null}
                   </div>
-
-                  <div className="result-chip">
-                    <strong>Inputs:</strong> {result.formValues.zipCode} |{" "}
-                    {result.formValues.gardenType} |{" "}
-                    {result.formValues.sunExposure} | {result.formValues.width}x
-                    {result.formValues.height} ft
-                  </div>
-
-                  <div className="ai-plan">
-                    <h3>
-                      <Sparkles size={18} strokeWidth={2.3} />
-                      LLM {"->"} JSON {"->"} SVG {"->"} Rough.js
-                    </h3>
-                    {status === "loading" ? (
-                      <p className="ai-state">Generating structured layout...</p>
+                  <div className="result-action-buttons">
+                    {status === "error" || (!plan && status !== "loading") ? (
+                      <button type="button" className="btn secondary-action" onClick={loadStarterPlan}>
+                        Use Starter Plan
+                      </button>
                     ) : null}
-                    {status === "error" ? (
-                      <p className="ai-error">{apiError}</p>
-                    ) : null}
-                    <button type="button" className="btn example-btn" onClick={loadExample}>
-                      Load Example Layout
-                    </button>
-                    <button type="button" className="btn example-btn" onClick={printSketch}>
-                      Print Sketch
-                    </button>
-                    {result.modelUsed ? (
-                      <p className="ai-state">Model: {result.modelUsed}</p>
-                    ) : null}
-                    {result.apiWarning ? (
-                      <p className="ai-state">{result.apiWarning}</p>
+                    {plan ? (
+                      <button type="button" className="btn" onClick={() => window.print()}>
+                        <Printer size={17} aria-hidden="true" />
+                        Print Plan
+                      </button>
                     ) : null}
                   </div>
-
-                  {result.layout ? (
-                    <>
-                      <GardenSketch
-                        layout={result.layout}
-                        onLayoutChange={handleSketchLayoutChange}
-                      />
-                      <details className="layout-json">
-                        <summary>Layout JSON</summary>
-                        <pre>{JSON.stringify(result.layout, null, 2)}</pre>
-                      </details>
-                    </>
-                  ) : null}
-                </>
-              ) : (
-                <div className="empty-state">
-                  <p>No result found.</p>
-                  <button type="button" className="btn example-btn" onClick={loadExample}>
-                    Load Example Layout
-                  </button>
-                  <button type="button" className="btn example-btn" onClick={printSketch}>
-                    Print Sketch
-                  </button>
                 </div>
-              )}
-            </div>
+
+                {result.apiWarning ? <p className="result-warning">{result.apiWarning}</p> : null}
+
+                {plan ? (
+                  <>
+                    <section className="result-content-section sketch-section print-section">
+                      <div className="result-section-heading">
+                        <span>01</span>
+                        <div>
+                          <h2>Your garden sketch</h2>
+                          <p>{plan.summary}</p>
+                        </div>
+                      </div>
+                      {result?.plannerInput?.gardenType === "any" && plan.recommendedGardenType ? (
+                        <p className="garden-method-recommendation">
+                          <strong>Recommended setup:</strong>{" "}
+                          {gardenMethodLabel(plan.recommendedGardenType)}
+                        </p>
+                      ) : null}
+                      <GardenSketch
+                        layout={plan.layout}
+                        onLayoutChange={handleSketchLayoutChange}
+                        onPlantSectionClick={scrollToGuide}
+                      />
+                    </section>
+                    <PlantingGuide guide={plan.plantingGuide} layout={plan.layout} />
+                    <TipsSection tips={plan.tips} />
+                  </>
+                ) : null}
+              </>
+            ) : (
+              <div className="empty-state">
+                <p>No planner inputs were found.</p>
+                <a href="/planner" className="btn">Open Planner</a>
+                <button type="button" className="btn secondary-action" onClick={loadStarterPlan}>
+                  View Example
+                </button>
+              </div>
+            )}
           </div>
         </section>
       </main>
