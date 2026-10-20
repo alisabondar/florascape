@@ -69,8 +69,16 @@ export default function CropRotation({ plan, planId, zipCode, onApplySwap }) {
                 <ul>
                   {area.repeats.map((repeat) => (
                     <li key={repeat.plantId}>
-                      <strong>{repeat.plant}</strong> is in the same rotation group as{" "}
-                      <strong>{repeat.earlierPlant}</strong>, which grew here in {earlier.label}.
+                      {repeat.plant.toLowerCase() === repeat.earlierPlant.toLowerCase() ? (
+                        <>
+                          <strong>{repeat.plant}</strong> also grew here in {earlier.label}.
+                        </>
+                      ) : (
+                        <>
+                          <strong>{repeat.plant}</strong> is in the same rotation group as{" "}
+                          <strong>{repeat.earlierPlant}</strong>, which grew here in {earlier.label}.
+                        </>
+                      )}
                     </li>
                   ))}
                 </ul>
