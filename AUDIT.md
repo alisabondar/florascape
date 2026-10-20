@@ -18,3 +18,17 @@ Source document: `docs/V2-PHASE6.md`. Scope: steps 1–6.
 12. S5: "returns a friendly "chat unavailable" reply, not an error, when no provider is configured or every provider fails"
 13. S6: "Unit tests cover plan-based answers, the plan summary, suggestion filtering, the rate limit, and the chat cache."
 14. S6: "`bun run test`, `bun run lint`, and `bun run build` pass"
+
+## Round 1
+
+Auditor: fresh subagent. Result: **14/14 MET**. `bun run test` 57 pass / 0 fail; `bun run lint` clean; `bun run build` succeeded. Manual browser run: plan-based spacing answer with no AI call, friendly "unavailable" notice while Gemini returned 503, chat persisted across reload, and a suggestion button applied the swap in the editor. A live AI reply was not observed because Gemini was unavailable during testing; that path is covered by fake-provider tests.
+
+### Findings
+None.
+
+### Out-of-scope (not traceable to the spec; not acted on)
+- At most 3 suggestions per reply; replies capped at 120 words.
+- Cache hits are served before the rate-limit check, so they don't count toward the 20 AI requests.
+
+## Result
+Stopped after round 1: zero PARTIAL/MISSING. Scope-creep breaker did not fire.
