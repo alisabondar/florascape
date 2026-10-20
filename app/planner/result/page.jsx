@@ -6,6 +6,8 @@ import GardenSketch from "../../components/GardenSketch";
 import {
   createExampleGardenPlan,
   createFallbackGardenPlan,
+  groupGuideByTiming,
+  layoutTableRows,
   shufflePlan,
   swapPlant,
 } from "../../../lib/garden-plan";
@@ -201,54 +203,64 @@ function PlantingGuide({ guide, layout }) {
         keep the seedbed evenly moist while plants establish.
       </p>
 
-      <div className="guide-list screen-guide-list">
-        {visibleGuide.map((item) => {
-          const sizes = sectionSizes[item.plantName.toLowerCase()] || [];
-          return (
-            <article className="guide-card" id={item.id} key={item.id}>
-              <div className="guide-card-heading">
-                <div>
-                  <h3>{item.plantName}</h3>
-                  <span>{item.timingLabel || item.whenToPlant}</span>
-                </div>
-                <strong>Target: {item.quantity} mature {item.quantity === 1 ? "plant" : "plants"}</strong>
-              </div>
-              <p className="guide-timing">{item.timingDetails}</p>
-              <dl>
-                <div>
-                  <dt>Spacing</dt>
-                  <dd>{item.spacingInches} inches</dd>
-                </div>
-                <div>
-                  <dt>How much to sow</dt>
-                  <dd>
-                    {item.sowingAmount || `Start a few extra seeds and thin to ${item.quantity} healthy plants.`}
-                  </dd>
-                </div>
-                {sizes.length ? (
-                  <div>
-                    <dt>Allocated space</dt>
-                    <dd>{sectionSizeText(sizes)}</dd>
+      {groupGuideByTiming(visibleGuide).map((group) => (
+        <div className="guide-timing-group screen-guide-list" key={group.key}>
+          <h3 className="guide-timing-heading">
+            {group.title}
+            <span>
+              {group.plantCount} {group.plantCount === 1 ? "plant" : "plants"}
+            </span>
+          </h3>
+          <div className="guide-list">
+            {group.items.map((item) => {
+              const sizes = sectionSizes[item.plantName.toLowerCase()] || [];
+              return (
+                <article className="guide-card" id={item.id} key={item.id}>
+                  <div className="guide-card-heading">
+                    <div>
+                      <h3>{item.plantName}</h3>
+                      <span>{item.timingLabel || item.whenToPlant}</span>
+                    </div>
+                    <strong>Target: {item.quantity} mature {item.quantity === 1 ? "plant" : "plants"}</strong>
                   </div>
-                ) : null}
-                {item.plantingDepth ? (
-                  <div>
-                    <dt>Specific depth</dt>
-                    <dd>{item.plantingDepth}</dd>
-                  </div>
-                ) : null}
-                {item.watering ? (
-                  <div>
-                    <dt>Specific watering</dt>
-                    <dd>{item.watering}</dd>
-                  </div>
-                ) : null}
-              </dl>
-              {item.notes ? <p className="guide-note">{item.notes}</p> : null}
-            </article>
-          );
-        })}
-      </div>
+                  <p className="guide-timing">{item.timingDetails}</p>
+                  <dl>
+                    <div>
+                      <dt>Spacing</dt>
+                      <dd>{item.spacingInches} inches</dd>
+                    </div>
+                    <div>
+                      <dt>How much to sow</dt>
+                      <dd>
+                        {item.sowingAmount || `Start a few extra seeds and thin to ${item.quantity} healthy plants.`}
+                      </dd>
+                    </div>
+                    {sizes.length ? (
+                      <div>
+                        <dt>Allocated space</dt>
+                        <dd>{sectionSizeText(sizes)}</dd>
+                      </div>
+                    ) : null}
+                    {item.plantingDepth ? (
+                      <div>
+                        <dt>Specific depth</dt>
+                        <dd>{item.plantingDepth}</dd>
+                      </div>
+                    ) : null}
+                    {item.watering ? (
+                      <div>
+                        <dt>Specific watering</dt>
+                        <dd>{item.watering}</dd>
+                      </div>
+                    ) : null}
+                  </dl>
+                  {item.notes ? <p className="guide-note">{item.notes}</p> : null}
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      ))}
 
       <table className="print-only print-guide-table">
         <thead>
@@ -334,6 +346,28 @@ function ClimateSummary({ climate }) {
   );
 }
 
+const STARTER_PLAN_SOURCES = new Set(["fallback-example", "starter-plan"]);
+
+function PlanSourceBadge({ result }) {
+  if (!result?.plan || !result.modelUsed) {
+    return null;
+  }
+  if (STARTER_PLAN_SOURCES.has(result.modelUsed)) {
+    return <span className="plan-source-badge starter">Starter plan</span>;
+  }
+  if (result.cached) {
+    return <span className="plan-source-badge cached">Saved result</span>;
+  }
+  // Provider names look like "gemini:gemini-3.6-flash"; show the readable provider part.
+  const provider = String(result.modelUsed).split(":")[0];
+  const label = provider.charAt(0).toUpperCase() + provider.slice(1);
+  return (
+    <span className="plan-source-badge ai" title={result.modelUsed}>
+      AI plan · {label}
+    </span>
+  );
+}
+
 export default function PlannerResultPage() {
   const [result, setResult] = useState(null);
   const [status, setStatus] = useState("idle");
@@ -372,6 +406,7 @@ export default function PlannerResultPage() {
           modelUsed: data.modelUsed || "unknown",
           apiWarning: data.warning || "",
           climate: data.climate || null,
+          cached: Boolean(data.cached),
           aiGeneratedAt: new Date().toISOString(),
         };
         writeSessionJson(PLANNER_RESULT_KEY, nextResult);
@@ -397,6 +432,7 @@ export default function PlannerResultPage() {
       plan,
       modelUsed: "starter-plan",
       apiWarning: "",
+      cached: false,
       aiGeneratedAt: new Date().toISOString(),
     };
     writeSessionJson(PLANNER_RESULT_KEY, nextResult);
@@ -508,6 +544,7 @@ export default function PlannerResultPage() {
                     {status === "loading" ? <span>Designing your garden…</span> : null}
                     {status === "error" ? <span className="ai-error">{apiError}</span> : null}
                     {status === "success" ? <span>Your plan is ready.</span> : null}
+                    {plan && status !== "loading" ? <PlanSourceBadge result={result} /> : null}
                   </div>
                   <div className="result-action-buttons">
                     {status === "error" || (!plan && status !== "loading") ? (

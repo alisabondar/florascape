@@ -1817,3 +1817,45 @@ a {
   margin: 0.15rem 0 0;
   font-weight: 600;
 }
+
+.planner-result-page .plan-source-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border: 1px solid #cfdcc4;
+  background: #eef5e8;
+  color: #3d5a32;
+}
+
+.planner-result-page .plan-source-badge.starter {
+  border-color: #e3cf9f;
+  background: #fff8e9;
+  color: #705824;
+}
+
+.planner-result-page .plan-source-badge.cached {
+  border-color: #c9d6e3;
+  background: #eef3f8;
+  color: #34506b;
+}
+
+.planner-result-page .guide-timing-group + .guide-timing-group {
+  margin-top: 1.5rem;
+}
+
+.planner-result-page .guide-timing-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin: 0 0 0.75rem;
+  font-size: 1.05rem;
+}
+
+.planner-result-page .guide-timing-heading span {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #5c6b55;
+}
