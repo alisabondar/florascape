@@ -11,6 +11,8 @@
       "category": "vegetables",
       "easyCare": false,
       "sowing": "transplant",
+      "family": "Solanaceae",
+      "rotationGroup": "fruiting",
       "spacingInches": {
         "min": 18,
         "max": 24
@@ -29,6 +31,8 @@
       "category": "vegetables",
       "easyCare": true,
       "sowing": "direct",
+      "family": "Fabaceae",
+      "rotationGroup": "legume",
       "spacingInches": {
         "min": 4,
         "max": 6
@@ -46,6 +50,8 @@
       "category": "vegetables",
       "easyCare": false,
       "sowing": "direct",
+      "family": "Fabaceae",
+      "rotationGroup": "legume",
       "spacingInches": {
         "min": 4,
         "max": 8
@@ -65,6 +71,8 @@
       "category": "vegetables",
       "easyCare": false,
       "sowing": "direct",
+      "family": "Fabaceae",
+      "rotationGroup": "legume",
       "spacingInches": {
         "min": 2,
         "max": 4
@@ -83,6 +91,8 @@
       "category": "vegetables",
       "easyCare": true,
       "sowing": "direct",
+      "family": "Asteraceae",
+      "rotationGroup": "leafy",
       "spacingInches": {
         "min": 4,
         "max": 12
@@ -97,6 +107,8 @@
       "category": "vegetables",
       "easyCare": true,
       "sowing": "direct",
+      "family": "Amaranthaceae",
+      "rotationGroup": "leafy",
       "spacingInches": {
         "min": 3,
         "max": 6
@@ -114,6 +126,8 @@
       "category": "vegetables",
       "easyCare": true,
       "sowing": "direct",
+      "family": "Brassicaceae",
+      "rotationGroup": "leafy",
       "spacingInches": {
         "min": 12,
         "max": 18
@@ -131,6 +145,8 @@
       "category": "vegetables",
       "easyCare": true,
       "sowing": "direct",
+      "family": "Amaranthaceae",
+      "rotationGroup": "leafy",
       "spacingInches": {
         "min": 8,
         "max": 12
@@ -147,6 +163,8 @@
       "category": "vegetables",
       "easyCare": true,
       "sowing": "direct",
+      "family": "Brassicaceae",
+      "rotationGroup": "leafy",
       "spacingInches": {
         "min": 1,
         "max": 3
@@ -163,6 +181,8 @@
       "category": "vegetables",
       "easyCare": false,
       "sowing": "direct",
+      "family": "Apiaceae",
+      "rotationGroup": "root",
       "spacingInches": {
         "min": 2,
         "max": 4
@@ -180,6 +200,8 @@
       "category": "vegetables",
       "easyCare": false,
       "sowing": "direct",
+      "family": "Amaranthaceae",
+      "rotationGroup": "root",
       "spacingInches": {
         "min": 3,
         "max": 4
@@ -197,6 +219,8 @@
       "category": "vegetables",
       "easyCare": true,
       "sowing": "direct",
+      "family": "Cucurbitaceae",
+      "rotationGroup": "fruiting",
       "spacingInches": {
         "min": 24,
         "max": 36
@@ -213,6 +237,8 @@
       "category": "vegetables",
       "easyCare": false,
       "sowing": "direct",
+      "family": "Cucurbitaceae",
+      "rotationGroup": "fruiting",
       "spacingInches": {
         "min": 12,
         "max": 24
@@ -231,6 +257,8 @@
       "category": "vegetables",
       "easyCare": false,
       "sowing": "transplant",
+      "family": "Solanaceae",
+      "rotationGroup": "fruiting",
       "spacingInches": {
         "min": 12,
         "max": 18
@@ -249,6 +277,8 @@
       "category": "vegetables",
       "easyCare": false,
       "sowing": "transplant",
+      "family": "Solanaceae",
+      "rotationGroup": "fruiting",
       "spacingInches": {
         "min": 12,
         "max": 18
@@ -265,6 +295,8 @@
       "category": "vegetables",
       "easyCare": false,
       "sowing": "transplant",
+      "family": "Solanaceae",
+      "rotationGroup": "fruiting",
       "spacingInches": {
         "min": 18,
         "max": 24
@@ -283,6 +315,8 @@
       "category": "vegetables",
       "easyCare": false,
       "sowing": "transplant",
+      "family": "Amaryllidaceae",
+      "rotationGroup": "root",
       "spacingInches": {
         "min": 3,
         "max": 6
@@ -297,6 +331,8 @@
       "category": "vegetables",
       "easyCare": true,
       "sowing": "direct",
+      "family": "Amaryllidaceae",
+      "rotationGroup": "root",
       "spacingInches": {
         "min": 4,
         "max": 6
@@ -311,6 +347,8 @@
       "category": "vegetables",
       "easyCare": false,
       "sowing": "transplant",
+      "family": "Brassicaceae",
+      "rotationGroup": "leafy",
       "spacingInches": {
         "min": 12,
         "max": 18
@@ -328,6 +366,8 @@
       "category": "herbs",
       "easyCare": false,
       "sowing": "direct",
+      "family": "Lamiaceae",
+      "rotationGroup": "none",
       "spacingInches": {
         "min": 8,
         "max": 12
@@ -342,6 +382,8 @@
       "category": "herbs",
       "easyCare": true,
       "sowing": "transplant",
+      "family": "Lamiaceae",
+      "rotationGroup": "none",
       "spacingInches": {
         "min": 8,
         "max": 12
@@ -356,6 +398,8 @@
       "category": "herbs",
       "easyCare": true,
       "sowing": "direct",
+      "family": "Amaryllidaceae",
+      "rotationGroup": "none",
       "spacingInches": {
         "min": 6,
         "max": 12
@@ -373,6 +417,8 @@
       "category": "herbs",
       "easyCare": false,
       "sowing": "direct",
+      "family": "Apiaceae",
+      "rotationGroup": "none",
       "spacingInches": {
         "min": 6,
         "max": 10
@@ -389,6 +435,8 @@
       "category": "herbs",
       "easyCare": false,
       "sowing": "direct",
+      "family": "Apiaceae",
+      "rotationGroup": "none",
       "spacingInches": {
         "min": 4,
         "max": 8
@@ -403,6 +451,8 @@
       "category": "herbs",
       "easyCare": false,
       "sowing": "direct",
+      "family": "Apiaceae",
+      "rotationGroup": "none",
       "spacingInches": {
         "min": 8,
         "max": 12
@@ -420,6 +470,8 @@
       "category": "herbs",
       "easyCare": true,
       "sowing": "transplant",
+      "family": "Lamiaceae",
+      "rotationGroup": "none",
       "spacingInches": {
         "min": 12,
         "max": 18
@@ -434,6 +486,8 @@
       "category": "herbs",
       "easyCare": false,
       "sowing": "transplant",
+      "family": "Lamiaceae",
+      "rotationGroup": "none",
       "spacingInches": {
         "min": 18,
         "max": 24
@@ -448,6 +502,8 @@
       "category": "herbs",
       "easyCare": true,
       "sowing": "transplant",
+      "family": "Lamiaceae",
+      "rotationGroup": "none",
       "spacingInches": {
         "min": 8,
         "max": 12
@@ -462,6 +518,8 @@
       "category": "herbs",
       "easyCare": false,
       "sowing": "transplant",
+      "family": "Lamiaceae",
+      "rotationGroup": "none",
       "spacingInches": {
         "min": 18,
         "max": 24
@@ -479,6 +537,8 @@
       "category": "flowers",
       "easyCare": true,
       "sowing": "direct",
+      "family": "Asteraceae",
+      "rotationGroup": "none",
       "spacingInches": {
         "min": 8,
         "max": 12
@@ -495,6 +555,8 @@
       "category": "flowers",
       "easyCare": true,
       "sowing": "direct",
+      "family": "Asteraceae",
+      "rotationGroup": "none",
       "spacingInches": {
         "min": 9,
         "max": 12
@@ -511,6 +573,8 @@
       "category": "flowers",
       "easyCare": true,
       "sowing": "direct",
+      "family": "Tropaeolaceae",
+      "rotationGroup": "none",
       "spacingInches": {
         "min": 10,
         "max": 12
@@ -527,6 +591,8 @@
       "category": "flowers",
       "easyCare": true,
       "sowing": "direct",
+      "family": "Asteraceae",
+      "rotationGroup": "none",
       "spacingInches": {
         "min": 12,
         "max": 24
@@ -541,6 +607,8 @@
       "category": "flowers",
       "easyCare": true,
       "sowing": "direct",
+      "family": "Asteraceae",
+      "rotationGroup": "none",
       "spacingInches": {
         "min": 12,
         "max": 18
@@ -557,6 +625,8 @@
       "category": "medicinal",
       "easyCare": false,
       "sowing": "direct",
+      "family": "Asteraceae",
+      "rotationGroup": "none",
       "spacingInches": {
         "min": 6,
         "max": 8
@@ -573,6 +643,8 @@
       "category": "medicinal",
       "easyCare": true,
       "sowing": "direct",
+      "family": "Asteraceae",
+      "rotationGroup": "none",
       "spacingInches": {
         "min": 8,
         "max": 12
@@ -587,6 +659,8 @@
       "category": "medicinal",
       "easyCare": false,
       "sowing": "transplant",
+      "family": "Lamiaceae",
+      "rotationGroup": "none",
       "spacingInches": {
         "min": 12,
         "max": 18
@@ -603,6 +677,8 @@
       "category": "vegetables",
       "easyCare": false,
       "sowing": "transplant",
+      "family": "Rosaceae",
+      "rotationGroup": "none",
       "spacingInches": {
         "min": 12,
         "max": 18

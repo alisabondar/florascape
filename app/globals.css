@@ -2156,3 +2156,87 @@ a {
   font-size: 0.75rem;
   color: #5c6b55;
 }
+
+.planner-result-page .rotation-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  color: #3d5a32;
+}
+
+.planner-result-page .rotation-check h3,
+.planner-result-page .rotation-history h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 0.6rem;
+  font-size: 1rem;
+}
+
+.planner-result-page .rotation-area {
+  border-left: 4px solid #c29342;
+  background: #fff8e9;
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.planner-result-page .rotation-area h4 {
+  margin: 0 0 0.3rem;
+}
+
+.planner-result-page .rotation-area ul,
+.planner-result-page .rotation-history ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.planner-result-page .rotation-next {
+  margin: 0.5rem 0 0;
+}
+
+.planner-result-page .rotation-swaps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.planner-result-page .rotation-swaps button,
+.planner-result-page .rotation-history button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border: 1px solid #cfdcc4;
+  border-radius: 999px;
+  background: #fff;
+  color: #3d5a32;
+  padding: 0.25rem 0.7rem;
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.planner-result-page .rotation-history {
+  margin-top: 1rem;
+}
+
+.planner-result-page .rotation-history li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.88rem;
+}
+
+.planner-result-page .rotation-ok,
+.planner-result-page .rotation-empty {
+  font-size: 0.9rem;
+  color: #4b5a45;
+}

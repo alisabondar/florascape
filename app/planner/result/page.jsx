@@ -2,6 +2,7 @@
 
 import { CalendarPlus, Leaf, Printer, Shuffle, Sparkles, Sprout } from "lucide-react";
 import { useEffect, useState } from "react";
+import CropRotation from "../../components/CropRotation";
 import GardenChat from "../../components/GardenChat";
 import GardenSketch from "../../components/GardenSketch";
 import {
@@ -627,6 +628,12 @@ export default function PlannerResultPage() {
                     <TipsSection tips={plan.tips} />
                     <NeighborCheck layout={plan.layout} />
                     <ShoppingList layout={plan.layout} />
+                    <CropRotation
+                      plan={plan}
+                      planId={result.aiGeneratedAt || result.generatedAt}
+                      zipCode={result.plannerInput?.zipCode}
+                      onApplySwap={handleSwapPlant}
+                    />
                     <GardenChat
                       plan={plan}
                       climate={result.climate || null}
