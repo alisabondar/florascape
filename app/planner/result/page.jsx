@@ -278,6 +278,60 @@ function PlantingGuide({ guide, layout }) {
   );
 }
 
+function formatMonthDay(monthDay) {
+  if (!monthDay) {
+    return "None recorded";
+  }
+  const [month, day] = monthDay.split("-").map(Number);
+  return new Date(Date.UTC(2001, month - 1, day)).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    timeZone: "UTC",
+  });
+}
+
+function ClimateSummary({ climate }) {
+  if (!climate?.hardinessZone) {
+    return null;
+  }
+
+  const frostDays = climate.forecast?.frostWarning ? climate.forecast.frostDays : [];
+
+  return (
+    <section className="climate-summary print-section" aria-label="Local climate">
+      {frostDays.length ? (
+        <p className="result-warning frost-warning" role="alert">
+          <strong>Frost warning:</strong> frost is forecast on{" "}
+          {frostDays.map((date) => formatMonthDay(date.slice(5))).join(", ")}. Protect or delay
+          frost-tender plants.
+        </p>
+      ) : null}
+      <dl className="climate-facts">
+        <div>
+          <dt>Hardiness zone</dt>
+          <dd>{climate.hardinessZone}</dd>
+        </div>
+        {climate.frost ? (
+          <>
+            <div>
+              <dt>Last spring frost</dt>
+              <dd>{formatMonthDay(climate.frost.lastSpringFrost)}</dd>
+            </div>
+            <div>
+              <dt>First fall frost</dt>
+              <dd>{formatMonthDay(climate.frost.firstFallFrost)}</dd>
+            </div>
+            <div>
+              <dt>Growing season</dt>
+              <dd>{climate.frost.growingSeasonDays} days</dd>
+            </div>
+          </>
+        ) : null}
+      </dl>
+    </section>
+  );
+}
+
 export default function PlannerResultPage() {
   const [result, setResult] = useState(null);
   const [status, setStatus] = useState("idle");
@@ -315,6 +369,7 @@ export default function PlannerResultPage() {
           plan: data.plan,
           modelUsed: data.modelUsed || "unknown",
           apiWarning: data.warning || "",
+          climate: data.climate || null,
           aiGeneratedAt: new Date().toISOString(),
         };
         writeSessionJson(PLANNER_RESULT_KEY, nextResult);
@@ -446,6 +501,7 @@ export default function PlannerResultPage() {
                 </div>
 
                 {result.apiWarning ? <p className="result-warning">{result.apiWarning}</p> : null}
+                <ClimateSummary climate={result.climate} />
 
                 {plan ? (
                   <>
