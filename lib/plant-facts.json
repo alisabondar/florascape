@@ -1,0 +1,501 @@
+{
+  "version": "1.0",
+  "units": "inches",
+  "plants": [
+    {
+      "name": "Tomato",
+      "aliases": [
+        "Tomatoes",
+        "Cherry Tomato"
+      ],
+      "spacingInches": {
+        "min": 18,
+        "max": 36
+      },
+      "daysToMaturity": 70,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Bush Bean",
+      "aliases": [
+        "Green Bean",
+        "Bush Beans",
+        "Snap Bean"
+      ],
+      "spacingInches": {
+        "min": 4,
+        "max": 6
+      },
+      "daysToMaturity": 55,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Pole Bean",
+      "aliases": [
+        "Pole Beans",
+        "Runner Bean"
+      ],
+      "spacingInches": {
+        "min": 4,
+        "max": 8
+      },
+      "daysToMaturity": 65,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Pea",
+      "aliases": [
+        "Peas",
+        "Snap Pea",
+        "Snow Pea",
+        "Sugar Snap Pea"
+      ],
+      "spacingInches": {
+        "min": 2,
+        "max": 4
+      },
+      "daysToMaturity": 60,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Leaf Lettuce",
+      "aliases": [
+        "Lettuce",
+        "Loose-leaf Lettuce",
+        "Mesclun"
+      ],
+      "spacingInches": {
+        "min": 4,
+        "max": 12
+      },
+      "daysToMaturity": 45,
+      "sunNeeds": "partial_shade",
+      "frostTolerance": "semi_hardy"
+    },
+    {
+      "name": "Spinach",
+      "aliases": [],
+      "spacingInches": {
+        "min": 3,
+        "max": 6
+      },
+      "daysToMaturity": 40,
+      "sunNeeds": "partial_shade",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Kale",
+      "aliases": [
+        "Lacinato Kale",
+        "Curly Kale"
+      ],
+      "spacingInches": {
+        "min": 12,
+        "max": 18
+      },
+      "daysToMaturity": 55,
+      "sunNeeds": "partial_shade",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Swiss Chard",
+      "aliases": [
+        "Chard",
+        "Rainbow Chard"
+      ],
+      "spacingInches": {
+        "min": 8,
+        "max": 12
+      },
+      "daysToMaturity": 55,
+      "sunNeeds": "partial_shade",
+      "frostTolerance": "semi_hardy"
+    },
+    {
+      "name": "Radish",
+      "aliases": [
+        "Radishes"
+      ],
+      "spacingInches": {
+        "min": 1,
+        "max": 3
+      },
+      "daysToMaturity": 28,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Carrot",
+      "aliases": [
+        "Carrots"
+      ],
+      "spacingInches": {
+        "min": 2,
+        "max": 4
+      },
+      "daysToMaturity": 70,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "semi_hardy"
+    },
+    {
+      "name": "Beet",
+      "aliases": [
+        "Beets",
+        "Beetroot"
+      ],
+      "spacingInches": {
+        "min": 3,
+        "max": 4
+      },
+      "daysToMaturity": 55,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "semi_hardy"
+    },
+    {
+      "name": "Zucchini",
+      "aliases": [
+        "Summer Squash",
+        "Courgette"
+      ],
+      "spacingInches": {
+        "min": 24,
+        "max": 36
+      },
+      "daysToMaturity": 50,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Cucumber",
+      "aliases": [
+        "Cucumbers"
+      ],
+      "spacingInches": {
+        "min": 12,
+        "max": 24
+      },
+      "daysToMaturity": 55,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Bell Pepper",
+      "aliases": [
+        "Pepper",
+        "Peppers",
+        "Sweet Pepper"
+      ],
+      "spacingInches": {
+        "min": 12,
+        "max": 18
+      },
+      "daysToMaturity": 75,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Hot Pepper",
+      "aliases": [
+        "Chili Pepper",
+        "Jalapeno",
+        "Jalapeño"
+      ],
+      "spacingInches": {
+        "min": 12,
+        "max": 18
+      },
+      "daysToMaturity": 75,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Eggplant",
+      "aliases": [
+        "Aubergine"
+      ],
+      "spacingInches": {
+        "min": 18,
+        "max": 24
+      },
+      "daysToMaturity": 75,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Onion",
+      "aliases": [
+        "Onions",
+        "Green Onion",
+        "Scallion"
+      ],
+      "spacingInches": {
+        "min": 3,
+        "max": 6
+      },
+      "daysToMaturity": 100,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Garlic",
+      "aliases": [],
+      "spacingInches": {
+        "min": 4,
+        "max": 6
+      },
+      "daysToMaturity": 240,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Broccoli",
+      "aliases": [],
+      "spacingInches": {
+        "min": 12,
+        "max": 18
+      },
+      "daysToMaturity": 65,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Basil",
+      "aliases": [
+        "Sweet Basil",
+        "Genovese Basil"
+      ],
+      "spacingInches": {
+        "min": 8,
+        "max": 12
+      },
+      "daysToMaturity": 60,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Thyme",
+      "aliases": [],
+      "spacingInches": {
+        "min": 8,
+        "max": 12
+      },
+      "daysToMaturity": 85,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Chives",
+      "aliases": [],
+      "spacingInches": {
+        "min": 6,
+        "max": 12
+      },
+      "daysToMaturity": 80,
+      "sunNeeds": "partial_shade",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Parsley",
+      "aliases": [
+        "Flat-leaf Parsley",
+        "Curly Parsley"
+      ],
+      "spacingInches": {
+        "min": 6,
+        "max": 10
+      },
+      "daysToMaturity": 75,
+      "sunNeeds": "partial_shade",
+      "frostTolerance": "semi_hardy"
+    },
+    {
+      "name": "Cilantro",
+      "aliases": [
+        "Coriander"
+      ],
+      "spacingInches": {
+        "min": 4,
+        "max": 8
+      },
+      "daysToMaturity": 50,
+      "sunNeeds": "partial_shade",
+      "frostTolerance": "semi_hardy"
+    },
+    {
+      "name": "Dill",
+      "aliases": [],
+      "spacingInches": {
+        "min": 8,
+        "max": 12
+      },
+      "daysToMaturity": 55,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "semi_hardy"
+    },
+    {
+      "name": "Mint",
+      "aliases": [
+        "Spearmint",
+        "Peppermint"
+      ],
+      "spacingInches": {
+        "min": 12,
+        "max": 18
+      },
+      "daysToMaturity": 90,
+      "sunNeeds": "partial_shade",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Rosemary",
+      "aliases": [],
+      "spacingInches": {
+        "min": 18,
+        "max": 24
+      },
+      "daysToMaturity": 90,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "semi_hardy"
+    },
+    {
+      "name": "Oregano",
+      "aliases": [],
+      "spacingInches": {
+        "min": 8,
+        "max": 12
+      },
+      "daysToMaturity": 90,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Sage",
+      "aliases": [],
+      "spacingInches": {
+        "min": 18,
+        "max": 24
+      },
+      "daysToMaturity": 75,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Marigold",
+      "aliases": [
+        "Marigolds",
+        "French Marigold"
+      ],
+      "spacingInches": {
+        "min": 8,
+        "max": 12
+      },
+      "daysToMaturity": 50,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Zinnia",
+      "aliases": [
+        "Zinnias"
+      ],
+      "spacingInches": {
+        "min": 9,
+        "max": 12
+      },
+      "daysToMaturity": 60,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Nasturtium",
+      "aliases": [
+        "Nasturtiums"
+      ],
+      "spacingInches": {
+        "min": 10,
+        "max": 12
+      },
+      "daysToMaturity": 55,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Sunflower",
+      "aliases": [
+        "Sunflowers"
+      ],
+      "spacingInches": {
+        "min": 12,
+        "max": 24
+      },
+      "daysToMaturity": 80,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Cosmos",
+      "aliases": [],
+      "spacingInches": {
+        "min": 12,
+        "max": 18
+      },
+      "daysToMaturity": 70,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Chamomile",
+      "aliases": [
+        "German Chamomile"
+      ],
+      "spacingInches": {
+        "min": 6,
+        "max": 8
+      },
+      "daysToMaturity": 65,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Calendula",
+      "aliases": [
+        "Pot Marigold"
+      ],
+      "spacingInches": {
+        "min": 8,
+        "max": 12
+      },
+      "daysToMaturity": 55,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "semi_hardy"
+    },
+    {
+      "name": "Lavender",
+      "aliases": [],
+      "spacingInches": {
+        "min": 12,
+        "max": 18
+      },
+      "daysToMaturity": 100,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Strawberry",
+      "aliases": [
+        "Strawberries"
+      ],
+      "spacingInches": {
+        "min": 12,
+        "max": 18
+      },
+      "daysToMaturity": 90,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    }
+  ]
+}
