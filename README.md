@@ -23,7 +23,8 @@ The application intentionally separates probabilistic recommendations from deter
 | `lib/climate.js` | Zone, frost-date, and forecast lookups with an in-memory cache |
 | `lib/plant-facts.json` | Spacing, maturity, sun, frost tolerance, category, easy-care flag, and direct-sow vs. transplant for common plants |
 | `lib/companions.json` | Curated helpful and conflicting plant pairs with reasons |
-| `lib/ai/` | Gemini and OpenAI-compatible providers, the fallback chain, and the plan cache |
+| `lib/ai/` | Gemini and OpenAI-compatible providers, the fallback chain, and the TTL caches |
+| `lib/chat/` | Garden chat: plan-based answers, plan summary, prompt, swap filtering, and rate limit |
 
 ## Local setup
 
@@ -68,6 +69,7 @@ Providers are tried in order: Gemini, Groq, then OpenRouter. With none configure
 - **Add to calendar** downloads an `.ics` file with a sowing or planting date for each plant (from frost dates and frost tolerance) and the date its harvest window opens.
 - The **Neighbor check** lists commonly recommended pairings and conflicts among plants sharing an area, from the curated `lib/companions.json` table.
 - The **Shopping list** shows seeds to sow (with a germination buffer) or nursery starts to buy, plus soil-mix and compost volumes per area with an estimated bag count.
+- **Ask about my garden** answers follow-up questions. "When / how far apart / how many" questions about a plant in the guide are answered straight from the plan with no AI call; other questions go to the same AI providers with a compact plan summary, and suggested swaps appear as one-click buttons. Replies are cached for an hour, each client is limited to 20 AI questions per 10 minutes, and the chat shows a friendly notice when no provider is available.
 - Print the sketch, planting guide, tips, neighbor check, and shopping list as a compact landscape plan.
 
 Planner state is stored in `sessionStorage`; accounts and persistent saved gardens are outside the current scope.
