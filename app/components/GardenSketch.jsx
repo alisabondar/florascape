@@ -3,6 +3,7 @@
 import rough from "roughjs";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { layoutToSvgModel } from "../../lib/garden-layout";
+import { layoutTableRows } from "../../lib/plan/view";
 import { MAX_PLANT_QUANTITY } from "../../lib/planner-config";
 import { SelectControl } from "./FormControls";
 
@@ -125,6 +126,8 @@ export default function GardenSketch({
   const [newPlantName, setNewPlantName] = useState(layout.plants?.[0]?.name || "");
   const [newPlantBedId, setNewPlantBedId] = useState(layout.beds?.[0]?.id || "");
   const [newPlantQuantity, setNewPlantQuantity] = useState(1);
+  const [showGrid, setShowGrid] = useState(false);
+  const [showTable, setShowTable] = useState(false);
 
   const baseSvgRef = useRef(null);
   const stageRef = useRef(null);
@@ -153,6 +156,7 @@ export default function GardenSketch({
   }, [layout]);
 
   const model = useMemo(() => layoutToSvgModel(localLayout), [localLayout]);
+  const tableRows = useMemo(() => layoutTableRows(localLayout), [localLayout]);
   const plantsById = useMemo(
     () => new Map(localLayout.plants.map((plant) => [plant.id, plant])),
     [localLayout.plants],
@@ -470,6 +474,26 @@ export default function GardenSketch({
         ))}
       </div>
 
+      <div className="garden-sketch-view-toggles no-print">
+        <button
+          type="button"
+          className="sketch-toggle"
+          aria-pressed={showGrid}
+          onClick={() => setShowGrid((value) => !value)}
+        >
+          Show 1 ft grid
+        </button>
+        <button
+          type="button"
+          className="sketch-toggle"
+          aria-pressed={showTable}
+          aria-controls="garden-layout-table"
+          onClick={() => setShowTable((value) => !value)}
+        >
+          View as table
+        </button>
+      </div>
+
       <div className="garden-sketch-stage" ref={stageRef}>
         <div className="garden-sketch-zoom-layer">
           <svg
@@ -488,6 +512,33 @@ export default function GardenSketch({
             className="garden-sketch-overlay"
             onMouseLeave={() => setTooltip(null)}
           >
+            {showGrid ? (
+              <g className="sqft-grid no-print" pointerEvents="none" aria-hidden="true">
+                {model.beds.map((bed) => {
+                  const step = model.pixelsPerFoot;
+                  const clipId = `grid-clip-${bed.id}`;
+                  const vertical = Array.from({ length: Math.max(0, Math.ceil(bed.width) - 1) }, (_, index) => bed.xPx + (index + 1) * step);
+                  const horizontal = Array.from({ length: Math.max(0, Math.ceil(bed.height) - 1) }, (_, index) => bed.yPx + (index + 1) * step);
+                  return (
+                    <g key={`grid-${bed.id}`} clipPath={`url(#${clipId})`}>
+                      <clipPath id={clipId}>
+                        {bed.shape === "circle" ? (
+                          <circle cx={bed.cxPx} cy={bed.cyPx} r={bed.rPx} />
+                        ) : (
+                          <rect x={bed.xPx} y={bed.yPx} width={bed.widthPx} height={bed.heightPx} />
+                        )}
+                      </clipPath>
+                      {vertical.map((x) => (
+                        <line key={`v-${x}`} x1={x} x2={x} y1={bed.yPx} y2={bed.yPx + bed.heightPx} />
+                      ))}
+                      {horizontal.map((y) => (
+                        <line key={`h-${y}`} x1={bed.xPx} x2={bed.xPx + bed.widthPx} y1={y} y2={y} />
+                      ))}
+                    </g>
+                  );
+                })}
+              </g>
+            ) : null}
             {model.plantPatches.map((patch) => {
               const plant = plantsById.get(patch.plantId);
               if (!plant) {
@@ -545,6 +596,34 @@ export default function GardenSketch({
           ) : null}
         </div>
       </div>
+
+      {showTable ? (
+        <div className="garden-layout-table-wrap no-print">
+          <table id="garden-layout-table" className="garden-layout-table">
+            <caption>Garden layout by plant group</caption>
+            <thead>
+              <tr>
+                <th scope="col">Growing area</th>
+                <th scope="col">Plant</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Spacing (in)</th>
+                <th scope="col">Allocated size (ft)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {tableRows.map((row) => (
+                <tr key={row.id}>
+                  <td>{row.area}</td>
+                  <th scope="row">{row.plant}</th>
+                  <td>{row.quantity}</td>
+                  <td>{row.spacingInches}</td>
+                  <td>{row.size}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : null}
 
       <div className="garden-sketch-meta">
         <span>

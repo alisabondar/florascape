@@ -1859,3 +1859,65 @@ a {
   font-weight: 500;
   color: #5c6b55;
 }
+
+.garden-sketch-view-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.75rem 0;
+}
+
+.sketch-toggle {
+  border: 1px solid #cfdcc4;
+  border-radius: 999px;
+  background: #fff;
+  color: #3d5a32;
+  padding: 0.3rem 0.8rem;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.sketch-toggle[aria-pressed="true"] {
+  background: #3d5a32;
+  border-color: #3d5a32;
+  color: #fff;
+}
+
+.sqft-grid line {
+  stroke: #37342e;
+  stroke-opacity: 0.28;
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+
+.garden-layout-table-wrap {
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+
+.garden-layout-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.garden-layout-table caption {
+  text-align: left;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.garden-layout-table th,
+.garden-layout-table td {
+  text-align: left;
+  padding: 0.45rem 0.6rem;
+  border-bottom: 1px solid #e3e8dc;
+}
+
+.garden-layout-table thead th {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #5c6b55;
+}
