@@ -114,6 +114,8 @@ export default function GardenSketch({
   title = "Interactive Sketch",
   onLayoutChange,
   onPlantSectionClick,
+  alternatives = null,
+  onSwapPlant,
 }) {
   const [localLayout, setLocalLayout] = useState(() => deepCloneLayout(layout));
   const [tooltip, setTooltip] = useState(null);
@@ -252,12 +254,22 @@ export default function GardenSketch({
     onLayoutChange?.(nextLayout);
   }
 
+  // Manual edits release a bed's locked zone shares so quantities rebalance its space again.
+  function releaseZoneShares(next, bedId) {
+    next.plants.forEach((item) => {
+      if (item.bedId === bedId) {
+        delete item.areaShare;
+      }
+    });
+  }
+
   function adjustPlantQuantity(plantId, amount) {
     const next = deepCloneLayout(latestLayoutRef.current);
     const plant = next.plants.find((item) => item.id === plantId);
     if (!plant) {
       return;
     }
+    releaseZoneShares(next, plant.bedId);
     const quantity = Math.min(MAX_PLANT_QUANTITY, (Number(plant.quantity) || 1) + amount);
     if (quantity <= 0) {
       next.plants = next.plants.filter((item) => item.id !== plantId);
@@ -275,6 +287,7 @@ export default function GardenSketch({
     }
 
     const next = deepCloneLayout(latestLayoutRef.current);
+    releaseZoneShares(next, bed.id);
     const existing = next.plants.find(
       (plant) => plant.name === newPlantName && plant.bedId === newPlantBedId,
     );
@@ -350,7 +363,7 @@ export default function GardenSketch({
         <div className="garden-sketch-editor-heading">
           <div>
             <strong>Edit plant groups</strong>
-            <span>Use the controls to rebalance how much space each plant receives.</span>
+            <span>Pick a different plant for any group, or use the controls to rebalance how much space each plant receives.</span>
           </div>
         </div>
 
@@ -358,7 +371,26 @@ export default function GardenSketch({
           {localLayout.plants.map((plant) => (
             <div className="plant-group-adjustment" key={plant.id}>
               <div>
-                <strong>{plant.name}</strong>
+                {alternatives?.[plant.bedId]?.length && onSwapPlant ? (
+                  <SelectControl
+                    id={`swap-${plant.id}`}
+                    value={plant.name}
+                    onValueChange={(name) => {
+                      if (name !== plant.name) {
+                        onSwapPlant(plant.id, name);
+                      }
+                    }}
+                    options={[
+                      { value: plant.name, label: plant.name },
+                      ...alternatives[plant.bedId]
+                        .filter((item) => item.name !== plant.name)
+                        .map((item) => ({ value: item.name, label: `${item.name} — ${item.reason}` })),
+                    ]}
+                    ariaLabel={`Swap ${plant.name} in ${bedsById.get(plant.bedId)?.name || "this area"}`}
+                  />
+                ) : (
+                  <strong>{plant.name}</strong>
+                )}
                 <span>{bedsById.get(plant.bedId)?.name || "Growing area"}</span>
               </div>
               <div className="quantity-stepper" aria-label={`${plant.name} target quantity`}>

@@ -1,11 +1,13 @@
 "use client";
 
-import { Leaf, Printer, Sparkles, Sprout } from "lucide-react";
+import { Leaf, Printer, Shuffle, Sparkles, Sprout } from "lucide-react";
 import { useEffect, useState } from "react";
 import GardenSketch from "../../components/GardenSketch";
 import {
   createExampleGardenPlan,
   createFallbackGardenPlan,
+  shufflePlan,
+  swapPlant,
 } from "../../../lib/garden-plan";
 import { getPlantSectionSizes } from "../../../lib/garden-layout";
 import {
@@ -386,7 +388,7 @@ export default function PlannerResultPage() {
 
   function loadStarterPlan() {
     const plan = result?.plannerInput
-      ? createFallbackGardenPlan(result.plannerInput)
+      ? createFallbackGardenPlan(result.plannerInput, { climate: result.climate || null })
       : createExampleGardenPlan();
     const nextResult = {
       ...result,
@@ -429,6 +431,28 @@ export default function PlannerResultPage() {
       writeSessionJson(PLANNER_RESULT_KEY, nextResult);
       return nextResult;
     });
+  }
+
+  function updatePlan(transform) {
+    setResult((previous) => {
+      if (!previous?.plan) {
+        return previous;
+      }
+      const nextResult = {
+        ...previous,
+        plan: transform(previous.plan, { climate: previous.climate || null }),
+      };
+      writeSessionJson(PLANNER_RESULT_KEY, nextResult);
+      return nextResult;
+    });
+  }
+
+  function handleSwapPlant(plantId, plantName) {
+    updatePlan((current, options) => swapPlant(current, plantId, plantName, options));
+  }
+
+  function handleShuffle() {
+    updatePlan((current, options) => shufflePlan(current, options));
   }
 
   function scrollToGuide(guideId) {
@@ -491,6 +515,12 @@ export default function PlannerResultPage() {
                         Use Starter Plan
                       </button>
                     ) : null}
+                    {plan && Object.values(plan.alternatives || {}).some((list) => list.length) ? (
+                      <button type="button" className="btn secondary-action" onClick={handleShuffle}>
+                        <Shuffle size={17} aria-hidden="true" />
+                        Shuffle Plants
+                      </button>
+                    ) : null}
                     {plan ? (
                       <button type="button" className="btn" onClick={() => window.print()}>
                         <Printer size={17} aria-hidden="true" />
@@ -523,6 +553,8 @@ export default function PlannerResultPage() {
                         layout={plan.layout}
                         onLayoutChange={handleSketchLayoutChange}
                         onPlantSectionClick={scrollToGuide}
+                        alternatives={plan.alternatives}
+                        onSwapPlant={handleSwapPlant}
                       />
                     </section>
                     <PlantingGuide guide={plan.plantingGuide} layout={plan.layout} />

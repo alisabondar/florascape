@@ -10,6 +10,7 @@ export function SelectControl({
   placeholder = "Select one",
   options,
   ariaInvalid = false,
+  ariaLabel,
 }) {
   return (
     <Select.Root value={value} onValueChange={onValueChange}>
@@ -17,6 +18,7 @@ export function SelectControl({
         id={id}
         className="ui-select-trigger"
         aria-invalid={ariaInvalid}
+        aria-label={ariaLabel}
       >
         <Select.Value placeholder={placeholder} />
         <Select.Icon className="ui-select-icon">
