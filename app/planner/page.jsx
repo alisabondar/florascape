@@ -17,6 +17,7 @@ import {
   getSunExposureLabel,
   isGardenType,
   isRepeatableGardenType,
+  PREFERENCES_MAX_LENGTH,
 } from "../../lib/planner-config";
 import {
   PLANNER_DRAFT_KEY,
@@ -641,6 +642,7 @@ function PlannerForm() {
                   Preferences (optional)
                   <textarea
                     rows={4}
+                    maxLength={PREFERENCES_MAX_LENGTH}
                     placeholder="Tomatoes, pollinator friendly, low watering, budget conscious..."
                     value={formValues.preferences}
                     onChange={(event) => updateField("preferences", event.target.value)}

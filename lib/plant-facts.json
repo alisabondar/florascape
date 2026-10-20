@@ -8,6 +8,8 @@
         "Tomatoes",
         "Cherry Tomato"
       ],
+      "category": "vegetables",
+      "easyCare": false,
       "spacingInches": {
         "min": 18,
         "max": 36
@@ -23,6 +25,8 @@
         "Bush Beans",
         "Snap Bean"
       ],
+      "category": "vegetables",
+      "easyCare": true,
       "spacingInches": {
         "min": 4,
         "max": 6
@@ -37,6 +41,8 @@
         "Pole Beans",
         "Runner Bean"
       ],
+      "category": "vegetables",
+      "easyCare": false,
       "spacingInches": {
         "min": 4,
         "max": 8
@@ -53,6 +59,8 @@
         "Snow Pea",
         "Sugar Snap Pea"
       ],
+      "category": "vegetables",
+      "easyCare": false,
       "spacingInches": {
         "min": 2,
         "max": 4
@@ -68,6 +76,8 @@
         "Loose-leaf Lettuce",
         "Mesclun"
       ],
+      "category": "vegetables",
+      "easyCare": true,
       "spacingInches": {
         "min": 4,
         "max": 12
@@ -79,6 +89,8 @@
     {
       "name": "Spinach",
       "aliases": [],
+      "category": "vegetables",
+      "easyCare": true,
       "spacingInches": {
         "min": 3,
         "max": 6
@@ -93,6 +105,8 @@
         "Lacinato Kale",
         "Curly Kale"
       ],
+      "category": "vegetables",
+      "easyCare": true,
       "spacingInches": {
         "min": 12,
         "max": 18
@@ -107,6 +121,8 @@
         "Chard",
         "Rainbow Chard"
       ],
+      "category": "vegetables",
+      "easyCare": true,
       "spacingInches": {
         "min": 8,
         "max": 12
@@ -120,6 +136,8 @@
       "aliases": [
         "Radishes"
       ],
+      "category": "vegetables",
+      "easyCare": true,
       "spacingInches": {
         "min": 1,
         "max": 3
@@ -133,6 +151,8 @@
       "aliases": [
         "Carrots"
       ],
+      "category": "vegetables",
+      "easyCare": false,
       "spacingInches": {
         "min": 2,
         "max": 4
@@ -147,6 +167,8 @@
         "Beets",
         "Beetroot"
       ],
+      "category": "vegetables",
+      "easyCare": false,
       "spacingInches": {
         "min": 3,
         "max": 4
@@ -161,6 +183,8 @@
         "Summer Squash",
         "Courgette"
       ],
+      "category": "vegetables",
+      "easyCare": true,
       "spacingInches": {
         "min": 24,
         "max": 36
@@ -174,6 +198,8 @@
       "aliases": [
         "Cucumbers"
       ],
+      "category": "vegetables",
+      "easyCare": false,
       "spacingInches": {
         "min": 12,
         "max": 24
@@ -189,6 +215,8 @@
         "Peppers",
         "Sweet Pepper"
       ],
+      "category": "vegetables",
+      "easyCare": false,
       "spacingInches": {
         "min": 12,
         "max": 18
@@ -204,6 +232,8 @@
         "Jalapeno",
         "Jalapeño"
       ],
+      "category": "vegetables",
+      "easyCare": false,
       "spacingInches": {
         "min": 12,
         "max": 18
@@ -217,6 +247,8 @@
       "aliases": [
         "Aubergine"
       ],
+      "category": "vegetables",
+      "easyCare": false,
       "spacingInches": {
         "min": 18,
         "max": 24
@@ -232,6 +264,8 @@
         "Green Onion",
         "Scallion"
       ],
+      "category": "vegetables",
+      "easyCare": false,
       "spacingInches": {
         "min": 3,
         "max": 6
@@ -243,6 +277,8 @@
     {
       "name": "Garlic",
       "aliases": [],
+      "category": "vegetables",
+      "easyCare": true,
       "spacingInches": {
         "min": 4,
         "max": 6
@@ -254,6 +290,8 @@
     {
       "name": "Broccoli",
       "aliases": [],
+      "category": "vegetables",
+      "easyCare": false,
       "spacingInches": {
         "min": 12,
         "max": 18
@@ -268,6 +306,8 @@
         "Sweet Basil",
         "Genovese Basil"
       ],
+      "category": "herbs",
+      "easyCare": false,
       "spacingInches": {
         "min": 8,
         "max": 12
@@ -279,6 +319,8 @@
     {
       "name": "Thyme",
       "aliases": [],
+      "category": "herbs",
+      "easyCare": true,
       "spacingInches": {
         "min": 8,
         "max": 12
@@ -290,6 +332,8 @@
     {
       "name": "Chives",
       "aliases": [],
+      "category": "herbs",
+      "easyCare": true,
       "spacingInches": {
         "min": 6,
         "max": 12
@@ -304,6 +348,8 @@
         "Flat-leaf Parsley",
         "Curly Parsley"
       ],
+      "category": "herbs",
+      "easyCare": false,
       "spacingInches": {
         "min": 6,
         "max": 10
@@ -317,6 +363,8 @@
       "aliases": [
         "Coriander"
       ],
+      "category": "herbs",
+      "easyCare": false,
       "spacingInches": {
         "min": 4,
         "max": 8
@@ -328,6 +376,8 @@
     {
       "name": "Dill",
       "aliases": [],
+      "category": "herbs",
+      "easyCare": false,
       "spacingInches": {
         "min": 8,
         "max": 12
@@ -342,6 +392,8 @@
         "Spearmint",
         "Peppermint"
       ],
+      "category": "herbs",
+      "easyCare": true,
       "spacingInches": {
         "min": 12,
         "max": 18
@@ -353,6 +405,8 @@
     {
       "name": "Rosemary",
       "aliases": [],
+      "category": "herbs",
+      "easyCare": false,
       "spacingInches": {
         "min": 18,
         "max": 24
@@ -364,6 +418,8 @@
     {
       "name": "Oregano",
       "aliases": [],
+      "category": "herbs",
+      "easyCare": true,
       "spacingInches": {
         "min": 8,
         "max": 12
@@ -375,6 +431,8 @@
     {
       "name": "Sage",
       "aliases": [],
+      "category": "herbs",
+      "easyCare": false,
       "spacingInches": {
         "min": 18,
         "max": 24
@@ -389,6 +447,8 @@
         "Marigolds",
         "French Marigold"
       ],
+      "category": "flowers",
+      "easyCare": true,
       "spacingInches": {
         "min": 8,
         "max": 12
@@ -402,6 +462,8 @@
       "aliases": [
         "Zinnias"
       ],
+      "category": "flowers",
+      "easyCare": true,
       "spacingInches": {
         "min": 9,
         "max": 12
@@ -415,6 +477,8 @@
       "aliases": [
         "Nasturtiums"
       ],
+      "category": "flowers",
+      "easyCare": true,
       "spacingInches": {
         "min": 10,
         "max": 12
@@ -428,6 +492,8 @@
       "aliases": [
         "Sunflowers"
       ],
+      "category": "flowers",
+      "easyCare": true,
       "spacingInches": {
         "min": 12,
         "max": 24
@@ -439,6 +505,8 @@
     {
       "name": "Cosmos",
       "aliases": [],
+      "category": "flowers",
+      "easyCare": true,
       "spacingInches": {
         "min": 12,
         "max": 18
@@ -452,6 +520,8 @@
       "aliases": [
         "German Chamomile"
       ],
+      "category": "medicinal",
+      "easyCare": false,
       "spacingInches": {
         "min": 6,
         "max": 8
@@ -465,6 +535,8 @@
       "aliases": [
         "Pot Marigold"
       ],
+      "category": "medicinal",
+      "easyCare": true,
       "spacingInches": {
         "min": 8,
         "max": 12
@@ -476,6 +548,8 @@
     {
       "name": "Lavender",
       "aliases": [],
+      "category": "medicinal",
+      "easyCare": false,
       "spacingInches": {
         "min": 12,
         "max": 18
@@ -489,6 +563,8 @@
       "aliases": [
         "Strawberries"
       ],
+      "category": "vegetables",
+      "easyCare": false,
       "spacingInches": {
         "min": 12,
         "max": 18
