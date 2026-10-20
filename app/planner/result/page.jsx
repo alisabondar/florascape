@@ -1,8 +1,13 @@
 "use client";
 
-import { Leaf, Printer, Shuffle, Sparkles, Sprout } from "lucide-react";
+import { CalendarPlus, Leaf, Printer, Shuffle, Sparkles, Sprout } from "lucide-react";
 import { useEffect, useState } from "react";
 import GardenSketch from "../../components/GardenSketch";
+import {
+  downloadPlantingCalendar,
+  NeighborCheck,
+  ShoppingList,
+} from "../../components/PlanExtras";
 import {
   createExampleGardenPlan,
   createFallbackGardenPlan,
@@ -559,6 +564,16 @@ export default function PlannerResultPage() {
                       </button>
                     ) : null}
                     {plan ? (
+                      <button
+                        type="button"
+                        className="btn secondary-action"
+                        onClick={() => downloadPlantingCalendar(plan, result.climate || null)}
+                      >
+                        <CalendarPlus size={17} aria-hidden="true" />
+                        Add to calendar
+                      </button>
+                    ) : null}
+                    {plan ? (
                       <button type="button" className="btn" onClick={() => window.print()}>
                         <Printer size={17} aria-hidden="true" />
                         Print Plan
@@ -596,6 +611,8 @@ export default function PlannerResultPage() {
                     </section>
                     <PlantingGuide guide={plan.plantingGuide} layout={plan.layout} />
                     <TipsSection tips={plan.tips} />
+                    <NeighborCheck layout={plan.layout} />
+                    <ShoppingList layout={plan.layout} />
                   </>
                 ) : null}
               </>

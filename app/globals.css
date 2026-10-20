@@ -1955,3 +1955,80 @@ a {
   font-size: 0.75rem;
   color: #5c6b55;
 }
+
+.planner-result-page .neighbor-areas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.planner-result-page .neighbor-area h3,
+.planner-result-page .shopping-columns h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.planner-result-page .neighbor-area ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.planner-result-page .neighbor-area li {
+  border-left: 4px solid #8fb07f;
+  background: #f4f8ef;
+  border-radius: 6px;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.9rem;
+}
+
+.planner-result-page .neighbor-area li.neighbor-conflict {
+  border-left-color: #c29342;
+  background: #fff8e9;
+}
+
+.planner-result-page .shopping-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.planner-result-page .shopping-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.planner-result-page .shopping-table th,
+.planner-result-page .shopping-table td {
+  text-align: left;
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1px solid #e3e8dc;
+}
+
+.planner-result-page .shopping-table thead th {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #5c6b55;
+}
+
+.planner-result-page .shopping-table tfoot th,
+.planner-result-page .shopping-table tfoot td {
+  font-weight: 700;
+  border-bottom: none;
+}
+
+.planner-result-page .shopping-subtle {
+  font-weight: 400;
+  color: #5c6b55;
+}
+
+.planner-result-page .shopping-bags,
+.planner-result-page .shopping-assumptions,
+.planner-result-page .neighbor-empty {
+  font-size: 0.85rem;
+  color: #4b5a45;
+}
