@@ -1,48 +1,25 @@
-# Spec Audit — README.md
+# Spec Audit — docs/V2-PHASE1.md
 
-Source document: `README.md` (commit 61ab2ff). Scope: all requirement statements.
+Source document: `docs/V2-PHASE1.md`. Scope: steps 1–9.
 
 ## Checklist
 
-1. Intro: "The planner combines user-provided dimensions and sunlight with Gemini plant recommendations"
-2. Intro: "then renders the result as an editable Rough.js sketch"
-3. Arch 1: "The planner validates the ZIP code, garden type, dimensions, sunlight, plant categories, and free-form preferences."
-4. Arch 2: "Gemini recommends plant groups, quantities, placement reasons, care tips, and planting-guide content using a structured response schema."
-5. Arch 3: "Server-side code validates the response and owns all bed geometry."
-6. Arch 3: "Model-generated coordinates are never trusted or rendered."
-7. Arch 4: "The layout engine allocates plant zones from mature quantity and spacing requirements."
-8. Arch 5: "Rough.js draws the blueprint, while regular React controls handle editing and accessibility."
-9. Setup: "Copy `.env.example` to `.env.local` and add a Gemini API key." (`.env.example` exists with `GEMINI_API_KEY`, `GEMINI_MODEL`)
-10. Setup: "Run `bun run dev`." (dev script exists)
-11. Planner: "In-ground gardens collect total dimensions, the sunniest side, and an optional section count."
-12. Planner: "Raised beds and containers use repeatable dimension and sunlight cards."
-13. Planner: "“Any” lets Gemini recommend in-ground planting, raised beds, or containers from the available areas and preferences."
-14. Planner: "Free-form preferences are treated as user intent, including named plants and requests for troubleshooting help."
-15. Results: "Hover or focus a plant zone to see its quantity, spacing, allocated size, and placement reason."
-16. Results: "Select a zone to jump to its planting-guide entry."
-17. Results: "Use the +/− controls to rebalance or remove plant groups"
-18. Results: "or add another recommended group to a growing area."
-19. Results: "Use Edit Inputs to change bed or container geometry and regenerate the plan."
-20. Results: "Print the sketch, planting guide, and tips as a compact landscape plan."
-21. Results: "Planner state is stored in `sessionStorage`"
-22. Reliability: "Gemini responses use a JSON response schema and semantic validation."
-23. Reliability: "Invalid or truncated responses are retried once."
-24. Reliability: "If Gemini is unavailable, the server creates a local starter plan from the submitted dimensions."
-25. Verification: "`bun run test`", "`bun run lint`", "`bun run build`" (scripts exist and pass)
-
-## Round 1
-
-Auditor: fresh subagent. Result: **25/25 MET**. `bun run test` 7 pass / 0 fail; `bun run lint` clean; `bun run build` succeeded.
-
-### Findings
-None.
-
-### Out-of-scope (not traceable to README; not acted on)
-- Missing `GEMINI_API_KEY` returns 500 rather than the local starter plan (`app/api/generate-garden-plan/route.js:27-32`).
-- Non-retryable Gemini errors (400/403) are surfaced rather than falling back (`route.js:109`).
-- Server doesn't whitelist `plantTypes` values (`lib/garden-plan.js:232`).
-- With a custom `GEMINI_MODEL`, up to 4 total attempts across two models (each model still retried once).
-- No length cap on free-form preferences.
-
-## Result
-Stopped after round 1: zero PARTIAL/MISSING. Scope-creep breaker did not fire.
+1. S1: "resolves the submitted ZIP code to a USDA hardiness zone and coordinates using phzmapi.org"
+2. S2: "computes the median last spring frost date, median first fall frost date, and growing-season length in days from Open-Meteo historical daily minimum temperatures"
+3. S2: "(frost = daily minimum ≤ 0 °C)"
+4. S2: "over at least the 5 most recent complete years"
+5. S3: "fetches a 7-day daily forecast (min/max temperature) from Open-Meteo"
+6. S3: "flags any forecast frost day"
+7. S4: "A curated plant-facts JSON file in `lib/`"
+8. S4: "per plant, recommended spacing in inches (min and max), days to maturity, sun needs, and frost tolerance"
+9. S4: "covers at least 30 common beginner plants, including every plant used by the fallback plan"
+10. S5: "zone, frost dates, season length, and forecast frost warning are injected into the Gemini prompt as authoritative climate context"
+11. S5: "the prompt instructs the model to use them instead of inferring climate from the ZIP code"
+12. S6: "matches the plant-facts file (case-insensitive name or alias), its spacing is clamped to the file's min/max range before layout"
+13. S7: "Each data source has a request timeout"
+14. S7: "if any source fails, plan generation still succeeds without that context"
+15. S7: "Climate lookups are cached in memory per ZIP"
+16. S8: "result page shows the hardiness zone, frost dates, and season length when available"
+17. S8: "a frost warning when the forecast includes a frost day"
+18. S9: "Unit tests cover frost-date computation, spacing clamping, and the fallback when a data source fails"
+19. S9: "`bun run test`, `bun run lint`, and `bun run build` pass"
