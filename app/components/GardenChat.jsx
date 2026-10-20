@@ -106,7 +106,7 @@ export default function GardenChat({ plan, climate, messages, onMessagesChange, 
   return (
     <section className="result-content-section garden-chat-section no-print" aria-labelledby="garden-chat-title">
       <div className="result-section-heading">
-        <span>06</span>
+        <span>07</span>
         <div>
           <h2 id="garden-chat-title">Ask about my garden</h2>
           <p>Questions about timing, spacing, or quantities for your plants are answered right from your plan.</p>
