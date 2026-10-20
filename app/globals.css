@@ -1921,3 +1921,37 @@ a {
   letter-spacing: 0.04em;
   color: #5c6b55;
 }
+
+.area-preview {
+  margin: 0 0 1.25rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px dashed #cfdcc4;
+  border-radius: 10px;
+  background: #f7faf3;
+}
+
+.area-preview svg {
+  display: block;
+  width: 100%;
+  max-width: 560px;
+  height: auto;
+  overflow: visible;
+}
+
+.area-preview rect {
+  fill: #e7efdc;
+  stroke: #3d5a32;
+  stroke-width: 1.5;
+}
+
+.area-preview-name,
+.area-preview-size {
+  font-size: 11px;
+  fill: #3d5a32;
+}
+
+.area-preview figcaption {
+  margin-top: 0.4rem;
+  font-size: 0.75rem;
+  color: #5c6b55;
+}
