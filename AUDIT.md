@@ -19,3 +19,18 @@ Source document: `docs/V2-PHASE4.md`. Scope: steps 1–6.
 13. S5: "labeled with each area's dimensions in feet"
 14. S6: "Unit tests cover guide grouping and the table rows."
 15. S6: "`bun run test`, `bun run lint`, and `bun run build` pass"
+
+## Round 1
+
+Auditor: fresh subagent. Result: **15/15 MET**. `bun run test` 37 pass / 0 fail; `bun run lint` clean; `bun run build` succeeded. Manual browser run against a live Gemini plan exercised the timing groups, source badge, grid (17 lines for 8×4 + 6×3 beds), table updates after Shuffle, and the live area preview.
+
+### Findings
+None.
+
+### Out-of-scope (not traceable to the spec; not acted on)
+- Printed guide uses the existing print table rather than the timing groups.
+- Cached plans show "Saved result" without the provider name.
+- The area preview draws containers as rectangles.
+
+## Result
+Stopped after round 1: zero PARTIAL/MISSING. Scope-creep breaker did not fire.

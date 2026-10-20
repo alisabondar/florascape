@@ -49,17 +49,21 @@ Providers are tried in order: Gemini, Groq, then OpenRouter. With none configure
 - Raised beds and containers use repeatable dimension and sunlight cards.
 - “Any” lets the AI recommend in-ground planting, raised beds, or containers from the available areas and preferences.
 - Free-form preferences are treated as user intent, including named plants and requests for troubleshooting help.
+- A live, to-scale preview of the entered plot, beds, or containers updates as dimensions change.
 
 ## Results and editing
 
+- A badge shows where the plan came from: an AI provider, the starter plan, or a saved (cached) result.
 - The results page shows the hardiness zone, frost dates, growing-season length, and a frost warning when frost is forecast.
 - Every zone is filled to the number of plants its size and spacing allow; areas of 8 sq ft or more get at least three plant groups.
+- Toggle **Show 1 ft grid** for square-foot lines in every area, or **View as table** for an accessible table of each group's area, quantity, spacing, and allocated size.
 - Hover or focus a plant zone to see its quantity, spacing, allocated size, and placement reason.
 - Select a zone to jump to its planting-guide entry.
 - Use a group's plant dropdown to swap in one of that area's alternatives (suited to its sun, your categories, preferences, and the season). The new plant takes over the same zone at its own spacing.
 - Use **Shuffle Plants** to swap every area's plants for different alternatives instantly, without another AI call.
 - Use the +/− controls to rebalance or remove plant groups, or add another recommended group to a growing area.
 - Use Edit Inputs to change bed or container geometry and regenerate the plan.
+- The planting guide is grouped into Plant now, Plant next month, and Plant later, with plant counts.
 - Print the sketch, planting guide, and tips as a compact landscape plan.
 
 Planner state is stored in `sessionStorage`; accounts and persistent saved gardens are outside the current scope.
