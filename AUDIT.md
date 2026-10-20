@@ -24,3 +24,16 @@ Source document: `docs/V2-PHASE5.md`. Scope: steps 1–7.
 18. S6: "both are included when the plan is printed"
 19. S7: "Unit tests cover sowing-date calculation, the `.ics` output format, seed and start counts, soil volumes, and neighbor detection."
 20. S7: "`bun run test`, `bun run lint`, and `bun run build` pass"
+
+## Round 1
+
+Auditor: fresh subagent. Result: **20/20 MET**. `bun run test` 47 pass / 0 fail; `bun run lint` clean; `bun run build` succeeded. Manual browser run: `.ics` download (12 events, CRLF, Tomato planted 2027-04-24 and harvest 2027-07-03 from live frost data), shopping list and neighbor check updating after Shuffle.
+
+### Findings
+None.
+
+### Out-of-scope (not traceable to the spec; not acted on)
+None.
+
+## Result
+Stopped after round 1: zero PARTIAL/MISSING. Scope-creep breaker did not fire.
