@@ -2,6 +2,7 @@
 
 import { CalendarPlus, Leaf, Printer, Shuffle, Sparkles, Sprout } from "lucide-react";
 import { useEffect, useState } from "react";
+import GardenChat from "../../components/GardenChat";
 import GardenSketch from "../../components/GardenSketch";
 import {
   downloadPlantingCalendar,
@@ -412,6 +413,7 @@ export default function PlannerResultPage() {
           apiWarning: data.warning || "",
           climate: data.climate || null,
           cached: Boolean(data.cached),
+          chat: [],
           aiGeneratedAt: new Date().toISOString(),
         };
         writeSessionJson(PLANNER_RESULT_KEY, nextResult);
@@ -438,6 +440,7 @@ export default function PlannerResultPage() {
       modelUsed: "starter-plan",
       apiWarning: "",
       cached: false,
+      chat: [],
       aiGeneratedAt: new Date().toISOString(),
     };
     writeSessionJson(PLANNER_RESULT_KEY, nextResult);
@@ -494,6 +497,17 @@ export default function PlannerResultPage() {
 
   function handleShuffle() {
     updatePlan((current, options) => shufflePlan(current, options));
+  }
+
+  function handleChatMessagesChange(nextMessages) {
+    setResult((previous) => {
+      if (!previous) {
+        return previous;
+      }
+      const nextResult = { ...previous, chat: nextMessages };
+      writeSessionJson(PLANNER_RESULT_KEY, nextResult);
+      return nextResult;
+    });
   }
 
   function scrollToGuide(guideId) {
@@ -613,6 +627,13 @@ export default function PlannerResultPage() {
                     <TipsSection tips={plan.tips} />
                     <NeighborCheck layout={plan.layout} />
                     <ShoppingList layout={plan.layout} />
+                    <GardenChat
+                      plan={plan}
+                      climate={result.climate || null}
+                      messages={result.chat || []}
+                      onMessagesChange={handleChatMessagesChange}
+                      onApplySwap={handleSwapPlant}
+                    />
                   </>
                 ) : null}
               </>
