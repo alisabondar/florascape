@@ -2032,3 +2032,127 @@ a {
   font-size: 0.85rem;
   color: #4b5a45;
 }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.planner-result-page .garden-chat-log {
+  max-height: 360px;
+  overflow-y: auto;
+  display: grid;
+  gap: 0.6rem;
+  padding: 0.75rem;
+  border: 1px solid #e3e8dc;
+  border-radius: 10px;
+  background: #fbfcf8;
+}
+
+.planner-result-page .garden-chat-message {
+  max-width: 85%;
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+  font-size: 0.92rem;
+}
+
+.planner-result-page .garden-chat-message p {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.planner-result-page .garden-chat-message.user {
+  justify-self: end;
+  background: #3d5a32;
+  color: #fff;
+}
+
+.planner-result-page .garden-chat-message.assistant {
+  justify-self: start;
+  background: #eef5e8;
+  color: #243328;
+}
+
+.planner-result-page .garden-chat-source {
+  display: block;
+  margin-bottom: 0.2rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #5c6b55;
+}
+
+.planner-result-page .garden-chat-source.notice {
+  color: #705824;
+}
+
+.planner-result-page .garden-chat-suggestions,
+.planner-result-page .garden-chat-examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.planner-result-page .garden-chat-suggestions button,
+.planner-result-page .garden-chat-examples button {
+  border: 1px solid #cfdcc4;
+  border-radius: 999px;
+  background: #fff;
+  color: #3d5a32;
+  padding: 0.25rem 0.7rem;
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.planner-result-page .garden-chat-suggestions button:disabled {
+  cursor: default;
+  opacity: 0.65;
+}
+
+.planner-result-page .garden-chat-empty {
+  display: flex;
+  gap: 0.6rem;
+  color: #4b5a45;
+  font-size: 0.9rem;
+}
+
+.planner-result-page .garden-chat-empty p {
+  margin: 0;
+}
+
+.planner-result-page .garden-chat-pending {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #5c6b55;
+}
+
+.planner-result-page .garden-chat-form {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.planner-result-page .garden-chat-form input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid #cfdcc4;
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+  font: inherit;
+}
+
+.planner-result-page .garden-chat-count {
+  font-size: 0.75rem;
+  color: #5c6b55;
+}
