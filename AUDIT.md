@@ -23,3 +23,18 @@ Source document: `docs/V2-PHASE1.md`. Scope: steps 1–9.
 17. S8: "a frost warning when the forecast includes a frost day"
 18. S9: "Unit tests cover frost-date computation, spacing clamping, and the fallback when a data source fails"
 19. S9: "`bun run test`, `bun run lint`, and `bun run build` pass"
+
+## Round 1
+
+Auditor: fresh subagent. Result: **19/19 MET**. `bun run test` 17 pass / 0 fail; `bun run lint` clean; `bun run build` succeeded. Network blocked in sandbox; API integration judged from code.
+
+### Findings
+None.
+
+### Out-of-scope (not traceable to the spec; not acted on)
+- Climate cache has a 6-hour TTL (`lib/climate.js:2`).
+- If the zone lookup fails, frost and forecast lookups are skipped (they need its coordinates).
+- Container instructions still ask the model to infer a container type from the ZIP's climate (`lib/garden-plan.js:773`).
+
+## Result
+Stopped after round 1: zero PARTIAL/MISSING. Scope-creep breaker did not fire.
