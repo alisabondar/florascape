@@ -3,6 +3,7 @@
 import { Home, Info, Plus, Sparkles, Sprout, Trash2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
+import AreaPreview, { previewAreas } from "../components/AreaPreview";
 import {
   CheckboxControl,
   SelectControl,
@@ -606,6 +607,10 @@ function PlannerForm() {
                       Add another {areaCopy.singular}
                     </button>
                   </fieldset>
+                ) : null}
+
+                {formValues.gardenType ? (
+                  <AreaPreview areas={previewAreas(formValues, areaCopy.drawingLabel)} />
                 ) : null}
 
                 <fieldset className="plant-fieldset">
