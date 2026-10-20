@@ -48,7 +48,7 @@ export async function POST(request) {
   // Climate data is optional context; a failed lookup never blocks plan generation.
   const climate = await getClimateContext(plannerInput.zipCode).catch(() => null);
   const modelPrompt = buildGardenPlanGenerationPrompt(plannerInput, currentDate, climate);
-  const fallbackPlan = createFallbackGardenPlan(plannerInput);
+  const fallbackPlan = createFallbackGardenPlan(plannerInput, { climate });
 
   try {
     const modelsToTry =
@@ -114,7 +114,7 @@ export async function POST(request) {
 
         const firstCandidate = data?.candidates?.[0];
         const text = extractTextFromCandidate(firstCandidate);
-        const plan = parseGardenPlanFromLlmText(text, plannerInput);
+        const plan = parseGardenPlanFromLlmText(text, plannerInput, { climate });
 
         if (text && plan) {
           return NextResponse.json({ plan, modelUsed: model, climate });
