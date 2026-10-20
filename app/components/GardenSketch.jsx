@@ -3,6 +3,7 @@
 import rough from "roughjs";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { layoutToSvgModel } from "../../lib/garden-layout";
+import { MAX_PLANT_QUANTITY } from "../../lib/planner-config";
 import { SelectControl } from "./FormControls";
 
 const SVG_NS = "http://www.w3.org/2000/svg";
@@ -257,7 +258,7 @@ export default function GardenSketch({
     if (!plant) {
       return;
     }
-    const quantity = Math.min(80, (Number(plant.quantity) || 1) + amount);
+    const quantity = Math.min(MAX_PLANT_QUANTITY, (Number(plant.quantity) || 1) + amount);
     if (quantity <= 0) {
       next.plants = next.plants.filter((item) => item.id !== plantId);
     } else {
@@ -277,9 +278,9 @@ export default function GardenSketch({
     const existing = next.plants.find(
       (plant) => plant.name === newPlantName && plant.bedId === newPlantBedId,
     );
-    const quantity = Math.max(1, Math.min(80, Math.floor(Number(newPlantQuantity) || 1)));
+    const quantity = Math.max(1, Math.min(MAX_PLANT_QUANTITY, Math.floor(Number(newPlantQuantity) || 1)));
     if (existing) {
-      existing.quantity = Math.min(80, (Number(existing.quantity) || 1) + quantity);
+      existing.quantity = Math.min(MAX_PLANT_QUANTITY, (Number(existing.quantity) || 1) + quantity);
     } else {
       next.plants.push({
         ...deepCloneLayout(template),
@@ -415,7 +416,7 @@ export default function GardenSketch({
               <output>{newPlantQuantity}</output>
               <button
                 type="button"
-                onClick={() => setNewPlantQuantity((value) => Math.min(80, value + 1))}
+                onClick={() => setNewPlantQuantity((value) => Math.min(MAX_PLANT_QUANTITY, value + 1))}
                 aria-label="Increase starting quantity"
               >
                 +
