@@ -1,49 +1,21 @@
-# Spec Audit — docs/V2-PHASE2.md
+# Spec Audit — docs/V2-PHASE4.md
 
-Source document: `docs/V2-PHASE2.md`. Scope: steps 1–12.
+Source document: `docs/V2-PHASE4.md`. Scope: steps 1–6.
 
 ## Checklist
 
-1. S1: "computes each plant zone's capacity from its allocated size and spacing (plants per row × rows at the plant's spacing)"
-2. S1: "raises each group's quantity to that capacity"
-3. S1: "Quantities are never lowered below what the model returned unless they exceed capacity."
-4. S2: "Every growing area of at least 8 sq ft receives at least 3 plant groups, and smaller areas at least 1."
-5. S2: "The prompt asks for this"
-6. S2: "the server tops up any area that falls short using suitable plants from the plant-facts file"
-7. S3: "For every growing area, the plan includes a list of at least 5 alternative plants suited to that area's sunlight, the selected plant categories, the gardener's preferences, and the current season."
-8. S3: "Alternatives come from the model when it supplies them"
-9. S3: "completed from the plant-facts file (filtered by category, sun fit, and frost tolerance vs. the current frost forecast) when it does not"
-10. S4: "Each plant group in the result editor has a dropdown listing that area's alternatives."
-11. S4: "Choosing one replaces the group's plant, applies the new plant's spacing, recomputes capacity, and updates the planting guide."
-12. S5: "A Shuffle button replaces the plants in every area with a different random selection from that area's alternatives without calling the AI"
-13. S5: "keeping each area full"
-14. S5: "The planting guide updates to match."
-15. S6: "get a planting-guide entry built from the plant-facts file (spacing, days to maturity, and planting timing from frost tolerance and the climate frost dates when available)"
-16. S7: "Each plant-facts entry has a category matching the planner's plant categories (vegetables, herbs, flowers, medicinal), plus an easy-care flag."
-17. S8: "`lib/garden-plan.js` is split into separate modules for the response schema, prompt building, response normalization, and the fallback plan"
-18. S8: "re-exported from `lib/garden-plan.js` so existing imports keep working"
-19. S9: "AI calls go through `lib/ai/`, with one module per provider: Gemini, plus an OpenAI-compatible provider usable with Groq or OpenRouter via environment variables"
-20. S9: "Providers are tried in order, and a 429, 5xx, or invalid response moves to the next provider before falling back to the starter plan"
-21. S9: "`.env.example` documents the new variables"
-22. S10: "A missing AI key returns the starter plan instead of a 500."
-23. S10: "A 400/403 from a provider moves to the next provider or the starter plan instead of surfacing an error."
-24. S10: "`plantTypes` are whitelisted on the server."
-25. S10: "Free-form preferences are capped at 500 characters."
-26. S11: "Successful AI plans are cached in memory, keyed by a hash of the normalized planner input, for 1 hour."
-27. S11: "A cached response is returned without calling a provider."
-28. S12: "Unit tests cover capacity fill, group top-up, alternatives, swap, shuffle, provider fallback order, and the plan cache."
-29. S12: "`bun run test`, `bun run lint`, and `bun run build` pass"
-
-## Round 1
-
-Auditor: fresh subagent. Result: **29/29 MET**. `bun run test` 34 pass / 0 fail; `bun run lint` clean; `bun run build` succeeded. Sandbox network blocked for the auditor; provider calls judged from code and tests. A manual browser run against the dev server exercised a live Gemini plan, live climate data, the per-group dropdown, and Shuffle.
-
-### Findings
-None.
-
-### Out-of-scope (not traceable to the spec; not acted on)
-- A custom `GEMINI_MODEL` adds the default Gemini model as an extra fallback provider.
-- The planner's "basic" plant type maps to plant-facts `easyCare` entries.
-
-## Result
-Stopped after round 1: zero PARTIAL/MISSING. Scope-creep breaker did not fire.
+1. S1: "groups its entries under "Plant now", "Plant next month", and "Plant later" headings, in that order"
+2. S1: "each showing how many plants are in the group"
+3. S1: "Empty groups are not shown."
+4. S2: ""AI plan" with the provider name"
+5. S2: ""Starter plan" when the fallback was used"
+6. S2: ""Saved result" when the response came from the plan cache"
+7. S3: "a "Show 1 ft grid" toggle that draws 1-foot grid lines inside every growing area"
+8. S3: "The grid is off by default and is not printed."
+9. S4: "A "View as table" toggle shows the layout as an HTML table with columns for growing area, plant, quantity, spacing (inches), and allocated size (feet)"
+10. S4: "The table updates when plants are edited, swapped, or shuffled."
+11. S5: "shows a scaled preview of the entered growing areas (in-ground plot, or each raised bed/container)"
+12. S5: "updates as dimensions change"
+13. S5: "labeled with each area's dimensions in feet"
+14. S6: "Unit tests cover guide grouping and the table rows."
+15. S6: "`bun run test`, `bun run lint`, and `bun run build` pass"
