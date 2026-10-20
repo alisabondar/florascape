@@ -6,6 +6,7 @@ import {
   normalizePlannerInput,
   parseGardenPlanFromLlmText,
 } from "../../../lib/garden-plan";
+import { getClimateContext } from "../../../lib/climate";
 
 const DEFAULT_MODEL = "gemini-3.6-flash";
 
@@ -44,7 +45,9 @@ export async function POST(request) {
   }
 
   const currentDate = new Date().toISOString().slice(0, 10);
-  const modelPrompt = buildGardenPlanGenerationPrompt(plannerInput, currentDate);
+  // Climate data is optional context; a failed lookup never blocks plan generation.
+  const climate = await getClimateContext(plannerInput.zipCode).catch(() => null);
+  const modelPrompt = buildGardenPlanGenerationPrompt(plannerInput, currentDate, climate);
   const fallbackPlan = createFallbackGardenPlan(plannerInput);
 
   try {
@@ -114,7 +117,7 @@ export async function POST(request) {
         const plan = parseGardenPlanFromLlmText(text, plannerInput);
 
         if (text && plan) {
-          return NextResponse.json({ plan, modelUsed: model });
+          return NextResponse.json({ plan, modelUsed: model, climate });
         }
 
         console.warn("Garden plan response rejected", {
@@ -130,6 +133,7 @@ export async function POST(request) {
       {
         plan: fallbackPlan,
         modelUsed: "fallback-example",
+        climate,
         warning: lastErrorMessage,
       },
       { status: 200 },
@@ -139,6 +143,7 @@ export async function POST(request) {
       {
         plan: fallbackPlan,
         modelUsed: "fallback-example",
+        climate,
         warning: "Unable to reach Gemini API. Showing a starter plan based on your dimensions.",
       },
       { status: 200 },
