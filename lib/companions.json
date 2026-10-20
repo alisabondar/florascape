@@ -1,0 +1,28 @@
+{
+  "version": "1.0",
+  "note": "Curated, conservative pairings. Reasons favor practical effects (shade, roots, spread, pests) over folklore.",
+  "pairs": [
+    { "a": "Tomato", "b": "Basil", "type": "helpful", "reason": "Similar sun and water needs; basil fills the space under taller tomatoes." },
+    { "a": "Tomato", "b": "Marigold", "type": "helpful", "reason": "Marigolds are often planted with tomatoes to draw pollinators and beneficial insects." },
+    { "a": "Cucumber", "b": "Nasturtium", "type": "helpful", "reason": "Nasturtiums are commonly used as a trap crop for aphids near cucumbers." },
+    { "a": "Leaf Lettuce", "b": "Radish", "type": "helpful", "reason": "Fast radishes are harvested before the lettuce needs the room." },
+    { "a": "Carrot", "b": "Onion", "type": "helpful", "reason": "Different root depths share space well; onion scent may help mask carrots from carrot fly." },
+    { "a": "Leaf Lettuce", "b": "Chives", "type": "helpful", "reason": "Compact chives fit between lettuce without competing for light." },
+    { "a": "Pole Bean", "b": "Sunflower", "type": "helpful", "reason": "Sturdy sunflower stalks can support climbing beans." },
+    { "a": "Zucchini", "b": "Nasturtium", "type": "helpful", "reason": "Nasturtiums are often planted near squash to attract beneficial insects." },
+    { "a": "Strawberry", "b": "Thyme", "type": "helpful", "reason": "Low thyme suits the same well-drained beds as strawberries." },
+    { "a": "Zinnia", "b": "Bush Bean", "type": "helpful", "reason": "Zinnias attract pollinators and predatory insects to nearby crops." },
+    { "a": "Bush Bean", "b": "Onion", "type": "conflict", "reason": "Gardeners commonly report weaker bean growth next to onions and other alliums." },
+    { "a": "Bush Bean", "b": "Garlic", "type": "conflict", "reason": "Gardeners commonly report weaker bean growth next to garlic and other alliums." },
+    { "a": "Pea", "b": "Onion", "type": "conflict", "reason": "Peas are often reported to grow poorly beside onions; keep them apart if you can." },
+    { "a": "Pea", "b": "Garlic", "type": "conflict", "reason": "Peas are often reported to grow poorly beside garlic; keep them apart if you can." },
+    { "a": "Pole Bean", "b": "Onion", "type": "conflict", "reason": "Gardeners commonly report weaker bean growth next to onions and other alliums." },
+    { "a": "Tomato", "b": "Broccoli", "type": "conflict", "reason": "Both are heavy feeders and compete for nutrients and space." },
+    { "a": "Tomato", "b": "Kale", "type": "conflict", "reason": "Both are heavy feeders, and tall tomatoes can shade kale." },
+    { "a": "Sunflower", "b": "Leaf Lettuce", "type": "conflict", "reason": "Tall sunflowers can shade low lettuce; place lettuce on the sunny side." },
+    { "a": "Zucchini", "b": "Cucumber", "type": "conflict", "reason": "Both sprawl widely and share pests such as cucumber beetles." },
+    { "a": "Mint", "b": "*", "type": "conflict", "reason": "Mint spreads aggressively by runners; consider growing it in its own container." },
+    { "a": "Dill", "b": "Carrot", "type": "conflict", "reason": "Related plants that can cross-pollinate and share pests." },
+    { "a": "Rosemary", "b": "Cucumber", "type": "conflict", "reason": "Rosemary prefers dry soil while cucumbers need steady moisture." }
+  ]
+}
