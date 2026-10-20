@@ -33,3 +33,17 @@ Source document: `docs/V2-PHASE2.md`. Scope: steps 1–12.
 27. S11: "A cached response is returned without calling a provider."
 28. S12: "Unit tests cover capacity fill, group top-up, alternatives, swap, shuffle, provider fallback order, and the plan cache."
 29. S12: "`bun run test`, `bun run lint`, and `bun run build` pass"
+
+## Round 1
+
+Auditor: fresh subagent. Result: **29/29 MET**. `bun run test` 34 pass / 0 fail; `bun run lint` clean; `bun run build` succeeded. Sandbox network blocked for the auditor; provider calls judged from code and tests. A manual browser run against the dev server exercised a live Gemini plan, live climate data, the per-group dropdown, and Shuffle.
+
+### Findings
+None.
+
+### Out-of-scope (not traceable to the spec; not acted on)
+- A custom `GEMINI_MODEL` adds the default Gemini model as an extra fallback provider.
+- The planner's "basic" plant type maps to plant-facts `easyCare` entries.
+
+## Result
+Stopped after round 1: zero PARTIAL/MISSING. Scope-creep breaker did not fire.
