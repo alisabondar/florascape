@@ -20,3 +20,16 @@ Source document: `docs/V2-PHASE8.md`. Scope: steps 1–5.
 14. S4: "Printing always shows the sketch unzoomed."
 15. S5: "Unit tests cover per-step validation, the zone swap, and the zoom and pan math."
 16. S5: "`bun run test`, `bun run lint`, and `bun run build` pass"
+
+## Round 1
+
+Auditor: fresh subagent. Result: **16/16 MET**. `bun run test` 73 pass / 0 fail; `bun run lint` clean; `bun run build` succeeded. Manual browser run: per-step errors and locked steps, compass arrow-key selection with one tab stop, revisiting step 1 kept values, drag swap reordered zones on screen (after fixing a same-column ordering tie), a still press triggered the guide scroll, button and Ctrl+scroll zoom capped at 300%, panning clamped, and Reset.
+
+### Findings
+None.
+
+### Out-of-scope (not traceable to the spec; not acted on)
+None.
+
+## Result
+Stopped after round 1: zero PARTIAL/MISSING. Scope-creep breaker did not fire.
