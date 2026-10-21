@@ -47,7 +47,8 @@ Providers are tried in order: Gemini, Groq, then OpenRouter. With none configure
 
 ## Planner behavior
 
-- In-ground gardens collect total dimensions, the sunniest side, and an optional section count.
+- The planner has three steps (Location & type, Your space, What to grow) with a progress indicator; Next checks only the current step, and finished steps can be revisited.
+- In-ground gardens collect total dimensions, the sunniest side (picked on a compass around the plot), and an optional section count.
 - Raised beds and containers use repeatable dimension and sunlight cards.
 - “Any” lets the AI recommend in-ground planting, raised beds, or containers from the available areas and preferences.
 - Free-form preferences are treated as user intent, including named plants and requests for troubleshooting help.
@@ -59,6 +60,7 @@ Providers are tried in order: Gemini, Groq, then OpenRouter. With none configure
 - The results page shows the hardiness zone, frost dates, growing-season length, and a frost warning when frost is forecast.
 - Every zone is filled to the number of plants its size and spacing allow; areas of 8 sq ft or more get at least three plant groups.
 - Toggle **Show 1 ft grid** for square-foot lines in every area, or **View as table** for an accessible table of each group's area, quantity, spacing, and allocated size.
+- Drag one plant zone onto another to swap them, within a bed or across beds; both areas refill to capacity. Zoom with the +/− buttons, a pinch, or Ctrl/⌘ + scroll (1×–3×), and drag an empty part of the sketch to pan.
 - Hover or focus a plant zone to see its quantity, spacing, allocated size, and placement reason.
 - Select a zone to jump to its planting-guide entry.
 - Use a group's plant dropdown to swap in one of that area's alternatives (suited to its sun, your categories, preferences, and the season). The new plant takes over the same zone at its own spacing.
