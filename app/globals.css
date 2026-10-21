@@ -2334,3 +2334,81 @@ a {
   margin-top: 0;
   width: auto;
 }
+
+.sun-side-field {
+  grid-column: 1 / -1;
+}
+
+.sun-compass {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1fr;
+  grid-template-rows: auto 90px auto auto;
+  grid-template-areas:
+    ". north ."
+    "west plot east"
+    ". south ."
+    "shaded shaded shaded";
+  gap: 0.4rem;
+  max-width: 340px;
+  margin-top: 0.4rem;
+}
+
+.sun-compass-option {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  border: 1px solid #cfdcc4;
+  border-radius: 8px;
+  background: #fff;
+  color: #3d5a32;
+  padding: 0.4rem 0.6rem;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.sun-compass-option[aria-checked="true"] {
+  background: #f3c75a;
+  border-color: #b48a2c;
+  color: #3b2f12;
+  font-weight: 600;
+}
+
+.sun-compass-option:focus-visible {
+  outline: 3px solid #3d5a32;
+  outline-offset: 2px;
+}
+
+.sun-compass-option.north { grid-area: north; }
+.sun-compass-option.south { grid-area: south; }
+.sun-compass-option.east { grid-area: east; align-self: center; }
+.sun-compass-option.west { grid-area: west; align-self: center; }
+.sun-compass-option.shaded { grid-area: shaded; justify-self: center; }
+
+.sun-compass-plot {
+  grid-area: plot;
+  display: grid;
+  place-items: center;
+  border: 2px solid #37342e;
+  border-radius: 4px;
+  background: #faf8f0;
+  font-size: 0.8rem;
+  color: #5c6b55;
+}
+
+.sun-compass-plot.lit-north { box-shadow: inset 0 10px 0 #f3c75a; }
+.sun-compass-plot.lit-south { box-shadow: inset 0 -10px 0 #f3c75a; }
+.sun-compass-plot.lit-east { box-shadow: inset -10px 0 0 #f3c75a; }
+.sun-compass-plot.lit-west { box-shadow: inset 10px 0 0 #f3c75a; }
+.sun-compass-plot.shaded { background: #dfe6ea; }
+
+.sun-compass-hint {
+  margin: 0.4rem 0 0;
+  font-size: 0.78rem;
+  color: #5c6b55;
+}
+
+.sun-compass[aria-invalid="true"] .sun-compass-plot {
+  border-color: #b3452f;
+}
