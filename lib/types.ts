@@ -111,7 +111,8 @@ export interface TipItem {
 }
 
 export interface ContainerSetup {
-  applicable: boolean;
+  /** Present on raw model output; normalized plans omit it (null means not applicable). */
+  applicable?: boolean;
   popularContainer: string;
   popularityReason: string;
   setupSteps: string[];
@@ -125,7 +126,7 @@ export interface PlanTips {
   avoid: TipItem[];
   watering: TipItem[];
   commonMistakes: TipItem[];
-  containerSetup: ContainerSetup;
+  containerSetup: ContainerSetup | null;
 }
 
 export interface Alternative {
@@ -218,3 +219,129 @@ export interface SavedSeason {
 
 export type GardenPlanAiResponse = z.infer<typeof gardenPlanResponse>;
 export type ChatAiResponse = z.infer<typeof chatResponse>;
+
+// ---------- Plant facts and companions (lib/plant-facts.json, lib/companions.json) ----------
+
+export type PlantCategory = "flowers" | "vegetables" | "herbs" | "medicinal";
+export type FrostTolerance = "tender" | "semi_hardy" | "hardy";
+
+export interface PlantFact {
+  name: string;
+  aliases: string[];
+  category: PlantCategory;
+  easyCare: boolean;
+  sowing: "transplant" | "direct";
+  family: string;
+  rotationGroup: RotationGroup;
+  spacingInches: { min: number; max: number };
+  daysToMaturity: number;
+  sunNeeds: PlantSunNeeds;
+  frostTolerance: FrostTolerance;
+}
+
+export interface CompanionPair {
+  a: string;
+  b: string;
+  type: "helpful" | "conflict";
+  reason: string;
+}
+
+// ---------- Stored planner result (sessionStorage) ----------
+
+export interface StoredPlannerResult {
+  plannerInput?: PlannerInput;
+  plan?: GardenPlan | null;
+  modelUsed?: string;
+  apiWarning?: string;
+  climate?: ClimateContext | null;
+  cached?: boolean;
+  chat?: ChatMessage[];
+  /** Set by every writer (planner submit, starter plan), so always present once stored. */
+  generatedAt: string;
+  aiGeneratedAt?: string;
+  selectedPlants?: string[];
+}
+
+// ---------- Sketch zoom ----------
+
+/** Pan/zoom state for the sketch viewport. */
+export interface ZoomView {
+  scale: number;
+  x: number;
+  y: number;
+}
+
+// ---------- AI providers ----------
+
+export interface AiGenerateRequest {
+  prompt: string;
+  /** JSON schema for structured output, as produced by toProviderSchema. */
+  schema: unknown;
+  temperature: number;
+  fetchImpl?: typeof fetch;
+}
+
+export interface AiGenerateResult {
+  ok: boolean;
+  status: number;
+  text: string;
+  finishReason: string;
+}
+
+export interface AiProvider {
+  name: string;
+  generate(request: AiGenerateRequest): Promise<AiGenerateResult>;
+}
+
+export interface AiAttempt {
+  provider: string;
+  attempt: number;
+  outcome: string;
+  detail?: string;
+}
+
+/** Body returned by /api/generate-garden-plan (and stored in the plan cache). */
+export interface PlanResponseBody {
+  plan: GardenPlan;
+  modelUsed: string;
+  climate: ClimateContext | null;
+  warning?: string;
+  cached?: boolean;
+}
+
+// ---------- Planner form ----------
+
+/** Raw planner form values; numeric fields stay strings until submit. */
+export interface PlannerFormUnit {
+  id: string;
+  width: string;
+  length: string;
+  sunExposure: string;
+}
+
+export interface PlannerFormValues {
+  zipCode: string;
+  gardenType: string;
+  preferences: string;
+  plantTypes: string[];
+  inGround: {
+    width: string;
+    length: string;
+    sunniestSide: string;
+    plotStyle: string;
+    sectionCount: string;
+  };
+  units: PlannerFormUnit[];
+}
+
+/** Planner form errors keyed by field path ("zipCode", "inGround.width", "unit.<id>.width"). */
+export type PlannerFormErrors = Record<string, string>;
+
+// ---------- Plan progress stream ----------
+
+/** NDJSON events sent while a plan is generated (lib/plan/generate-plan). */
+export type PlanStreamEvent =
+  | { type: "climate"; climate: ClimateContext | null }
+  | { type: "generating"; provider: string }
+  | { type: "result"; body: PlanResponseBody }
+  | { type: "error"; error: string };
