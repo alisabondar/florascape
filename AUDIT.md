@@ -15,3 +15,17 @@ Source document: `docs/V2-PHASE9.md`. Scope: steps 1–5.
 9. S4: "completing the three planner steps to a starter plan; Shuffle Plants changing the plants; a plan-based chat answer; and the calendar download producing a `.ics` file"
 10. S5: "Unit tests cover schema generation, request validation, and the stream event order."
 11. S5: "`bun run test`, `bun run lint`, `bun run build`, and `bun run test:e2e` pass"
+
+## Round 1
+
+Auditor: fresh subagent. Result: **10 MET, 1 PARTIAL**. `bun run test` 83 pass / 0 fail; `bun run build` succeeded; `bun run test:e2e` 4 passed in the user's terminal, both with `E2E_BASE_URL` and with Playwright starting `bun run dev:e2e` itself (the sandbox blocks port binding and Chromium).
+
+### Findings
+- Item 11 (PARTIAL): `bun run lint` crashes — `Failed to load plugin '@typescript-eslint' ... reading 'Cjs'`. Cause: the installed `typescript@7.0.2` has no JavaScript API, which `@typescript-eslint` (loaded by `eslint-config-next`) requires. Needs a dependency change (TypeScript 5.x), not application code. Reproduced in the user's terminal too.
+
+### Out-of-scope (not traceable to the spec; not acted on)
+- Non-Zod 400s ("Invalid request body.", "Valid planner input is required.") don't name fields.
+- The stream also has an `error` event, and cached plans report provider "cache".
+
+## Result
+Blocked on item 11 pending a TypeScript 5.x install; everything buildable in code is MET. Scope-creep breaker did not fire.
