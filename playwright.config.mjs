@@ -8,7 +8,7 @@ const externalServer = process.env.E2E_BASE_URL;
 // so every plan is the deterministic starter plan.
 export default defineConfig({
   testDir: "./e2e",
-  testMatch: "**/*.e2e.js",
+  testMatch: "**/*.e2e.ts",
   timeout: 60_000,
   fullyParallel: false,
   use: {
