@@ -20,6 +20,7 @@ import {
   swapZones,
 } from "../../../lib/garden-plan";
 import { getPlantSectionSizes } from "../../../lib/garden-layout";
+import { LOADING_STAGES, providerLabel, readPlanStream } from "../../../lib/plan/read-plan-stream";
 import {
   getAreaCopy,
   getGardenMethodLabel,
@@ -46,7 +47,13 @@ function inputSummary(input) {
   return `${input.zipCode} · ${input.units.length} ${quantityLabel} · ${sizes} ft`;
 }
 
-function GardenLoadingPage({ input }) {
+function GardenLoadingPage({ input, progress }) {
+  const stageIndex = Math.max(0, LOADING_STAGES.indexOf(progress?.type));
+  const stages = [
+    "Checking your local climate",
+    progress?.type === "generating" ? providerLabel(progress.provider) : "Choosing plants",
+    "Preparing your guide",
+  ];
   const editHref = input
     ? `/planner?edit=1&type=${encodeURIComponent(input.gardenType)}#planner`
     : "/planner?edit=1#planner";
@@ -71,13 +78,17 @@ function GardenLoadingPage({ input }) {
             We are matching plants to your dimensions, sunlight, location, and preferences.
           </p>
           {input ? <div className="loading-input-summary">{inputSummary(input)}</div> : null}
-          <div className="loading-steps" aria-label="Plan generation in progress">
-            <span>Choosing plants</span>
-            <i />
-            <span>Arranging growing zones</span>
-            <i />
-            <span>Preparing your guide</span>
-          </div>
+          <ol className="loading-steps" aria-label="Plan generation in progress">
+            {stages.map((label, index) => (
+              <li
+                key={index}
+                className={index < stageIndex ? "done" : index === stageIndex ? "active" : ""}
+                aria-current={index === stageIndex ? "step" : undefined}
+              >
+                {label}
+              </li>
+            ))}
+          </ol>
         </div>
       </main>
     </div>
@@ -379,6 +390,7 @@ function PlanSourceBadge({ result }) {
 export default function PlannerResultPage() {
   const [result, setResult] = useState(null);
   const [status, setStatus] = useState("idle");
+  const [progress, setProgress] = useState(null);
   const [apiError, setApiError] = useState("");
   const [hydrated, setHydrated] = useState(false);
 
@@ -399,10 +411,13 @@ export default function PlannerResultPage() {
       try {
         const response = await fetch("/api/generate-garden-plan", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", Accept: "application/x-ndjson" },
           body: JSON.stringify({ plannerInput: result.plannerInput }),
         });
-        const data = await response.json();
+        // Validation errors still come back as plain JSON; success streams progress events.
+        const data = response.headers.get("content-type")?.includes("application/x-ndjson")
+          ? await readPlanStream(response, (event) => setProgress(event))
+          : await response.json();
 
         if (!response.ok || !data.plan) {
           throw new Error(data.error || "Failed to generate a garden plan.");
@@ -533,7 +548,7 @@ export default function PlannerResultPage() {
     );
 
   if (isGenerating) {
-    return <GardenLoadingPage input={result?.plannerInput} />;
+    return <GardenLoadingPage input={result?.plannerInput} progress={progress} />;
   }
 
   return (
