@@ -17,6 +17,7 @@ import {
   layoutTableRows,
   shufflePlan,
   swapPlant,
+  swapZones,
 } from "../../../lib/garden-plan";
 import { getPlantSectionSizes } from "../../../lib/garden-layout";
 import {
@@ -496,6 +497,10 @@ export default function PlannerResultPage() {
     updatePlan((current, options) => swapPlant(current, plantId, plantName, options));
   }
 
+  function handleSwapZones(firstId, secondId) {
+    updatePlan((current, options) => swapZones(current, firstId, secondId, options));
+  }
+
   function handleShuffle() {
     updatePlan((current, options) => shufflePlan(current, options));
   }
@@ -622,6 +627,7 @@ export default function PlannerResultPage() {
                         onPlantSectionClick={scrollToGuide}
                         alternatives={plan.alternatives}
                         onSwapPlant={handleSwapPlant}
+                        onSwapZones={handleSwapZones}
                       />
                     </section>
                     <PlantingGuide guide={plan.plantingGuide} layout={plan.layout} />

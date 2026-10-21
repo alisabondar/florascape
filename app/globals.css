@@ -2412,3 +2412,59 @@ a {
 .sun-compass[aria-invalid="true"] .sun-compass-plot {
   border-color: #b3452f;
 }
+
+.sketch-zoom-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: auto;
+}
+
+.sketch-zoom-controls output {
+  min-width: 3rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #3d5a32;
+}
+
+.sketch-toggle:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.sketch-drag-hint {
+  margin: -0.25rem 0 0.5rem;
+  font-size: 0.78rem;
+  color: #5c6b55;
+}
+
+.planner-page .garden-sketch-zoom-layer {
+  transition: transform 60ms linear;
+  will-change: transform;
+}
+
+.planner-page .garden-sketch-stage .patch-hit {
+  cursor: grab;
+}
+
+.planner-page .garden-sketch-stage.zoomed {
+  cursor: move;
+}
+
+.planner-page .garden-sketch-stage.dragging,
+.planner-page .garden-sketch-stage.dragging .patch-hit {
+  cursor: grabbing;
+}
+
+.planner-page .patch-hit.drag-source {
+  fill: rgba(61, 90, 50, 0.18);
+  stroke: #3d5a32;
+  stroke-width: 2;
+  stroke-dasharray: 5 4;
+}
+
+.planner-page .patch-hit.drop-target {
+  fill: rgba(243, 199, 90, 0.35);
+  stroke: #b48a2c;
+  stroke-width: 3;
+}
