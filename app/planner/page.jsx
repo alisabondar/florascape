@@ -4,6 +4,7 @@ import { Home, Info, Plus, Sparkles, Sprout, Trash2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import AreaPreview, { previewAreas } from "../components/AreaPreview";
+import SunSidePicker from "../components/SunSidePicker";
 import {
   firstInvalidStep,
   PLANNER_STEPS,
@@ -59,14 +60,6 @@ const PLANT_OPTIONS = [
     label: "Easy-Care Plants",
     examples: "Example: hardy greens and beginner-friendly starters",
   },
-];
-
-const SUNNIEST_SIDE_OPTIONS = [
-  { value: "north", label: "North side" },
-  { value: "east", label: "East side" },
-  { value: "south", label: "South side" },
-  { value: "west", label: "West side" },
-  { value: "fully_shaded", label: "The whole plot is shaded" },
 ];
 
 const PLOT_STYLE_OPTIONS = [
@@ -493,14 +486,13 @@ function PlannerForm() {
                               <span className="error">{errors["inGround.length"]}</span>
                             ) : null}
                           </label>
-                          <div className="field">
-                            <label htmlFor="sunniest-side">Which side gets the most sun? *</label>
-                            <SelectControl
+                          <div className="field sun-side-field">
+                            <span id="sunniest-side-label">Which side gets the most sun? *</span>
+                            <SunSidePicker
                               id="sunniest-side"
+                              labelledBy="sunniest-side-label"
                               value={formValues.inGround.sunniestSide}
-                              onValueChange={(value) => updateInGround("sunniestSide", value)}
-                              options={SUNNIEST_SIDE_OPTIONS}
-                              placeholder="Choose a direction"
+                              onChange={(value) => updateInGround("sunniestSide", value)}
                               ariaInvalid={Boolean(errors["inGround.sunniestSide"])}
                             />
                             {errors["inGround.sunniestSide"] ? (
