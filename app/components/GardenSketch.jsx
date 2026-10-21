@@ -4,6 +4,7 @@ import rough from "roughjs";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { layoutToSvgModel } from "../../lib/garden-layout";
 import { layoutTableRows } from "../../lib/plan/view";
+import { IDENTITY_VIEW, MAX_ZOOM, MIN_ZOOM, panBy, ZOOM_STEP, zoomAt } from "../../lib/sketch-zoom";
 import { MAX_PLANT_QUANTITY } from "../../lib/planner-config";
 import { SelectControl } from "./FormControls";
 
@@ -117,6 +118,7 @@ export default function GardenSketch({
   onPlantSectionClick,
   alternatives = null,
   onSwapPlant,
+  onSwapZones,
 }) {
   const [localLayout, setLocalLayout] = useState(() => deepCloneLayout(layout));
   const [tooltip, setTooltip] = useState(null);
@@ -128,6 +130,12 @@ export default function GardenSketch({
   const [newPlantQuantity, setNewPlantQuantity] = useState(1);
   const [showGrid, setShowGrid] = useState(false);
   const [showTable, setShowTable] = useState(false);
+  const [view, setView] = useState(IDENTITY_VIEW);
+  const [drag, setDrag] = useState(null);
+  const zoomLayerRef = useRef(null);
+  const viewRef = useRef(view);
+  const pointersRef = useRef(new Map());
+  const gestureRef = useRef(null);
 
   const baseSvgRef = useRef(null);
   const stageRef = useRef(null);
@@ -350,6 +358,137 @@ export default function GardenSketch({
     });
   }
 
+  function layerSize() {
+    const layer = zoomLayerRef.current;
+    return { width: layer?.offsetWidth || 1, height: layer?.offsetHeight || 1 };
+  }
+
+  function applyView(next) {
+    viewRef.current = next;
+    setView(next);
+  }
+
+  function zoomBy(factor, focal) {
+    const { width, height } = layerSize();
+    const point = focal || { x: width / 2, y: height / 2 };
+    applyView(zoomAt(viewRef.current, viewRef.current.scale * factor, point, width, height));
+  }
+
+  function stagePoint(event) {
+    const rect = stageRef.current.getBoundingClientRect();
+    return { x: event.clientX - rect.left, y: event.clientY - rect.top };
+  }
+
+  function plantIdAt(clientX, clientY) {
+    return document.elementFromPoint(clientX, clientY)?.closest?.("[data-plant-id]")?.dataset.plantId || null;
+  }
+
+  // One handler set covers zone drag-to-swap, panning, and two-finger pinch zoom.
+  function handleStagePointerDown(event) {
+    if (event.button !== 0 && event.pointerType === "mouse") {
+      return;
+    }
+    pointersRef.current.set(event.pointerId, stagePoint(event));
+    const points = [...pointersRef.current.values()];
+
+    if (points.length === 2) {
+      const [a, b] = points;
+      gestureRef.current = {
+        type: "pinch",
+        distance: Math.hypot(a.x - b.x, a.y - b.y) || 1,
+        view: viewRef.current,
+      };
+      setDrag(null);
+      return;
+    }
+
+    const plantId = event.target.closest?.("[data-plant-id]")?.dataset.plantId;
+    if (plantId) {
+      gestureRef.current = { type: "zone", plantId, start: stagePoint(event), moved: false };
+    } else if (viewRef.current.scale > MIN_ZOOM) {
+      gestureRef.current = { type: "pan", last: stagePoint(event) };
+    } else {
+      gestureRef.current = null;
+      return;
+    }
+    stageRef.current.setPointerCapture?.(event.pointerId);
+  }
+
+  function handleStagePointerMove(event) {
+    if (!pointersRef.current.has(event.pointerId)) {
+      return;
+    }
+    const point = stagePoint(event);
+    pointersRef.current.set(event.pointerId, point);
+    const gesture = gestureRef.current;
+    if (!gesture) {
+      return;
+    }
+    const { width, height } = layerSize();
+
+    if (gesture.type === "pinch") {
+      const [a, b] = [...pointersRef.current.values()];
+      if (!b) {
+        return;
+      }
+      const distance = Math.hypot(a.x - b.x, a.y - b.y);
+      const mid = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
+      applyView(zoomAt(gesture.view, gesture.view.scale * (distance / gesture.distance), mid, width, height));
+    } else if (gesture.type === "pan") {
+      applyView(panBy(viewRef.current, point.x - gesture.last.x, point.y - gesture.last.y, width, height));
+      gesture.last = point;
+    } else if (gesture.type === "zone") {
+      if (!gesture.moved && Math.hypot(point.x - gesture.start.x, point.y - gesture.start.y) > 6) {
+        gesture.moved = true;
+        setTooltip(null);
+      }
+      if (gesture.moved) {
+        const overId = plantIdAt(event.clientX, event.clientY);
+        setDrag({ fromId: gesture.plantId, overId: overId !== gesture.plantId ? overId : null });
+      }
+    }
+  }
+
+  function handleStagePointerUp(event) {
+    pointersRef.current.delete(event.pointerId);
+    const gesture = gestureRef.current;
+    if (gesture?.type === "zone" && event.type === "pointerup") {
+      const plant = plantsById.get(gesture.plantId);
+      if (!gesture.moved) {
+        if (plant) {
+          openGuide(plant);
+        }
+      } else {
+        const overId = plantIdAt(event.clientX, event.clientY);
+        if (overId && overId !== gesture.plantId) {
+          onSwapZones?.(gesture.plantId, overId);
+        }
+      }
+    }
+    if (pointersRef.current.size === 0 || gesture?.type !== "pinch") {
+      gestureRef.current = null;
+    }
+    setDrag(null);
+  }
+
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage) {
+      return undefined;
+    }
+    // Non-passive so Ctrl/⌘ + scroll (and trackpad pinch) zooms the sketch, not the page.
+    function onWheel(event) {
+      if (!event.ctrlKey && !event.metaKey) {
+        return;
+      }
+      event.preventDefault();
+      const rect = stage.getBoundingClientRect();
+      zoomBy(event.deltaY < 0 ? 1.1 : 1 / 1.1, { x: event.clientX - rect.left, y: event.clientY - rect.top });
+    }
+    stage.addEventListener("wheel", onWheel, { passive: false });
+    return () => stage.removeEventListener("wheel", onWheel);
+  });
+
   function openGuide(plant) {
     onPlantSectionClick?.(
       plant.guideId || `guide-${plant.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
@@ -492,10 +631,58 @@ export default function GardenSketch({
         >
           View as table
         </button>
+        <div className="sketch-zoom-controls" role="group" aria-label="Sketch zoom">
+          <button
+            type="button"
+            className="sketch-toggle"
+            onClick={() => zoomBy(1 / ZOOM_STEP)}
+            disabled={view.scale <= MIN_ZOOM}
+            aria-label="Zoom out"
+          >
+            −
+          </button>
+          <output aria-live="polite">{Math.round(view.scale * 100)}%</output>
+          <button
+            type="button"
+            className="sketch-toggle"
+            onClick={() => zoomBy(ZOOM_STEP)}
+            disabled={view.scale >= MAX_ZOOM}
+            aria-label="Zoom in"
+          >
+            +
+          </button>
+          <button
+            type="button"
+            className="sketch-toggle"
+            onClick={() => applyView(IDENTITY_VIEW)}
+            disabled={view.scale === MIN_ZOOM}
+          >
+            Reset
+          </button>
+        </div>
       </div>
+      <p className="sketch-drag-hint no-print">
+        {onSwapZones ? "Drag a plant zone onto another to swap them. " : ""}
+        Pinch or Ctrl/⌘ + scroll to zoom.
+      </p>
 
-      <div className="garden-sketch-stage" ref={stageRef}>
-        <div className="garden-sketch-zoom-layer">
+      <div
+        className={`garden-sketch-stage${view.scale > MIN_ZOOM ? " zoomed" : ""}${drag ? " dragging" : ""}`}
+        ref={stageRef}
+        style={{ touchAction: view.scale > MIN_ZOOM ? "none" : "pan-x pan-y" }}
+        onPointerDown={handleStagePointerDown}
+        onPointerMove={handleStagePointerMove}
+        onPointerUp={handleStagePointerUp}
+        onPointerCancel={handleStagePointerUp}
+      >
+        <div
+          className="garden-sketch-zoom-layer"
+          ref={zoomLayerRef}
+          style={{
+            transform: `translate(${view.x}px, ${view.y}px) scale(${view.scale})`,
+            transformOrigin: "0 0",
+          }}
+        >
           <svg
             viewBox={model.viewBox}
             width={model.widthPx}
@@ -548,7 +735,8 @@ export default function GardenSketch({
               return (
                 <g key={`hot-${patch.id}`}>
                   <rect
-                    className="patch-hit"
+                    className={`patch-hit${drag?.fromId === plant.id ? " drag-source" : ""}${drag?.overId === plant.id ? " drop-target" : ""}`}
+                    data-plant-id={plant.id}
                     x={patch.xPx}
                     y={patch.yPx}
                     width={patch.widthPx}
@@ -556,7 +744,6 @@ export default function GardenSketch({
                     tabIndex={0}
                     role="button"
                     aria-label={`${plant.name}, ${plant.quantity || 1} mature plants, about ${roundToQuarter(patch.width)} by ${roundToQuarter(patch.height)} feet`}
-                    onClick={() => openGuide(plant)}
                     onMouseEnter={(event) => showPlantTooltip(event, plant, patch)}
                     onMouseMove={(event) => showPlantTooltip(event, plant, patch)}
                     onFocus={(event) => showPlantTooltip(event, plant, patch)}
@@ -581,20 +768,20 @@ export default function GardenSketch({
               );
             })}
           </svg>
-
-          {tooltip ? (
-            <div
-              className="garden-zone-tooltip no-print"
-              role="tooltip"
-              style={{ left: tooltip.left, top: tooltip.top }}
-            >
-              <strong>{tooltip.title}</strong>
-              <span>{tooltip.target} · {tooltip.spacing}</span>
-              <span>{tooltip.section}</span>
-              <p>{tooltip.reason}</p>
-            </div>
-          ) : null}
         </div>
+
+        {tooltip ? (
+          <div
+            className="garden-zone-tooltip no-print"
+            role="tooltip"
+            style={{ left: tooltip.left, top: tooltip.top }}
+          >
+            <strong>{tooltip.title}</strong>
+            <span>{tooltip.target} · {tooltip.spacing}</span>
+            <span>{tooltip.section}</span>
+            <p>{tooltip.reason}</p>
+          </div>
+        ) : null}
       </div>
 
       {showTable ? (
