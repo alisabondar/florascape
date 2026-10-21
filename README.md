@@ -4,7 +4,7 @@ FloraScape helps beginner gardeners turn a real growing space into an illustrate
 
 ## Architecture
 
-The application intentionally separates probabilistic recommendations from deterministic data and layout code:
+The application is written in strict TypeScript and intentionally separates probabilistic recommendations from deterministic data and layout code:
 
 1. The planner validates the ZIP code, garden type, dimensions, sunlight, plant categories, and free-form preferences (capped at 500 characters).
 2. The server looks up the ZIP's USDA hardiness zone (phzmapi.org), median frost dates and growing-season length (Open-Meteo history), and a 7-day frost forecast (Open-Meteo). Each lookup has a timeout and is optional.
@@ -18,9 +18,10 @@ The application intentionally separates probabilistic recommendations from deter
 | Path | Responsibility |
 |---|---|
 | `lib/plan/` | Response schema, prompt, normalization, starter plan, and fill/alternatives/swap/shuffle logic |
-| `lib/garden-plan.js` | Re-exports `lib/plan/*` |
-| `lib/garden-layout.js` | Zone allocation and SVG model |
-| `lib/climate.js` | Zone, frost-date, and forecast lookups with an in-memory cache |
+| `lib/garden-plan.ts` | Re-exports `lib/plan/*` |
+| `lib/types.ts` | Shared domain types; AI response types are inferred from the Zod schemas |
+| `lib/garden-layout.ts` | Zone allocation and SVG model |
+| `lib/climate.ts` | Zone, frost-date, and forecast lookups with an in-memory cache |
 | `lib/plant-facts.json` | Spacing, maturity, sun, frost tolerance, category, easy-care flag, direct-sow vs. transplant, botanical family, and rotation group for common plants |
 | `lib/companions.json` | Curated helpful and conflicting plant pairs with reasons |
 | `lib/ai/` | Gemini and OpenAI-compatible providers, the fallback chain, and the TTL caches |
@@ -91,6 +92,7 @@ Planner state is stored in `sessionStorage`, and saved seasons for crop rotation
 ```bash
 bun run test
 bun run lint
+bun run typecheck
 bun run build
 bun run test:e2e
 ```
