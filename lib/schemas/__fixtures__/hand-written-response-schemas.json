@@ -1,0 +1,345 @@
+{
+  "gardenPlan": {
+    "type": "object",
+    "properties": {
+      "recommendedGardenType": {
+        "type": "string",
+        "enum": [
+          "in_ground",
+          "raised_beds",
+          "containers"
+        ]
+      },
+      "summary": {
+        "type": "string"
+      },
+      "layout": {
+        "type": "object",
+        "properties": {
+          "plants": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "bedId": {
+                  "type": "string"
+                },
+                "spacingInches": {
+                  "type": "number"
+                },
+                "quantity": {
+                  "type": "integer"
+                },
+                "sunNeeds": {
+                  "type": "string",
+                  "enum": [
+                    "full_sun",
+                    "partial_shade",
+                    "shade"
+                  ]
+                },
+                "placementReason": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "name",
+                "bedId",
+                "spacingInches",
+                "quantity",
+                "sunNeeds",
+                "placementReason"
+              ]
+            }
+          }
+        },
+        "required": [
+          "plants"
+        ]
+      },
+      "tips": {
+        "type": "object",
+        "properties": {
+          "preferenceHelp": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "detail": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "title",
+                "detail"
+              ]
+            }
+          },
+          "companionPlanting": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "detail": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "title",
+                "detail"
+              ]
+            }
+          },
+          "avoid": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "detail": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "title",
+                "detail"
+              ]
+            }
+          },
+          "watering": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "detail": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "title",
+                "detail"
+              ]
+            }
+          },
+          "commonMistakes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "detail": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "title",
+                "detail"
+              ]
+            }
+          },
+          "containerSetup": {
+            "type": "object",
+            "properties": {
+              "applicable": {
+                "type": "boolean"
+              },
+              "popularContainer": {
+                "type": "string"
+              },
+              "popularityReason": {
+                "type": "string"
+              },
+              "setupSteps": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "compostAdvice": {
+                "type": "string"
+              },
+              "drainageAdvice": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "applicable",
+              "popularContainer",
+              "popularityReason",
+              "setupSteps",
+              "compostAdvice",
+              "drainageAdvice"
+            ]
+          }
+        },
+        "required": [
+          "preferenceHelp",
+          "companionPlanting",
+          "avoid",
+          "watering",
+          "commonMistakes",
+          "containerSetup"
+        ]
+      },
+      "plantingGuide": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "plantName": {
+              "type": "string"
+            },
+            "whenToPlant": {
+              "type": "string",
+              "enum": [
+                "now",
+                "next_month",
+                "next_season"
+              ]
+            },
+            "timingLabel": {
+              "type": "string"
+            },
+            "timingDetails": {
+              "type": "string"
+            },
+            "spacingInches": {
+              "type": "number"
+            },
+            "sowingAmount": {
+              "type": "string"
+            },
+            "plantingDepth": {
+              "type": "string"
+            },
+            "watering": {
+              "type": "string"
+            },
+            "notes": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "plantName",
+            "whenToPlant",
+            "timingLabel",
+            "timingDetails",
+            "spacingInches",
+            "sowingAmount",
+            "plantingDepth",
+            "watering",
+            "notes"
+          ]
+        }
+      },
+      "alternatives": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "bedId": {
+              "type": "string"
+            },
+            "plants": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "spacingInches": {
+                    "type": "number"
+                  },
+                  "sunNeeds": {
+                    "type": "string",
+                    "enum": [
+                      "full_sun",
+                      "partial_shade",
+                      "shade"
+                    ]
+                  },
+                  "reason": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "spacingInches",
+                  "sunNeeds",
+                  "reason"
+                ]
+              }
+            }
+          },
+          "required": [
+            "bedId",
+            "plants"
+          ]
+        }
+      }
+    },
+    "required": [
+      "recommendedGardenType",
+      "summary",
+      "layout",
+      "tips",
+      "plantingGuide",
+      "alternatives"
+    ]
+  },
+  "chat": {
+    "type": "object",
+    "properties": {
+      "reply": {
+        "type": "string"
+      },
+      "suggestions": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "plantId": {
+              "type": "string"
+            },
+            "replacement": {
+              "type": "string"
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "plantId",
+            "replacement",
+            "reason"
+          ]
+        }
+      }
+    },
+    "required": [
+      "reply",
+      "suggestions"
+    ]
+  }
+}
