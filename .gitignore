@@ -9,3 +9,7 @@ dist
 bun.lockb
 *.tsbuildinfo
 .vercel
+
+# Playwright
+/test-results/
+/playwright-report/

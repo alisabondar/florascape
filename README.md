@@ -92,6 +92,11 @@ Planner state is stored in `sessionStorage`, and saved seasons for crop rotation
 bun run test
 bun run lint
 bun run build
+bun run test:e2e
 ```
+
+`bun run test:e2e` runs the Playwright browser tests. It starts its own dev server on port 3100 with `FLORASCAPE_AI=off` and `FLORASCAPE_CLIMATE=off`, so every plan is the offline starter plan. To test a server that is already running, start it with `bun run dev:e2e` and set `E2E_BASE_URL=http://localhost:3100`.
+
+The plan route streams progress as newline-delimited JSON when the request sends `Accept: application/x-ndjson`; the loading screen shows each stage. Response schemas sent to AI providers are generated from the Zod schemas in `lib/schemas/`, which also validate API request bodies.
 
 Specs and audit records live in `docs/` and `AUDIT.md`.
