@@ -15,11 +15,17 @@
     "radix-ui": "^1.6.7",
     "react": "19.0.0",
     "react-dom": "19.0.0",
-    "roughjs": "^4.6.6"
+    "roughjs": "^4.6.6",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@eslint/eslintrc": "3.3.1",
+    "@playwright/test": "^1.64.1",
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "eslint": "9.27.0",
-    "eslint-config-next": "15.5.18"
+    "eslint-config-next": "15.5.18",
+    "typescript": "^7.0.2"
   }
 }
