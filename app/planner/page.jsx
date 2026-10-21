@@ -220,11 +220,25 @@ function PlannerForm() {
     return () => window.clearTimeout(restoreTimer);
   }, [requestedGardenType, shouldRestore]);
 
+  // Editing a field clears its error; the rest stay until the next Next or Generate.
+  function clearError(key) {
+    setErrors((previous) => {
+      if (!(key in previous)) {
+        return previous;
+      }
+      const next = { ...previous };
+      delete next[key];
+      return next;
+    });
+  }
+
   function updateField(field, value) {
+    clearError(field);
     setFormValues((prev) => ({ ...prev, [field]: value }));
   }
 
   function updateInGround(field, value) {
+    clearError(`inGround.${field}`);
     setFormValues((prev) => ({
       ...prev,
       inGround: { ...prev.inGround, [field]: value },
@@ -232,6 +246,7 @@ function PlannerForm() {
   }
 
   function updateUnit(unitId, field, value) {
+    clearError(`unit.${unitId}.${field}`);
     setFormValues((prev) => ({
       ...prev,
       units: prev.units.map((unit) =>
@@ -395,7 +410,7 @@ function PlannerForm() {
               </div>
 
               <form onSubmit={handleSubmit} noValidate>
-                <nav className="planner-progress" aria-label="Planner steps">
+                <div className="planner-progress" role="navigation" aria-label="Planner steps">
                   <p className="planner-progress-count">
                     Step {step + 1} of {PLANNER_STEPS.length}
                   </p>
@@ -414,7 +429,7 @@ function PlannerForm() {
                       </li>
                     ))}
                   </ol>
-                </nav>
+                </div>
 
                 {step === 0 ? (
                   <div className="planner-step">

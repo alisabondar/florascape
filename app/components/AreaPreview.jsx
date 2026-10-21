@@ -51,6 +51,8 @@ export default function AreaPreview({ areas }) {
     <figure className="area-preview" aria-live="polite">
       <svg
         viewBox={`0 0 ${viewWidth} ${viewHeight}`}
+        width={viewWidth}
+        height={viewHeight}
         role="img"
         aria-label={`Preview: ${areas.map((area) => `${area.label} ${area.width} by ${area.length} feet`).join(", ")}`}
       >
