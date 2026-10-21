@@ -9,3 +9,10 @@ dist
 bun.lockb
 *.tsbuildinfo
 .vercel
+
+# Playwright
+/test-results/
+/playwright-report/
+
+# Next.js generated types
+next-env.d.ts

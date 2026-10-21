@@ -1185,16 +1185,43 @@ a {
   font-weight: 650;
 }
 
-.loading-steps i {
-  width: 5px;
-  height: 5px;
-  border-radius: 999px;
-  background: #8ca78a;
-  animation: loading-pulse 1.35s ease-in-out infinite alternate;
+.loading-steps {
+  list-style: none;
+  padding: 0;
+  flex-wrap: wrap;
 }
 
-.loading-steps i:nth-of-type(2) {
-  animation-delay: 0.35s;
+.loading-steps li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  opacity: 0.5;
+}
+
+.loading-steps li::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #c9d6c3;
+}
+
+.loading-steps li.done {
+  opacity: 0.8;
+}
+
+.loading-steps li.done::before {
+  background: #8ca78a;
+}
+
+.loading-steps li.active {
+  opacity: 1;
+  color: #2f4633;
+}
+
+.loading-steps li.active::before {
+  background: #3d5a32;
+  animation: loading-pulse 1.1s ease-in-out infinite alternate;
 }
 
 @keyframes loading-orbit {
@@ -1786,4 +1813,684 @@ a {
   .landing-page .section {
     padding: 4rem 0;
   }
+}
+
+.planner-result-page .climate-summary {
+  margin-bottom: 1rem;
+}
+
+.planner-result-page .climate-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.planner-result-page .climate-facts div {
+  border: 1px solid #dfe6d6;
+  border-radius: 8px;
+  background: #f7faf3;
+  padding: 0.6rem 0.8rem;
+}
+
+.planner-result-page .climate-facts dt {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #5c6b55;
+}
+
+.planner-result-page .climate-facts dd {
+  margin: 0.15rem 0 0;
+  font-weight: 600;
+}
+
+.planner-result-page .plan-source-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border: 1px solid #cfdcc4;
+  background: #eef5e8;
+  color: #3d5a32;
+}
+
+.planner-result-page .plan-source-badge.starter {
+  border-color: #e3cf9f;
+  background: #fff8e9;
+  color: #705824;
+}
+
+.planner-result-page .plan-source-badge.cached {
+  border-color: #c9d6e3;
+  background: #eef3f8;
+  color: #34506b;
+}
+
+.planner-result-page .guide-timing-group + .guide-timing-group {
+  margin-top: 1.5rem;
+}
+
+.planner-result-page .guide-timing-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin: 0 0 0.75rem;
+  font-size: 1.05rem;
+}
+
+.planner-result-page .guide-timing-heading span {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #5c6b55;
+}
+
+.garden-sketch-view-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.75rem 0;
+}
+
+.sketch-toggle {
+  border: 1px solid #cfdcc4;
+  border-radius: 999px;
+  background: #fff;
+  color: #3d5a32;
+  padding: 0.3rem 0.8rem;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.sketch-toggle[aria-pressed="true"] {
+  background: #3d5a32;
+  border-color: #3d5a32;
+  color: #fff;
+}
+
+.sqft-grid line {
+  stroke: #37342e;
+  stroke-opacity: 0.28;
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+
+.garden-layout-table-wrap {
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+
+.garden-layout-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.garden-layout-table caption {
+  text-align: left;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.garden-layout-table th,
+.garden-layout-table td {
+  text-align: left;
+  padding: 0.45rem 0.6rem;
+  border-bottom: 1px solid #e3e8dc;
+}
+
+.garden-layout-table thead th {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #5c6b55;
+}
+
+.area-preview {
+  margin: 0 0 1.25rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px dashed #cfdcc4;
+  border-radius: 10px;
+  background: #f7faf3;
+}
+
+.area-preview svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.area-preview rect {
+  fill: #e7efdc;
+  stroke: #3d5a32;
+  stroke-width: 1.5;
+}
+
+.area-preview-name,
+.area-preview-size {
+  font-size: 11px;
+  fill: #3d5a32;
+}
+
+.area-preview figcaption {
+  margin-top: 0.4rem;
+  font-size: 0.75rem;
+  color: #5c6b55;
+}
+
+.planner-result-page .neighbor-areas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.planner-result-page .neighbor-area h3,
+.planner-result-page .shopping-columns h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.planner-result-page .neighbor-area ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.planner-result-page .neighbor-area li {
+  border-left: 4px solid #8fb07f;
+  background: #f4f8ef;
+  border-radius: 6px;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.9rem;
+}
+
+.planner-result-page .neighbor-area li.neighbor-conflict {
+  border-left-color: #c29342;
+  background: #fff8e9;
+}
+
+.planner-result-page .shopping-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.planner-result-page .shopping-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.planner-result-page .shopping-table th,
+.planner-result-page .shopping-table td {
+  text-align: left;
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1px solid #e3e8dc;
+}
+
+.planner-result-page .shopping-table thead th {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #5c6b55;
+}
+
+.planner-result-page .shopping-table tfoot th,
+.planner-result-page .shopping-table tfoot td {
+  font-weight: 700;
+  border-bottom: none;
+}
+
+.planner-result-page .shopping-subtle {
+  font-weight: 400;
+  color: #5c6b55;
+}
+
+.planner-result-page .shopping-bags,
+.planner-result-page .shopping-assumptions,
+.planner-result-page .neighbor-empty {
+  font-size: 0.85rem;
+  color: #4b5a45;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.planner-result-page .garden-chat-log {
+  max-height: 360px;
+  overflow-y: auto;
+  display: grid;
+  gap: 0.6rem;
+  padding: 0.75rem;
+  border: 1px solid #e3e8dc;
+  border-radius: 10px;
+  background: #fbfcf8;
+}
+
+.planner-result-page .garden-chat-message {
+  max-width: 85%;
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+  font-size: 0.92rem;
+}
+
+.planner-result-page .garden-chat-message p {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.planner-result-page .garden-chat-message.user {
+  justify-self: end;
+  background: #3d5a32;
+  color: #fff;
+}
+
+.planner-result-page .garden-chat-message.assistant {
+  justify-self: start;
+  background: #eef5e8;
+  color: #243328;
+}
+
+.planner-result-page .garden-chat-source {
+  display: block;
+  margin-bottom: 0.2rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #5c6b55;
+}
+
+.planner-result-page .garden-chat-source.notice {
+  color: #705824;
+}
+
+.planner-result-page .garden-chat-suggestions,
+.planner-result-page .garden-chat-examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.planner-result-page .garden-chat-suggestions button,
+.planner-result-page .garden-chat-examples button {
+  border: 1px solid #cfdcc4;
+  border-radius: 999px;
+  background: #fff;
+  color: #3d5a32;
+  padding: 0.25rem 0.7rem;
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.planner-result-page .garden-chat-suggestions button:disabled {
+  cursor: default;
+  opacity: 0.65;
+}
+
+.planner-result-page .garden-chat-empty {
+  display: flex;
+  gap: 0.6rem;
+  color: #4b5a45;
+  font-size: 0.9rem;
+}
+
+.planner-result-page .garden-chat-empty p {
+  margin: 0;
+}
+
+.planner-result-page .garden-chat-pending {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #5c6b55;
+}
+
+.planner-result-page .garden-chat-form {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.planner-result-page .garden-chat-form input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid #cfdcc4;
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+  font: inherit;
+}
+
+.planner-result-page .garden-chat-count {
+  font-size: 0.75rem;
+  color: #5c6b55;
+}
+
+.planner-result-page .rotation-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  color: #3d5a32;
+}
+
+.planner-result-page .rotation-check h3,
+.planner-result-page .rotation-history h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 0.6rem;
+  font-size: 1rem;
+}
+
+.planner-result-page .rotation-area {
+  border-left: 4px solid #c29342;
+  background: #fff8e9;
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.planner-result-page .rotation-area h4 {
+  margin: 0 0 0.3rem;
+}
+
+.planner-result-page .rotation-area ul,
+.planner-result-page .rotation-history ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.planner-result-page .rotation-next {
+  margin: 0.5rem 0 0;
+}
+
+.planner-result-page .rotation-swaps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.planner-result-page .rotation-swaps button,
+.planner-result-page .rotation-history button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border: 1px solid #cfdcc4;
+  border-radius: 999px;
+  background: #fff;
+  color: #3d5a32;
+  padding: 0.25rem 0.7rem;
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.planner-result-page .rotation-history {
+  margin-top: 1rem;
+}
+
+.planner-result-page .rotation-history li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.88rem;
+}
+
+.planner-result-page .rotation-ok,
+.planner-result-page .rotation-empty {
+  font-size: 0.9rem;
+  color: #4b5a45;
+}
+
+.planner-progress {
+  margin-bottom: 1.25rem;
+}
+
+.planner-progress-count {
+  margin: 0 0 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #5c6b55;
+}
+
+.planner-progress ol {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.planner-progress button {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: 100%;
+  border: 0;
+  border-top: 4px solid #e3e8dc;
+  background: transparent;
+  padding: 0.5rem 0 0;
+  font: inherit;
+  font-size: 0.85rem;
+  text-align: left;
+  color: #8a9683;
+  cursor: pointer;
+}
+
+.planner-progress button:disabled {
+  cursor: default;
+}
+
+.planner-progress button span {
+  display: inline-grid;
+  place-items: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background: #e3e8dc;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.planner-progress li.reachable button {
+  border-top-color: #8fb07f;
+  color: #3d5a32;
+}
+
+.planner-progress li.reachable button span {
+  background: #cfe0c3;
+}
+
+.planner-progress li.current button {
+  border-top-color: #3d5a32;
+  color: #243328;
+  font-weight: 600;
+}
+
+.planner-progress li.current button span {
+  background: #3d5a32;
+  color: #fff;
+}
+
+.planner-step-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.planner-step-actions .submit-btn {
+  flex: 1;
+}
+
+@media (max-width: 560px) {
+  .planner-progress button {
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 0.75rem;
+  }
+}
+
+.planner-page .planner-step-actions .submit-btn {
+  margin-top: 0;
+  width: auto;
+}
+
+.sun-side-field {
+  grid-column: 1 / -1;
+}
+
+.sun-compass {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1fr;
+  grid-template-rows: auto 90px auto auto;
+  grid-template-areas:
+    ". north ."
+    "west plot east"
+    ". south ."
+    "shaded shaded shaded";
+  gap: 0.4rem;
+  max-width: 340px;
+  margin-top: 0.4rem;
+}
+
+.sun-compass-option {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  border: 1px solid #cfdcc4;
+  border-radius: 8px;
+  background: #fff;
+  color: #3d5a32;
+  padding: 0.4rem 0.6rem;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.sun-compass-option[aria-checked="true"] {
+  background: #f3c75a;
+  border-color: #b48a2c;
+  color: #3b2f12;
+  font-weight: 600;
+}
+
+.sun-compass-option:focus-visible {
+  outline: 3px solid #3d5a32;
+  outline-offset: 2px;
+}
+
+.sun-compass-option.north { grid-area: north; }
+.sun-compass-option.south { grid-area: south; }
+.sun-compass-option.east { grid-area: east; align-self: center; }
+.sun-compass-option.west { grid-area: west; align-self: center; }
+.sun-compass-option.shaded { grid-area: shaded; justify-self: center; }
+
+.sun-compass-plot {
+  grid-area: plot;
+  display: grid;
+  place-items: center;
+  border: 2px solid #37342e;
+  border-radius: 4px;
+  background: #faf8f0;
+  font-size: 0.8rem;
+  color: #5c6b55;
+}
+
+.sun-compass-plot.lit-north { box-shadow: inset 0 10px 0 #f3c75a; }
+.sun-compass-plot.lit-south { box-shadow: inset 0 -10px 0 #f3c75a; }
+.sun-compass-plot.lit-east { box-shadow: inset -10px 0 0 #f3c75a; }
+.sun-compass-plot.lit-west { box-shadow: inset 10px 0 0 #f3c75a; }
+.sun-compass-plot.shaded { background: #dfe6ea; }
+
+.sun-compass-hint {
+  margin: 0.4rem 0 0;
+  font-size: 0.78rem;
+  color: #5c6b55;
+}
+
+.sun-compass[aria-invalid="true"] .sun-compass-plot {
+  border-color: #b3452f;
+}
+
+.sketch-zoom-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: auto;
+}
+
+.sketch-zoom-controls output {
+  min-width: 3rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #3d5a32;
+}
+
+.sketch-toggle:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.sketch-drag-hint {
+  margin: -0.25rem 0 0.5rem;
+  font-size: 0.78rem;
+  color: #5c6b55;
+}
+
+.planner-page .garden-sketch-zoom-layer {
+  transition: transform 60ms linear;
+  will-change: transform;
+}
+
+.planner-page .garden-sketch-stage .patch-hit {
+  cursor: grab;
+}
+
+.planner-page .garden-sketch-stage.zoomed {
+  cursor: move;
+}
+
+.planner-page .garden-sketch-stage.dragging,
+.planner-page .garden-sketch-stage.dragging .patch-hit {
+  cursor: grabbing;
+}
+
+.planner-page .patch-hit.drag-source {
+  fill: rgba(61, 90, 50, 0.18);
+  stroke: #3d5a32;
+  stroke-width: 2;
+  stroke-dasharray: 5 4;
+}
+
+.planner-page .patch-hit.drop-target {
+  fill: rgba(243, 199, 90, 0.35);
+  stroke: #b48a2c;
+  stroke-width: 3;
 }

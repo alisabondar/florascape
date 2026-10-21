@@ -1,0 +1,691 @@
+{
+  "version": "1.0",
+  "units": "inches",
+  "plants": [
+    {
+      "name": "Tomato",
+      "aliases": [
+        "Tomatoes",
+        "Cherry Tomato"
+      ],
+      "category": "vegetables",
+      "easyCare": false,
+      "sowing": "transplant",
+      "family": "Solanaceae",
+      "rotationGroup": "fruiting",
+      "spacingInches": {
+        "min": 18,
+        "max": 24
+      },
+      "daysToMaturity": 70,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Bush Bean",
+      "aliases": [
+        "Green Bean",
+        "Bush Beans",
+        "Snap Bean"
+      ],
+      "category": "vegetables",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Fabaceae",
+      "rotationGroup": "legume",
+      "spacingInches": {
+        "min": 4,
+        "max": 6
+      },
+      "daysToMaturity": 55,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Pole Bean",
+      "aliases": [
+        "Pole Beans",
+        "Runner Bean"
+      ],
+      "category": "vegetables",
+      "easyCare": false,
+      "sowing": "direct",
+      "family": "Fabaceae",
+      "rotationGroup": "legume",
+      "spacingInches": {
+        "min": 4,
+        "max": 8
+      },
+      "daysToMaturity": 65,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Pea",
+      "aliases": [
+        "Peas",
+        "Snap Pea",
+        "Snow Pea",
+        "Sugar Snap Pea"
+      ],
+      "category": "vegetables",
+      "easyCare": false,
+      "sowing": "direct",
+      "family": "Fabaceae",
+      "rotationGroup": "legume",
+      "spacingInches": {
+        "min": 2,
+        "max": 4
+      },
+      "daysToMaturity": 60,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Leaf Lettuce",
+      "aliases": [
+        "Lettuce",
+        "Loose-leaf Lettuce",
+        "Mesclun"
+      ],
+      "category": "vegetables",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Asteraceae",
+      "rotationGroup": "leafy",
+      "spacingInches": {
+        "min": 4,
+        "max": 12
+      },
+      "daysToMaturity": 45,
+      "sunNeeds": "partial_shade",
+      "frostTolerance": "semi_hardy"
+    },
+    {
+      "name": "Spinach",
+      "aliases": [],
+      "category": "vegetables",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Amaranthaceae",
+      "rotationGroup": "leafy",
+      "spacingInches": {
+        "min": 3,
+        "max": 6
+      },
+      "daysToMaturity": 40,
+      "sunNeeds": "partial_shade",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Kale",
+      "aliases": [
+        "Lacinato Kale",
+        "Curly Kale"
+      ],
+      "category": "vegetables",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Brassicaceae",
+      "rotationGroup": "leafy",
+      "spacingInches": {
+        "min": 12,
+        "max": 18
+      },
+      "daysToMaturity": 55,
+      "sunNeeds": "partial_shade",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Swiss Chard",
+      "aliases": [
+        "Chard",
+        "Rainbow Chard"
+      ],
+      "category": "vegetables",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Amaranthaceae",
+      "rotationGroup": "leafy",
+      "spacingInches": {
+        "min": 8,
+        "max": 12
+      },
+      "daysToMaturity": 55,
+      "sunNeeds": "partial_shade",
+      "frostTolerance": "semi_hardy"
+    },
+    {
+      "name": "Radish",
+      "aliases": [
+        "Radishes"
+      ],
+      "category": "vegetables",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Brassicaceae",
+      "rotationGroup": "leafy",
+      "spacingInches": {
+        "min": 1,
+        "max": 3
+      },
+      "daysToMaturity": 28,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Carrot",
+      "aliases": [
+        "Carrots"
+      ],
+      "category": "vegetables",
+      "easyCare": false,
+      "sowing": "direct",
+      "family": "Apiaceae",
+      "rotationGroup": "root",
+      "spacingInches": {
+        "min": 2,
+        "max": 4
+      },
+      "daysToMaturity": 70,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "semi_hardy"
+    },
+    {
+      "name": "Beet",
+      "aliases": [
+        "Beets",
+        "Beetroot"
+      ],
+      "category": "vegetables",
+      "easyCare": false,
+      "sowing": "direct",
+      "family": "Amaranthaceae",
+      "rotationGroup": "root",
+      "spacingInches": {
+        "min": 3,
+        "max": 4
+      },
+      "daysToMaturity": 55,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "semi_hardy"
+    },
+    {
+      "name": "Zucchini",
+      "aliases": [
+        "Summer Squash",
+        "Courgette"
+      ],
+      "category": "vegetables",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Cucurbitaceae",
+      "rotationGroup": "fruiting",
+      "spacingInches": {
+        "min": 24,
+        "max": 36
+      },
+      "daysToMaturity": 50,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Cucumber",
+      "aliases": [
+        "Cucumbers"
+      ],
+      "category": "vegetables",
+      "easyCare": false,
+      "sowing": "direct",
+      "family": "Cucurbitaceae",
+      "rotationGroup": "fruiting",
+      "spacingInches": {
+        "min": 12,
+        "max": 24
+      },
+      "daysToMaturity": 55,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Bell Pepper",
+      "aliases": [
+        "Pepper",
+        "Peppers",
+        "Sweet Pepper"
+      ],
+      "category": "vegetables",
+      "easyCare": false,
+      "sowing": "transplant",
+      "family": "Solanaceae",
+      "rotationGroup": "fruiting",
+      "spacingInches": {
+        "min": 12,
+        "max": 18
+      },
+      "daysToMaturity": 75,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Hot Pepper",
+      "aliases": [
+        "Chili Pepper",
+        "Jalapeno",
+        "Jalapeño"
+      ],
+      "category": "vegetables",
+      "easyCare": false,
+      "sowing": "transplant",
+      "family": "Solanaceae",
+      "rotationGroup": "fruiting",
+      "spacingInches": {
+        "min": 12,
+        "max": 18
+      },
+      "daysToMaturity": 75,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Eggplant",
+      "aliases": [
+        "Aubergine"
+      ],
+      "category": "vegetables",
+      "easyCare": false,
+      "sowing": "transplant",
+      "family": "Solanaceae",
+      "rotationGroup": "fruiting",
+      "spacingInches": {
+        "min": 18,
+        "max": 24
+      },
+      "daysToMaturity": 75,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Onion",
+      "aliases": [
+        "Onions",
+        "Green Onion",
+        "Scallion"
+      ],
+      "category": "vegetables",
+      "easyCare": false,
+      "sowing": "transplant",
+      "family": "Amaryllidaceae",
+      "rotationGroup": "root",
+      "spacingInches": {
+        "min": 3,
+        "max": 6
+      },
+      "daysToMaturity": 100,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Garlic",
+      "aliases": [],
+      "category": "vegetables",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Amaryllidaceae",
+      "rotationGroup": "root",
+      "spacingInches": {
+        "min": 4,
+        "max": 6
+      },
+      "daysToMaturity": 240,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Broccoli",
+      "aliases": [],
+      "category": "vegetables",
+      "easyCare": false,
+      "sowing": "transplant",
+      "family": "Brassicaceae",
+      "rotationGroup": "leafy",
+      "spacingInches": {
+        "min": 12,
+        "max": 18
+      },
+      "daysToMaturity": 65,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Basil",
+      "aliases": [
+        "Sweet Basil",
+        "Genovese Basil"
+      ],
+      "category": "herbs",
+      "easyCare": false,
+      "sowing": "direct",
+      "family": "Lamiaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 8,
+        "max": 12
+      },
+      "daysToMaturity": 60,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Thyme",
+      "aliases": [],
+      "category": "herbs",
+      "easyCare": true,
+      "sowing": "transplant",
+      "family": "Lamiaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 8,
+        "max": 12
+      },
+      "daysToMaturity": 85,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Chives",
+      "aliases": [],
+      "category": "herbs",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Amaryllidaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 6,
+        "max": 12
+      },
+      "daysToMaturity": 80,
+      "sunNeeds": "partial_shade",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Parsley",
+      "aliases": [
+        "Flat-leaf Parsley",
+        "Curly Parsley"
+      ],
+      "category": "herbs",
+      "easyCare": false,
+      "sowing": "direct",
+      "family": "Apiaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 6,
+        "max": 10
+      },
+      "daysToMaturity": 75,
+      "sunNeeds": "partial_shade",
+      "frostTolerance": "semi_hardy"
+    },
+    {
+      "name": "Cilantro",
+      "aliases": [
+        "Coriander"
+      ],
+      "category": "herbs",
+      "easyCare": false,
+      "sowing": "direct",
+      "family": "Apiaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 4,
+        "max": 8
+      },
+      "daysToMaturity": 50,
+      "sunNeeds": "partial_shade",
+      "frostTolerance": "semi_hardy"
+    },
+    {
+      "name": "Dill",
+      "aliases": [],
+      "category": "herbs",
+      "easyCare": false,
+      "sowing": "direct",
+      "family": "Apiaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 8,
+        "max": 12
+      },
+      "daysToMaturity": 55,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "semi_hardy"
+    },
+    {
+      "name": "Mint",
+      "aliases": [
+        "Spearmint",
+        "Peppermint"
+      ],
+      "category": "herbs",
+      "easyCare": true,
+      "sowing": "transplant",
+      "family": "Lamiaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 12,
+        "max": 18
+      },
+      "daysToMaturity": 90,
+      "sunNeeds": "partial_shade",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Rosemary",
+      "aliases": [],
+      "category": "herbs",
+      "easyCare": false,
+      "sowing": "transplant",
+      "family": "Lamiaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 18,
+        "max": 24
+      },
+      "daysToMaturity": 90,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "semi_hardy"
+    },
+    {
+      "name": "Oregano",
+      "aliases": [],
+      "category": "herbs",
+      "easyCare": true,
+      "sowing": "transplant",
+      "family": "Lamiaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 8,
+        "max": 12
+      },
+      "daysToMaturity": 90,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Sage",
+      "aliases": [],
+      "category": "herbs",
+      "easyCare": false,
+      "sowing": "transplant",
+      "family": "Lamiaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 18,
+        "max": 24
+      },
+      "daysToMaturity": 75,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Marigold",
+      "aliases": [
+        "Marigolds",
+        "French Marigold"
+      ],
+      "category": "flowers",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Asteraceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 8,
+        "max": 12
+      },
+      "daysToMaturity": 50,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Zinnia",
+      "aliases": [
+        "Zinnias"
+      ],
+      "category": "flowers",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Asteraceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 9,
+        "max": 12
+      },
+      "daysToMaturity": 60,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Nasturtium",
+      "aliases": [
+        "Nasturtiums"
+      ],
+      "category": "flowers",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Tropaeolaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 10,
+        "max": 12
+      },
+      "daysToMaturity": 55,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Sunflower",
+      "aliases": [
+        "Sunflowers"
+      ],
+      "category": "flowers",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Asteraceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 12,
+        "max": 24
+      },
+      "daysToMaturity": 80,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Cosmos",
+      "aliases": [],
+      "category": "flowers",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Asteraceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 12,
+        "max": 18
+      },
+      "daysToMaturity": 70,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Chamomile",
+      "aliases": [
+        "German Chamomile"
+      ],
+      "category": "medicinal",
+      "easyCare": false,
+      "sowing": "direct",
+      "family": "Asteraceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 6,
+        "max": 8
+      },
+      "daysToMaturity": 65,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Calendula",
+      "aliases": [
+        "Pot Marigold"
+      ],
+      "category": "medicinal",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Asteraceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 8,
+        "max": 12
+      },
+      "daysToMaturity": 55,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "semi_hardy"
+    },
+    {
+      "name": "Lavender",
+      "aliases": [],
+      "category": "medicinal",
+      "easyCare": false,
+      "sowing": "transplant",
+      "family": "Lamiaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 12,
+        "max": 18
+      },
+      "daysToMaturity": 100,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Strawberry",
+      "aliases": [
+        "Strawberries"
+      ],
+      "category": "vegetables",
+      "easyCare": false,
+      "sowing": "transplant",
+      "family": "Rosaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 12,
+        "max": 18
+      },
+      "daysToMaturity": 90,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    }
+  ]
+}
