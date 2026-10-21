@@ -1,32 +1,22 @@
-# Spec Audit — docs/V2-PHASE7.md
+# Spec Audit — docs/V2-PHASE8.md
 
-Source document: `docs/V2-PHASE7.md`. Scope: steps 1–6.
+Source document: `docs/V2-PHASE8.md`. Scope: steps 1–5.
 
 ## Checklist
 
-1. S1: "Each plant-facts entry records its botanical family and a rotation group" with the stated group values and family mapping
-2. S2: "a "Save this season" button that stores the current plan's areas and plants, with a season label (such as "Fall 2026") and the ZIP code, in `localStorage`"
-3. S2: "At most 8 seasons are kept, newest first."
-4. S2: "Saved seasons are listed with their label, area count, and a remove button."
-5. S3: "When at least one saved season exists other than the current plan, the result page compares the current plan to the most recent such season."
-6. S3: "For each growing area matched by name, it lists current plants whose rotation group (other than "none") also grew in that area that season, naming the earlier plant."
-7. S4: "recommends the next rotation group in the order fruiting → legume → leafy → root → fruiting, after the group grown there last season"
-8. S4: "offers up to 3 swap buttons that replace a repeating plant with an area alternative from the recommended group, using the same swap logic as the editor dropdown"
-9. S5: "updates when plants are edited, swapped, or shuffled, and when seasons are saved or removed"
-10. S6: "Unit tests cover family and group data, saving and trimming seasons, matching areas, repeat detection, the next-group order, and swap suggestions."
-11. S6: "`bun run test`, `bun run lint`, and `bun run build` pass"
-
-## Round 1
-
-Auditor: fresh subagent. Result: **11/11 MET**. `bun run test` 64 pass / 0 fail; `bun run lint` clean; `bun run build` succeeded. Manual browser run: saved a season to `localStorage`, simulated a new plan, saw repeats flagged for both beds with the next rotation group, and a suggested swap (Tomato → Pea) cleared Bed 1's warning.
-
-### Findings
-None.
-
-### Out-of-scope (not traceable to the spec; not acted on)
-- Re-saving the same plan replaces its entry; the button then reads "Update saved season".
-- Last season's group is the most common group in the area (ties in rotation order).
-- December is labeled as the following year's winter.
-
-## Result
-Stopped after round 1: zero PARTIAL/MISSING. Scope-creep breaker did not fire.
+1. S1: "three steps — "Location & type" (ZIP code, garden type), "Your space" (dimensions, sunlight, and the live area preview), and "What to grow" (plant categories, preferences)"
+2. S1: "a progress indicator showing "Step N of 3" and the step names"
+3. S1: "Next validates only the current step's fields and shows their errors; Back keeps entered values."
+4. S1: "Completed steps can be revisited from the progress indicator. The last step's button generates the plan."
+5. S2: "a compass picker: a plot outline with North, East, South, and West buttons on its sides plus a "Whole plot is shaded" option"
+6. S2: "works as a single-choice radio group (one selected, arrow keys move the selection)"
+7. S2: "shows a hint that in the Northern Hemisphere the south side usually gets the most sun"
+8. S3: "dragging one plant zone onto another swaps the two groups' places — within a bed they trade positions and space, across beds they trade beds"
+9. S3: "both areas are refilled to capacity and the planting guide updates"
+10. S3: "A press without movement still opens the plant's guide entry."
+11. S4: "zoom in, zoom out, and reset controls"
+12. S4: "supports pinch-to-zoom on touch screens and Ctrl/⌘ + scroll on desktop, and zooms between 1× and 3×"
+13. S4: "When zoomed in, dragging an empty part of the sketch pans it, within the sketch's bounds."
+14. S4: "Printing always shows the sketch unzoomed."
+15. S5: "Unit tests cover per-step validation, the zone swap, and the zoom and pan math."
+16. S5: "`bun run test`, `bun run lint`, and `bun run build` pass"
