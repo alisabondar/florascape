@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "test": "bun test"
+    "test": "bun test",
+    "test:e2e": "playwright test",
+    "dev:e2e": "FLORASCAPE_AI=off FLORASCAPE_CLIMATE=off next dev --port 3100"
   },
   "dependencies": {
     "lucide-react": "^1.16.0",
