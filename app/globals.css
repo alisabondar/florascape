@@ -2240,3 +2240,97 @@ a {
   font-size: 0.9rem;
   color: #4b5a45;
 }
+
+.planner-progress {
+  margin-bottom: 1.25rem;
+}
+
+.planner-progress-count {
+  margin: 0 0 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #5c6b55;
+}
+
+.planner-progress ol {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.planner-progress button {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: 100%;
+  border: 0;
+  border-top: 4px solid #e3e8dc;
+  background: transparent;
+  padding: 0.5rem 0 0;
+  font: inherit;
+  font-size: 0.85rem;
+  text-align: left;
+  color: #8a9683;
+  cursor: pointer;
+}
+
+.planner-progress button:disabled {
+  cursor: default;
+}
+
+.planner-progress button span {
+  display: inline-grid;
+  place-items: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background: #e3e8dc;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.planner-progress li.reachable button {
+  border-top-color: #8fb07f;
+  color: #3d5a32;
+}
+
+.planner-progress li.reachable button span {
+  background: #cfe0c3;
+}
+
+.planner-progress li.current button {
+  border-top-color: #3d5a32;
+  color: #243328;
+  font-weight: 600;
+}
+
+.planner-progress li.current button span {
+  background: #3d5a32;
+  color: #fff;
+}
+
+.planner-step-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.planner-step-actions .submit-btn {
+  flex: 1;
+}
+
+@media (max-width: 560px) {
+  .planner-progress button {
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 0.75rem;
+  }
+}
+
+.planner-page .planner-step-actions .submit-btn {
+  margin-top: 0;
+  width: auto;
+}

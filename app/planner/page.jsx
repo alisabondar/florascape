@@ -5,6 +5,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import AreaPreview, { previewAreas } from "../components/AreaPreview";
 import {
+  firstInvalidStep,
+  PLANNER_STEPS,
+  validate,
+  validateStep,
+} from "../../lib/planner-validation";
+import {
   CheckboxControl,
   SelectControl,
 } from "../components/FormControls";
@@ -91,59 +97,6 @@ const INITIAL_FORM = {
     },
   ],
 };
-
-function validate(values) {
-  const errors = {};
-
-  if (!/^\d{5}$/.test(values.zipCode.trim())) {
-    errors.zipCode = "Enter a valid 5-digit ZIP code.";
-  }
-
-  if (!values.gardenType) {
-    errors.gardenType = "Select a garden type.";
-  }
-
-  if (!values.plantTypes.length) {
-    errors.plantTypes = "Select at least one plant category.";
-  }
-
-  if (values.gardenType === "in_ground") {
-    if (Number(values.inGround.width) <= 0) {
-      errors["inGround.width"] = "Width must be greater than 0.";
-    }
-    if (Number(values.inGround.length) <= 0) {
-      errors["inGround.length"] = "Length must be greater than 0.";
-    }
-    if (!values.inGround.sunniestSide) {
-      errors["inGround.sunniestSide"] = "Select the sunniest side.";
-    }
-    if (
-      values.inGround.plotStyle === "sections" &&
-      (!Number.isInteger(Number(values.inGround.sectionCount)) ||
-        Number(values.inGround.sectionCount) < 2 ||
-        Number(values.inGround.sectionCount) > 12)
-    ) {
-      errors["inGround.sectionCount"] = "Choose between 2 and 12 sections.";
-    }
-  }
-
-  if (isRepeatableGardenType(values.gardenType)) {
-    const { formLabel } = getAreaCopy(values.gardenType);
-    values.units.forEach((unit, index) => {
-      if (Number(unit.width) <= 0) {
-        errors[`unit.${unit.id}.width`] = `${formLabel} ${index + 1} needs a width.`;
-      }
-      if (Number(unit.length) <= 0) {
-        errors[`unit.${unit.id}.length`] = `${formLabel} ${index + 1} needs a length.`;
-      }
-      if (!unit.sunExposure) {
-        errors[`unit.${unit.id}.sunExposure`] = `${formLabel} ${index + 1} needs sun exposure.`;
-      }
-    });
-  }
-
-  return errors;
-}
 
 function createUnit() {
   return {
@@ -240,6 +193,8 @@ function PlannerForm() {
   const searchParams = useSearchParams();
   const [formValues, setFormValues] = useState(INITIAL_FORM);
   const [errors, setErrors] = useState({});
+  const [step, setStep] = useState(0);
+  const [maxStep, setMaxStep] = useState(0);
   const shouldRestore = searchParams.get("edit") === "1";
   const [restoreComplete, setRestoreComplete] = useState(!shouldRestore);
   const requestedType = searchParams.get("type");
@@ -256,6 +211,10 @@ function PlannerForm() {
     const restoredForm =
       formFromDraft(savedDraft) || formFromPlannerInput(savedResult?.plannerInput);
 
+    // Editing an existing plan: every step already has values, so all are reachable.
+    if (restoredForm) {
+      setMaxStep(PLANNER_STEPS.length - 1);
+    }
     setFormValues((previous) => ({
       ...(restoredForm || previous),
       gardenType: requestedGardenType || restoredForm?.gardenType || previous.gardenType,
@@ -320,12 +279,39 @@ function PlannerForm() {
     updateField("plantTypes", nextPlants);
   }
 
+  function goToStep(index) {
+    setStep(index);
+    setErrors({});
+    document.getElementById("planner")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function goBack() {
+    goToStep(Math.max(0, step - 1));
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
+
+    if (step < PLANNER_STEPS.length - 1) {
+      const stepErrors = validateStep(formValues, step);
+      setErrors(stepErrors);
+      if (Object.keys(stepErrors).length > 0) {
+        return;
+      }
+      setMaxStep((previous) => Math.max(previous, step + 1));
+      goToStep(step + 1);
+      return;
+    }
+
     const nextErrors = validate(formValues);
     setErrors(nextErrors);
 
     if (Object.keys(nextErrors).length > 0) {
+      // Earlier steps can still be invalid when they were edited after moving on.
+      const invalidStep = firstInvalidStep(nextErrors);
+      if (invalidStep !== step) {
+        setStep(invalidStep);
+      }
       return;
     }
 
@@ -416,248 +402,294 @@ function PlannerForm() {
               </div>
 
               <form onSubmit={handleSubmit} noValidate>
-                <div className="input-grid">
-                  <label className="field" htmlFor="zip-code">
-                    ZIP Code *
-                    <input
-                      id="zip-code"
-                      type="text"
-                      inputMode="numeric"
-                      placeholder="e.g. 80205"
-                      value={formValues.zipCode}
-                      onChange={(event) => updateField("zipCode", event.target.value)}
-                      aria-invalid={Boolean(errors.zipCode)}
-                    />
-                    {errors.zipCode ? <span className="error">{errors.zipCode}</span> : null}
-                  </label>
+                <nav className="planner-progress" aria-label="Planner steps">
+                  <p className="planner-progress-count">
+                    Step {step + 1} of {PLANNER_STEPS.length}
+                  </p>
+                  <ol>
+                    {PLANNER_STEPS.map((item, index) => (
+                      <li key={item.key} className={index === step ? "current" : index <= maxStep ? "reachable" : ""}>
+                        <button
+                          type="button"
+                          onClick={() => goToStep(index)}
+                          disabled={index > maxStep}
+                          aria-current={index === step ? "step" : undefined}
+                        >
+                          <span aria-hidden="true">{index + 1}</span>
+                          {item.title}
+                        </button>
+                      </li>
+                    ))}
+                  </ol>
+                </nav>
 
-                  <div className="field">
-                    <label htmlFor="garden-type">Garden Type *</label>
-                    <SelectControl
-                      id="garden-type"
-                      value={formValues.gardenType}
-                      onValueChange={(value) => updateField("gardenType", value)}
-                      placeholder="Choose a garden type"
-                      options={GARDEN_TYPE_OPTIONS}
-                      ariaInvalid={Boolean(errors.gardenType)}
-                    />
-                    {errors.gardenType ? (
-                      <span className="error">{errors.gardenType}</span>
-                    ) : null}
-                  </div>
-                </div>
-
-                {formValues.gardenType === "in_ground" ? (
-                  <fieldset className="conditional-fieldset">
-                    <legend>In-ground plot</legend>
-                    <p className="field-help">
-                      Enter the full usable plot size. Sections will be arranged inside it.
-                    </p>
+                {step === 0 ? (
+                  <div className="planner-step">
                     <div className="input-grid">
-                      <label className="field">
-                        Width (feet) *
+                      <label className="field" htmlFor="zip-code">
+                        ZIP Code *
                         <input
-                          type="number"
-                          min="1"
-                          step="0.5"
-                          value={formValues.inGround.width}
-                          onChange={(event) => updateInGround("width", event.target.value)}
+                          id="zip-code"
+                          type="text"
+                          inputMode="numeric"
+                          placeholder="e.g. 80205"
+                          value={formValues.zipCode}
+                          onChange={(event) => updateField("zipCode", event.target.value)}
+                          aria-invalid={Boolean(errors.zipCode)}
                         />
-                        {errors["inGround.width"] ? (
-                          <span className="error">{errors["inGround.width"]}</span>
-                        ) : null}
+                        {errors.zipCode ? <span className="error">{errors.zipCode}</span> : null}
                       </label>
-                      <label className="field">
-                        Length (feet) *
-                        <input
-                          type="number"
-                          min="1"
-                          step="0.5"
-                          value={formValues.inGround.length}
-                          onChange={(event) => updateInGround("length", event.target.value)}
-                        />
-                        {errors["inGround.length"] ? (
-                          <span className="error">{errors["inGround.length"]}</span>
-                        ) : null}
-                      </label>
+
                       <div className="field">
-                        <label htmlFor="sunniest-side">Which side gets the most sun? *</label>
+                        <label htmlFor="garden-type">Garden Type *</label>
                         <SelectControl
-                          id="sunniest-side"
-                          value={formValues.inGround.sunniestSide}
-                          onValueChange={(value) => updateInGround("sunniestSide", value)}
-                          options={SUNNIEST_SIDE_OPTIONS}
-                          placeholder="Choose a direction"
-                          ariaInvalid={Boolean(errors["inGround.sunniestSide"])}
+                          id="garden-type"
+                          value={formValues.gardenType}
+                          onValueChange={(value) => updateField("gardenType", value)}
+                          placeholder="Choose a garden type"
+                          options={GARDEN_TYPE_OPTIONS}
+                          ariaInvalid={Boolean(errors.gardenType)}
                         />
-                        {errors["inGround.sunniestSide"] ? (
-                          <span className="error">{errors["inGround.sunniestSide"]}</span>
+                        {errors.gardenType ? (
+                          <span className="error">{errors.gardenType}</span>
                         ) : null}
                       </div>
-                      <div className="field">
-                        <label htmlFor="plot-style">Plot layout *</label>
-                        <SelectControl
-                          id="plot-style"
-                          value={formValues.inGround.plotStyle}
-                          onValueChange={(value) => updateInGround("plotStyle", value)}
-                          options={PLOT_STYLE_OPTIONS}
-                        />
-                      </div>
-                      {formValues.inGround.plotStyle === "sections" ? (
-                        <label className="field">
-                          Number of sections *
-                          <input
-                            type="number"
-                            min="2"
-                            max="12"
-                            step="1"
-                            value={formValues.inGround.sectionCount}
-                            onChange={(event) =>
-                              updateInGround("sectionCount", event.target.value)
-                            }
-                          />
-                          {errors["inGround.sectionCount"] ? (
-                            <span className="error">{errors["inGround.sectionCount"]}</span>
-                          ) : null}
-                        </label>
-                      ) : null}
                     </div>
-                  </fieldset>
+                  </div>
                 ) : null}
 
-                {repeatableType ? (
-                  <fieldset className="conditional-fieldset">
-                    <legend>{areaCopy.formLabel} details</legend>
-                    <p className="field-help">
-                      {formValues.gardenType === "any"
-                        ? "Describe each space you could use. FloraScape will recommend in-ground planting, raised beds, or containers based on these dimensions and your preferences."
-                        : `Add one card per ${formValues.gardenType === "containers" ? "container" : "bed"}. Each card becomes one correctly scaled rectangle in the sketch.`}
-                    </p>
-                    <div className="garden-unit-list">
-                      {formValues.units.map((unit, index) => (
-                        <article className="garden-unit-card" key={unit.id}>
-                          <div className="garden-unit-heading">
-                            <h3>{areaCopy.formLabel} {index + 1}</h3>
-                            {formValues.units.length > 1 ? (
-                              <button
-                                type="button"
-                                className="icon-text-button danger-button"
-                                onClick={() => removeUnit(unit.id)}
-                              >
-                                <Trash2 size={16} aria-hidden="true" />
-                                Remove
-                              </button>
+                {step === 1 ? (
+                  <div className="planner-step">
+                    {formValues.gardenType === "in_ground" ? (
+                      <fieldset className="conditional-fieldset">
+                        <legend>In-ground plot</legend>
+                        <p className="field-help">
+                          Enter the full usable plot size. Sections will be arranged inside it.
+                        </p>
+                        <div className="input-grid">
+                          <label className="field">
+                            Width (feet) *
+                            <input
+                              type="number"
+                              min="1"
+                              step="0.5"
+                              value={formValues.inGround.width}
+                              onChange={(event) => updateInGround("width", event.target.value)}
+                            />
+                            {errors["inGround.width"] ? (
+                              <span className="error">{errors["inGround.width"]}</span>
+                            ) : null}
+                          </label>
+                          <label className="field">
+                            Length (feet) *
+                            <input
+                              type="number"
+                              min="1"
+                              step="0.5"
+                              value={formValues.inGround.length}
+                              onChange={(event) => updateInGround("length", event.target.value)}
+                            />
+                            {errors["inGround.length"] ? (
+                              <span className="error">{errors["inGround.length"]}</span>
+                            ) : null}
+                          </label>
+                          <div className="field">
+                            <label htmlFor="sunniest-side">Which side gets the most sun? *</label>
+                            <SelectControl
+                              id="sunniest-side"
+                              value={formValues.inGround.sunniestSide}
+                              onValueChange={(value) => updateInGround("sunniestSide", value)}
+                              options={SUNNIEST_SIDE_OPTIONS}
+                              placeholder="Choose a direction"
+                              ariaInvalid={Boolean(errors["inGround.sunniestSide"])}
+                            />
+                            {errors["inGround.sunniestSide"] ? (
+                              <span className="error">{errors["inGround.sunniestSide"]}</span>
                             ) : null}
                           </div>
-                          <div className="unit-input-grid">
-                            <label className="field">
-                              Width (feet) *
-                              <input
-                                type="number"
-                                min="0.5"
-                                step="0.5"
-                                value={unit.width}
-                                onChange={(event) =>
-                                  updateUnit(unit.id, "width", event.target.value)
-                                }
-                              />
-                              {errors[`unit.${unit.id}.width`] ? (
-                                <span className="error">{errors[`unit.${unit.id}.width`]}</span>
-                              ) : null}
-                            </label>
-                            <label className="field">
-                              Length (feet) *
-                              <input
-                                type="number"
-                                min="0.5"
-                                step="0.5"
-                                value={unit.length}
-                                onChange={(event) =>
-                                  updateUnit(unit.id, "length", event.target.value)
-                                }
-                              />
-                              {errors[`unit.${unit.id}.length`] ? (
-                                <span className="error">{errors[`unit.${unit.id}.length`]}</span>
-                              ) : null}
-                            </label>
-                            <div className="field">
-                              <label htmlFor={`sun-${unit.id}`}>Sun exposure *</label>
-                              <SelectControl
-                                id={`sun-${unit.id}`}
-                                value={unit.sunExposure}
-                                onValueChange={(value) =>
-                                  updateUnit(unit.id, "sunExposure", value)
-                                }
-                                options={SUN_EXPOSURE_OPTIONS}
-                                placeholder="Choose exposure"
-                                ariaInvalid={Boolean(errors[`unit.${unit.id}.sunExposure`])}
-                              />
-                              {errors[`unit.${unit.id}.sunExposure`] ? (
-                                <span className="error">
-                                  {errors[`unit.${unit.id}.sunExposure`]}
-                                </span>
-                              ) : null}
-                            </div>
+                          <div className="field">
+                            <label htmlFor="plot-style">Plot layout *</label>
+                            <SelectControl
+                              id="plot-style"
+                              value={formValues.inGround.plotStyle}
+                              onValueChange={(value) => updateInGround("plotStyle", value)}
+                              options={PLOT_STYLE_OPTIONS}
+                            />
                           </div>
-                        </article>
-                      ))}
-                    </div>
-                    <button type="button" className="add-unit-button" onClick={addUnit}>
-                      <Plus size={17} aria-hidden="true" />
-                      Add another {areaCopy.singular}
-                    </button>
-                  </fieldset>
-                ) : null}
+                          {formValues.inGround.plotStyle === "sections" ? (
+                            <label className="field">
+                              Number of sections *
+                              <input
+                                type="number"
+                                min="2"
+                                max="12"
+                                step="1"
+                                value={formValues.inGround.sectionCount}
+                                onChange={(event) =>
+                                  updateInGround("sectionCount", event.target.value)
+                                }
+                              />
+                              {errors["inGround.sectionCount"] ? (
+                                <span className="error">{errors["inGround.sectionCount"]}</span>
+                              ) : null}
+                            </label>
+                          ) : null}
+                        </div>
+                      </fieldset>
+                    ) : null}
 
-                {formValues.gardenType ? (
-                  <AreaPreview areas={previewAreas(formValues, areaCopy.drawingLabel)} />
-                ) : null}
+                    {repeatableType ? (
+                      <fieldset className="conditional-fieldset">
+                        <legend>{areaCopy.formLabel} details</legend>
+                        <p className="field-help">
+                          {formValues.gardenType === "any"
+                            ? "Describe each space you could use. FloraScape will recommend in-ground planting, raised beds, or containers based on these dimensions and your preferences."
+                            : `Add one card per ${formValues.gardenType === "containers" ? "container" : "bed"}. Each card becomes one correctly scaled rectangle in the sketch.`}
+                        </p>
+                        <div className="garden-unit-list">
+                          {formValues.units.map((unit, index) => (
+                            <article className="garden-unit-card" key={unit.id}>
+                              <div className="garden-unit-heading">
+                                <h3>{areaCopy.formLabel} {index + 1}</h3>
+                                {formValues.units.length > 1 ? (
+                                  <button
+                                    type="button"
+                                    className="icon-text-button danger-button"
+                                    onClick={() => removeUnit(unit.id)}
+                                  >
+                                    <Trash2 size={16} aria-hidden="true" />
+                                    Remove
+                                  </button>
+                                ) : null}
+                              </div>
+                              <div className="unit-input-grid">
+                                <label className="field">
+                                  Width (feet) *
+                                  <input
+                                    type="number"
+                                    min="0.5"
+                                    step="0.5"
+                                    value={unit.width}
+                                    onChange={(event) =>
+                                      updateUnit(unit.id, "width", event.target.value)
+                                    }
+                                  />
+                                  {errors[`unit.${unit.id}.width`] ? (
+                                    <span className="error">{errors[`unit.${unit.id}.width`]}</span>
+                                  ) : null}
+                                </label>
+                                <label className="field">
+                                  Length (feet) *
+                                  <input
+                                    type="number"
+                                    min="0.5"
+                                    step="0.5"
+                                    value={unit.length}
+                                    onChange={(event) =>
+                                      updateUnit(unit.id, "length", event.target.value)
+                                    }
+                                  />
+                                  {errors[`unit.${unit.id}.length`] ? (
+                                    <span className="error">{errors[`unit.${unit.id}.length`]}</span>
+                                  ) : null}
+                                </label>
+                                <div className="field">
+                                  <label htmlFor={`sun-${unit.id}`}>Sun exposure *</label>
+                                  <SelectControl
+                                    id={`sun-${unit.id}`}
+                                    value={unit.sunExposure}
+                                    onValueChange={(value) =>
+                                      updateUnit(unit.id, "sunExposure", value)
+                                    }
+                                    options={SUN_EXPOSURE_OPTIONS}
+                                    placeholder="Choose exposure"
+                                    ariaInvalid={Boolean(errors[`unit.${unit.id}.sunExposure`])}
+                                  />
+                                  {errors[`unit.${unit.id}.sunExposure`] ? (
+                                    <span className="error">
+                                      {errors[`unit.${unit.id}.sunExposure`]}
+                                    </span>
+                                  ) : null}
+                                </div>
+                              </div>
+                            </article>
+                          ))}
+                        </div>
+                        <button type="button" className="add-unit-button" onClick={addUnit}>
+                          <Plus size={17} aria-hidden="true" />
+                          Add another {areaCopy.singular}
+                        </button>
+                      </fieldset>
+                    ) : null}
 
-                <fieldset className="plant-fieldset">
-                  <legend>What would you like to grow? *</legend>
-                  <div className="plant-options">
-                    {PLANT_OPTIONS.map((plant) => (
-                      <CheckboxControl
-                        id={`plant-${plant.key}`}
-                        key={plant.key}
-                        checked={formValues.plantTypes.includes(plant.key)}
-                        onCheckedChange={() => togglePlant(plant.key)}
-                        label={plant.label}
-                      >
-                        <span className="tooltip-wrap">
-                          <Info size={15} aria-hidden="true" />
-                          <span className="tooltip-text">{plant.examples}</span>
-                        </span>
-                      </CheckboxControl>
-                    ))}
-                    <CheckboxControl
-                      id="plant-all"
-                      checked={allChecked}
-                      onCheckedChange={() => togglePlant(ALL_KEY)}
-                      label="All of the above"
-                      className="all-option"
-                    />
+                    {formValues.gardenType ? (
+                      <AreaPreview areas={previewAreas(formValues, areaCopy.drawingLabel)} />
+                    ) : null}
                   </div>
-                  {errors.plantTypes ? (
-                    <span className="error">{errors.plantTypes}</span>
+                ) : null}
+
+                {step === 2 ? (
+                  <div className="planner-step">
+                    <fieldset className="plant-fieldset">
+                      <legend>What would you like to grow? *</legend>
+                      <div className="plant-options">
+                        {PLANT_OPTIONS.map((plant) => (
+                          <CheckboxControl
+                            id={`plant-${plant.key}`}
+                            key={plant.key}
+                            checked={formValues.plantTypes.includes(plant.key)}
+                            onCheckedChange={() => togglePlant(plant.key)}
+                            label={plant.label}
+                          >
+                            <span className="tooltip-wrap">
+                              <Info size={15} aria-hidden="true" />
+                              <span className="tooltip-text">{plant.examples}</span>
+                            </span>
+                          </CheckboxControl>
+                        ))}
+                        <CheckboxControl
+                          id="plant-all"
+                          checked={allChecked}
+                          onCheckedChange={() => togglePlant(ALL_KEY)}
+                          label="All of the above"
+                          className="all-option"
+                        />
+                      </div>
+                      {errors.plantTypes ? (
+                        <span className="error">{errors.plantTypes}</span>
+                      ) : null}
+                    </fieldset>
+
+                    <label className="field preferences-field">
+                      Preferences (optional)
+                      <textarea
+                        rows={4}
+                        maxLength={PREFERENCES_MAX_LENGTH}
+                        placeholder="Tomatoes, pollinator friendly, low watering, budget conscious..."
+                        value={formValues.preferences}
+                        onChange={(event) => updateField("preferences", event.target.value)}
+                      />
+                    </label>
+                  </div>
+                ) : null}
+
+                <div className="planner-step-actions">
+                  {step > 0 ? (
+                    <button type="button" className="btn secondary-action" onClick={goBack}>
+                      Back
+                    </button>
                   ) : null}
-                </fieldset>
-
-                <label className="field preferences-field">
-                  Preferences (optional)
-                  <textarea
-                    rows={4}
-                    maxLength={PREFERENCES_MAX_LENGTH}
-                    placeholder="Tomatoes, pollinator friendly, low watering, budget conscious..."
-                    value={formValues.preferences}
-                    onChange={(event) => updateField("preferences", event.target.value)}
-                  />
-                </label>
-
-                <button type="submit" className="btn submit-btn">
-                  <Sparkles size={18} strokeWidth={2.3} aria-hidden="true" />
-                  Generate My Garden
-                </button>
+                  {step < PLANNER_STEPS.length - 1 ? (
+                    <button type="submit" className="btn submit-btn">
+                      Next: {PLANNER_STEPS[step + 1].title}
+                    </button>
+                  ) : (
+                    <button type="submit" className="btn submit-btn">
+                      <Sparkles size={18} strokeWidth={2.3} aria-hidden="true" />
+                      Generate My Garden
+                    </button>
+                  )}
+                </div>
               </form>
             </div>
           </div>
