@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "test": "bun test",
     "test:e2e": "playwright test",
-    "dev:e2e": "FLORASCAPE_AI=off FLORASCAPE_CLIMATE=off next dev --port 3100"
+    "dev:e2e": "FLORASCAPE_AI=off FLORASCAPE_CLIMATE=off next dev --port 3100",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "lucide-react": "^1.16.0",
