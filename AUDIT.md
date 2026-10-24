@@ -189,3 +189,30 @@ None.
 - The chat route passes the raw payload (not the Zod-parsed value) to `handleChat` after validation; `read-plan-stream` trusts its own stream's event shape.
 - No ESLint rule enforces the no-`any` rule (P10.6 holds by inspection).
 - The harvest-window event is one all-day event on the date the window opens.
+
+## Round 2 (commands, 2026-10-24)
+
+Bun 1.4.4 installed; Node is still not installed on this machine.
+
+| Command | Result |
+|---|---|
+| `bun run test` | **83 pass, 0 fail** (14 files) |
+| lint | **0 errors**, 1 warning (`no-page-custom-font`, unchanged) |
+| typecheck | **exit 0** |
+| build | **exit 0**, including Next.js type checking |
+| `bun run test:e2e` | **not run**: Playwright's runner fails to load tests under Bun (`2 errors building e2e/garden.e2e.ts`) and needs Node |
+
+`bun run lint`, `bun run typecheck`, and `bun run build` exit 127 here because their tools start with `#!/usr/bin/env node`. They were run under Bun's Node compatibility instead (`bun --bun ./node_modules/.bin/eslint .`, `bun --bun ./node_modules/typescript/bin/tsc --noEmit`, `bun --bun ./node_modules/.bin/next build`), which runs the same tools against the same config.
+
+### Status changes
+- P10.8 → **MET** (83 passing, unchanged).
+- P1.19, P2.29, P4.15, P5.20, P6.14, P7.11, P8.16 → **MET** (each lists test, lint, and build; all pass).
+- P9.11 and P10.7 stay **BLOCKED-ENV**: both also require `bun run test:e2e`, which needs Node on this machine. Every other command they list passes.
+
+Result: **141 MET, 0 PARTIAL, 0 MISSING, 2 BLOCKED-ENV.**
+
+### Findings
+None.
+
+## Result
+No PARTIAL/MISSING items in either round, so no fix rounds were needed. Two items remain blocked on installing Node to run the Playwright suite. Scope-creep breaker did not fire.
