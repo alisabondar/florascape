@@ -216,3 +216,22 @@ None.
 
 ## Result
 No PARTIAL/MISSING items in either round, so no fix rounds were needed. Two items remain blocked on installing Node to run the Playwright suite. Scope-creep breaker did not fire.
+
+## Round 3 (Node installed, 2026-10-24)
+
+Node v26.12.1 (Homebrew) + Bun 1.4.4. All commands run as written in the specs:
+
+| Command | Result |
+|---|---|
+| `bun run test` | 83 pass, 0 fail |
+| `bun run lint` | 0 errors, 1 warning (`no-page-custom-font`, unchanged) |
+| `bun run typecheck` | exit 0 |
+| `bun run build` | exit 0, with type checking |
+| `bun run test:e2e` | 4 passed (user's terminal) |
+
+P9.11 and P10.7 → **MET**. The Round 2 items checked via `bun --bun` are now also confirmed with the plain `bun run` scripts.
+
+Result: **143/143 MET.**
+
+## Final result
+All 143 items across every V2 phase are MET on the current `v2` code. No fix rounds were needed. Scope-creep breaker did not fire.
