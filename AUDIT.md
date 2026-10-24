@@ -168,3 +168,24 @@ Total: 143 items.
 - P10.6 S4: "no `any` type annotations and no `@ts-ignore`, `@ts-nocheck`, or `@ts-expect-error` comments"
 - P10.7 S5: "`bun run test`, `bun run lint`, `bun run typecheck`, `bun run build`, and `bun run test:e2e` pass"
 - P10.8 S5: "the number of passing unit tests is unchanged (83)"
+
+## Round 1 (static, 2026-10-24)
+
+Auditors: 5 fresh subagents (P1+P2, P4+P5, P6+P7, P8, P9+P10), reading the current `v2` code and tests. **This machine has no Bun, Node, or `node_modules`**, so no command could be executed; items whose wording requires a command to pass are marked BLOCKED-ENV, not PARTIAL.
+
+Result: **133 MET, 0 PARTIAL, 0 MISSING, 10 BLOCKED-ENV.**
+
+### BLOCKED-ENV (need a runtime)
+- P1.19, P2.29, P4.15, P5.20, P6.14, P7.11, P8.16, P9.11, P10.7 — "`bun run …` pass" items. The referenced tests and scripts exist.
+- P10.8 — "the number of passing unit tests is unchanged (83)". A static count finds exactly 83 `test(` declarations.
+- The "runs" halves of P9.8, P10.1, and P10.2 are MET by configuration and unverified by execution.
+
+### Findings
+None.
+
+### Out-of-scope (not traceable to the specs; not acted on)
+- 429/5xx retries the same provider once before moving on (P2.20 says "moves to the next provider"; it still does).
+- Climate cache entries expire after 6 hours; chat suggestions are capped at 3; cache hits don't count toward the chat rate limit.
+- The chat route passes the raw payload (not the Zod-parsed value) to `handleChat` after validation; `read-plan-stream` trusts its own stream's event shape.
+- No ESLint rule enforces the no-`any` rule (P10.6 holds by inspection).
+- The harvest-window event is one all-day event on the date the window opens.
