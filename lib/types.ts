@@ -7,7 +7,16 @@ export type GardenType = "any" | "in_ground" | "raised_beds" | "containers";
 export type RecommendedGardenType = Exclude<GardenType, "any">;
 export type AreaSunExposure = "full_sun" | "partial_shade" | "mostly_shade";
 export type PlantSunNeeds = "full_sun" | "partial_shade" | "shade";
-export type SunniestSide = "north" | "east" | "south" | "west" | "fully_shaded";
+export type SunniestSide =
+  | "north"
+  | "northeast"
+  | "east"
+  | "southeast"
+  | "south"
+  | "southwest"
+  | "west"
+  | "northwest"
+  | "fully_shaded";
 export type PlantTypeKey = "flowers" | "vegetables" | "herbs" | "medicinal" | "basic";
 
 export interface InGroundInput {

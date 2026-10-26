@@ -20,7 +20,7 @@ import type {
 const MIN_GROUPS_LARGE_AREA = 3;
 const LARGE_AREA_SQ_FT = 8;
 const MIN_ALTERNATIVES = 5;
-const MAX_ALTERNATIVES = 8;
+const MAX_ALTERNATIVES = 14;
 const REFERENCE_YEAR = 2001;
 
 type Climate = ClimateContext | null | undefined;

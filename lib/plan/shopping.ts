@@ -58,16 +58,24 @@ export function plantShoppingItems(plants: Pick<Plant, "name" | "quantity">[]): 
     const quantity = plants
       .filter((plant) => sameName(plant.name, name))
       .reduce((sum, plant) => sum + (Number(plant.quantity) || 1), 0);
-    const transplant = findPlantFacts(name)?.sowing === "transplant";
-    return {
-      name,
-      targetQuantity: quantity,
-      kind: transplant ? "starts" : "seeds",
-      amount: transplant
-        ? quantity
-        : Math.ceil(quantity * (1 + SHOPPING_ASSUMPTIONS.germinationBuffer)),
-    };
+    return { name, targetQuantity: quantity, ...startingAmount(name, quantity) };
   });
+}
+
+/** What to sow or buy to end up with `quantity` mature plants. */
+export function startingAmount(name: string, quantity: number): Pick<PlantShoppingItem, "kind" | "amount"> {
+  const transplant = findPlantFacts(name)?.sowing === "transplant";
+  return transplant
+    ? { kind: "starts", amount: quantity }
+    : { kind: "seeds", amount: Math.ceil(quantity * (1 + SHOPPING_ASSUMPTIONS.germinationBuffer)) };
+}
+
+/** "sow ~15 seeds" or "buy 2 starts", for labels next to a mature-plant count. */
+export function startingAmountLabel(name: string, quantity: number): string {
+  const { kind, amount } = startingAmount(name, quantity);
+  return kind === "starts"
+    ? `buy ${amount} ${amount === 1 ? "start" : "starts"}`
+    : `sow ~${amount} ${amount === 1 ? "seed" : "seeds"}`;
 }
 
 /** Soil mix for raised beds and containers (area × 1 ft); compost top-dressing in-ground. */

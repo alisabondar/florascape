@@ -5,6 +5,7 @@ import type { RoughSVG } from "roughjs/bin/svg";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { FocusEvent, MouseEvent, PointerEvent } from "react";
 import { layoutToSvgModel } from "../../lib/garden-layout";
+import { startingAmountLabel } from "../../lib/plan/shopping";
 import { layoutTableRows } from "../../lib/plan/view";
 import { IDENTITY_VIEW, MAX_ZOOM, MIN_ZOOM, panBy, ZOOM_STEP, zoomAt } from "../../lib/sketch-zoom";
 import { MAX_PLANT_QUANTITY } from "../../lib/planner-config";
@@ -113,7 +114,7 @@ function zoneLabelText(plant: Plant, patch: SketchPatch) {
     return "";
   }
   const fullLabel =
-    patch.widthPx >= 115 ? `${plant.name} · ${plant.quantity || 1}` : plant.name;
+    patch.widthPx >= 115 ? `${plant.name} · ${plant.quantity || 1} plants` : plant.name;
   return fullLabel.length > maxCharacters
     ? `${fullLabel.slice(0, Math.max(3, maxCharacters - 1))}…`
     : fullLabel;
@@ -431,7 +432,7 @@ export default function GardenSketch({
       left,
       top,
       title: plant.name,
-      target: `${plant.quantity || 1} mature ${plant.quantity === 1 ? "plant" : "plants"}`,
+      target: `${plant.quantity || 1} mature ${plant.quantity === 1 ? "plant" : "plants"} (${startingAmountLabel(plant.name, plant.quantity || 1)})`,
       spacing: `${plant.spacingInches || "?"} in spacing`,
       section: `About ${roundToQuarter(patch.width)} × ${roundToQuarter(patch.height)} ft`,
       reason: cleanPlacementReason(plant.placementReason),
@@ -615,7 +616,7 @@ export default function GardenSketch({
                       { value: plant.name, label: plant.name },
                       ...alternatives[plant.bedId]
                         .filter((item) => item.name !== plant.name)
-                        .map((item) => ({ value: item.name, label: `${item.name} — ${item.reason}` })),
+                        .map((item) => ({ value: item.name, label: item.name, description: item.reason })),
                     ]}
                     ariaLabel={`Swap ${plant.name} in ${bedsById.get(plant.bedId)?.name || "this area"}`}
                   />
@@ -624,22 +625,27 @@ export default function GardenSketch({
                 )}
                 <span>{bedsById.get(plant.bedId)?.name || "Growing area"}</span>
               </div>
-              <div className="quantity-stepper" aria-label={`${plant.name} target quantity`}>
-                <button
-                  type="button"
-                  onClick={() => adjustPlantQuantity(plant.id, -1)}
-                  aria-label={`Decrease ${plant.name}`}
-                >
-                  −
-                </button>
-                <output>{plant.quantity || 1}</output>
-                <button
-                  type="button"
-                  onClick={() => adjustPlantQuantity(plant.id, 1)}
-                  aria-label={`Increase ${plant.name}`}
-                >
-                  +
-                </button>
+              <div className="plant-group-count">
+                <div className="quantity-stepper" aria-label={`${plant.name} mature plants`}>
+                  <button
+                    type="button"
+                    onClick={() => adjustPlantQuantity(plant.id, -1)}
+                    aria-label={`Decrease ${plant.name}`}
+                  >
+                    −
+                  </button>
+                  <output>{plant.quantity || 1}</output>
+                  <button
+                    type="button"
+                    onClick={() => adjustPlantQuantity(plant.id, 1)}
+                    aria-label={`Increase ${plant.name}`}
+                  >
+                    +
+                  </button>
+                </div>
+                <span className="plant-group-count-label">
+                  mature plants · {startingAmountLabel(plant.name, plant.quantity || 1)}
+                </span>
               </div>
             </div>
           ))}
