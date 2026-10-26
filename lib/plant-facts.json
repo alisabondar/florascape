@@ -686,6 +686,902 @@
       "daysToMaturity": 90,
       "sunNeeds": "full_sun",
       "frostTolerance": "hardy"
+    },
+    {
+      "name": "Arugula",
+      "aliases": [
+        "Rocket"
+      ],
+      "category": "vegetables",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Brassicaceae",
+      "rotationGroup": "leafy",
+      "spacingInches": {
+        "min": 4,
+        "max": 6
+      },
+      "daysToMaturity": 40,
+      "sunNeeds": "partial_shade",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Bok Choy",
+      "aliases": [
+        "Pak Choi",
+        "Pac Choi"
+      ],
+      "category": "vegetables",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Brassicaceae",
+      "rotationGroup": "leafy",
+      "spacingInches": {
+        "min": 6,
+        "max": 10
+      },
+      "daysToMaturity": 45,
+      "sunNeeds": "partial_shade",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Cabbage",
+      "aliases": [],
+      "category": "vegetables",
+      "easyCare": false,
+      "sowing": "transplant",
+      "family": "Brassicaceae",
+      "rotationGroup": "leafy",
+      "spacingInches": {
+        "min": 12,
+        "max": 18
+      },
+      "daysToMaturity": 70,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Cauliflower",
+      "aliases": [],
+      "category": "vegetables",
+      "easyCare": false,
+      "sowing": "transplant",
+      "family": "Brassicaceae",
+      "rotationGroup": "leafy",
+      "spacingInches": {
+        "min": 15,
+        "max": 18
+      },
+      "daysToMaturity": 70,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "semi_hardy"
+    },
+    {
+      "name": "Brussels Sprouts",
+      "aliases": [
+        "Brussels Sprout"
+      ],
+      "category": "vegetables",
+      "easyCare": false,
+      "sowing": "transplant",
+      "family": "Brassicaceae",
+      "rotationGroup": "leafy",
+      "spacingInches": {
+        "min": 18,
+        "max": 24
+      },
+      "daysToMaturity": 90,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Collard Greens",
+      "aliases": [
+        "Collards"
+      ],
+      "category": "vegetables",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Brassicaceae",
+      "rotationGroup": "leafy",
+      "spacingInches": {
+        "min": 12,
+        "max": 18
+      },
+      "daysToMaturity": 60,
+      "sunNeeds": "partial_shade",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Kohlrabi",
+      "aliases": [],
+      "category": "vegetables",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Brassicaceae",
+      "rotationGroup": "leafy",
+      "spacingInches": {
+        "min": 4,
+        "max": 6
+      },
+      "daysToMaturity": 50,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Turnip",
+      "aliases": [
+        "Turnips"
+      ],
+      "category": "vegetables",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Brassicaceae",
+      "rotationGroup": "leafy",
+      "spacingInches": {
+        "min": 3,
+        "max": 4
+      },
+      "daysToMaturity": 45,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Mustard Greens",
+      "aliases": [
+        "Mustard"
+      ],
+      "category": "vegetables",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Brassicaceae",
+      "rotationGroup": "leafy",
+      "spacingInches": {
+        "min": 4,
+        "max": 6
+      },
+      "daysToMaturity": 40,
+      "sunNeeds": "partial_shade",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Romaine Lettuce",
+      "aliases": [
+        "Romaine",
+        "Cos Lettuce"
+      ],
+      "category": "vegetables",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Asteraceae",
+      "rotationGroup": "leafy",
+      "spacingInches": {
+        "min": 8,
+        "max": 12
+      },
+      "daysToMaturity": 65,
+      "sunNeeds": "partial_shade",
+      "frostTolerance": "semi_hardy"
+    },
+    {
+      "name": "Butterhead Lettuce",
+      "aliases": [
+        "Bibb Lettuce",
+        "Boston Lettuce"
+      ],
+      "category": "vegetables",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Asteraceae",
+      "rotationGroup": "leafy",
+      "spacingInches": {
+        "min": 8,
+        "max": 10
+      },
+      "daysToMaturity": 55,
+      "sunNeeds": "partial_shade",
+      "frostTolerance": "semi_hardy"
+    },
+    {
+      "name": "Potato",
+      "aliases": [
+        "Potatoes",
+        "Seed Potato"
+      ],
+      "category": "vegetables",
+      "easyCare": false,
+      "sowing": "direct",
+      "family": "Solanaceae",
+      "rotationGroup": "fruiting",
+      "spacingInches": {
+        "min": 10,
+        "max": 12
+      },
+      "daysToMaturity": 90,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "semi_hardy"
+    },
+    {
+      "name": "Sweet Potato",
+      "aliases": [
+        "Sweet Potatoes",
+        "Yam"
+      ],
+      "category": "vegetables",
+      "easyCare": false,
+      "sowing": "transplant",
+      "family": "Convolvulaceae",
+      "rotationGroup": "root",
+      "spacingInches": {
+        "min": 12,
+        "max": 18
+      },
+      "daysToMaturity": 100,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Leek",
+      "aliases": [
+        "Leeks"
+      ],
+      "category": "vegetables",
+      "easyCare": false,
+      "sowing": "transplant",
+      "family": "Amaryllidaceae",
+      "rotationGroup": "root",
+      "spacingInches": {
+        "min": 4,
+        "max": 6
+      },
+      "daysToMaturity": 110,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Shallot",
+      "aliases": [
+        "Shallots"
+      ],
+      "category": "vegetables",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Amaryllidaceae",
+      "rotationGroup": "root",
+      "spacingInches": {
+        "min": 4,
+        "max": 6
+      },
+      "daysToMaturity": 90,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Parsnip",
+      "aliases": [
+        "Parsnips"
+      ],
+      "category": "vegetables",
+      "easyCare": false,
+      "sowing": "direct",
+      "family": "Apiaceae",
+      "rotationGroup": "root",
+      "spacingInches": {
+        "min": 3,
+        "max": 4
+      },
+      "daysToMaturity": 110,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Celery",
+      "aliases": [],
+      "category": "vegetables",
+      "easyCare": false,
+      "sowing": "transplant",
+      "family": "Apiaceae",
+      "rotationGroup": "root",
+      "spacingInches": {
+        "min": 8,
+        "max": 10
+      },
+      "daysToMaturity": 100,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "semi_hardy"
+    },
+    {
+      "name": "Okra",
+      "aliases": [],
+      "category": "vegetables",
+      "easyCare": false,
+      "sowing": "direct",
+      "family": "Malvaceae",
+      "rotationGroup": "fruiting",
+      "spacingInches": {
+        "min": 12,
+        "max": 18
+      },
+      "daysToMaturity": 55,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Sweet Corn",
+      "aliases": [
+        "Corn"
+      ],
+      "category": "vegetables",
+      "easyCare": false,
+      "sowing": "direct",
+      "family": "Poaceae",
+      "rotationGroup": "fruiting",
+      "spacingInches": {
+        "min": 8,
+        "max": 12
+      },
+      "daysToMaturity": 75,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Winter Squash",
+      "aliases": [
+        "Butternut Squash",
+        "Acorn Squash"
+      ],
+      "category": "vegetables",
+      "easyCare": false,
+      "sowing": "direct",
+      "family": "Cucurbitaceae",
+      "rotationGroup": "fruiting",
+      "spacingInches": {
+        "min": 24,
+        "max": 36
+      },
+      "daysToMaturity": 90,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Pumpkin",
+      "aliases": [
+        "Pumpkins"
+      ],
+      "category": "vegetables",
+      "easyCare": false,
+      "sowing": "direct",
+      "family": "Cucurbitaceae",
+      "rotationGroup": "fruiting",
+      "spacingInches": {
+        "min": 36,
+        "max": 48
+      },
+      "daysToMaturity": 100,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Watermelon",
+      "aliases": [
+        "Watermelons"
+      ],
+      "category": "vegetables",
+      "easyCare": false,
+      "sowing": "direct",
+      "family": "Cucurbitaceae",
+      "rotationGroup": "fruiting",
+      "spacingInches": {
+        "min": 24,
+        "max": 36
+      },
+      "daysToMaturity": 85,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Cantaloupe",
+      "aliases": [
+        "Melon",
+        "Muskmelon"
+      ],
+      "category": "vegetables",
+      "easyCare": false,
+      "sowing": "direct",
+      "family": "Cucurbitaceae",
+      "rotationGroup": "fruiting",
+      "spacingInches": {
+        "min": 24,
+        "max": 36
+      },
+      "daysToMaturity": 80,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Tomatillo",
+      "aliases": [
+        "Tomatillos"
+      ],
+      "category": "vegetables",
+      "easyCare": false,
+      "sowing": "transplant",
+      "family": "Solanaceae",
+      "rotationGroup": "fruiting",
+      "spacingInches": {
+        "min": 24,
+        "max": 36
+      },
+      "daysToMaturity": 75,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Edamame",
+      "aliases": [
+        "Soybean",
+        "Soybeans"
+      ],
+      "category": "vegetables",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Fabaceae",
+      "rotationGroup": "legume",
+      "spacingInches": {
+        "min": 4,
+        "max": 6
+      },
+      "daysToMaturity": 85,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Fava Bean",
+      "aliases": [
+        "Fava Beans",
+        "Broad Bean"
+      ],
+      "category": "vegetables",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Fabaceae",
+      "rotationGroup": "legume",
+      "spacingInches": {
+        "min": 6,
+        "max": 8
+      },
+      "daysToMaturity": 85,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Lemon Balm",
+      "aliases": [
+        "Melissa"
+      ],
+      "category": "herbs",
+      "easyCare": true,
+      "sowing": "transplant",
+      "family": "Lamiaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 12,
+        "max": 18
+      },
+      "daysToMaturity": 70,
+      "sunNeeds": "partial_shade",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Lemongrass",
+      "aliases": [
+        "Lemon Grass"
+      ],
+      "category": "herbs",
+      "easyCare": false,
+      "sowing": "transplant",
+      "family": "Poaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 24,
+        "max": 36
+      },
+      "daysToMaturity": 100,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Tarragon",
+      "aliases": [
+        "French Tarragon"
+      ],
+      "category": "herbs",
+      "easyCare": false,
+      "sowing": "transplant",
+      "family": "Asteraceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 18,
+        "max": 24
+      },
+      "daysToMaturity": 60,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Fennel",
+      "aliases": [
+        "Bulb Fennel",
+        "Florence Fennel"
+      ],
+      "category": "herbs",
+      "easyCare": false,
+      "sowing": "direct",
+      "family": "Apiaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 8,
+        "max": 12
+      },
+      "daysToMaturity": 80,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "semi_hardy"
+    },
+    {
+      "name": "Marjoram",
+      "aliases": [
+        "Sweet Marjoram"
+      ],
+      "category": "herbs",
+      "easyCare": false,
+      "sowing": "transplant",
+      "family": "Lamiaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 8,
+        "max": 12
+      },
+      "daysToMaturity": 70,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Catnip",
+      "aliases": [
+        "Catmint"
+      ],
+      "category": "herbs",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Lamiaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 12,
+        "max": 18
+      },
+      "daysToMaturity": 75,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Stevia",
+      "aliases": [],
+      "category": "herbs",
+      "easyCare": false,
+      "sowing": "transplant",
+      "family": "Asteraceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 12,
+        "max": 18
+      },
+      "daysToMaturity": 90,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Echinacea",
+      "aliases": [
+        "Coneflower",
+        "Purple Coneflower"
+      ],
+      "category": "medicinal",
+      "easyCare": true,
+      "sowing": "transplant",
+      "family": "Asteraceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 18,
+        "max": 24
+      },
+      "daysToMaturity": 100,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Yarrow",
+      "aliases": [
+        "Achillea"
+      ],
+      "category": "medicinal",
+      "easyCare": true,
+      "sowing": "transplant",
+      "family": "Asteraceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 12,
+        "max": 18
+      },
+      "daysToMaturity": 90,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Feverfew",
+      "aliases": [],
+      "category": "medicinal",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Asteraceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 12,
+        "max": 15
+      },
+      "daysToMaturity": 90,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Borage",
+      "aliases": [
+        "Starflower"
+      ],
+      "category": "medicinal",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Boraginaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 12,
+        "max": 18
+      },
+      "daysToMaturity": 55,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "semi_hardy"
+    },
+    {
+      "name": "Hyssop",
+      "aliases": [],
+      "category": "medicinal",
+      "easyCare": true,
+      "sowing": "transplant",
+      "family": "Lamiaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 12,
+        "max": 18
+      },
+      "daysToMaturity": 85,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Black-eyed Susan",
+      "aliases": [
+        "Black-eyed Susans",
+        "Rudbeckia"
+      ],
+      "category": "flowers",
+      "easyCare": true,
+      "sowing": "transplant",
+      "family": "Asteraceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 12,
+        "max": 18
+      },
+      "daysToMaturity": 90,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Snapdragon",
+      "aliases": [
+        "Snapdragons"
+      ],
+      "category": "flowers",
+      "easyCare": false,
+      "sowing": "transplant",
+      "family": "Plantaginaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 6,
+        "max": 9
+      },
+      "daysToMaturity": 90,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "semi_hardy"
+    },
+    {
+      "name": "Sweet Pea",
+      "aliases": [
+        "Sweet Peas"
+      ],
+      "category": "flowers",
+      "easyCare": false,
+      "sowing": "direct",
+      "family": "Fabaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 4,
+        "max": 6
+      },
+      "daysToMaturity": 80,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Petunia",
+      "aliases": [
+        "Petunias"
+      ],
+      "category": "flowers",
+      "easyCare": true,
+      "sowing": "transplant",
+      "family": "Solanaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 10,
+        "max": 12
+      },
+      "daysToMaturity": 80,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Impatiens",
+      "aliases": [],
+      "category": "flowers",
+      "easyCare": true,
+      "sowing": "transplant",
+      "family": "Balsaminaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 8,
+        "max": 12
+      },
+      "daysToMaturity": 60,
+      "sunNeeds": "shade",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Begonia",
+      "aliases": [
+        "Begonias",
+        "Wax Begonia"
+      ],
+      "category": "flowers",
+      "easyCare": true,
+      "sowing": "transplant",
+      "family": "Begoniaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 8,
+        "max": 12
+      },
+      "daysToMaturity": 90,
+      "sunNeeds": "shade",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Coleus",
+      "aliases": [],
+      "category": "flowers",
+      "easyCare": true,
+      "sowing": "transplant",
+      "family": "Lamiaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 10,
+        "max": 12
+      },
+      "daysToMaturity": 70,
+      "sunNeeds": "shade",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Pansy",
+      "aliases": [
+        "Pansies",
+        "Viola",
+        "Violas"
+      ],
+      "category": "flowers",
+      "easyCare": true,
+      "sowing": "transplant",
+      "family": "Violaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 6,
+        "max": 9
+      },
+      "daysToMaturity": 70,
+      "sunNeeds": "partial_shade",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Celosia",
+      "aliases": [
+        "Cockscomb"
+      ],
+      "category": "flowers",
+      "easyCare": false,
+      "sowing": "transplant",
+      "family": "Amaranthaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 8,
+        "max": 12
+      },
+      "daysToMaturity": 70,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "tender"
+    },
+    {
+      "name": "Bachelor's Button",
+      "aliases": [
+        "Cornflower",
+        "Bachelor's Buttons"
+      ],
+      "category": "flowers",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Asteraceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 8,
+        "max": 12
+      },
+      "daysToMaturity": 70,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "hardy"
+    },
+    {
+      "name": "Sweet Alyssum",
+      "aliases": [
+        "Alyssum"
+      ],
+      "category": "flowers",
+      "easyCare": true,
+      "sowing": "direct",
+      "family": "Brassicaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 6,
+        "max": 9
+      },
+      "daysToMaturity": 50,
+      "sunNeeds": "full_sun",
+      "frostTolerance": "semi_hardy"
+    },
+    {
+      "name": "Hosta",
+      "aliases": [
+        "Hostas"
+      ],
+      "category": "flowers",
+      "easyCare": true,
+      "sowing": "transplant",
+      "family": "Asparagaceae",
+      "rotationGroup": "none",
+      "spacingInches": {
+        "min": 18,
+        "max": 24
+      },
+      "daysToMaturity": 90,
+      "sunNeeds": "shade",
+      "frostTolerance": "hardy"
     }
   ]
 }

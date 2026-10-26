@@ -12,13 +12,25 @@ interface SunSidePickerProps {
   labelledBy?: string;
 }
 
+// Clockwise from north, so arrow keys walk around the compass; "shaded" comes last.
 const SIDES = [
-  { value: "north", label: "North", area: "north" },
-  { value: "east", label: "East", area: "east" },
-  { value: "south", label: "South", area: "south" },
-  { value: "west", label: "West", area: "west" },
+  { value: "north", label: "North", area: "n" },
+  { value: "northeast", label: "NE", area: "ne" },
+  { value: "east", label: "East", area: "e" },
+  { value: "southeast", label: "SE", area: "se" },
+  { value: "south", label: "South", area: "s" },
+  { value: "southwest", label: "SW", area: "sw" },
+  { value: "west", label: "West", area: "w" },
+  { value: "northwest", label: "NW", area: "nw" },
   { value: "fully_shaded", label: "Whole plot is shaded", area: "shaded" },
 ];
+
+const FULL_NAMES: Record<string, string> = {
+  northeast: "Northeast",
+  southeast: "Southeast",
+  southwest: "Southwest",
+  northwest: "Northwest",
+};
 
 /**
  * Compass-style single-choice picker for the plot's sunniest side. Follows the WAI-ARIA
@@ -64,6 +76,7 @@ export default function SunSidePicker({ id, value, onChange, ariaInvalid = false
             type="button"
             role="radio"
             aria-checked={value === side.value}
+            aria-label={FULL_NAMES[side.value]}
             tabIndex={index === focusIndex ? 0 : -1}
             className={`sun-compass-option ${side.area}`}
             onClick={() => select(index)}
@@ -81,7 +94,7 @@ export default function SunSidePicker({ id, value, onChange, ariaInvalid = false
         </div>
       </div>
       <p className="sun-compass-hint">
-        In the Northern Hemisphere, the south side usually gets the most sun.
+        In the Northern Hemisphere, the south side usually gets the most sun. Pick a corner if the sun favors one, like southwest.
       </p>
     </div>
   );

@@ -7,6 +7,8 @@ import type { ReactNode } from "react";
 export interface SelectOption {
   value: string;
   label: string;
+  /** Secondary line shown in the open list only; the trigger shows just the label. */
+  description?: string;
 }
 
 interface SelectControlProps {
@@ -64,6 +66,9 @@ export function SelectControl({
                 value={option.value}
               >
                 <Select.ItemText>{option.label}</Select.ItemText>
+                {option.description ? (
+                  <span className="ui-select-item-description">{option.description}</span>
+                ) : null}
                 <Select.ItemIndicator className="ui-select-indicator">
                   <Check size={15} aria-hidden="true" />
                 </Select.ItemIndicator>
