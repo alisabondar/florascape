@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import CropRotation from "../../components/CropRotation";
 import GardenChat from "../../components/GardenChat";
 import GardenSketch from "../../components/GardenSketch";
+import { isResultLook, LOOK_DASHBOARDS, RESULT_LOOKS } from "../../components/looks";
+import type { ResultLookId } from "../../components/looks";
 import {
   downloadPlantingCalendar,
   NeighborCheck,
@@ -16,6 +18,7 @@ import {
   createFallbackGardenPlan,
   groupGuideByTiming,
   shufflePlan,
+  slugify,
   swapPlant,
   swapZones,
 } from "../../../lib/garden-plan";
@@ -418,23 +421,57 @@ function ClimateSummary({ climate }: { climate: ClimateContext | null | undefine
 
 const STARTER_PLAN_SOURCES = new Set(["fallback-example", "starter-plan"]);
 
-function PlanSourceBadge({ result }: { result: StoredPlannerResult | null }) {
+/** "Starter plan", "Saved result", or "AI plan · Gemini"; empty before a plan exists. */
+function planSourceLabel(result: StoredPlannerResult | null): { kind: "starter" | "cached" | "ai" | ""; label: string } {
   if (!result?.plan || !result.modelUsed) {
-    return null;
+    return { kind: "", label: "" };
   }
   if (STARTER_PLAN_SOURCES.has(result.modelUsed)) {
-    return <span className="plan-source-badge starter">Starter plan</span>;
+    return { kind: "starter", label: "Starter plan" };
   }
   if (result.cached) {
-    return <span className="plan-source-badge cached">Saved result</span>;
+    return { kind: "cached", label: "Saved result" };
   }
   // Provider names look like "gemini:gemini-3.6-flash"; show the readable provider part.
   const provider = String(result.modelUsed).split(":")[0];
-  const label = provider.charAt(0).toUpperCase() + provider.slice(1);
+  return { kind: "ai", label: `AI plan · ${provider.charAt(0).toUpperCase()}${provider.slice(1)}` };
+}
+
+function PlanSourceBadge({ result }: { result: StoredPlannerResult | null }) {
+  const { kind, label } = planSourceLabel(result);
+  if (!kind) {
+    return null;
+  }
   return (
-    <span className="plan-source-badge ai" title={result.modelUsed}>
-      AI plan · {label}
+    <span className={`plan-source-badge ${kind}`} title={kind === "ai" ? result?.modelUsed : undefined}>
+      {label}
     </span>
+  );
+}
+
+const LOOK_STORAGE_KEY = "florascape_result_look";
+
+// Matches the ids the planting guide gives its cards (see normalizeGuide / guideEntryFromFacts).
+function guideIdFor(plantName: string) {
+  return `guide-${slugify(plantName)}`;
+}
+
+/** Picks how the results page looks; the choice is kept in the URL (?look=) and on this device. */
+function LookSwitcher({ look, onChange }: { look: ResultLookId; onChange: (look: ResultLookId) => void }) {
+  return (
+    <div className="look-switcher no-print" role="group" aria-label="Results page look">
+      <span>Look:</span>
+      {RESULT_LOOKS.map((option) => (
+        <button
+          type="button"
+          key={option.id}
+          aria-pressed={look === option.id}
+          onClick={() => onChange(option.id)}
+        >
+          {option.label}
+        </button>
+      ))}
+    </div>
   );
 }
 
@@ -444,11 +481,27 @@ export default function PlannerResultPage() {
   const [progress, setProgress] = useState<PlanProgressEvent | null>(null);
   const [apiError, setApiError] = useState("");
   const [hydrated, setHydrated] = useState(false);
+  const [look, setLook] = useState<ResultLookId>("classic");
 
   useEffect(() => {
     setResult(readStoredResult());
+    const requested = new URLSearchParams(window.location.search).get("look");
+    const saved = window.localStorage.getItem(LOOK_STORAGE_KEY);
+    if (isResultLook(requested)) {
+      setLook(requested);
+    } else if (isResultLook(saved)) {
+      setLook(saved);
+    }
     setHydrated(true);
   }, []);
+
+  function changeLook(next: ResultLookId) {
+    setLook(next);
+    window.localStorage.setItem(LOOK_STORAGE_KEY, next);
+    const url = new URL(window.location.href);
+    url.searchParams.set("look", next);
+    window.history.replaceState(null, "", url);
+  }
 
   useEffect(() => {
     if (!result?.plannerInput || result.plan || status !== "idle") {
@@ -619,18 +672,47 @@ export default function PlannerResultPage() {
         </div>
       </nav>
 
-      <main>
+      <main className={look === "classic" ? undefined : `look-root look-${look}`}>
+        {plan && result ? <LookSwitcher look={look} onChange={changeLook} /> : null}
+        {plan && result && look !== "classic" ? (
+          (() => {
+            const Dashboard = LOOK_DASHBOARDS[look];
+            return (
+              <div className="container look-dashboard-container">
+                <Dashboard
+                  plan={plan}
+                  climate={result.climate || null}
+                  plannerInput={result.plannerInput}
+                  sourceLabel={planSourceLabel(result).label}
+                  warning={result.apiWarning || ""}
+                  inputSummary={inputSummary(result.plannerInput)}
+                  editHref={editHref}
+                  canShuffle={Object.values(plan.alternatives || {}).some((list) => list.length > 0)}
+                  onShuffle={handleShuffle}
+                  onCalendar={() => downloadPlantingCalendar(plan, result.climate || null)}
+                  onPrint={() => window.print()}
+                  onSwapPlant={handleSwapPlant}
+                  onOpenGuide={(plantItem) => scrollToGuide(guideIdFor(plantItem.name))}
+                />
+              </div>
+            );
+          })()
+        ) : null}
+        {look === "classic" || !plan ? (
         <section className="hero planner-result-hero">
           <div className="container hero-content">
             <h1>Garden Blueprint</h1>
             <p>{inputSummary(result?.plannerInput)}</p>
           </div>
         </section>
+        ) : null}
 
         <section className="section result-shell-section">
           <div className="container result-container">
             {result ? (
               <>
+                {look === "classic" || !plan ? (
+                <>
                 <div className="result-actions no-print">
                   <div className="generation-state">
                     <Sparkles size={18} aria-hidden="true" />
@@ -672,6 +754,8 @@ export default function PlannerResultPage() {
 
                 {result.apiWarning ? <p className="result-warning">{result.apiWarning}</p> : null}
                 <ClimateSummary climate={result.climate} />
+                </>
+                ) : null}
 
                 {plan ? (
                   <>
