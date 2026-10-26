@@ -1,8 +1,7 @@
 "use client";
 
 import { Sun } from "lucide-react";
-import { useRef } from "react";
-import type { KeyboardEvent } from "react";
+import { COMPASS_SIDES, SHADED, sidesOf, sunSideLabel, toggleSunSide } from "../../lib/sun-side";
 
 interface SunSidePickerProps {
   id: string;
@@ -12,89 +11,59 @@ interface SunSidePickerProps {
   labelledBy?: string;
 }
 
-// Clockwise from north, so arrow keys walk around the compass; "shaded" comes last.
-const SIDES = [
-  { value: "north", label: "North", area: "n" },
-  { value: "northeast", label: "NE", area: "ne" },
-  { value: "east", label: "East", area: "e" },
-  { value: "southeast", label: "SE", area: "se" },
-  { value: "south", label: "South", area: "s" },
-  { value: "southwest", label: "SW", area: "sw" },
-  { value: "west", label: "West", area: "w" },
-  { value: "northwest", label: "NW", area: "nw" },
-  { value: "fully_shaded", label: "Whole plot is shaded", area: "shaded" },
-];
-
-const FULL_NAMES: Record<string, string> = {
-  northeast: "Northeast",
-  southeast: "Southeast",
-  southwest: "Southwest",
-  northwest: "Northwest",
-};
+const SIDE_LABELS = { north: "North", east: "East", south: "South", west: "West" } as const;
 
 /**
- * Compass-style single-choice picker for the plot's sunniest side. Follows the WAI-ARIA
- * radio group pattern: one tab stop, arrow keys move and select.
+ * Compass picker for the plot's sunniest side. Pick one side, or two adjacent sides for a
+ * corner (South + West = Southwest); "Whole plot is shaded" is exclusive.
  */
 export default function SunSidePicker({ id, value, onChange, ariaInvalid = false, labelledBy }: SunSidePickerProps) {
-  const refs = useRef<(HTMLButtonElement | null)[]>([]);
-  const selectedIndex = SIDES.findIndex((side) => side.value === value);
-  const focusIndex = selectedIndex === -1 ? 0 : selectedIndex;
-
-  function select(index: number) {
-    onChange(SIDES[index].value);
-    refs.current[index]?.focus();
-  }
-
-  function onKeyDown(event: KeyboardEvent<HTMLButtonElement>, index: number) {
-    const steps: Record<string, number> = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 };
-    const step = steps[event.key];
-    if (step) {
-      event.preventDefault();
-      select((index + step + SIDES.length) % SIDES.length);
-    } else if (event.key === " " || event.key === "Enter") {
-      event.preventDefault();
-      select(index);
-    }
-  }
+  const selected = sidesOf(value);
+  const shaded = value === SHADED;
+  const plotClass = shaded ? "shaded" : value ? `lit-${value}` : "";
 
   return (
     <div className="sun-side-picker">
       <div
         id={id}
-        role="radiogroup"
+        role="group"
         aria-labelledby={labelledBy}
-        aria-invalid={ariaInvalid || undefined}
+        data-invalid={ariaInvalid || undefined}
         className="sun-compass"
       >
-        {SIDES.map((side, index) => (
-          <button
-            key={side.value}
-            ref={(node) => {
-              refs.current[index] = node;
-            }}
-            type="button"
-            role="radio"
-            aria-checked={value === side.value}
-            aria-label={FULL_NAMES[side.value]}
-            tabIndex={index === focusIndex ? 0 : -1}
-            className={`sun-compass-option ${side.area}`}
-            onClick={() => select(index)}
-            onKeyDown={(event) => onKeyDown(event, index)}
-          >
-            {value === side.value && side.value !== "fully_shaded" ? <Sun size={14} aria-hidden="true" /> : null}
-            {side.label}
-          </button>
-        ))}
-        <div
-          className={`sun-compass-plot ${value && value !== "fully_shaded" ? `lit-${value}` : value === "fully_shaded" ? "shaded" : ""}`}
-          aria-hidden="true"
-        >
+        {COMPASS_SIDES.map((side) => {
+          const pressed = selected.includes(side);
+          return (
+            <button
+              key={side}
+              type="button"
+              aria-pressed={pressed}
+              className={`sun-compass-option ${side}`}
+              onClick={() => onChange(toggleSunSide(shaded ? "" : value, side))}
+            >
+              {pressed ? <Sun size={14} aria-hidden="true" /> : null}
+              {SIDE_LABELS[side]}
+            </button>
+          );
+        })}
+        <div className={`sun-compass-plot ${plotClass}`} aria-hidden="true">
           Plot
         </div>
+        <button
+          type="button"
+          aria-pressed={shaded}
+          className="sun-compass-option shaded"
+          onClick={() => onChange(shaded ? "" : SHADED)}
+        >
+          Whole plot is shaded
+        </button>
       </div>
+      <p className="sun-compass-result" aria-live="polite">
+        {value ? `Most sun: ${sunSideLabel(value)}` : "No side picked yet"}
+      </p>
       <p className="sun-compass-hint">
-        In the Northern Hemisphere, the south side usually gets the most sun. Pick a corner if the sun favors one, like southwest.
+        Pick the sunniest side, or two neighboring sides for a corner (South + West = Southwest).
+        In the Northern Hemisphere, the south side usually gets the most sun.
       </p>
     </div>
   );
