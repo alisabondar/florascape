@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FloraScape: Seed Packet × Cozy Game hybrids</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Gaegu:wght@400;700&family=Pixelify+Sans:wght@400;600;700&family=Mali:wght@400;600&family=Silkscreen&family=Chango&display=swap">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,sans-serif;background:#e8e3d4;color:#222}
+h2,h3,h4,p,figure{margin:0}ul,ol{margin:0;padding:0}
+a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #1a5fd0;outline-offset:3px}
+*{font-variant-ligatures:none}
+[style*="Pixelify"],.c-b .num,.c-d,.c-a .hud,.c-c .lvl{font-variant-ligatures:none}
+/* index bar */
+.index{position:sticky;top:0;z-index:50;height:48px;background:#fffdf6;border-bottom:2px solid #2d3a2a;display:flex;align-items:center;gap:.6rem;padding:0 .8rem;font-size:.8rem}
+.index b{white-space:nowrap}
+.index ol{list-style:none;display:flex;gap:.35rem;overflow-x:auto;white-space:nowrap;flex:1}
+.index a{display:inline-block;padding:.3rem .6rem;border:1px solid #c9c0a8;border-radius:99px;color:#222;text-decoration:none;line-height:1.2}
+.index a span{color:#5a5a5a;margin-left:.3rem}.index a:hover{background:#f1ead2}
+.index .back{background:#2d3a2a;color:#fff;border-color:#2d3a2a}
+section.h{scroll-margin-top:52px;padding:44px 0 0}
+.wrap{max-width:1240px;margin:0 auto;padding:0 32px}
+.caption{max-width:1176px;margin:36px auto 0;background:#fffdf6;color:#222;border:1.5px solid #2d3a2a;border-radius:8px;padding:1rem 1.3rem;display:grid;grid-template-columns:1fr 1fr 1.6fr;gap:1rem;font-size:.9rem;line-height:1.45}
+.caption h3{font-size:1.2rem;grid-column:1/-1}
+.swatches{list-style:none}.swatches li{display:flex;align-items:center;gap:.4rem;margin-bottom:.2rem}
+.sw{width:22px;height:22px;border-radius:4px;border:1px solid #333;flex:none}
+.bul{padding-left:1.1rem}
+.capwrap{padding:0 32px 44px}
+.sprite{width:100%;height:100%;shape-rendering:crispEdges;display:block}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media(max-width:1000px){.caption{grid-template-columns:1fr}}
+
+/* shared pixel tile plot */
+.plot{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;padding:3px;background:#5c3a22;border:4px solid #3b2a20}
+.plot .t{aspect-ratio:1;background:#8b5a3c;padding:12%}
+.plot .t.e{background:#7a4e33}
+
+/* =========== A. SEED SHOP =========== */
+.c-a{background:#6b4a32;background-image:repeating-linear-gradient(0deg,#6b4a32 0 46px,#5b3e29 46px 50px);color:#3b2a20;font-family:'Mali',cursive}
+.c-a .hud{display:flex;justify-content:space-between;align-items:center;background:#fff4d6;border:4px solid #3b2a20;box-shadow:inset -4px -4px 0 #e6c995;padding:8px 16px;font-family:'Pixelify Sans',sans-serif;font-size:1.1rem}
+.c-a .hud .logo{font-family:'Shrikhand',cursive;font-size:1.6rem;color:#a33224}
+.c-a .awning{height:56px;margin-top:18px;background:repeating-linear-gradient(90deg,#a33224 0 60px,#fbf1d9 60px 120px);clip-path:polygon(0 0,100% 0,100% 70%,97.5% 100%,95% 70%,92.5% 100%,90% 70%,87.5% 100%,85% 70%,82.5% 100%,80% 70%,77.5% 100%,75% 70%,72.5% 100%,70% 70%,67.5% 100%,65% 70%,62.5% 100%,60% 70%,57.5% 100%,55% 70%,52.5% 100%,50% 70%,47.5% 100%,45% 70%,42.5% 100%,40% 70%,37.5% 100%,35% 70%,32.5% 100%,30% 70%,27.5% 100%,25% 70%,22.5% 100%,20% 70%,17.5% 100%,15% 70%,12.5% 100%,10% 70%,7.5% 100%,5% 70%,2.5% 100%,0 70%)}
+.c-a .shop{display:grid;grid-template-columns:1fr 1.25fr;gap:24px;margin-top:10px}
+.c-a .counter{background:#fff4d6;border:4px solid #3b2a20;box-shadow:inset -5px -5px 0 #e6c995,6px 6px 0 #2a1d14;padding:22px;display:grid;grid-template-columns:90px 1fr;gap:16px;align-content:start}
+.c-a .keeper{width:90px;height:105px}
+.c-a .bubble{background:#fff;border:3px solid #3b2a20;border-radius:12px;padding:14px 16px;position:relative}
+.c-a .bubble::before{content:"";position:absolute;left:-14px;top:30px;border:7px solid transparent;border-right-color:#3b2a20}
+.c-a .bubble small{font-family:'Pixelify Sans',sans-serif;color:#7a5a3e;font-size:.95rem}
+.c-a h2{font-family:'Shrikhand',cursive;font-weight:400;font-size:clamp(1.6rem,2.4vw,2.4rem);line-height:1.08;color:#a33224;margin:4px 0 8px}
+.c-a .bubble p{font-size:1.05rem;line-height:1.45}
+.c-a .choices{grid-column:1/-1;list-style:none;display:grid;gap:8px}
+.c-a .choices a{display:block;font-family:'Pixelify Sans',sans-serif;font-size:1.2rem;padding:10px 14px;border:3px solid #3b2a20;background:#f4dfae;color:#3b2a20;text-decoration:none}
+.c-a .choices a.primary{background:#a33224;color:#fff;box-shadow:inset -4px -4px 0 #7a2219}
+.c-a .choices a::before{content:"▸ "}
+.c-a .shelves{background:#8b5a3c;border:4px solid #3b2a20;padding:14px;display:grid;gap:14px}
+.c-a .shelfh{font-family:'Pixelify Sans',sans-serif;color:#fff4d6;font-size:1.2rem}
+.c-a .shelf{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding-bottom:12px;border-bottom:10px solid #5b3e29}
+.c-a .pk{background:#fbf1d9;border:3px solid #3b2a20;text-align:center;padding:0 6px 8px;box-shadow:3px 3px 0 #2a1d14;position:relative}
+.c-a .pk .flap{height:30px;margin:0 -6px 4px;clip-path:polygon(0 0,100% 0,100% 40%,50% 100%,0 40%)}
+.c-a .pk .ic{width:44px;height:44px;margin:0 auto}
+.c-a .pk b{font-family:'Shrikhand',cursive;font-weight:400;font-size:1.1rem;display:block}
+.c-a .pk .price{font-family:'Pixelify Sans',sans-serif;font-size:.95rem}
+.c-a .pk.sel{outline:4px solid #e3a72f;outline-offset:2px}
+.c-a .pk.sel::after{content:"In basket";position:absolute;top:-12px;right:-8px;background:#3f6b35;color:#fff;font-family:'Pixelify Sans',sans-serif;font-size:.8rem;padding:2px 6px;border:2px solid #3b2a20}
+.c-a .results{display:grid;grid-template-columns:330px 1fr 300px;gap:24px;margin-top:28px;align-items:start}
+.c-a .receipt{background:#fffef8;padding:22px 20px 34px;font-family:'Pixelify Sans',sans-serif;font-size:1rem;line-height:1.5;color:#2b2118;clip-path:polygon(0 0,100% 0,100% 100%,95% 97%,90% 100%,85% 97%,80% 100%,75% 97%,70% 100%,65% 97%,60% 100%,55% 97%,50% 100%,45% 97%,40% 100%,35% 97%,30% 100%,25% 97%,20% 100%,15% 97%,10% 100%,5% 97%,0 100%)}
+.c-a .receipt h3{font-family:'Shrikhand',cursive;font-weight:400;font-size:1.4rem;text-align:center;color:#a33224}
+.c-a .receipt .center{text-align:center;font-size:.9rem}
+.c-a .receipt li{list-style:none;display:grid;grid-template-columns:1fr auto;border-bottom:2px dashed #c9b48c;padding:6px 0}
+.c-a .receipt li span{grid-column:1/-1;font-family:'Mali',cursive;font-size:.92rem;color:#5a4636}
+.c-a .panel{background:#fff4d6;border:4px solid #3b2a20;box-shadow:inset -5px -5px 0 #e6c995,6px 6px 0 #2a1d14;padding:16px}
+.c-a .panel h3{font-family:'Shrikhand',cursive;font-weight:400;font-size:1.4rem;color:#a33224;margin-bottom:8px}
+.c-a .panel h4{font-family:'Pixelify Sans',sans-serif;margin-top:10px;color:#3f6b35}
+.c-a .panel li{margin-left:1.1rem;line-height:1.4}
+.c-a .cal{margin-top:16px;display:grid;grid-template-columns:auto 1fr;gap:4px 12px}
+.c-a .cal dt{font-family:'Pixelify Sans',sans-serif}.c-a .cal dd{margin:0;font-weight:600}
+.c-a .planner{margin-top:28px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:4px solid #3b2a20;background:#fff4d6}
+.c-a .planner>div{padding:16px 18px;border-right:4px solid #3b2a20}
+.c-a .planner>div:last-child{border:0}
+.c-a .planner h3{font-family:'Pixelify Sans',sans-serif;font-size:1.15rem;margin-bottom:8px}
+.c-a .planner label{display:block;font-size:.95rem;margin-top:6px}
+.c-a .planner input,.c-a .planner select{width:100%;font:inherit;padding:6px 8px;border:3px solid #3b2a20;background:#fff}
+.c-a .planner .on{background:#a33224;color:#fff}
+.c-a .tabs{display:flex;gap:6px;margin-top:6px}.c-a .tabs span{flex:1;text-align:center;border:3px solid #3b2a20;padding:4px;font-family:'Pixelify Sans',sans-serif}
+
+/* =========== B. PACKET QUESTS =========== */
+.c-b{background:#e9d6b0;background-image:radial-gradient(#d8c193 1.4px,transparent 1.4px);background-size:16px 16px;color:#2b2118;font-family:'Gaegu',cursive;font-size:1.15rem}
+.c-b .env{background:#fbf1d9;border:3px solid #2b2118;box-shadow:5px 5px 0 #a33224,5px 5px 0 1px #a33224;position:relative;padding:0 18px 22px;clip-path:polygon(0 0,100% 0,100% calc(100% - 8px),96% 100%,92% calc(100% - 8px),88% 100%,84% calc(100% - 8px),80% 100%,76% calc(100% - 8px),72% 100%,68% calc(100% - 8px),64% 100%,60% calc(100% - 8px),56% 100%,52% calc(100% - 8px),48% 100%,44% calc(100% - 8px),40% 100%,36% calc(100% - 8px),32% 100%,28% calc(100% - 8px),24% 100%,20% calc(100% - 8px),16% 100%,12% calc(100% - 8px),8% 100%,4% calc(100% - 8px),0 100%)}
+.c-b .flap{height:44px;margin:0 -18px 12px;display:flex;align-items:flex-start;justify-content:center;padding-top:6px;clip-path:polygon(0 0,100% 0,100% 45%,50% 100%,0 45%);color:#fbf1d9;font-family:'Shrikhand',cursive;font-size:1.05rem}
+.c-b .num{font-family:'Pixelify Sans',sans-serif}
+.c-b .topbar{display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;background:#2b2118;color:#fbf1d9;padding:8px 18px;border:3px solid #2b2118}
+.c-b .topbar .logo{font-family:'Shrikhand',cursive;font-size:1.5rem;color:#e3a72f}
+.c-b .stats{display:flex;gap:22px;font-family:'Pixelify Sans',sans-serif;justify-content:flex-end}
+.c-b .xp{height:14px;background:#4a3a2c;border:2px solid #fbf1d9}.c-b .xp i{display:block;height:100%;width:33%;background:#e3a72f}
+.c-b .hero{display:grid;grid-template-columns:1fr 380px;gap:30px;margin-top:26px;align-items:center}
+.c-b h2{font-family:'Shrikhand',cursive;font-weight:400;font-size:3.6rem;line-height:1.02;color:#a33224;text-shadow:3px 3px 0 #e3a72f;max-width:15ch}
+.c-b .hero p{font-size:1.3rem;line-height:1.4;max-width:48ch;margin-top:12px}
+.c-b .cta{display:inline-block;margin-top:18px;background:#a33224;color:#fff;font-family:'Shrikhand',cursive;font-size:1.3rem;padding:12px 26px;border:3px solid #2b2118;box-shadow:4px 4px 0 #2b2118;text-decoration:none}
+.c-b .questcard .flap{background:#3f6b35}
+.c-b .questcard h3{font-family:'Shrikhand',cursive;font-weight:400;font-size:1.5rem}
+.c-b .reward{display:inline-block;border:2px dashed #2b2118;padding:2px 8px;margin-top:8px}
+.c-b .play{display:grid;grid-template-columns:280px 1fr 280px;gap:24px;margin-top:34px;align-items:start}
+.c-b .col{display:grid;gap:22px}
+.c-b h3.ph{font-family:'Shrikhand',cursive;font-weight:400;font-size:1.4rem}
+.c-b .q{list-style:none}
+.c-b .q li{padding:8px 0;border-bottom:2px dashed #2b211855;line-height:1.25}
+.c-b .q li b{display:block;color:#a33224;font-family:'Shrikhand',cursive;font-weight:400}
+.c-b .slots{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.c-b .slot{padding:0 8px 16px;text-align:center;line-height:1.2;box-shadow:3px 3px 0 #a33224}
+.c-b .slot .flap{height:24px;margin:0 -8px 4px}
+.c-b .slot .num{font-size:1.6rem;display:block}
+.c-b .slot .ic{width:36px;height:36px;margin:0 auto}
+.c-b .frost .flap{background:#2d5d7a}
+.c-b .stamp{display:inline-block;border:4px double #a33224;color:#a33224;padding:2px 12px;transform:rotate(-5deg);font-size:1.5rem;margin:4px 0 8px}
+.c-b .fieldwrap .flap{background:#c46a2a}
+.c-b .legendrow{display:flex;justify-content:space-between;margin-top:10px;font-family:'Pixelify Sans',sans-serif;font-size:1rem}
+.c-b .planner{margin-top:34px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.c-b .planner .flap{background:#e3a72f;color:#2b2118}
+.c-b .planner .done .flap{background:#3f6b35;color:#fbf1d9}
+.c-b .planner label{display:block;margin-top:6px}
+.c-b .planner input{width:100%;font:inherit;border:0;border-bottom:2px solid #2b2118;background:transparent;padding:4px 0}
+.c-b .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.c-b .chips span{border:2px solid #2b2118;padding:0 8px;border-radius:12px}.c-b .chips .on{background:#2b2118;color:#fbf1d9}
+
+/* =========== C. COLLECTOR'S ALBUM =========== */
+.c-c{background:#2f4a3a;color:#2b2118;font-family:'Mali',cursive}
+.c-c .binder{background:#f3ead2;border-radius:14px;border:6px solid #1f3328;box-shadow:0 14px 0 #1f3328;display:grid;grid-template-columns:1fr 1fr;position:relative}
+.c-c .binder::before{content:"";position:absolute;left:50%;top:20px;bottom:20px;width:28px;margin-left:-14px;background:repeating-linear-gradient(#f3ead2 0 40px,#8a8f86 40px 56px,#f3ead2 56px 120px);border-left:2px solid #d6caa8;border-right:2px solid #d6caa8}
+.c-c .pg{padding:36px 46px}
+.c-c .logo{font-family:'Shrikhand',cursive;color:#a33224;font-size:1.5rem}
+.c-c h2{font-family:'Shrikhand',cursive;font-weight:400;font-size:3rem;line-height:1.05;margin:14px 0 10px;color:#2f4a3a}
+.c-c .lead{font-size:1.1rem;line-height:1.55;max-width:42ch}
+.c-c .cta{display:inline-block;margin-top:16px;background:#2f4a3a;color:#fff;font-family:'Shrikhand',cursive;font-size:1.2rem;padding:10px 24px;border-radius:30px;text-decoration:none}
+.c-c .progress{margin-top:26px;font-family:'Pixelify Sans',sans-serif}
+.c-c .bar{height:18px;border:3px solid #2b2118;background:#fff;margin-top:6px}.c-c .bar i{display:block;height:100%;width:40%;background:repeating-linear-gradient(90deg,#7cc35a 0 12px,#5ea53e 12px 16px)}
+.c-c .sleeves{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.c-c .card{background:#fff;border:3px solid #2b2118;border-radius:10px;padding:10px;position:relative;box-shadow:inset 0 0 0 4px #fff,inset 0 0 0 6px var(--rar)}
+.c-c .card .art{height:90px;border-radius:6px;background:var(--bg);display:grid;place-items:center;border:2px solid #2b2118}
+.c-c .card .art svg{width:56px;height:56px}
+.c-c .card h3{font-family:'Shrikhand',cursive;font-weight:400;font-size:1.25rem;margin-top:6px}
+.c-c .rar{font-family:'Pixelify Sans',sans-serif;font-size:.8rem;color:#fff;background:var(--rar);padding:1px 6px;border-radius:4px;position:absolute;top:16px;right:16px}
+.c-c .card .ct{font-weight:600;line-height:1.3;font-size:.95rem}
+.c-c .card dl{display:grid;grid-template-columns:1fr auto;gap:0 8px;font-size:.85rem;margin:6px 0 0;border-top:2px dotted #2b211866;padding-top:4px}
+.c-c .card dd{margin:0;font-family:'Pixelify Sans',sans-serif}
+.c-c .st{position:absolute;top:22px;left:16px;transform:rotate(-12deg);border:3px solid;padding:0 6px;font-family:'Pixelify Sans',sans-serif;font-size:.9rem;background:#fffc}
+.c-c .lower{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:24px;margin-top:30px}
+.c-c .box{background:#f3ead2;border:4px solid #1f3328;border-radius:10px;padding:18px}
+.c-c .box h3{font-family:'Shrikhand',cursive;font-weight:400;font-size:1.4rem;color:#2f4a3a;margin-bottom:8px}
+.c-c .lvl{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:0;position:relative;font-family:'Pixelify Sans',sans-serif;text-align:center}
+.c-c .lvl li{position:relative;padding-top:64px;line-height:1.25;font-size:.95rem}
+.c-c .lvl li::before{content:attr(data-n);position:absolute;top:0;left:50%;margin-left:-26px;width:52px;height:52px;border-radius:50%;border:4px solid #2b2118;display:grid;place-items:center;font-size:1.3rem;background:#e3a72f}
+.c-c .lvl li.now::before{background:#7cc35a}
+.c-c .lvl li:not(:last-child)::after{content:"";position:absolute;top:24px;left:calc(50% + 30px);right:calc(-50% + 30px);border-top:4px dotted #2b2118}
+.c-c .lvl small{display:block;font-family:'Mali',cursive;font-size:.92rem}
+.c-c .badge{font-family:'Pixelify Sans',sans-serif;font-size:2.6rem;color:#2f4a3a;line-height:1}
+.c-c .planner{margin-top:24px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.c-c .slotpg{border:3px dashed #2f4a3a;border-radius:10px;padding:14px;background:#fffdf3}
+.c-c .slotpg h4{font-family:'Pixelify Sans',sans-serif;font-size:1.05rem;margin-bottom:6px}
+.c-c .slotpg input{width:100%;font:inherit;padding:5px 8px;border:2px solid #2b2118;border-radius:6px;margin-top:4px}
+
+/* =========== D. PIXEL PACKET PRINT =========== */
+.c-d{background:#3b2a20;color:#fff4d6;font-family:'Pixelify Sans',sans-serif}
+.c-d .bev{background:#fff4d6;color:#3b2a20;border:4px solid #1d140e;box-shadow:inset -6px -6px 0 #e3c38b,inset 6px 6px 0 #fffbea}
+.c-d .hero{display:grid;grid-template-columns:440px 1fr;gap:40px;align-items:center}
+.c-d .bigpk{width:100%;image-rendering:pixelated}
+.c-d h2{font-family:'Silkscreen',sans-serif;font-weight:400;font-size:3.2rem;line-height:1.05;color:#ffd166;text-shadow:4px 4px 0 #a33224}
+.c-d .hero p{font-family:'Mali',cursive;font-size:1.2rem;line-height:1.5;max-width:46ch;margin-top:14px;color:#fff4d6}
+.c-d .cta{display:inline-block;margin-top:20px;font-size:1.4rem;background:#a33224;color:#fff;padding:14px 26px;border:4px solid #1d140e;box-shadow:inset -5px -5px 0 #6e1a12,inset 5px 5px 0 #d9584a;text-decoration:none}
+.c-d .hud{display:flex;gap:10px;margin-top:18px}.c-d .hud span{background:#1d140e;border:3px solid #6b4a32;padding:4px 10px;font-size:1rem}
+.c-d .res{display:grid;grid-template-columns:1.35fr 1fr;gap:24px;margin-top:36px}
+.c-d .fieldbox{padding:18px}
+.c-d h3{font-size:1.5rem;margin-bottom:12px}
+.c-d .zones{display:grid;grid-template-columns:repeat(10,1fr);grid-template-rows:repeat(6,1fr);gap:3px;background:#5c3a22;border:4px solid #1d140e;padding:3px;aspect-ratio:10/6}
+.c-d .z{background:#8b5a3c;display:grid;place-items:center;padding:8%}
+.c-d .ptag{grid-column:span 1;position:relative;align-self:center;justify-self:center;z-index:1}
+.c-d .tagrow{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+.c-d .tag{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:center;background:#fbf1d9;color:#2b2118;border:3px solid #1d140e;padding:0 10px 10px;position:relative;font-family:'Mali',cursive;font-size:.95rem;line-height:1.25;clip-path:polygon(0 0,100% 0,100% calc(100% - 6px),90% 100%,80% calc(100% - 6px),70% 100%,60% calc(100% - 6px),50% 100%,40% calc(100% - 6px),30% 100%,20% calc(100% - 6px),10% 100%,0 calc(100% - 6px))}
+.c-d .tag::before{content:"";grid-column:1/-1;height:10px;margin:0 -10px;background:var(--f)}
+.c-d .tag b{font-family:'Pixelify Sans',sans-serif;display:block;font-size:1.05rem}
+.c-d .tag .ic{width:34px;height:34px}
+.c-d .side{display:grid;gap:20px;align-content:start}
+.c-d .side .bev{padding:16px 18px}
+.c-d .guide ol{list-style:none;display:grid;gap:10px}
+.c-d .guide li{display:grid;grid-template-columns:110px 1fr;gap:10px;font-family:'Mali',cursive;line-height:1.35}
+.c-d .guide li b{font-family:'Pixelify Sans',sans-serif;background:#3f6b35;color:#fff;padding:2px 8px;align-self:start;text-align:center}
+.c-d .frost{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
+.c-d .frost .z7{font-family:'Silkscreen',sans-serif;font-size:2.6rem;background:#a33224;color:#fff;padding:6px 12px;border:4px solid #1d140e}
+.c-d .frost p{font-family:'Mali',cursive;line-height:1.4}
+.c-d .planner{margin-top:24px;padding:18px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.c-d .step{border:3px solid #1d140e;padding:12px;background:#fbf1d9}
+.c-d .step h4{font-size:1.1rem;margin-bottom:6px}
+.c-d .step.on{background:#ffd166}
+.c-d .step label{display:block;font-family:'Mali',cursive;font-size:.95rem;margin-top:6px}
+.c-d .step input{width:100%;font:inherit;font-family:'Pixelify Sans',sans-serif;padding:6px;border:3px solid #1d140e;background:#fff;box-shadow:inset 3px 3px 0 #ddd}
+.c-d .sun{display:grid;grid-template-columns:repeat(3,28px);gap:3px;justify-content:start;margin-top:6px}.c-d .sun i{height:28px;background:#e3c38b;border:2px solid #1d140e;display:grid;place-items:center;font-style:normal;font-family:'Pixelify Sans',sans-serif;font-size:.8rem}.c-d .sun i.on{background:#ffd166}.c-d .sun span{height:28px;background:#6b4a32;border:2px solid #1d140e;box-shadow:inset 4px -4px 0 #ffd166;color:#fff4d6;font-family:'Pixelify Sans',sans-serif;font-size:.7rem;display:grid;place-items:center}.c-d .sun-pick{margin:4px 0 0;font-family:'Pixelify Sans',sans-serif;font-size:.85rem}
+
+@media(max-width:1000px){
+ .c-a .shop,.c-a .results,.c-a .planner,.c-b .hero,.c-b .play,.c-b .planner,.c-c .binder,.c-c .lower,.c-c .planner,.c-d .hero,.c-d .res,.c-d .planner{grid-template-columns:1fr}
+ .c-c .binder::before{display:none}
+}
+</style>
+</head>
+<body>
+<!-- pixel sprites (8x8) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <symbol id="s-tom" viewBox="0 0 8 8"><rect x="3" y="0" width="2" height="1" fill="#3f8a2c"/><rect x="2" y="1" width="4" height="1" fill="#3f8a2c"/><rect x="1" y="2" width="6" height="5" fill="#d9412f"/><rect x="2" y="7" width="4" height="1" fill="#a32a1e"/><rect x="2" y="3" width="1" height="1" fill="#ff9a8a"/></symbol>
+ <symbol id="s-bas" viewBox="0 0 8 8"><rect x="3" y="5" width="2" height="3" fill="#2f6b22"/><rect x="1" y="2" width="3" height="3" fill="#5fae45"/><rect x="4" y="1" width="3" height="3" fill="#7cc35a"/><rect x="2" y="0" width="2" height="2" fill="#7cc35a"/></symbol>
+ <symbol id="s-let" viewBox="0 0 8 8"><rect x="1" y="3" width="6" height="4" fill="#9fdc6e"/><rect x="2" y="2" width="4" height="1" fill="#bfe58f"/><rect x="0" y="4" width="1" height="2" fill="#7cc35a"/><rect x="7" y="4" width="1" height="2" fill="#7cc35a"/><rect x="3" y="4" width="2" height="2" fill="#e6f7c4"/></symbol>
+ <symbol id="s-car" viewBox="0 0 8 8"><rect x="2" y="0" width="1" height="2" fill="#3f8a2c"/><rect x="4" y="0" width="1" height="2" fill="#3f8a2c"/><rect x="3" y="1" width="1" height="2" fill="#5fae45"/><rect x="2" y="2" width="4" height="2" fill="#f08a24"/><rect x="3" y="4" width="2" height="2" fill="#f08a24"/><rect x="3" y="6" width="1" height="2" fill="#c96a16"/></symbol>
+ <symbol id="s-seed" viewBox="0 0 8 8"><rect x="2" y="3" width="1" height="1" fill="#e6c995"/><rect x="5" y="4" width="1" height="1" fill="#e6c995"/><rect x="3" y="6" width="1" height="1" fill="#e6c995"/></symbol>
+ <symbol id="s-keeper" viewBox="0 0 12 14"><rect x="2" y="0" width="8" height="2" fill="#e3a72f"/><rect x="0" y="2" width="12" height="1" fill="#e3a72f"/><rect x="3" y="3" width="6" height="5" fill="#f2c18f"/><rect x="4" y="5" width="1" height="1" fill="#3b2a20"/><rect x="7" y="5" width="1" height="1" fill="#3b2a20"/><rect x="5" y="7" width="2" height="1" fill="#b5503f"/><rect x="2" y="8" width="8" height="6" fill="#3f6b35"/><rect x="4" y="8" width="4" height="6" fill="#fbf1d9"/><rect x="5" y="10" width="2" height="1" fill="#a33224"/></symbol>
+</svg>
+
+<nav class="index" aria-label="Hybrid concepts">
+ <b>Packet &times; Game hybrids</b>
+ <ol>
+  <li><a href="#seed-shop">A Seed Shop<span>in-game general store</span></a></li>
+  <li><a href="#packet-quests">B Packet Quests<span>HUD drawn as envelopes</span></a></li>
+  <li><a href="#collectors-album">C Collector's Album<span>binder of plant cards</span></a></li>
+  <li><a href="#pixel-packet">D Pixel Packet Print<span>packets in pixel art</span></a></li>
+  <li><a class="back" href="index.html">All 10 concepts</a></li>
+ </ol>
+</nav>
+<main>
+
+<!-- ================= A. SEED SHOP ================= -->
+<section id="seed-shop" class="h c-a" aria-labelledby="ha">
+ <div class="wrap">
+  <header class="hud px"><span class="logo">FloraScape General Store</span><span>Brooklyn 11215 &nbsp; Spring, day 14 &nbsp; Basket: 4 packets</span></header>
+  <div class="awning" aria-hidden="true"></div>
+  <div class="shop">
+   <div class="counter">
+    <svg class="keeper sprite" viewBox="0 0 12 14" role="img" aria-label="Pixel shopkeeper in a straw hat"><use href="#s-keeper"/></svg>
+    <div class="bubble"><small class="px">Mabel, shopkeeper</small>
+     <h2 id="ha">Welcome in! Let's stock your first garden.</h2>
+     <p>Tell me your ZIP code and how big your bed is. I'll pull the right seed packets and starts off the shelf and sketch where each one goes.</p></div>
+    <ul class="choices px">
+     <li><a class="primary" href="#seed-shop">Plan my garden</a></li>
+     <li><a href="#seed-shop">Just browsing the shelves</a></li>
+    </ul>
+   </div>
+   <div class="shelves" aria-label="Seed shelf">
+    <p class="shelfh px">Good for Zone 7b this spring</p>
+    <div class="shelf">
+     <div class="pk sel"><div class="flap" style="background:#a33224"></div><svg class="ic sprite" viewBox="0 0 8 8" aria-hidden="true"><use href="#s-tom"/></svg><b>Tomato</b><span class="price px">4 starts</span></div>
+     <div class="pk sel"><div class="flap" style="background:#3f6b35"></div><svg class="ic sprite" viewBox="0 0 8 8" aria-hidden="true"><use href="#s-bas"/></svg><b>Basil</b><span class="price px">6 starts</span></div>
+     <div class="pk sel"><div class="flap" style="background:#e3a72f"></div><svg class="ic sprite" viewBox="0 0 8 8" aria-hidden="true"><use href="#s-let"/></svg><b>Lettuce</b><span class="price px">1 packet</span></div>
+     <div class="pk sel"><div class="flap" style="background:#c46a2a"></div><svg class="ic sprite" viewBox="0 0 8 8" aria-hidden="true"><use href="#s-car"/></svg><b>Carrot</b><span class="price px">1 packet</span></div>
+    </div>
+    <div class="shelf">
+     <div class="pk"><div class="flap" style="background:#7a4a8a"></div><b>Pepper</b><span class="price px">Next month</span></div>
+     <div class="pk"><div class="flap" style="background:#2d5d7a"></div><b>Bean</b><span class="price px">After frost</span></div>
+     <div class="pk"><div class="flap" style="background:#b5737a"></div><b>Radish</b><span class="price px">Sow now</span></div>
+     <div class="pk"><div class="flap" style="background:#55703e"></div><b>Parsley</b><span class="price px">Swap for basil</span></div>
+    </div>
+   </div>
+  </div>
+
+  <div class="results">
+   <div class="receipt px" aria-label="Receipt">
+    <h3>Receipt</h3>
+    <p class="center">8 &times; 6 ft raised bed, full sun</p>
+    <ul>
+     <li>Tomato &middot; 4 plants<b>4 starts</b><span>Buy 4 starts</span></li>
+     <li>Basil &middot; 6 plants<b>6 starts</b><span>Buy 6 starts</span></li>
+     <li>Lettuce &middot; 24 plants<b>1 pkt</b><span>Sow ~36 seeds</span></li>
+     <li>Carrot &middot; 48 plants<b>1 pkt</b><span>Sow ~70 seeds</span></li>
+    </ul>
+    <p class="center" style="margin-top:10px">Thanks for shopping! Your plan is free.</p>
+   </div>
+   <div class="panel">
+    <h3>Your plot, planted</h3>
+    <div class="plot" role="img" aria-label="Tile plot: tomatoes and basil in the back two rows, lettuce and carrots in the front two rows">
+     <div class="t"><svg class="sprite"><use href="#s-tom"/></svg></div><div class="t"><svg class="sprite"><use href="#s-tom"/></svg></div><div class="t"><svg class="sprite"><use href="#s-tom"/></svg></div><div class="t"><svg class="sprite"><use href="#s-tom"/></svg></div><div class="t"><svg class="sprite"><use href="#s-bas"/></svg></div><div class="t"><svg class="sprite"><use href="#s-bas"/></svg></div><div class="t"><svg class="sprite"><use href="#s-bas"/></svg></div><div class="t e"></div>
+     <div class="t e"></div><div class="t e"></div><div class="t e"></div><div class="t e"></div><div class="t"><svg class="sprite"><use href="#s-bas"/></svg></div><div class="t"><svg class="sprite"><use href="#s-bas"/></svg></div><div class="t"><svg class="sprite"><use href="#s-bas"/></svg></div><div class="t e"></div>
+     <div class="t"><svg class="sprite"><use href="#s-let"/></svg></div><div class="t"><svg class="sprite"><use href="#s-let"/></svg></div><div class="t"><svg class="sprite"><use href="#s-let"/></svg></div><div class="t"><svg class="sprite"><use href="#s-let"/></svg></div><div class="t"><svg class="sprite"><use href="#s-car"/></svg></div><div class="t"><svg class="sprite"><use href="#s-car"/></svg></div><div class="t"><svg class="sprite"><use href="#s-car"/></svg></div><div class="t"><svg class="sprite"><use href="#s-car"/></svg></div>
+     <div class="t"><svg class="sprite"><use href="#s-let"/></svg></div><div class="t"><svg class="sprite"><use href="#s-let"/></svg></div><div class="t"><svg class="sprite"><use href="#s-let"/></svg></div><div class="t"><svg class="sprite"><use href="#s-let"/></svg></div><div class="t"><svg class="sprite"><use href="#s-car"/></svg></div><div class="t"><svg class="sprite"><use href="#s-car"/></svg></div><div class="t"><svg class="sprite"><use href="#s-car"/></svg></div><div class="t"><svg class="sprite"><use href="#s-car"/></svg></div>
+    </div>
+    <p class="px" style="margin-top:8px">One tile is one square foot. Tap a tile to swap that plant.</p>
+   </div>
+   <div class="panel">
+    <h3>Mabel's planting notes</h3>
+    <h4>Plant now</h4><ul><li>Sow lettuce and carrot seeds</li></ul>
+    <h4>Next month</h4><ul><li>Set out 4 tomato starts after Apr 12</li></ul>
+    <h4>Later</h4><ul><li>Basil once nights stay above 50&deg;F</li></ul>
+    <dl class="cal"><dt>Zone</dt><dd>7b</dd><dt>Last frost</dt><dd>~Apr 12</dd><dt>First frost</dt><dd>~Oct 28</dd></dl>
+   </div>
+  </div>
+
+  <div class="planner" aria-label="Planner glimpse">
+   <div><h3 class="px">1. Location &amp; type</h3><label>ZIP code<input value="11215" aria-label="ZIP code"></label><div class="tabs"><span class="on">Raised bed</span><span>In-ground</span><span>Pots</span></div></div>
+   <div><h3 class="px">2. Your space</h3><label>Bed size (ft)<input value="8 × 6" aria-label="Bed size"></label><label>Sun<select aria-label="Sun"><option>Full sun, 6+ hours</option></select></label></div>
+   <div><h3 class="px">3. What to grow</h3><p>Pick packets from the shelf above. Mabel fills your basket as you go.</p></div>
+  </div>
+ </div>
+ <div class="capwrap"><aside class="caption"><h3>A. Seed Shop</h3><p>Fonts: <b>Shrikhand</b> (signage, packet names) + <b>Pixelify Sans</b> (HUD, receipt, dialog options) + <b>Mali</b> (body)</p><ul class="swatches"><li><span class="sw" style="background:#a33224"></span>Awning red #a33224</li><li><span class="sw" style="background:#fbf1d9"></span>Packet cream #fbf1d9</li><li><span class="sw" style="background:#6b4a32"></span>Shop plank #6b4a32</li><li><span class="sw" style="background:#fff4d6"></span>Panel #fff4d6</li><li><span class="sw" style="background:#3f6b35"></span>Leaf #3f6b35</li></ul><ul class="bul"><li>The site is the shop from a farm game: the hero is a shopkeeper's dialog with choices to pick from, and the seed packets sit on wooden shelves as goods you can buy.</li><li>Results arrive as a torn receipt (counts plus what to buy) next to the planted tile plot, so the shopping list and the layout are one moment.</li><li>Step 3 of the planner is the shelf itself: you pick packets to add to your basket. Swapping a plant means grabbing a different packet.</li></ul></aside></div>
+</section>
+
+<!-- ================= B. PACKET QUESTS ================= -->
+<section id="packet-quests" class="h c-b" aria-labelledby="hb">
+ <div class="wrap">
+  <header class="topbar"><span class="logo">FloraScape</span><div class="xp" role="img" aria-label="Season progress: one third"><i></i></div><span class="stats"><span>Lv 1 Gardener</span><span>Zone 7b</span><span>Day 14</span></span></header>
+  <div class="hero">
+   <div>
+    <h2 id="hb">Every garden starts with one little quest.</h2>
+    <p>Tell us where you are and how much room you have. FloraScape turns it into a season of small quests, each one printed on its own seed packet.</p>
+    <a class="cta" href="#packet-quests">Accept first quest</a>
+   </div>
+   <div class="env questcard"><div class="flap">New quest</div>
+    <h3>Plan your first bed</h3>
+    <p>Measure your space, point the compass north, and pick three things you'd like to eat.</p>
+    <span class="reward">Reward: <span class="num">1</span> planting plan</span>
+   </div>
+  </div>
+  <div class="play">
+   <div class="col">
+    <div class="env"><div class="flap" style="background:#3f6b35">Quest log</div>
+     <ul class="q">
+      <li><b>Plant now</b>Sow lettuce and carrot seeds</li>
+      <li><b>Next month</b>Set out <span class="num">4</span> tomato starts after Apr 12</li>
+      <li><b>Later</b>Plant <span class="num">6</span> basil starts once nights warm up</li>
+     </ul></div>
+    <div class="env frost"><div class="flap">Weather</div><span class="stamp">Zone 7b</span><p>Last frost <span class="num">~Apr 12</span><br>First frost <span class="num">~Oct 28</span></p></div>
+   </div>
+   <div class="env fieldwrap"><div class="flap">Your plot, 8 &times; 6 ft</div>
+    <div class="plot" role="img" aria-label="Tile plot: tomatoes and basil at the back, lettuce and carrots at the front">
+     <div class="t"><svg class="sprite"><use href="#s-tom"/></svg></div><div class="t"><svg class="sprite"><use href="#s-tom"/></svg></div><div class="t"><svg class="sprite"><use href="#s-tom"/></svg></div><div class="t"><svg class="sprite"><use href="#s-tom"/></svg></div><div class="t"><svg class="sprite"><use href="#s-bas"/></svg></div><div class="t"><svg class="sprite"><use href="#s-bas"/></svg></div><div class="t"><svg class="sprite"><use href="#s-bas"/></svg></div><div class="t e"></div>
+     <div class="t e"></div><div class="t e"></div><div class="t e"></div><div class="t e"></div><div class="t"><svg class="sprite"><use href="#s-bas"/></svg></div><div class="t"><svg class="sprite"><use href="#s-bas"/></svg></div><div class="t"><svg class="sprite"><use href="#s-bas"/></svg></div><div class="t e"></div>
+     <div class="t"><svg class="sprite"><use href="#s-seed"/></svg></div><div class="t"><svg class="sprite"><use href="#s-seed"/></svg></div><div class="t"><svg class="sprite"><use href="#s-seed"/></svg></div><div class="t"><svg class="sprite"><use href="#s-seed"/></svg></div><div class="t"><svg class="sprite"><use href="#s-seed"/></svg></div><div class="t"><svg class="sprite"><use href="#s-seed"/></svg></div><div class="t"><svg class="sprite"><use href="#s-seed"/></svg></div><div class="t"><svg class="sprite"><use href="#s-seed"/></svg></div>
+     <div class="t"><svg class="sprite"><use href="#s-let"/></svg></div><div class="t"><svg class="sprite"><use href="#s-let"/></svg></div><div class="t"><svg class="sprite"><use href="#s-let"/></svg></div><div class="t"><svg class="sprite"><use href="#s-let"/></svg></div><div class="t"><svg class="sprite"><use href="#s-car"/></svg></div><div class="t"><svg class="sprite"><use href="#s-car"/></svg></div><div class="t"><svg class="sprite"><use href="#s-car"/></svg></div><div class="t"><svg class="sprite"><use href="#s-car"/></svg></div>
+    </div>
+    <p class="legendrow"><span>Shuffle</span><span>Seeded rows sprout in ~10 days</span><span>Swap &#9662;</span></p>
+   </div>
+   <div class="env"><div class="flap" style="background:#a33224">Inventory</div>
+    <div class="slots">
+     <div class="env slot"><div class="flap" style="background:#a33224"></div><svg class="ic sprite" aria-hidden="true"><use href="#s-tom"/></svg><span class="num">&times;4</span>Tomato plants<br>buy 4 starts</div>
+     <div class="env slot"><div class="flap" style="background:#3f6b35"></div><svg class="ic sprite" aria-hidden="true"><use href="#s-bas"/></svg><span class="num">&times;6</span>Basil plants<br>buy 6 starts</div>
+     <div class="env slot"><div class="flap" style="background:#e3a72f"></div><svg class="ic sprite" aria-hidden="true"><use href="#s-let"/></svg><span class="num">&times;24</span>Lettuce plants<br>sow ~36 seeds</div>
+     <div class="env slot"><div class="flap" style="background:#c46a2a"></div><svg class="ic sprite" aria-hidden="true"><use href="#s-car"/></svg><span class="num">&times;48</span>Carrot plants<br>sow ~70 seeds</div>
+    </div></div>
+  </div>
+  <div class="planner" aria-label="Planner glimpse">
+   <div class="env done"><div class="flap">Step 1 done: Location &amp; type</div><label>ZIP code <input value="11215" aria-label="ZIP code"></label><div class="chips"><span class="on">Raised bed</span><span>In-ground</span><span>Containers</span></div></div>
+   <div class="env"><div class="flap">Step 2: Your space</div><label>Length &times; width (ft) <input value="8 × 6" aria-label="Bed size"></label><p style="margin-top:6px">Sun: <span class="num">6+ hrs</span>, from the south</p></div>
+   <div class="env"><div class="flap">Step 3: What to grow</div><div class="chips"><span class="on">Veggies</span><span class="on">Herbs</span><span>Flowers</span><span>Fruit</span></div><p style="margin-top:6px">Each category you pick becomes a packet in your inventory.</p></div>
+  </div>
+ </div>
+ <div class="capwrap"><aside class="caption"><h3>B. Packet Quests</h3><p>Fonts: <b>Shrikhand</b> (display) + <b>Gaegu</b> (body) + <b>Pixelify Sans</b> (numbers and HUD only)</p><ul class="swatches"><li><span class="sw" style="background:#e9d6b0"></span>Kraft #e9d6b0</li><li><span class="sw" style="background:#fbf1d9"></span>Packet #fbf1d9</li><li><span class="sw" style="background:#a33224"></span>Packet red #a33224</li><li><span class="sw" style="background:#e3a72f"></span>Mustard #e3a72f</li><li><span class="sw" style="background:#2b2118"></span>Ink #2b2118</li></ul><ul class="bul"><li>It keeps #7's game layout (status bar, quest log, plot, inventory, weather), but every panel is printed as a seed envelope with a colored flap, zigzag bottom edge and an offset red shadow like misregistered print.</li><li>The type is packet-first: Shrikhand and Gaegu do the talking, and pixel type appears only for numbers and status readouts, so it reads as cozy print with a game layer.</li><li>Planner steps are envelopes too; a finished step's flap turns green, and the categories you pick become packets in your inventory.</li></ul></aside></div>
+</section>
+
+<!-- ================= C. COLLECTOR'S ALBUM ================= -->
+<section id="collectors-album" class="h c-c" aria-labelledby="hc">
+ <div class="wrap">
+  <div class="binder">
+   <div class="pg">
+    <p class="logo">FloraScape</p>
+    <h2 id="hc">Start a seed collection you can actually grow.</h2>
+    <p class="lead">Every plant in your plan is a card for your album: how many to grow, what to buy, spacing and days to harvest. Stamp each one as it's planted, growing, and harvested.</p>
+    <a class="cta" href="#collectors-album">Open my album</a>
+    <div class="progress px"><p>Spring set: 4 of 10 cards collected</p><div class="bar" role="img" aria-label="40 percent"><i></i></div></div>
+   </div>
+   <div class="pg">
+    <div class="sleeves">
+     <article class="card" style="--rar:#a33224;--bg:#ffd9cf"><span class="rar px">Classic</span><div class="art"><svg class="sprite" aria-hidden="true"><use href="#s-tom"/></svg></div><h3>Tomato</h3><p class="ct">4 plants. Buy 4 starts.</p><dl><dt>Spacing</dt><dd>24 in</dd><dt>Harvest</dt><dd>~70 days</dd><dt>Sun</dt><dd>Full</dd></dl></article>
+     <article class="card" style="--rar:#3f6b35;--bg:#d6eec4"><span class="rar px">Common</span><div class="art"><svg class="sprite" aria-hidden="true"><use href="#s-bas"/></svg></div><h3>Basil</h3><p class="ct">6 plants. Buy 6 starts.</p><dl><dt>Spacing</dt><dd>12 in</dd><dt>Harvest</dt><dd>~30 days</dd><dt>Sun</dt><dd>Full</dd></dl></article>
+     <article class="card" style="--rar:#2d6c8a;--bg:#e4f4d0"><span class="rar px">Easy</span><div class="art"><svg class="sprite" aria-hidden="true"><use href="#s-let"/></svg></div><h3>Lettuce</h3><p class="ct">24 plants. Sow ~36 seeds.</p><dl><dt>Spacing</dt><dd>6 in</dd><dt>Harvest</dt><dd>~45 days</dd><dt>Sun</dt><dd>Part</dd></dl><span class="st" style="color:#3f6b35;border-color:#3f6b35">Planted</span></article>
+     <article class="card" style="--rar:#c46a2a;--bg:#ffe6c8"><span class="rar px">Patient</span><div class="art"><svg class="sprite" aria-hidden="true"><use href="#s-car"/></svg></div><h3>Carrot</h3><p class="ct">48 plants. Sow ~70 seeds.</p><dl><dt>Spacing</dt><dd>2 in</dd><dt>Harvest</dt><dd>~70 days</dd><dt>Sun</dt><dd>Full</dd></dl><span class="st" style="color:#3f6b35;border-color:#3f6b35">Planted</span></article>
+    </div>
+   </div>
+  </div>
+  <div class="lower">
+   <div class="box"><h3>The bed these cards fill</h3>
+    <div class="plot" role="img" aria-label="Tile plot: tomatoes and basil in back, lettuce and carrots in front">
+     <div class="t"><svg class="sprite"><use href="#s-tom"/></svg></div><div class="t"><svg class="sprite"><use href="#s-tom"/></svg></div><div class="t"><svg class="sprite"><use href="#s-tom"/></svg></div><div class="t"><svg class="sprite"><use href="#s-tom"/></svg></div><div class="t"><svg class="sprite"><use href="#s-bas"/></svg></div><div class="t"><svg class="sprite"><use href="#s-bas"/></svg></div><div class="t"><svg class="sprite"><use href="#s-bas"/></svg></div><div class="t e"></div>
+     <div class="t e"></div><div class="t e"></div><div class="t e"></div><div class="t e"></div><div class="t"><svg class="sprite"><use href="#s-bas"/></svg></div><div class="t"><svg class="sprite"><use href="#s-bas"/></svg></div><div class="t"><svg class="sprite"><use href="#s-bas"/></svg></div><div class="t e"></div>
+     <div class="t"><svg class="sprite"><use href="#s-let"/></svg></div><div class="t"><svg class="sprite"><use href="#s-let"/></svg></div><div class="t"><svg class="sprite"><use href="#s-let"/></svg></div><div class="t"><svg class="sprite"><use href="#s-let"/></svg></div><div class="t"><svg class="sprite"><use href="#s-car"/></svg></div><div class="t"><svg class="sprite"><use href="#s-car"/></svg></div><div class="t"><svg class="sprite"><use href="#s-car"/></svg></div><div class="t"><svg class="sprite"><use href="#s-car"/></svg></div>
+    </div></div>
+   <div class="box"><h3>Season map</h3>
+    <ol class="lvl px">
+     <li class="now" data-n="1">Plant now<small>Sow lettuce and carrots</small></li>
+     <li data-n="2">Next month<small>4 tomato starts, after Apr 12</small></li>
+     <li data-n="3">Later<small>6 basil starts, warm nights</small></li>
+    </ol></div>
+   <div class="box"><h3>Home turf</h3><p class="badge px">Zone 7b</p><p style="margin-top:8px;line-height:1.5">Last spring frost around <b>Apr 12</b>.<br>First fall frost around <b>Oct 28</b>.</p></div>
+  </div>
+  <div class="planner box" aria-label="Planner glimpse" style="margin-top:24px">
+   <div class="slotpg"><h4 class="px">Page 1: Location &amp; type</h4><input value="ZIP 11215" aria-label="ZIP code"><input value="Raised bed" aria-label="Garden type"></div>
+   <div class="slotpg"><h4 class="px">Page 2: Your space</h4><input value="8 × 6 ft" aria-label="Bed size"><input value="Full sun, from the south" aria-label="Sun"></div>
+   <div class="slotpg"><h4 class="px">Page 3: What to grow</h4><p>Empty sleeves for each category you pick. We deal the cards that fit.</p></div>
+  </div>
+ </div>
+ <div class="capwrap"><aside class="caption"><h3>C. Collector's Album</h3><p>Fonts: <b>Shrikhand</b> (card names, headings) + <b>Mali</b> (body) + <b>Pixelify Sans</b> (rarity, stats, levels)</p><ul class="swatches"><li><span class="sw" style="background:#2f4a3a"></span>Binder green #2f4a3a</li><li><span class="sw" style="background:#f3ead2"></span>Album page #f3ead2</li><li><span class="sw" style="background:#a33224"></span>Classic red #a33224</li><li><span class="sw" style="background:#2d6c8a"></span>Easy blue #2d6c8a</li><li><span class="sw" style="background:#e3a72f"></span>Level gold #e3a72f</li></ul><ul class="bul"><li>A ring binder where each plant is a collectible trading card: a rarity tag that means difficulty, stats for spacing, harvest and sun, and Planted/Growing/Harvested stamps.</li><li>The planting guide becomes a three-level season map, and a progress bar for the set gives a gentle reason to come back.</li><li>Planner steps are album pages with empty sleeves; finishing the form "deals" the cards that fit your space.</li></ul></aside></div>
+</section>
+
+<!-- ================= D. PIXEL PACKET PRINT ================= -->
+<section id="pixel-packet" class="h c-d" aria-labelledby="hd">
+ <div class="wrap">
+  <div class="hero">
+   <svg class="bigpk sprite" viewBox="0 0 40 52" role="img" aria-label="Giant pixel-art FloraScape seed packet with a red flap and a tomato">
+    <rect x="1" y="1" width="38" height="48" fill="#1d140e"/>
+    <rect x="2" y="2" width="36" height="46" fill="#fbf1d9"/>
+    <rect x="2" y="2" width="36" height="8" fill="#a33224"/><rect x="6" y="10" width="28" height="2" fill="#a33224"/><rect x="12" y="12" width="16" height="2" fill="#a33224"/><rect x="17" y="14" width="6" height="2" fill="#a33224"/>
+    <rect x="10" y="18" width="20" height="20" fill="#ffd166"/>
+    <rect x="18" y="20" width="4" height="2" fill="#3f8a2c"/><rect x="16" y="22" width="8" height="2" fill="#3f8a2c"/>
+    <rect x="13" y="24" width="14" height="10" fill="#d9412f"/><rect x="15" y="34" width="10" height="2" fill="#a32a1e"/><rect x="15" y="26" width="2" height="2" fill="#ff9a8a"/>
+    <rect x="6" y="41" width="10" height="2" fill="#3b2a20"/><rect x="24" y="41" width="10" height="2" fill="#3b2a20"/>
+    <g fill="#3b2a20"><rect x="2" y="48" width="2" height="2"/><rect x="6" y="48" width="2" height="2"/><rect x="10" y="48" width="2" height="2"/><rect x="14" y="48" width="2" height="2"/><rect x="18" y="48" width="2" height="2"/><rect x="22" y="48" width="2" height="2"/><rect x="26" y="48" width="2" height="2"/><rect x="30" y="48" width="2" height="2"/><rect x="34" y="48" width="2" height="2"/></g>
+   </svg>
+   <div>
+    <h2 id="hd">Press start on your first garden.</h2>
+    <p>Pick your spot, size your bed, choose what you'd like to eat. FloraScape prints a pixel plot with a little seed tag on every patch: how many to grow, and what to buy.</p>
+    <a class="cta" href="#pixel-packet">Press start</a>
+    <div class="hud"><span>Lot 11215</span><span>Zone 7b</span><span>Free to play</span></div>
+   </div>
+  </div>
+  <div class="res">
+   <div class="bev fieldbox"><h3>Plot 1: 8 &times; 6 ft raised bed</h3>
+    <div class="zones" role="img" aria-label="Pixel plot in four patches: tomato back left, basil back right, lettuce front left, carrot front right">
+     <div class="z" style="grid-column:1/6;grid-row:1/4;background:#a8653f;display:grid;grid-template-columns:repeat(2,1fr);gap:6%"><svg class="sprite"><use href="#s-tom"/></svg><svg class="sprite"><use href="#s-tom"/></svg><svg class="sprite"><use href="#s-tom"/></svg><svg class="sprite"><use href="#s-tom"/></svg></div>
+     <div class="z" style="grid-column:6/11;grid-row:1/4;background:#7a6a3c;display:grid;grid-template-columns:repeat(3,1fr);gap:6%"><svg class="sprite"><use href="#s-bas"/></svg><svg class="sprite"><use href="#s-bas"/></svg><svg class="sprite"><use href="#s-bas"/></svg><svg class="sprite"><use href="#s-bas"/></svg><svg class="sprite"><use href="#s-bas"/></svg><svg class="sprite"><use href="#s-bas"/></svg></div>
+     <div class="z" style="grid-column:1/6;grid-row:4/7;background:#957046;display:grid;grid-template-columns:repeat(6,1fr);gap:4%"><svg class="sprite"><use href="#s-let"/></svg><svg class="sprite"><use href="#s-let"/></svg><svg class="sprite"><use href="#s-let"/></svg><svg class="sprite"><use href="#s-let"/></svg><svg class="sprite"><use href="#s-let"/></svg><svg class="sprite"><use href="#s-let"/></svg><svg class="sprite"><use href="#s-let"/></svg><svg class="sprite"><use href="#s-let"/></svg><svg class="sprite"><use href="#s-let"/></svg><svg class="sprite"><use href="#s-let"/></svg><svg class="sprite"><use href="#s-let"/></svg><svg class="sprite"><use href="#s-let"/></svg></div>
+     <div class="z" style="grid-column:6/11;grid-row:4/7;background:#9a5e36;display:grid;grid-template-columns:repeat(8,1fr);gap:4%"><svg class="sprite"><use href="#s-car"/></svg><svg class="sprite"><use href="#s-car"/></svg><svg class="sprite"><use href="#s-car"/></svg><svg class="sprite"><use href="#s-car"/></svg><svg class="sprite"><use href="#s-car"/></svg><svg class="sprite"><use href="#s-car"/></svg><svg class="sprite"><use href="#s-car"/></svg><svg class="sprite"><use href="#s-car"/></svg><svg class="sprite"><use href="#s-car"/></svg><svg class="sprite"><use href="#s-car"/></svg><svg class="sprite"><use href="#s-car"/></svg><svg class="sprite"><use href="#s-car"/></svg><svg class="sprite"><use href="#s-car"/></svg><svg class="sprite"><use href="#s-car"/></svg><svg class="sprite"><use href="#s-car"/></svg><svg class="sprite"><use href="#s-car"/></svg></div>
+    </div>
+    <div class="tagrow">
+     <div class="tag" style="--f:#a33224"><svg class="ic sprite" aria-hidden="true"><use href="#s-tom"/></svg><span><b>Tomato &middot; 4 plants</b>buy 4 starts</span></div>
+     <div class="tag" style="--f:#3f6b35"><svg class="ic sprite" aria-hidden="true"><use href="#s-bas"/></svg><span><b>Basil &middot; 6 plants</b>buy 6 starts</span></div>
+     <div class="tag" style="--f:#e3a72f"><svg class="ic sprite" aria-hidden="true"><use href="#s-let"/></svg><span><b>Lettuce &middot; 24 plants</b>sow ~36 seeds</span></div>
+     <div class="tag" style="--f:#c46a2a"><svg class="ic sprite" aria-hidden="true"><use href="#s-car"/></svg><span><b>Carrot &middot; 48 plants</b>sow ~70 seeds</span></div>
+    </div>
+   </div>
+   <div class="side">
+    <div class="bev guide"><h3>Planting guide</h3><ol>
+     <li><b>Plant now</b>Sow lettuce and carrot seeds in the front patches.</li>
+     <li><b>Next month</b>Set out 4 tomato starts after Apr 12.</li>
+     <li><b>Later</b>Basil goes in once nights stay above 50&deg;F.</li>
+    </ol></div>
+    <div class="bev frost"><span class="z7">7b</span><p><b>Your zone.</b> Last spring frost around Apr 12. First fall frost around Oct 28.</p></div>
+   </div>
+  </div>
+  <div class="bev planner" aria-label="Planner glimpse">
+   <div class="step on"><h4>1 Location &amp; type</h4><label>ZIP code<input value="11215" aria-label="ZIP code"></label><label>Garden type<input value="Raised bed" aria-label="Garden type"></label></div>
+   <div class="step"><h4>2 Your space</h4><label>Bed size<input value="8 × 6 ft" aria-label="Bed size"></label><label>Sun compass</label><div class="sun" aria-hidden="true"><b></b><i>N</i><b></b><i class="on">W</i><span>plot</span><i>E</i><b></b><i class="on">S</i><b></b></div><p class="sun-pick">Most sun: Southwest</p></div>
+   <div class="step"><h4>3 What to grow</h4><label>Pick up to 3 packets:</label><div class="tagrow" style="grid-template-columns:1fr 1fr;margin-top:6px"><div class="tag" style="--f:#a33224"><span></span><span><b>Veggies</b></span></div><div class="tag" style="--f:#3f6b35"><span></span><span><b>Herbs</b></span></div></div></div>
+  </div>
+ </div>
+ <div class="capwrap"><aside class="caption"><h3>D. Pixel Packet Print</h3><p>Fonts: <b>Silkscreen</b> (pixel display) + <b>Pixelify Sans</b> (UI) + <b>Mali</b> (body)</p><ul class="swatches"><li><span class="sw" style="background:#3b2a20"></span>Walnut #3b2a20</li><li><span class="sw" style="background:#fff4d6"></span>Panel #fff4d6</li><li><span class="sw" style="background:#a33224"></span>Packet red #a33224</li><li><span class="sw" style="background:#ffd166"></span>Sun gold #ffd166</li><li><span class="sw" style="background:#3f6b35"></span>Leaf #3f6b35</li></ul><ul class="bul"><li>The seed packet is drawn in pixel art: the hero is a giant pixel packet with a stepped red flap and a zigzag edge, set on a dark walnut background like a game title screen.</li><li>The top-down pixel plot is split into patches, each labelled by a tiny packet tag (flap color, sprite, count, what to buy), all inside chunky beveled game panels.</li><li>The planner is three beveled step panels, with the sun compass as four pixel side tiles around the plot (two neighbors make a corner, like Southwest) and categories picked as mini packet tags.</li></ul></aside></div>
+</section>
+
+</main>
+</body>
+</html>
