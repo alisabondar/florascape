@@ -67,3 +67,26 @@ test("Add to calendar downloads an .ics file", async ({ page }) => {
   expect(contents.startsWith("BEGIN:VCALENDAR\r\nVERSION:2.0\r\n")).toBe(true);
   expect(contents).toContain("BEGIN:VEVENT");
 });
+
+test("every results look renders its dashboard and keeps the editor", async ({ page }) => {
+  await planGarden(page);
+  const looks = [
+    ["Packet Quests", "quests"],
+    ["Collector's Album", "album"],
+    ["Quest Binder", "quest-binder"],
+    ["Seed Rack", "seed-rack"],
+  ] as const;
+
+  for (const [label, id] of looks) {
+    await page.getByRole("group", { name: "Results page look" }).getByRole("button", { name: label }).click();
+    await expect(page).toHaveURL(new RegExp(`look=${id}`));
+    await expect(page.locator(`main.look-${id}`)).toBeVisible();
+    await expect(page.locator(".pixel-zone").first()).toBeVisible();
+    await expect(page.locator("h1")).toHaveCount(1);
+    await expect(page.getByText("Edit plant groups")).toBeVisible();
+  }
+
+  await page.getByRole("group", { name: "Results page look" }).getByRole("button", { name: "Classic" }).click();
+  await expect(page.getByRole("heading", { name: "Garden Blueprint" })).toBeVisible();
+  await expect(page.locator(".pixel-plot")).toHaveCount(0);
+});

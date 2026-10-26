@@ -58,6 +58,7 @@ Providers are tried in order: Gemini, Groq, then OpenRouter. With none configure
 ## Results and editing
 
 - A badge shows where the plan came from: an AI provider, the starter plan, or a saved (cached) result.
+- A **Look** switcher on the results page offers Classic plus four pixel-art looks: Packet Quests, Collector's Album, Quest Binder, and Seed Rack. Each replaces the top of the page with its own dashboard built around an animated pixel garden (20 plant sprites in `public/sprites/`, with look-alikes for the rest); the editor, guide, and other sections stay below, restyled to match. The choice is kept in the URL (`?look=`) and on this device.
 - The results page shows the hardiness zone, frost dates, growing-season length, and a frost warning when frost is forecast.
 - Every zone is filled to the number of plants its size and spacing allow; areas of 8 sq ft or more get at least three plant groups.
 - Toggle **Show 1 ft grid** for square-foot lines in every area, or **View as table** for an accessible table of each group's area, quantity, spacing, and allocated size.

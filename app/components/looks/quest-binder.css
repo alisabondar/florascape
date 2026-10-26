@@ -1,0 +1,547 @@
+.look-quest-binder {
+  --qb-ink: #2b1d14;
+  --qb-accent: #a33224;
+  --qb-cream: #fbf1d9;
+  --qb-cream-2: #f1e0b8;
+  --qb-wood: #8a5a33;
+  --qb-wood-dark: #5e3a1f;
+  --qb-grass: #5f9a3b;
+  --qb-grass-dark: #3c6b24;
+  --qb-pixel: "Pixelify Sans", ui-monospace, monospace;
+  --qb-display: "Shrikhand", Georgia, serif;
+  --qb-body: "Mali", system-ui, sans-serif;
+  background:
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.05) 0 8px, transparent 8px 16px),
+    linear-gradient(#8cc35f, #6fa947);
+  color: var(--qb-ink);
+  font-family: var(--qb-body);
+}
+
+.look-quest-binder .qb-dashboard {
+  display: grid;
+  gap: 18px;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 18px 16px 8px;
+}
+
+/* ---------- shared panels ---------- */
+.look-quest-binder .qb-panel,
+.look-quest-binder .result-content-section {
+  background: var(--qb-cream);
+  border: 3px solid var(--qb-ink);
+  border-radius: 6px;
+  box-shadow: inset -4px -4px 0 var(--qb-cream-2), inset 4px 4px 0 #fff9ea, 0 5px 0 var(--qb-ink);
+}
+
+.look-quest-binder .qb-panel-title {
+  margin: 0 0 12px;
+  font-family: var(--qb-pixel);
+  font-variant-ligatures: none;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.look-quest-binder .qb-count {
+  font-family: var(--qb-pixel);
+  font-variant-ligatures: none;
+  color: var(--qb-accent);
+  font-weight: 700;
+}
+
+/* ---------- HUD ---------- */
+.look-quest-binder .qb-hud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px;
+  background: linear-gradient(var(--qb-wood), var(--qb-wood-dark));
+  border: 3px solid var(--qb-ink);
+  border-radius: 6px;
+  box-shadow: inset 0 3px 0 rgba(255, 255, 255, 0.25), inset 0 -3px 0 rgba(0, 0, 0, 0.25), 0 5px 0 var(--qb-ink);
+  font-family: var(--qb-pixel);
+  font-variant-ligatures: none;
+}
+
+.look-quest-binder .qb-hud-chip {
+  background: var(--qb-cream);
+  border: 2px solid var(--qb-ink);
+  border-radius: 4px;
+  padding: 4px 10px;
+  box-shadow: inset -2px -2px 0 var(--qb-cream-2);
+  font-size: 0.95rem;
+}
+
+.look-quest-binder .qb-hud-key {
+  color: var(--qb-accent);
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+.look-quest-binder .qb-hud-source {
+  margin-left: auto;
+  background: var(--qb-grass-dark);
+  color: #fff;
+  box-shadow: none;
+}
+
+/* ---------- layout ---------- */
+.look-quest-binder .qb-grid {
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+/* ---------- level map ---------- */
+.look-quest-binder .qb-map {
+  padding: 14px;
+}
+
+.look-quest-binder .qb-levels {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.look-quest-binder .qb-level {
+  position: relative;
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 10px;
+  padding-bottom: 18px;
+}
+
+.look-quest-binder .qb-level:nth-child(even) {
+  padding-left: 18px;
+}
+
+.look-quest-binder .qb-level:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 19px;
+  top: 40px;
+  bottom: 0;
+  border-left: 4px dotted var(--qb-wood);
+}
+
+.look-quest-binder .qb-level:nth-child(even):not(:last-child)::after {
+  left: 37px;
+  transform: skewX(-18deg);
+}
+
+.look-quest-binder .qb-level:nth-child(odd):not(:last-child)::after {
+  transform: skewX(18deg);
+}
+
+.look-quest-binder .qb-level-node {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border: 3px solid var(--qb-ink);
+  border-radius: 50%;
+  background: var(--qb-cream-2);
+  font-family: var(--qb-pixel);
+  font-variant-ligatures: none;
+  font-weight: 700;
+  font-size: 1.2rem;
+  box-shadow: 0 3px 0 var(--qb-ink);
+}
+
+.look-quest-binder .qb-level.is-current .qb-level-node {
+  background: var(--qb-accent);
+  color: #fff;
+  box-shadow: 0 3px 0 var(--qb-ink), 0 0 0 4px #f6d55c;
+}
+
+.look-quest-binder .qb-level-title {
+  margin: 8px 0 6px;
+  font-family: var(--qb-pixel);
+  font-variant-ligatures: none;
+  font-size: 0.95rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.look-quest-binder .qb-level-badge {
+  background: #f6d55c;
+  border: 2px solid var(--qb-ink);
+  padding: 0 5px;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+
+.look-quest-binder .qb-level-plants {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.look-quest-binder .qb-level-plant {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 6px;
+  background: #fffaf0;
+  border: 2px solid var(--qb-ink);
+  border-radius: 4px;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--qb-ink);
+  cursor: pointer;
+  text-align: left;
+}
+
+.look-quest-binder .qb-level-plant .qb-count {
+  margin-left: auto;
+}
+
+.look-quest-binder .qb-level-plant:hover:not(:disabled) {
+  background: #e6f2d4;
+}
+
+.look-quest-binder .qb-level-plant:disabled {
+  cursor: default;
+  opacity: 0.75;
+}
+
+.look-quest-binder .qb-empty {
+  margin: 0;
+}
+
+/* ---------- stage ---------- */
+.look-quest-binder .qb-stage {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+
+.look-quest-binder .qb-headline h1 {
+  margin: 0;
+  font-family: var(--qb-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  line-height: 1.05;
+  color: var(--qb-cream);
+  text-shadow: 3px 3px 0 var(--qb-ink), -1px -1px 0 var(--qb-ink), 1px -1px 0 var(--qb-ink), -1px 1px 0 var(--qb-ink);
+}
+
+.look-quest-binder .qb-kicker {
+  margin: 0 0 4px;
+  font-family: var(--qb-pixel);
+  font-variant-ligatures: none;
+  color: var(--qb-ink);
+}
+
+.look-quest-binder .qb-summary {
+  margin: 8px 0 0;
+  max-width: 68ch;
+  padding: 10px 14px;
+  background: rgba(251, 241, 217, 0.94);
+  border: 2px solid var(--qb-ink);
+  border-radius: 6px;
+}
+
+.look-quest-binder .qb-npc {
+  position: relative;
+  padding: 12px 14px 12px 16px;
+  background: #fff;
+  border: 3px solid var(--qb-ink);
+  border-radius: 12px;
+  margin-left: 18px;
+  box-shadow: 0 4px 0 var(--qb-ink);
+}
+
+.look-quest-binder .qb-npc::before {
+  content: "";
+  position: absolute;
+  left: -14px;
+  top: 16px;
+  border: 8px solid transparent;
+  border-right-color: var(--qb-ink);
+  border-width: 8px 14px 8px 0;
+}
+
+.look-quest-binder .qb-npc-name {
+  font-family: var(--qb-pixel);
+  font-variant-ligatures: none;
+  color: var(--qb-accent);
+  font-weight: 700;
+}
+
+.look-quest-binder .qb-npc p {
+  margin: 4px 0 0;
+}
+
+.look-quest-binder .qb-viewport {
+  background: var(--qb-wood-dark);
+  border: 4px solid var(--qb-ink);
+  border-radius: 8px;
+  padding: 8px;
+  box-shadow: inset 0 0 0 3px var(--qb-wood), 0 6px 0 var(--qb-ink);
+  min-width: 0;
+}
+
+.look-quest-binder .qb-viewport-bar {
+  display: flex;
+  justify-content: space-between;
+  padding: 2px 6px 8px;
+  font-family: var(--qb-pixel);
+  font-variant-ligatures: none;
+  color: var(--qb-cream);
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+/* ---------- game buttons ---------- */
+.look-quest-binder .qb-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.look-quest-binder .qb-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  font-family: var(--qb-pixel);
+  font-variant-ligatures: none;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--qb-ink);
+  text-decoration: none;
+  background: var(--qb-cream);
+  border: 3px solid var(--qb-ink);
+  border-radius: 4px;
+  box-shadow: inset -3px -3px 0 var(--qb-cream-2), 0 4px 0 var(--qb-ink);
+  cursor: pointer;
+}
+
+.look-quest-binder .qb-btn:hover {
+  background: #fff;
+}
+
+.look-quest-binder .qb-btn:active {
+  transform: translateY(3px);
+  box-shadow: inset -3px -3px 0 var(--qb-cream-2), 0 1px 0 var(--qb-ink);
+}
+
+.look-quest-binder .qb-btn-accent {
+  background: var(--qb-accent);
+  color: #fff;
+  box-shadow: inset -3px -3px 0 #7a2219, 0 4px 0 var(--qb-ink);
+}
+
+.look-quest-binder .qb-btn-accent:hover {
+  background: #b83b2b;
+}
+
+/* ---------- inventory ---------- */
+.look-quest-binder .qb-inventory {
+  padding: 14px;
+  min-width: 0;
+}
+
+.look-quest-binder .qb-cards {
+  list-style: none;
+  margin: 0;
+  padding: 4px 4px 12px;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 158px;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+}
+
+.look-quest-binder .qb-cards > li {
+  scroll-snap-align: start;
+}
+
+.look-quest-binder .qb-card {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  padding: 8px 8px 10px;
+  background: #fffaf0;
+  border: 3px solid var(--qb-ink);
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 3px var(--qb-cream-2), 0 4px 0 var(--qb-ink);
+  font: inherit;
+  color: var(--qb-ink);
+  cursor: pointer;
+  text-align: center;
+  transition: transform 120ms ease;
+}
+
+.look-quest-binder .qb-card:hover {
+  transform: translateY(-3px);
+}
+
+.look-quest-binder .qb-card-art {
+  width: 100%;
+  min-height: 84px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(#bfe3f0, #d8eec4 70%, var(--qb-grass) 70%);
+  border: 2px solid var(--qb-ink);
+  border-radius: 4px;
+}
+
+.look-quest-binder .qb-card-name {
+  font-family: var(--qb-pixel);
+  font-variant-ligatures: none;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.look-quest-binder .qb-card-qty {
+  font-family: var(--qb-pixel);
+  font-variant-ligatures: none;
+  color: #fff;
+  background: var(--qb-accent);
+  border: 2px solid var(--qb-ink);
+  padding: 0 6px;
+}
+
+.look-quest-binder .qb-card-amount {
+  font-size: 0.82rem;
+}
+
+.look-quest-binder .qb-card-stats {
+  display: flex;
+  gap: 8px;
+  font-family: var(--qb-pixel);
+  font-variant-ligatures: none;
+  font-size: 0.8rem;
+}
+
+.look-quest-binder .qb-card-bed {
+  font-size: 0.75rem;
+  color: var(--qb-wood-dark);
+  border-top: 2px dashed var(--qb-cream-2);
+  padding-top: 3px;
+  width: 100%;
+}
+
+/* ---------- focus ---------- */
+.look-quest-binder button:focus-visible,
+.look-quest-binder a:focus-visible,
+.look-quest-binder [tabindex]:focus-visible {
+  outline: 3px solid #f6d55c;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 6px var(--qb-ink);
+}
+
+/* ---------- shared sections ---------- */
+.look-quest-binder .result-content-section {
+  max-width: 1240px;
+  margin: 20px auto;
+  padding: 18px;
+}
+
+.look-quest-binder .result-section-heading > span {
+  font-family: var(--qb-pixel);
+  font-variant-ligatures: none;
+  font-weight: 700;
+  background: var(--qb-grass-dark);
+  color: #fff;
+  border: 3px solid var(--qb-ink);
+  border-radius: 4px;
+  padding: 2px 8px;
+  box-shadow: 0 3px 0 var(--qb-ink);
+}
+
+.look-quest-binder .result-content-section h2 {
+  font-family: var(--qb-display);
+  font-weight: 400;
+  color: var(--qb-ink);
+}
+
+.look-quest-binder .guide-timing-heading {
+  font-family: var(--qb-pixel);
+  font-variant-ligatures: none;
+  text-transform: uppercase;
+}
+
+.look-quest-binder .guide-timing-heading span {
+  color: var(--qb-accent);
+}
+
+.look-quest-binder .guide-card,
+.look-quest-binder .tips-column > * {
+  background: #fffaf0;
+  border: 3px solid var(--qb-ink);
+  border-radius: 6px;
+  box-shadow: inset -3px -3px 0 var(--qb-cream-2), 0 4px 0 var(--qb-ink);
+}
+
+.look-quest-binder .guide-card h3 {
+  font-family: var(--qb-pixel);
+  font-variant-ligatures: none;
+}
+
+.look-quest-binder .result-content-section button:not(.qb-btn) {
+  font-family: var(--qb-pixel);
+  font-variant-ligatures: none;
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 820px) {
+  .look-quest-binder .qb-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .look-quest-binder .qb-hud-source {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .look-quest-binder .qb-dashboard {
+    padding: 12px 8px 4px;
+  }
+
+  .look-quest-binder .qb-cards {
+    grid-auto-columns: 140px;
+  }
+
+  .look-quest-binder .result-content-section {
+    padding: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .look-quest-binder .qb-card {
+    transition: none;
+  }
+
+  .look-quest-binder .qb-card:hover {
+    transform: none;
+  }
+}
+
+@media print {
+  .look-quest-binder {
+    background: none;
+  }
+
+  .look-quest-binder .qb-cards {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    overflow: visible;
+  }
+}
