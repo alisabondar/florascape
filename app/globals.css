@@ -2542,3 +2542,40 @@ a {
   color: #5c6b55;
   white-space: nowrap;
 }
+
+/* ---------- Results page look switcher ---------- */
+.look-switcher {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  max-width: 1180px;
+  margin: 5.5rem auto 0;
+  padding: 0 1.25rem;
+  font-size: 0.85rem;
+}
+
+.look-switcher span {
+  font-weight: 600;
+  color: #4b5a45;
+}
+
+.look-switcher button {
+  border: 1px solid #cfdcc4;
+  border-radius: 999px;
+  background: #fff;
+  color: #3d5a32;
+  padding: 0.3rem 0.8rem;
+  font: inherit;
+  cursor: pointer;
+}
+
+.look-switcher button[aria-pressed="true"] {
+  background: #3d5a32;
+  border-color: #3d5a32;
+  color: #fff;
+}
+
+.look-root .look-dashboard-container {
+  margin-top: 1rem;
+}
