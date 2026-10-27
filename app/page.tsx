@@ -87,7 +87,7 @@ export default function Home() {
                 <span />
               </div>
               <div className="home-cover-body">
-                <p className="home-cover-vol px">Vol. 1 · Garden Collection</p>
+                <p className="home-cover-vol">Vol. 1 · Garden Collection</p>
                 <div className="home-plate">
                   <h1 id="home-title">FloraScape</h1>
                   <p className="home-tagline">Collect a garden that fits your space and climate.</p>
@@ -134,8 +134,8 @@ export default function Home() {
 
               {examplePlan ? (
                 <figure className="home-sample">
-                  <figcaption className="px">Sample page · example garden</figcaption>
-                  <PixelPlot layout={examplePlan.layout} showTags={false} maxTile={22} />
+                  <figcaption className="home-kicker">Sample page · example garden</figcaption>
+                  <PixelPlot layout={examplePlan.layout} showTags={false} maxTile={22} animate={false} />
                 </figure>
               ) : null}
             </div>
@@ -145,7 +145,7 @@ export default function Home() {
         <section className="home-section" id="features" aria-labelledby="features-title">
           <div className="container home-page-sheet">
             <header className="home-section-head">
-              <p className="home-kicker px">Page 2 · The collection</p>
+              <p className="home-kicker">Page 2 · The collection</p>
               <h2 id="features-title">Everything in your album</h2>
               <p>Each plan comes with the full set. No cards to trade for.</p>
             </header>
@@ -167,7 +167,7 @@ export default function Home() {
         <section className="home-section" id="how-it-works" aria-labelledby="how-title">
           <div className="container home-page-sheet">
             <header className="home-section-head">
-              <p className="home-kicker px">Page 3 · Season map</p>
+              <p className="home-kicker">Page 3 · Season map</p>
               <h2 id="how-title">Three levels to a full plan</h2>
               <p>Three short steps, then your album is ready to explore and edit.</p>
             </header>

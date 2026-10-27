@@ -75,11 +75,8 @@
 
 .pixel-bed {
   position: absolute;
+  /* Plain soil; sections are separated by divider lines, not a tile grid. */
   background-color: #7a4a2a;
-  background-image:
-    linear-gradient(#5a341d 2px, transparent 2px),
-    linear-gradient(90deg, #5a341d 2px, transparent 2px);
-  background-size: var(--tile) var(--tile);
   border: 3px solid #2b1d14;
   box-shadow: inset 0 0 0 3px #9c6338;
 }
@@ -153,4 +150,17 @@
 .pixel-zone.drop-target {
   border: 3px solid #ffe27a;
   background: rgba(255, 226, 122, 0.3);
+}
+
+/* A single plant sits in the middle of its section. */
+.pixel-zone.single {
+  align-items: center;
+  align-content: center;
+}
+
+/* One line between neighboring sections of a bed. */
+.pixel-zone-divider {
+  position: absolute;
+  background: #3d2312;
+  pointer-events: none;
 }
