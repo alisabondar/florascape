@@ -248,13 +248,6 @@ body {
   }
 }
 
-/* Results on phones: "Edit inputs" is already in the album toolbar, so the top bar keeps just Start Over. */
-@media (max-width: 480px) {
-  .planner-result-page .planner-nav-actions .planner-back-link {
-    display: none;
-  }
-}
-
 /* Phones: logo, level chip, and the main action share one row. */
 @media (max-width: 560px) {
   .landing-page .nav-links {

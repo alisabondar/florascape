@@ -182,7 +182,7 @@
   position: relative; display: flex; flex-direction: column; align-items: stretch;
   background: var(--al-paper); border: 3px solid var(--al-ink); border-radius: 10px;
   box-shadow: inset 0 0 0 4px #fff, inset 0 0 0 6px var(--al-rule), 4px 5px 0 var(--al-green-dark);
-  padding: 8px; transition: transform 0.15s ease;
+  padding: 8px; transition: transform 0.15s ease; cursor: pointer;
 }
 .planner-album .pa-plant-card:hover { transform: translateY(-2px); }
 /* Outline only for keyboard focus, so a clicked (or unclicked) card doesn't stay highlighted. */

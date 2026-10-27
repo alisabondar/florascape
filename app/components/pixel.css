@@ -170,6 +170,9 @@
   box-shadow: none;
 }
 
-.pixel-zone.static {
+.pixel-zone.static,
+.pixel-zone.static:hover {
   cursor: default;
+  border-color: transparent;
+  background: transparent;
 }

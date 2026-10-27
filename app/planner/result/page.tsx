@@ -9,6 +9,7 @@ import AlbumDashboard from "../../components/looks/Album";
 import AlbumShelf from "../../components/albums/AlbumShelf";
 import NotesTabs from "../../components/NotesTabs";
 import { saveAlbum } from "../../components/albums/store";
+import NavAlbumsLink from "../../components/albums/NavAlbumsLink";
 import LevelBadge from "../../components/progress/LevelBadge";
 import { recordProgress } from "../../components/progress/store";
 import PixelSprite from "../../components/PixelSprite";
@@ -431,7 +432,13 @@ export default function PlannerResultPage() {
     if (target instanceof HTMLDetailsElement) {
       target.open = true;
     }
-    (target?.closest(".album-card") ?? target)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    const card = target?.closest(".album-card") ?? target;
+    card?.scrollIntoView({ behavior: "smooth", block: "center" });
+    // Flash the card so it stands out in the grid; restarting the class replays the flash.
+    card?.classList.remove("is-spotlit");
+    void (card as HTMLElement | null)?.offsetWidth;
+    card?.classList.add("is-spotlit");
+    window.setTimeout(() => card?.classList.remove("is-spotlit"), 2400);
   }
 
   const plan = result?.plan;
@@ -473,8 +480,10 @@ export default function PlannerResultPage() {
         <div className="container nav-inner">
           <Link className="logo" href="/" aria-label="FloraScape home">FloraScape</Link>
           <div className="planner-nav-actions">
+            <NavAlbumsLink />
             <LevelBadge />
-            <a href={editHref} className="planner-back-link">Edit Inputs</a>
+            {/* With a plan, "Edit inputs" lives in the album toolbar instead. */}
+            {plan ? null : <a href={editHref} className="planner-back-link">Edit Inputs</a>}
             <a href="/planner" className="btn">
               <Leaf size={17} strokeWidth={2.3} aria-hidden="true" />
               Start Over

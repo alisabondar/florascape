@@ -426,3 +426,33 @@
   .look-album .notes-panel[hidden] { display: block !important; }
   .look-album .notes-panel { border: 0; }
 }
+
+/* Card art is a still frame for the plant's current stage; only the totals row moves. */
+.album-art { position: relative; }
+.album-art-stage {
+  position: absolute; left: 6px; bottom: 4px; font-size: 0.68rem; padding: 0 5px;
+  background: #fff4d6; border: 1px solid var(--al-ink); border-radius: 3px; color: var(--al-ink);
+}
+
+/* Clicking a garden patch spotlights its card. */
+.album-card.is-spotlit { animation: album-spotlight 2.4s ease-out; }
+@keyframes album-spotlight {
+  0%, 60% { outline: 4px solid var(--al-gold); outline-offset: 4px; box-shadow: 0 0 0 10px #f4c04255; }
+  100% { outline: 4px solid transparent; outline-offset: 4px; }
+}
+
+.album-totals {
+  margin-top: 28px; background: var(--al-page); border: 4px solid var(--al-green-dark); border-radius: 12px;
+  padding: 18px clamp(14px, 3vw, 28px);
+}
+.album-totals-row {
+  list-style: none; margin: 0 0 14px; padding: 0; display: flex; flex-wrap: wrap; gap: 14px 22px;
+}
+.album-totals-row li { display: grid; justify-items: center; gap: 2px; min-width: 64px; }
+.album-totals-name { font-size: 0.8rem; color: var(--al-muted); }
+
+@media (prefers-reduced-motion: reduce) {
+  .album-card.is-spotlit { animation: none; outline: 4px solid var(--al-gold); outline-offset: 4px; }
+}
+.album-totals .album-section-title, .album-totals .album-seed-note { color: var(--al-ink); }
+.album-totals .album-section-title { margin-top: 0; }
