@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import Link from "next/link";
 import PixelPlot from "./components/PixelPlot";
+import NavAlbumsLink from "./components/albums/NavAlbumsLink";
 import LevelBadge from "./components/progress/LevelBadge";
 import AlbumShelf from "./components/albums/AlbumShelf";
 import PixelSprite from "./components/PixelSprite";
@@ -70,6 +71,7 @@ export default function Home() {
             FloraScape
           </Link>
           <div className="nav-links">
+            <NavAlbumsLink />
             <LevelBadge />
             <a href="#how-it-works">How It Works</a>
             <a href="#features">Features</a>
@@ -146,7 +148,7 @@ export default function Home() {
         </section>
 
         {/* Saved plans on this device; renders nothing until there's one. */}
-        <div className="container home-albums">
+        <div className="container home-albums" id="albums">
           <AlbumShelf />
         </div>
 

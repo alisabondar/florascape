@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import type { FormEvent } from "react";
+import NavAlbumsLink from "../components/albums/NavAlbumsLink";
 import LevelBadge from "../components/progress/LevelBadge";
 import AreaPreview, { previewAreas } from "../components/AreaPreview";
 import SunSidePicker from "../components/SunSidePicker";
@@ -421,6 +422,7 @@ function PlannerForm() {
             FloraScape
           </Link>
           <div className="planner-nav-actions">
+            <NavAlbumsLink />
             <LevelBadge />
             <Link
               href="/"
@@ -679,6 +681,10 @@ function PlannerForm() {
                           <div
                             key={plant.key}
                             className={`pa-plant-card${formValues.plantTypes.includes(plant.key) ? " is-checked" : ""}`}
+                            // The whole card toggles; the checkbox row handles its own clicks.
+                            onClick={(event) => {
+                              if (!(event.target as Element).closest(".ui-checkbox-row")) togglePlant(plant.key);
+                            }}
                           >
                             <span className="pa-plant-art" aria-hidden="true">
                               <PixelSprite plantName={plant.sprite} scale={3} motion="sway" />
