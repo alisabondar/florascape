@@ -1,0 +1,173 @@
+/* Homepage: the cover and first pages of the Collector's Album. */
+.home-album main { padding-bottom: 48px; }
+.home-sr {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+/* ---------- Hero: binder cover ---------- */
+.home-hero { padding: 48px 0 32px; }
+.home-hero-grid {
+  display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 40px; align-items: center;
+}
+.home-cover {
+  position: relative; display: grid; grid-template-columns: 48px minmax(0, 1fr);
+  background: var(--al-green-dark); border: 4px solid #142219; border-radius: 8px 18px 18px 8px;
+  box-shadow: 0 12px 0 #142219, inset 0 0 0 10px var(--al-green), inset 0 0 0 12px #142219;
+  min-height: 460px;
+}
+.home-cover-rings {
+  display: flex; flex-direction: column; justify-content: space-evenly; align-items: center;
+  border-right: 4px solid #142219; background: #1a2b21; border-radius: 6px 0 0 6px;
+}
+.home-cover-rings span {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #e6e8e2, #8a8f86 60%, #4a4e48);
+  border: 2px solid #142219;
+}
+.home-cover-body { padding: 36px 32px; display: flex; flex-direction: column; gap: 18px; }
+.home-cover-vol { margin: 0; color: var(--al-gold); font-size: 0.95rem; letter-spacing: 0.08em; }
+.home-plate {
+  container-type: inline-size;
+  background: var(--al-paper); border: 3px solid var(--al-ink); border-radius: 10px; padding: 18px 22px;
+  box-shadow: inset 0 0 0 4px var(--al-paper), inset 0 0 0 6px var(--al-gold), 0 5px 0 #142219;
+}
+.home-plate h1 {
+  font-family: var(--font-display); font-weight: 400; color: var(--al-green);
+  font-size: clamp(1.6rem, 12cqi, 4.4rem); line-height: 1; margin: 0; white-space: nowrap;
+  text-shadow: 0 2px 0 #fff, 0 -1px 0 #c9bb93;
+}
+.home-tagline {
+  font-family: var(--font-display); color: var(--al-red); font-size: clamp(1.1rem, 2.4vw, 1.45rem);
+  line-height: 1.25; margin: 10px 0 0;
+}
+.home-cover-lead { color: var(--al-page); font-size: 1.05rem; line-height: 1.6; margin: 0; max-width: 46ch; }
+.home-actions { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+.home-album .home-actions .btn { padding: 12px 22px; font-size: 1.1rem; text-decoration: none; }
+.home-btn-ghost {
+  font-family: var(--font-display); color: var(--al-page); text-decoration: none; font-size: 1.05rem;
+  border: 3px solid var(--al-page); border-radius: 10px; padding: 9px 18px;
+}
+.home-btn-ghost:hover { background: #ffffff1a; }
+
+/* ---------- Showcase: fanned cards + sample page ---------- */
+.home-showcase { display: grid; gap: 28px; min-width: 0; }
+.home-fan {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; padding-top: 12px;
+}
+.home-card {
+  background: #fff; border: 3px solid var(--al-ink); border-radius: 10px; padding: 8px; position: relative;
+  box-shadow: inset 0 0 0 4px #fff, inset 0 0 0 6px var(--rar), 0 6px 0 #142219;
+  margin-inline: -10px; transform: rotate(calc((var(--i) - 1.5) * 6deg));
+  transition: transform 0.2s ease;
+}
+.home-card:nth-child(2), .home-card:nth-child(3) { transform: rotate(calc((var(--i) - 1.5) * 6deg)) translateY(-10px); }
+.home-card:hover { transform: rotate(0) translateY(-16px); z-index: 2; }
+.home-card-art {
+  height: 96px; border-radius: 6px; background: var(--bg); border: 2px solid var(--al-ink);
+  display: grid; place-items: end center; overflow: hidden; padding-bottom: 4px;
+}
+.home-rarity {
+  position: absolute; top: 12px; right: 12px; z-index: 1; font-size: 0.72rem;
+  color: #fff; background: var(--rar); padding: 1px 6px; border-radius: 4px;
+}
+.home-card-name { font-family: var(--font-display); font-size: 1.05rem; margin: 6px 0 2px; color: var(--al-ink); }
+.home-stats { margin: 0; border-top: 2px dotted #2b211866; padding-top: 4px; font-size: 0.8rem; }
+.home-stats div { display: flex; justify-content: space-between; gap: 4px; }
+.home-stats dt, .home-stats dd { margin: 0; }
+.home-stats dd { font-weight: 700; }
+
+.home-sample {
+  margin: 0; background: var(--al-page); border: 4px solid var(--al-green-dark); border-radius: 10px;
+  padding: 12px; box-shadow: 0 8px 0 #142219; min-width: 0;
+}
+.home-sample figcaption { color: var(--al-muted); font-size: 0.9rem; margin-bottom: 8px; }
+
+/* ---------- Album pages ---------- */
+.home-section { padding: 28px 0; }
+.home-page-sheet {
+  background: var(--al-page); border: 6px solid var(--al-green-dark); border-radius: 14px;
+  box-shadow: 0 12px 0 var(--al-green-dark); padding: 36px clamp(18px, 4vw, 44px);
+}
+.home-section-head { text-align: center; margin-bottom: 28px; }
+.home-section-head h2 {
+  font-family: var(--font-display); font-weight: 400; color: var(--al-green);
+  font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 4px 0 8px; line-height: 1.1;
+}
+.home-section-head p { margin: 0; color: var(--al-muted); }
+.home-kicker { color: var(--al-red) !important; font-size: 0.95rem; }
+
+.home-features {
+  list-style: none; margin: 0; padding: 0; display: grid; gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+}
+.home-feature {
+  background: #fff; border: 3px solid var(--al-ink); border-radius: 10px; padding: 10px 12px 14px; position: relative;
+  box-shadow: inset 0 0 0 4px #fff, inset 0 0 0 6px var(--rar);
+}
+.home-feature-art {
+  height: 72px; border-radius: 6px; border: 2px solid var(--al-ink); background: var(--al-paper);
+  display: grid; place-items: end center; overflow: hidden; padding-bottom: 2px;
+}
+.home-feature h3 {
+  font-family: var(--font-display); font-weight: 400; font-size: 1.2rem; margin: 8px 0 4px; color: var(--al-ink);
+}
+.home-feature p { margin: 0; font-size: 0.95rem; line-height: 1.45; color: var(--al-ink); }
+
+/* ---------- Season map ---------- */
+.home-levels {
+  list-style: none; margin: 0; padding: 0; display: grid; gap: 18px;
+  grid-template-columns: repeat(4, minmax(0, 1fr)); position: relative;
+}
+.home-levels::before {
+  content: ""; position: absolute; top: 26px; left: 10%; right: 10%; border-top: 4px dashed var(--al-green-light);
+}
+.home-level {
+  position: relative; text-align: center; padding: 0 6px;
+}
+.home-level-num {
+  display: grid; place-items: center; width: 56px; height: 56px; margin: 0 auto 10px;
+  background: var(--al-green); color: #fff; border: 3px solid var(--al-ink); border-radius: 50%;
+  font-size: 1.5rem; box-shadow: 0 4px 0 var(--al-ink); position: relative;
+}
+.home-level-goal .home-level-num { background: var(--al-gold); color: var(--al-ink); }
+.home-level h3 { font-family: var(--font-display); font-weight: 400; font-size: 1.2rem; margin: 0 0 4px; color: var(--al-green); }
+.home-level p { margin: 0; font-size: 0.95rem; line-height: 1.45; }
+
+/* ---------- Final CTA ---------- */
+.home-cta {
+  position: relative; text-align: center; background: var(--al-paper); border: 6px solid var(--al-green-dark);
+  border-radius: 14px; box-shadow: 0 12px 0 var(--al-green-dark); padding: 48px 24px;
+}
+.home-cta h2 {
+  font-family: var(--font-display); font-weight: 400; color: var(--al-green);
+  font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 0 0 10px;
+}
+.home-cta p { max-width: 52ch; margin: 0 auto 22px; line-height: 1.55; }
+.home-album .home-cta .btn { display: inline-flex; padding: 12px 24px; font-size: 1.1rem; text-decoration: none; }
+.home-stamp {
+  position: absolute; top: 18px; right: 22px; transform: rotate(-12deg);
+  border: 3px solid var(--al-red); color: var(--al-red); padding: 2px 10px; font-size: 1rem;
+  border-radius: 4px; background: #fffc; text-transform: uppercase;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 960px) {
+  .home-hero-grid { grid-template-columns: minmax(0, 1fr); }
+  .home-levels { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .home-levels::before { display: none; }
+}
+@media (max-width: 560px) {
+  .home-hero { padding-top: 24px; }
+  .home-cover { grid-template-columns: 30px minmax(0, 1fr); min-height: 0; }
+  .home-cover-rings span { width: 18px; height: 18px; }
+  .home-cover-body { padding: 24px 18px; }
+  .home-fan { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 18px; }
+  .home-card { margin-inline: 2px; }
+  .home-levels { grid-template-columns: minmax(0, 1fr); }
+  .home-stamp { position: static; display: inline-block; margin-bottom: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-card { transition: none; }
+}

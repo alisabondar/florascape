@@ -109,26 +109,8 @@ a {
   background: #2d4e31;
 }
 
-.landing-page .secondary-btn {
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  background: white;
-  color: #2d4330;
-  box-shadow: none;
-}
-
-.landing-page .secondary-btn:hover {
-  background: #f0efe8;
-}
-
 .landing-page .hero {
   padding: 5rem 0 4rem;
-}
-
-.landing-page .hero-grid {
-  display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: 4rem;
-  align-items: center;
 }
 
 .landing-page h1 {
@@ -147,118 +129,8 @@ a {
   max-width: 600px;
 }
 
-.landing-page .hero-actions {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.landing-page .mockup-wrap {
-  position: relative;
-  width: min(100%, 560px);
-  justify-self: center;
-}
-
-.landing-page .floating-card {
-  background: white;
-  border-radius: 28px;
-  padding: 1rem;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 5px 15px rgba(0, 0, 0, 0.04);
-}
-
-.landing-page .floating-card img {
-  width: 100%;
-  height: auto;
-  border-radius: 20px;
-  display: block;
-  object-fit: cover;
-}
-
-.landing-page .badge {
-  position: absolute;
-  background: white;
-  padding: 1rem 1.2rem;
-  border-radius: 18px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
-  max-width: 220px;
-}
-
-.landing-page .badge h4 {
-  margin-bottom: 0.4rem;
-  color: var(--green);
-}
-
-.landing-page .badge p {
-  font-size: 0.9rem;
-  line-height: 1.5;
-  color: #57615a;
-  margin-bottom: 0;
-}
-
-.landing-page .badge.one {
-  top: -30px;
-  right: -40px;
-}
-
-.landing-page .badge.two {
-  bottom: -20px;
-  left: -40px;
-}
-
 .landing-page .section {
   padding: 6rem 0;
-}
-
-.landing-page .section-header {
-  text-align: center;
-  max-width: 760px;
-  margin: 0 auto 4rem;
-}
-
-.landing-page .section-header h2 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  font-family: "Caveat", cursive;
-  color: var(--dark);
-}
-
-.landing-page .section-header p {
-  color: #5a665c;
-  line-height: 1.8;
-  font-size: 1.05rem;
-}
-
-.landing-page .features-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-}
-
-.landing-page .feature-card {
-  background: white;
-  padding: 2rem;
-  border-radius: 28px;
-  border: 1px solid rgba(0, 0, 0, 0.04);
-  transition: 0.25s ease;
-}
-
-.landing-page .feature-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
-}
-
-.landing-page .feature-card h3 {
-  margin-bottom: 0.8rem;
-  color: var(--dark);
-}
-
-.landing-page .feature-card p {
-  color: #5b665d;
-  line-height: 1.7;
-}
-
-.landing-page .steps-section {
-  background: #eef3eb;
 }
 
 .landing-page .steps {
@@ -272,20 +144,6 @@ a {
   text-align: center;
 }
 
-.landing-page .step-number {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  background: var(--green);
-  color: white;
-  margin: 0 auto 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 1.2rem;
-}
-
 .landing-page .step h3 {
   margin-bottom: 0.8rem;
 }
@@ -293,32 +151,6 @@ a {
 .landing-page .step p {
   color: #5d675f;
   line-height: 1.7;
-}
-
-.landing-page .cta {
-  background: linear-gradient(135deg, #2f5134, #446f49);
-  color: white;
-  border-radius: 40px;
-  padding: 5rem;
-  margin-top: 4rem;
-}
-
-.landing-page .cta h2 {
-  font-size: 3.2rem;
-  margin-bottom: 1rem;
-  font-family: "Caveat", cursive;
-}
-
-.landing-page .cta p {
-  max-width: 700px;
-  line-height: 1.8;
-  margin-bottom: 2rem;
-  color: rgba(255, 255, 255, 0.85);
-}
-
-.landing-page .cta .btn {
-  background: white;
-  color: var(--green);
 }
 
 .landing-page footer {
@@ -1410,14 +1242,6 @@ a {
 
   .landing-page h1 {
     font-size: 3.5rem;
-  }
-
-  .landing-page .badge {
-    display: none;
-  }
-
-  .landing-page .cta {
-    padding: 3rem 2rem;
   }
 }
 

@@ -126,22 +126,177 @@
 .album-level h3 { margin: 0; font-size: 1.05rem; }
 .album-level p { margin: 2px 0 0; }
 
-/* Shared sections below the dashboard */
+/* Shared sections below the dashboard: each reads as a cream album page. */
+.look-album .result-shell-section { background: transparent; padding-top: 28px; }
 .look-album .result-content-section,
 .look-album .planting-guide {
   background: var(--al-page); border: 4px solid var(--al-green-dark); border-radius: 14px;
-  box-shadow: 0 8px 0 var(--al-green-dark); color: var(--al-ink);
+  box-shadow: 0 8px 0 var(--al-green-dark); color: var(--al-ink); font-family: "Mali", cursive;
+  padding: 24px 28px; margin: 0 0 32px;
 }
+.look-album .result-content-section p,
+.look-album .result-content-section li,
+.look-album .result-content-section td,
+.look-album .result-content-section span,
+.look-album .result-content-section label { color: inherit; }
 .look-album .result-content-section h2,
 .look-album .result-content-section h3,
 .look-album .planting-guide h2,
 .look-album .planting-guide h3 {
-  font-family: "Shrikhand", cursive; font-weight: 400; color: var(--al-green);
+  font-family: "Shrikhand", cursive; font-weight: 400; color: var(--al-green); letter-spacing: 0.01em;
 }
-.look-album .guide-card {
+.look-album .result-content-section h2 { font-size: 1.7rem; margin: 0 0 8px; }
+.look-album .result-content-section h3 { font-size: 1.2rem; }
+.look-album .result-section-heading { border-bottom: 3px dotted #2b211866; padding-bottom: 8px; margin-bottom: 14px; }
+.look-album .result-section-heading p,
+.look-album .seed-disclaimer,
+.look-album .shopping-subtle,
+.look-album .shopping-assumptions { color: #5d5142; }
+.look-album .section-kicker { color: var(--al-red); font-family: "Pixelify Sans", sans-serif; text-transform: none; letter-spacing: 0; }
+.look-album .look-dashboard-container ~ * .garden-method-recommendation,
+.look-album .garden-method-recommendation {
+  background: var(--al-page); color: var(--al-ink); border: 2px dashed var(--al-green-dark);
+  border-radius: 8px; padding: 8px 12px;
+}
+
+/* Cards inside pages: white sleeves with ink borders */
+.look-album .guide-card,
+.look-album .tip-group,
+.look-album .neighbor-area,
+.look-album .container-setup-card,
+.look-album .rotation-area,
+.look-album .shopping-bags {
+  background: #fff; color: var(--al-ink); border: 3px solid var(--al-ink); border-radius: 10px;
+  box-shadow: inset 0 0 0 4px #fff, inset 0 0 0 6px var(--al-blue), 3px 3px 0 var(--al-rule);
+  padding: 14px 16px;
+}
+.look-album .tip-group { box-shadow: inset 0 0 0 4px #fff, inset 0 0 0 6px var(--al-gold), 3px 3px 0 var(--al-rule); }
+.look-album .rotation-area { box-shadow: inset 0 0 0 4px #fff, inset 0 0 0 6px var(--al-green-light, #4f7a5e), 3px 3px 0 var(--al-rule); }
+.look-album .guide-timing-heading { font-size: 1.25rem; }
+.look-album .guide-timing { color: var(--al-blue); font-weight: 600; }
+.look-album .guide-note { background: var(--al-page); border-left: 4px solid var(--al-gold); padding: 6px 10px; color: var(--al-ink); }
+.look-album .tip-item { color: var(--al-ink); border-bottom: 1px dashed var(--al-rule); }
+.look-album .tip-item svg { color: var(--al-green); }
+
+/* Neighbor check */
+.look-album .neighbor-conflict { color: var(--al-red); }
+.look-album .neighbor-helpful { color: #2f5f2a; }
+.look-album .neighbor-conflict,
+.look-album .neighbor-helpful { background: transparent; }
+.look-album .neighbor-empty,
+.look-album .rotation-empty,
+.look-album .rotation-ok,
+.look-album .rotation-next,
+.look-album .rotation-check { color: var(--al-ink); }
+
+/* Tables: shopping list, layout table */
+.look-album .shopping-table,
+.look-album .garden-layout-table {
+  width: 100%; border-collapse: collapse; background: #fff; color: var(--al-ink);
+  border: 3px solid var(--al-ink); font-family: "Mali", cursive;
+}
+.look-album .shopping-table th,
+.look-album .shopping-table td,
+.look-album .garden-layout-table th,
+.look-album .garden-layout-table td {
+  border-bottom: 1px solid var(--al-rule); padding: 6px 10px; color: var(--al-ink); text-align: left;
+}
+.look-album .shopping-table thead th,
+.look-album .garden-layout-table thead th {
+  background: var(--al-green); color: #fff; font-family: "Shrikhand", cursive; font-weight: 400;
+  letter-spacing: 0.02em; text-transform: none;
+}
+.look-album .shopping-table td:last-child,
+.look-album .garden-layout-table td:last-child { font-family: "Pixelify Sans", sans-serif; font-variant-ligatures: none; }
+.look-album .shopping-table tbody tr:nth-child(even) td,
+.look-album .garden-layout-table tbody tr:nth-child(even) td { background: #fbf6e6; }
+
+/* Buttons inside sections: album pill buttons */
+.look-album .result-content-section .btn,
+.look-album .rotation-actions button,
+.look-album .rotation-swaps button,
+.look-album .sketch-add-btn,
+.look-album .garden-chat-form button[type="submit"] {
+  font-family: "Shrikhand", cursive; font-weight: 400; color: var(--al-ink); background: var(--al-gold);
+  border: 3px solid var(--al-ink); border-radius: 30px; box-shadow: 0 3px 0 var(--al-ink); padding: 4px 16px; cursor: pointer;
+}
+.look-album .result-content-section .btn:hover,
+.look-album .rotation-actions button:hover,
+.look-album .rotation-swaps button:hover,
+.look-album .sketch-add-btn:hover,
+.look-album .garden-chat-form button[type="submit"]:hover { background: #f0bf55; }
+.look-album .result-content-section button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* BedEditor: plant-group cards, steppers, add-group fields, toggles, table, meta */
+.look-album .bed-editor,
+.look-album .garden-sketch-editor { color: var(--al-ink); }
+.look-album .garden-sketch-editor {
+  background: var(--al-page); border: 3px solid var(--al-green-dark); border-radius: 10px; padding: 14px 16px;
+}
+.look-album .garden-sketch-editor-heading h3,
+.look-album .garden-sketch-editor-heading strong { font-family: "Shrikhand", cursive; font-weight: 400; color: var(--al-green); }
+.look-album .garden-sketch-editor-heading p,
+.look-album .garden-sketch-editor-heading span,
+.look-album .bed-editor-hint { color: #5d5142; }
+.look-album.look-album .plant-group-adjustment {
   background: #fff; border: 3px solid var(--al-ink); border-radius: 10px;
-  box-shadow: inset 0 0 0 4px #fff, inset 0 0 0 6px var(--al-blue);
+  box-shadow: 3px 3px 0 var(--al-rule); padding: 8px 10px;
 }
+.look-album.look-album .plant-group-adjustment strong { color: var(--al-green); font-family: "Mali", cursive; font-size: 0.9rem; }
+.look-album.look-album .plant-group-adjustment span { color: #5d5142; font-size: 0.78rem; }
+.look-album.look-album .plant-group-adjustment .plant-group-count-label { font-family: "Pixelify Sans", sans-serif; color: var(--al-ink); }
+.look-album.look-album .quantity-stepper {
+  border: 2px solid var(--al-ink); border-radius: 6px; background: #fff; box-shadow: 2px 2px 0 var(--al-ink);
+}
+.look-album.look-album .quantity-stepper button {
+  background: var(--al-page); color: var(--al-ink); font-family: "Pixelify Sans", sans-serif; font-weight: 700;
+}
+.look-album.look-album .quantity-stepper button:hover { background: var(--al-gold); }
+.look-album.look-album .quantity-stepper button:disabled { color: #8a7d6a; background: #eee6cf; cursor: not-allowed; }
+.look-album.look-album .quantity-stepper output {
+  color: var(--al-ink); font-family: "Pixelify Sans", sans-serif; font-variant-ligatures: none; font-size: 0.95rem;
+}
+.look-album .sketch-editor-field label,
+.look-album .sketch-editor-field > span { color: var(--al-ink); font-weight: 600; }
+.look-album.look-album .garden-sketch-meta {
+  color: var(--al-ink); font-family: "Pixelify Sans", sans-serif; font-variant-ligatures: none;
+  background: var(--al-page); border: 2px dashed var(--al-muted, #5d5142); border-radius: 6px; padding: 6px 10px;
+}
+.look-album .garden-sketch-view-toggles { display: flex; flex-wrap: wrap; gap: 8px; }
+.look-album .sketch-toggle {
+  font-family: "Mali", cursive; font-weight: 600; color: var(--al-ink); background: #fff;
+  border: 2px solid var(--al-ink); border-radius: 20px; padding: 4px 14px; box-shadow: 2px 2px 0 var(--al-ink);
+}
+.look-album .sketch-toggle[aria-pressed="true"] { background: var(--al-green); color: #fff; }
+
+/* Chat panel: a notebook page */
+.look-album .garden-chat-log {
+  background: #fff; border: 3px solid var(--al-ink); border-radius: 10px;
+  background-image: repeating-linear-gradient(transparent 0 27px, #e6dcc0 27px 28px);
+}
+.look-album .garden-chat-message { border: 2px solid var(--al-ink); }
+.look-album .garden-chat-message.user { background: var(--al-green); color: #fff; }
+.look-album .garden-chat-message.assistant { background: var(--al-page); color: var(--al-ink); }
+.look-album .garden-chat-source { color: #5d5142; font-family: "Pixelify Sans", sans-serif; }
+.look-album .garden-chat-source.notice { color: #6b4a00; }
+.look-album .garden-chat-empty,
+.look-album .garden-chat-pending,
+.look-album .garden-chat-count { color: #5d5142; }
+.look-album .garden-chat-count { font-family: "Pixelify Sans", sans-serif; }
+.look-album .garden-chat-suggestions button,
+.look-album .garden-chat-examples button {
+  background: #fff; color: var(--al-ink); border: 2px solid var(--al-ink); border-radius: 20px; font-family: "Mali", cursive;
+}
+.look-album .garden-chat-suggestions button:hover,
+.look-album .garden-chat-examples button:hover { background: var(--al-gold); }
+.look-album .garden-chat-form input,
+.look-album .garden-chat-form textarea {
+  background: #fff; color: var(--al-ink); border: 2px solid var(--al-ink); border-radius: 8px; font-family: "Mali", cursive;
+}
+.look-album .garden-chat-form label { color: var(--al-ink); }
+
+/* Footer on the binder */
+.planner-result-page footer { color: var(--al-page); }
 
 @media (max-width: 860px) {
   .album-binder { grid-template-columns: 1fr; }
@@ -156,9 +311,35 @@
   .album-btn { flex: 1 1 auto; text-align: center; }
 }
 @media print {
-  .look-album { background: #fff; }
-  .album-binder, .album-box { box-shadow: none; }
+  .look-album, .look-album .result-shell-section { background: #fff !important; color: #000; }
+  .album-binder, .album-box,
+  .look-album .result-content-section, .look-album .planting-guide,
+  .look-album .guide-card, .look-album .tip-group, .look-album .neighbor-area,
+  .look-album .rotation-area, .look-album .plant-group-adjustment, .look-album .album-card {
+    box-shadow: none !important; background: #fff !important; color: #000; border-color: #000;
+  }
+  .look-album h2, .look-album h3, .look-album .album-headline { color: #000 !important; }
+  .look-album .shopping-table thead th, .look-album .garden-layout-table thead th {
+    background: #fff !important; color: #000 !important; border-bottom: 2px solid #000;
+  }
+  .look-album .shopping-table tbody tr:nth-child(even) td,
+  .look-album .garden-layout-table tbody tr:nth-child(even) td { background: #fff !important; }
+  .planner-result-page footer { color: #000; }
+  body:has(.look-album) { background: #fff !important; background-image: none !important; }
 }
+
 
 /* The bed gets the full width so its tiles and sprites stay large; map and home turf share the row below. */
 .album-lower > :first-child { grid-column: 1 / -1; }
+
+/* Phones: bed editor controls stack into one column so nothing runs off the page. */
+@media (max-width: 560px) {
+  .look-album.look-album .plant-group-adjustments { grid-template-columns: minmax(0, 1fr); }
+  .look-album.look-album .plant-group-adjustment { flex-wrap: wrap; }
+  .look-album.look-album .plant-group-adjustment > div:first-child { min-width: 0; flex: 1 1 100%; }
+  .look-album.look-album .plant-group-count { align-items: flex-start; }
+  .look-album.look-album .plant-group-count-label { white-space: normal; }
+  .look-album.look-album .garden-sketch-editor-fields { grid-template-columns: minmax(0, 1fr); }
+  .look-album.look-album .sketch-add-btn { width: 100%; }
+  .look-album.look-album .garden-sketch-meta { flex-wrap: wrap; }
+}
