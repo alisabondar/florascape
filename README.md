@@ -64,7 +64,7 @@ Providers are tried in order: Gemini, Groq, then OpenRouter. With none configure
 - Every zone is filled to the number of plants its size and spacing allow; areas of 8 sq ft or more get at least three plant groups.
 - Toggle **View as table** for an accessible table of each group's area, quantity, spacing, and allocated size.
 - Click a patch to jump to its planting guide, or drag one patch onto another (mouse or pen) to swap them, within a bed or across beds; both areas refill to capacity.
-- Hover or focus a plant zone to see its quantity, spacing, allocated size, and placement reason.
+- Hover a garden patch to see its quantity, what to buy, spacing, allocated size, and placement reason.
 - Select a zone to jump to its planting-guide entry.
 - Use a group's plant dropdown to swap in one of that area's alternatives (suited to its sun, your categories, preferences, and the season). The new plant takes over the same zone at its own spacing.
 - Use **Shuffle Plants** to swap every area's plants for different alternatives instantly, without another AI call.
