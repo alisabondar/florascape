@@ -90,7 +90,7 @@
   top: -1.6em;
   left: -3px;
   padding: 1px 6px;
-  font-family: "Pixelify Sans", "Courier New", monospace;
+  font-family: var(--font-body);
   font-size: 0.75rem;
   background: #2b1d14;
   color: #fff4d6;
@@ -133,7 +133,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   padding: 1px 6px;
-  font-family: "Pixelify Sans", "Courier New", monospace;
+  font-family: var(--font-body);
   font-size: 0.7rem;
   color: #2b1d14;
   background: #fff4d6;
@@ -163,4 +163,13 @@
   position: absolute;
   background: #3d2312;
   pointer-events: none;
+}
+
+/* Static plots (samples) have no inner highlight rim and no zone hover. */
+.pixel-plot.static .pixel-plot-ground {
+  box-shadow: none;
+}
+
+.pixel-zone.static {
+  cursor: default;
 }

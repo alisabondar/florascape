@@ -163,7 +163,7 @@
   border-radius: 10px;
   background: #fffdf5;
   color: var(--al-ink);
-  font-family: var(--font-pixel);
+  font-family: var(--font-body);
   font-variant-ligatures: none;
   font-size: 0.95rem;
   box-shadow: 4px 4px 0 var(--al-ink);

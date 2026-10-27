@@ -18,7 +18,6 @@
   --al-rule: #d8c9a3;
   --font-display: "Shrikhand", cursive;
   --font-body: "Mali", cursive;
-  --font-pixel: "Pixelify Sans", "Courier New", monospace;
 }
 
 body {
@@ -32,8 +31,10 @@ body {
 }
 
 .px {
-  font-family: var(--font-pixel);
-  font-variant-ligatures: none;
+  /* Small labels and numbers: the body font, semibold, with even-width digits. */
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
 }
 
 :focus-visible {
@@ -271,4 +272,12 @@ body {
     font-size: 0.8rem;
     white-space: nowrap;
   }
+}
+
+/* Dropdown options sit in a scrolling list that clips anything outside it, so their
+   focus ring is drawn inside the option instead of around it. */
+.ui-select-item:focus-visible,
+.ui-select-item[data-highlighted] {
+  outline: 2px solid var(--al-gold);
+  outline-offset: -2px;
 }

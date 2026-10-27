@@ -31,7 +31,7 @@
 /* ---- Binder tab dividers ---- */
 .planner-album .planner-progress { margin: 0 0 1.4rem; }
 .planner-album .planner-progress-count {
-  font-family: var(--font-pixel); color: var(--al-red); font-size: 0.95rem; margin: 0 0 0.4rem;
+  font-family: var(--font-body); color: var(--al-red); font-size: 0.95rem; margin: 0 0 0.4rem;
   text-transform: uppercase; letter-spacing: 0.04em;
 }
 .planner-album .planner-progress ol {
@@ -93,7 +93,7 @@
   content: ""; position: absolute; inset: 0 0 auto 0; height: 38%;
   background: linear-gradient(170deg, #ffffff66, transparent 70%); border-radius: 8px 8px 0 0; pointer-events: none;
 }
-.planner-album .garden-unit-heading h3 { font-family: var(--font-pixel); color: var(--al-green-dark); font-size: 1.1rem; margin: 0; }
+.planner-album .garden-unit-heading h3 { font-family: var(--font-body); color: var(--al-green-dark); font-size: 1.1rem; margin: 0; }
 .planner-album .icon-text-button {
   border: 2px solid var(--al-ink); border-radius: 6px; background: var(--al-paper);
   font-family: var(--font-body); font-weight: 700; position: relative;
@@ -113,14 +113,14 @@
 /* ---- Sun side picker ---- */
 .planner-album .sun-compass { grid-template-columns: 5rem 1fr 5rem; grid-template-rows: auto 110px auto auto; }
 .planner-album .sun-compass-option {
-  font-family: var(--font-pixel); font-size: 0.9rem; color: var(--al-ink);
+  font-family: var(--font-body); font-size: 0.9rem; color: var(--al-ink);
   background: var(--al-paper); border: 2px solid var(--al-ink); border-radius: 4px;
   box-shadow: 2px 2px 0 var(--al-ink); padding: 0.35rem 0.5rem; text-transform: uppercase;
 }
 .planner-album .sun-compass-option:hover { background: #fff; }
 .planner-album .sun-compass-option:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 var(--al-ink); }
 .planner-album .sun-compass-option[aria-pressed="true"] {
-  background: var(--al-gold); color: var(--al-ink); border-color: var(--al-ink); transform: rotate(-3deg);
+  background: var(--al-gold); color: var(--al-ink); border-color: var(--al-ink);
 }
 .planner-album .sun-compass-option.shaded { text-transform: none; font-family: var(--font-body); font-weight: 700; }
 .planner-album .sun-compass-option.shaded[aria-pressed="true"] { background: var(--al-blue); color: #fff; }
@@ -135,14 +135,10 @@
 }
 .planner-album .sun-compass-soil {
   position: absolute; inset: 0;
-  background-color: #7a5532;
-  background-image:
-    linear-gradient(45deg, #5e3f24 25%, transparent 25%, transparent 75%, #5e3f24 75%),
-    linear-gradient(45deg, #5e3f24 25%, transparent 25%, transparent 75%, #5e3f24 75%);
-  background-size: 16px 16px; background-position: 0 0, 8px 8px;
+  background-color: #7a4a2a; /* plain soil, matching the garden beds */
 }
 .planner-album .sun-compass-plot-label {
-  position: relative; font-family: var(--font-pixel); font-size: 0.95rem;
+  position: relative; font-family: var(--font-body); font-size: 0.95rem;
   background: var(--al-ink); color: var(--al-paper); padding: 1px 6px;
 }
 .planner-album .sun-compass-plot.lit-north { box-shadow: inset 0 12px 0 var(--sun); }
@@ -164,25 +160,24 @@
 .planner-album .sun-compass-plot.lit-southeast .sun-compass-soil { inset: 0 12px 12px 0; }
 .planner-album .sun-compass-plot.lit-southwest .sun-compass-soil { inset: 0 0 12px 12px; }
 .planner-album .sun-compass-plot.shaded .sun-compass-soil { filter: brightness(0.6) saturate(0.6); }
-.planner-album .sun-compass-result { font-family: var(--font-pixel); color: var(--al-green-dark); font-size: 1rem; }
+.planner-album .sun-compass-result { font-family: var(--font-body); color: var(--al-green-dark); font-size: 1rem; }
 .planner-album .sun-compass-hint { color: var(--al-muted); }
 
 /* ---- Area preview ---- */
 .planner-album .area-preview {
-  background: var(--al-paper); border: 3px solid var(--al-ink); border-radius: 8px;
-  box-shadow: 4px 5px 0 var(--al-green-dark); padding: 0.9rem 1rem; margin-top: 0.5rem;
+  background: transparent; border: 0; box-shadow: none; padding: 0; margin-top: 0.5rem;
 }
 .planner-album .area-preview svg { shape-rendering: crispEdges; }
 .planner-album .area-preview rect.area-preview-bed { stroke: var(--al-ink); stroke-width: 3; }
 .planner-album .area-preview .area-preview-soil-a { fill: #7a5532; stroke: none; }
 .planner-album .area-preview .area-preview-soil-b { fill: #5e3f24; stroke: none; }
 .planner-album .area-preview-name,
-.planner-album .area-preview-size { font-family: var(--font-pixel); font-size: 12px; fill: var(--al-ink); }
+.planner-album .area-preview-size { font-family: var(--font-body); font-size: 12px; fill: var(--al-ink); }
 .planner-album .area-preview-name { fill: var(--al-green-dark); font-weight: 700; }
-.planner-album .area-preview figcaption { font-family: var(--font-pixel); color: var(--al-muted); font-size: 0.85rem; }
+.planner-album .area-preview figcaption { font-family: var(--font-body); color: var(--al-muted); font-size: 0.85rem; }
 
 /* ---- Plant categories as collectible cards ---- */
-.planner-album .plant-options { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.9rem; }
+.planner-album .plant-options { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.9rem; }
 .planner-album .pa-plant-card {
   position: relative; display: flex; flex-direction: column; align-items: stretch;
   background: var(--al-paper); border: 3px solid var(--al-ink); border-radius: 10px;
@@ -190,7 +185,8 @@
   padding: 8px; transition: transform 0.15s ease;
 }
 .planner-album .pa-plant-card:hover { transform: translateY(-2px); }
-.planner-album .pa-plant-card:focus-within { outline: 3px solid var(--al-green); outline-offset: 3px; }
+/* Outline only for keyboard focus, so a clicked (or unclicked) card doesn't stay highlighted. */
+.planner-album .pa-plant-card:has(:focus-visible) { outline: 3px solid var(--al-green); outline-offset: 3px; }
 .planner-album .pa-plant-card.is-checked {
   box-shadow: inset 0 0 0 4px #fff, inset 0 0 0 6px var(--al-green), 4px 5px 0 var(--al-green-dark);
 }
@@ -215,8 +211,10 @@
 .planner-album .ui-checkbox-root[data-state="checked"] { background: var(--al-green); border-color: var(--al-green-dark); }
 .planner-album .ui-checkbox-root:focus-visible { outline: 3px solid var(--al-green); outline-offset: 2px; }
 .planner-album .ui-checkbox-row.all-option {
-  grid-column: 1 / -1; background: transparent; border: 3px dashed var(--al-green-light); border-radius: 10px;
-  font-weight: 700; padding: 0.7rem 0.9rem;
+  /* The sixth card in the 3 × 2 grid. */
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  background: transparent; border: 3px dashed var(--al-green-light); border-radius: 10px;
+  font-weight: 700; padding: 0.7rem 0.9rem; min-height: 100%;
 }
 .planner-album .tooltip-wrap { color: var(--al-green); }
 .planner-album .tooltip-text { background: var(--al-ink); color: var(--al-paper); font-family: var(--font-body); }
@@ -237,7 +235,7 @@
   display: grid; place-items: end center; height: 120px;
   background: linear-gradient(#cfe3d0 0 72%, #8b6a45 72%); border: 3px solid var(--al-ink); border-radius: 4px;
 }
-.planner-album .pa-loading-text { font-family: var(--font-pixel); color: var(--al-green-dark); margin: 0.8rem 0 0; }
+.planner-album .pa-loading-text { font-family: var(--font-body); color: var(--al-green-dark); margin: 0.8rem 0 0; }
 
 /* ---- Small screens ---- */
 @media (max-width: 640px) {
@@ -265,3 +263,6 @@
 @media (max-width: 560px) {
   .planner-album .tooltip-text { width: min(150px, 42vw); }
 }
+
+/* The in-ground plot fieldset sits directly on the album page (no white panel behind it). */
+.planner-page.planner-album .conditional-fieldset { background: transparent; }
