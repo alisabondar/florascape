@@ -188,3 +188,68 @@ body {
   font-family: var(--font-body);
   border-top: 0;
 }
+
+/* Print on plain paper everywhere: no binder cloth, ink text. */
+@media print {
+  body {
+    background: #fff !important;
+    color: #000;
+  }
+}
+
+/* Phones: keep the top bar to one row (logo + main action); page links stay in the content. */
+@media (max-width: 560px) {
+  .landing-page .nav-inner {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding: 0.6rem 0;
+  }
+
+  .landing-page .nav-links {
+    gap: 0;
+  }
+
+  .landing-page .nav-links a:not(.btn) {
+    display: none;
+  }
+
+  .landing-page .logo,
+  .planner-page .logo {
+    font-size: 1.5rem;
+  }
+
+  .landing-page .nav-links .btn {
+    padding: 0.55rem 0.9rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Phones: planner and results top bar on one row too. */
+@media (max-width: 700px) {
+  .planner-page .nav-inner {
+    flex-wrap: nowrap;
+    min-height: 0;
+    padding-block: 0.6rem;
+  }
+
+  .planner-page .planner-nav-actions {
+    width: auto;
+    flex-wrap: nowrap;
+    gap: 0.4rem;
+  }
+
+  .planner-page .planner-nav-actions .btn,
+  .planner-page .planner-nav-actions .planner-back-link {
+    width: auto;
+    padding: 0.45rem 0.7rem;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+}
+
+/* Results on phones: "Edit inputs" is already in the album toolbar, so the top bar keeps just Start Over. */
+@media (max-width: 480px) {
+  .planner-result-page .planner-nav-actions .planner-back-link {
+    display: none;
+  }
+}

@@ -46,6 +46,8 @@ export default function PixelPlot({
     if (!node) {
       return undefined;
     }
+    // Measure right away (don't wait for the first resize event), then keep in sync.
+    setWidth(node.clientWidth);
     const observer = new ResizeObserver(([entry]) => setWidth(entry.contentRect.width));
     observer.observe(node);
     return () => observer.disconnect();

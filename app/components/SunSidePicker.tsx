@@ -47,7 +47,8 @@ export default function SunSidePicker({ id, value, onChange, ariaInvalid = false
           );
         })}
         <div className={`sun-compass-plot ${plotClass}`} aria-hidden="true">
-          Plot
+          <span className="sun-compass-soil" />
+          <span className="sun-compass-plot-label">Plot</span>
         </div>
         <button
           type="button"
@@ -58,7 +59,7 @@ export default function SunSidePicker({ id, value, onChange, ariaInvalid = false
           Whole plot is shaded
         </button>
       </div>
-      <p className="sun-compass-result" aria-live="polite">
+      <p className="sun-compass-result px" aria-live="polite">
         {value ? `Most sun: ${sunSideLabel(value)}` : "No side picked yet"}
       </p>
       <p className="sun-compass-hint">

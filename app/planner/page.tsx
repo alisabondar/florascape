@@ -1,12 +1,14 @@
 "use client";
 
-import { Home, Info, Plus, Sparkles, Sprout, Trash2 } from "lucide-react";
+import { Home, Info, Plus, Sparkles, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import AreaPreview, { previewAreas } from "../components/AreaPreview";
 import SunSidePicker from "../components/SunSidePicker";
+import PixelSprite from "../components/PixelSprite";
+import "./planner-album.css";
 import {
   firstInvalidStep,
   PLANNER_STEPS,
@@ -57,26 +59,31 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 const PLANT_OPTIONS = [
   {
     key: "flowers",
+    sprite: "Marigold",
     label: "Flowers",
     examples: "Example: marigolds, zinnias, black-eyed susans",
   },
   {
     key: "vegetables",
+    sprite: "Tomato",
     label: "Vegetables",
     examples: "Example: tomatoes, peppers, carrots",
   },
   {
     key: "herbs",
+    sprite: "Basil",
     label: "Herbs",
     examples: "Example: basil, thyme, cilantro",
   },
   {
     key: "medicinal",
+    sprite: "Sunflower",
     label: "Medicinal Plants",
     examples: "Example: echinacea, chamomile, calendula",
   },
   {
     key: "basic",
+    sprite: "Lettuce",
     label: "Easy-Care Plants",
     examples: "Example: hardy greens and beginner-friendly starters",
   },
@@ -175,7 +182,7 @@ function formFromDraft(value: unknown): PlannerFormValues | null {
 
 function PlannerRestoreLoading() {
   return (
-    <div className="planner-page planner-loading-page" aria-busy="true">
+    <div className="planner-page planner-album planner-loading-page" aria-busy="true">
       <nav>
         <div className="container nav-inner">
           <Link className="logo" href="/" aria-label="FloraScape home">
@@ -192,11 +199,11 @@ function PlannerRestoreLoading() {
         </div>
       </nav>
       <main className="planner-loading-main" aria-label="Loading saved planner inputs">
-        <div className="planner-loading-card planner-restore-loading-card">
-          <div className="loading-sprout" aria-hidden="true">
-            <span />
-            <Sprout size={42} strokeWidth={1.8} />
+        <div className="planner-loading-card planner-restore-loading-card pa-loading-card">
+          <div className="pa-loading-sprite" aria-hidden="true">
+            <PixelSprite plantName="Lettuce" scale={4} motion="grow" />
           </div>
+          <p className="px pa-loading-text">Opening your album...</p>
         </div>
       </main>
     </div>
@@ -406,7 +413,7 @@ function PlannerForm() {
   }
 
   return (
-    <div className="planner-page">
+    <div className="planner-page planner-album">
       <nav>
         <div className="container nav-inner">
           <Link className="logo" href="/" aria-label="FloraScape home">
@@ -428,15 +435,16 @@ function PlannerForm() {
       <main id="top">
         <section className="section planner-section" id="planner">
           <div className="container planner-grid">
-            <div className="panel form-panel">
+            <div className="panel form-panel pa-page">
+              <span className="pa-rings" aria-hidden="true" />
               <div className="panel-title-wrap">
-                <h2>Garden Planner</h2>
+                <h2 className="pa-title">Garden Planner</h2>
                 <p>Share your space, sunlight, and growing goals to build a practical plan.</p>
               </div>
 
               <form onSubmit={handleSubmit} noValidate>
                 <div className="planner-progress" role="navigation" aria-label="Planner steps">
-                  <p className="planner-progress-count">
+                  <p className="planner-progress-count px">
                     Step {step + 1} of {PLANNER_STEPS.length}
                   </p>
                   <ol>
@@ -448,7 +456,7 @@ function PlannerForm() {
                           disabled={index > maxStep}
                           aria-current={index === step ? "step" : undefined}
                         >
-                          <span aria-hidden="true">{index + 1}</span>
+                          <span className="px" aria-hidden="true">{index + 1}</span>
                           {item.title}
                         </button>
                       </li>
@@ -580,7 +588,7 @@ function PlannerForm() {
                         </p>
                         <div className="garden-unit-list">
                           {formValues.units.map((unit, index) => (
-                            <article className="garden-unit-card" key={unit.id}>
+                            <article className="garden-unit-card pa-sleeve" key={unit.id}>
                               <div className="garden-unit-heading">
                                 <h3>{areaCopy.formLabel} {index + 1}</h3>
                                 {formValues.units.length > 1 ? (
@@ -647,7 +655,7 @@ function PlannerForm() {
                             </article>
                           ))}
                         </div>
-                        <button type="button" className="add-unit-button" onClick={addUnit}>
+                        <button type="button" className="add-unit-button pa-empty-sleeve" onClick={addUnit}>
                           <Plus size={17} aria-hidden="true" />
                           Add another {areaCopy.singular}
                         </button>
@@ -666,9 +674,16 @@ function PlannerForm() {
                       <legend>What would you like to grow? *</legend>
                       <div className="plant-options">
                         {PLANT_OPTIONS.map((plant) => (
+                          <div
+                            key={plant.key}
+                            className={`pa-plant-card${formValues.plantTypes.includes(plant.key) ? " is-checked" : ""}`}
+                          >
+                            <span className="pa-plant-art" aria-hidden="true">
+                              <PixelSprite plantName={plant.sprite} scale={3} motion="sway" />
+                            </span>
+                            <span className="pa-plant-stamp px" aria-hidden="true">In your album</span>
                           <CheckboxControl
                             id={`plant-${plant.key}`}
-                            key={plant.key}
                             checked={formValues.plantTypes.includes(plant.key)}
                             onCheckedChange={() => togglePlant(plant.key)}
                             label={plant.label}
@@ -678,6 +693,7 @@ function PlannerForm() {
                               <span className="tooltip-text">{plant.examples}</span>
                             </span>
                           </CheckboxControl>
+                          </div>
                         ))}
                         <CheckboxControl
                           id="plant-all"

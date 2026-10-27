@@ -1,11 +1,13 @@
 "use client";
 
-import { Leaf, Sparkles, Sprout } from "lucide-react";
+import { Leaf, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import CropRotation from "../../components/CropRotation";
 import GardenChat from "../../components/GardenChat";
 import AlbumDashboard from "../../components/looks/Album";
+import PixelSprite from "../../components/PixelSprite";
+import "./result-states.css";
 import {
   downloadPlantingCalendar,
   NeighborCheck,
@@ -92,6 +94,8 @@ function inputSummary(input: PlannerInput | undefined) {
   return `${input.zipCode} · ${input.units.length} ${quantityLabel} · ${sizes} ft`;
 }
 
+const LOADING_SPRITES = ["basil", "tomato", "sunflower"];
+
 function GardenLoadingPage({
   input,
   progress,
@@ -118,27 +122,33 @@ function GardenLoadingPage({
           ) : null}
         </div>
       </nav>
-      <main className="planner-loading-main">
-        <div className="planner-loading-card">
-          <div className="loading-sprout" aria-hidden="true">
-            <span />
-            <Sprout size={42} strokeWidth={1.8} />
-          </div>
-          <h1>Designing your garden…</h1>
-          <p>
+      <main className="planner-loading-main result-state-main">
+        <div className="planner-loading-card result-state-card">
+          <p className="result-state-kicker px" aria-hidden="true">Page 1 · being assembled</p>
+          <h1 className="result-state-title">Collecting your garden…</h1>
+          <p className="result-state-lead">
             We are matching plants to your dimensions, sunlight, location, and preferences.
           </p>
-          {input ? <div className="loading-input-summary">{inputSummary(input)}</div> : null}
-          <ol className="loading-steps" aria-label="Plan generation in progress">
-            {stages.map((label, index) => (
-              <li
-                key={index}
-                className={index < stageIndex ? "done" : index === stageIndex ? "active" : ""}
-                aria-current={index === stageIndex ? "step" : undefined}
-              >
-                {label}
-              </li>
-            ))}
+          {input ? <div className="loading-input-summary result-state-slip">{inputSummary(input)}</div> : null}
+          <ol className="loading-steps result-state-sleeves" aria-label="Plan generation in progress">
+            {stages.map((label, index) => {
+              const state = index < stageIndex ? "done" : index === stageIndex ? "active" : "";
+              return (
+                <li key={index} className={state} aria-current={index === stageIndex ? "step" : undefined}>
+                  <span className="result-state-sleeve-art" aria-hidden="true">
+                    {state === "active" ? (
+                      <PixelSprite plantName={LOADING_SPRITES[index] ?? "tomato"} scale={3} motion="grow" />
+                    ) : state === "done" ? (
+                      <PixelSprite plantName={LOADING_SPRITES[index] ?? "tomato"} scale={3} motion="still" />
+                    ) : (
+                      <span className="result-state-sleeve-empty px">?</span>
+                    )}
+                  </span>
+                  <span className="result-state-sleeve-num px" aria-hidden="true">No. {index + 1}</span>
+                  <span className="result-state-sleeve-label">{label}</span>
+                </li>
+              );
+            })}
           </ol>
         </div>
       </main>
@@ -608,7 +618,7 @@ export default function PlannerResultPage() {
               <>
                 {!plan ? (
                   <>
-                    <div className="result-actions no-print">
+                    <div className="result-actions result-state-card result-state-compact no-print">
                       <div className="generation-state">
                         <Sparkles size={18} aria-hidden="true" />
                         {status === "loading" ? <span>Designing your garden…</span> : null}
@@ -649,7 +659,7 @@ export default function PlannerResultPage() {
                 ) : null}
               </>
             ) : (
-              <div className="empty-state">
+              <div className="empty-state result-state-card result-state-compact">
                 <p>No planner inputs were found.</p>
                 <a href="/planner" className="btn">Open Planner</a>
                 <button type="button" className="btn secondary-action" onClick={loadStarterPlan}>
