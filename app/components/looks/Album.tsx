@@ -5,7 +5,7 @@ import type { CSSProperties } from "react";
 import { groupGuideByTiming, startingAmountLabel } from "../../../lib/garden-plan";
 import { findPlantFacts } from "../../../lib/plant-facts";
 import type { Plant, PlantSunNeeds } from "../../../lib/types";
-import PixelPlot from "../PixelPlot";
+import BedEditor from "../BedEditor";
 import PixelSprite from "../PixelSprite";
 import type { LookDashboardProps } from "./types";
 import "./album.css";
@@ -101,6 +101,9 @@ export default function AlbumDashboard({
   onCalendar,
   onPrint,
   onOpenGuide,
+  onSwapPlant,
+  onSwapZones,
+  onLayoutChange,
 }: LookDashboardProps) {
   const cards = useMemo(() => buildCards(plan.layout.plants), [plan.layout.plants]);
   const storageKey = useMemo(
@@ -241,7 +244,14 @@ export default function AlbumDashboard({
       <div className="album-lower">
         <section className="album-box album-plot" aria-labelledby="album-plot-title">
           <h2 id="album-plot-title">The bed these cards fill</h2>
-          <PixelPlot layout={plan.layout} onZoneSelect={onOpenGuide} />
+          <BedEditor
+            layout={plan.layout}
+            alternatives={plan.alternatives}
+            onLayoutChange={onLayoutChange}
+            onSwapPlant={onSwapPlant}
+            onSwapZones={onSwapZones}
+            onZoneSelect={onOpenGuide}
+          />
         </section>
 
         <section className="album-box" aria-labelledby="album-season-title">

@@ -1,6 +1,6 @@
 # FloraScape
 
-FloraScape helps beginner gardeners turn a real growing space into an illustrated garden blueprint and planting guide. The planner combines user-provided dimensions and sunlight with real climate data and AI plant recommendations, then renders the result as an editable Rough.js sketch.
+FloraScape helps beginner gardeners turn a real growing space into an illustrated garden blueprint and planting guide. The planner combines user-provided dimensions and sunlight with real climate data and AI plant recommendations, then shows the result as a Collector's Album with an editable, animated pixel-art garden.
 
 ## Architecture
 
@@ -11,7 +11,7 @@ The application is written in strict TypeScript and intentionally separates prob
 3. That climate data is injected into the prompt as authoritative context. The AI recommends plant groups, placement reasons, per-area alternatives, care tips, and planting-guide content using a structured response schema.
 4. Server-side code validates the response and owns all bed geometry. Model-generated coordinates are never trusted or rendered. Plant spacing is clamped to ranges from the curated plant-facts file.
 5. The layout engine allocates plant zones, tops up thin areas, and fills every zone to its spacing capacity so no growing space is left empty.
-6. Rough.js draws the blueprint, while regular React controls handle editing and accessibility.
+6. The pixel garden draws each bed as one-foot soil tiles with animated plant sprites, while regular React controls handle editing and accessibility.
 
 ### Code layout
 
@@ -58,11 +58,12 @@ Providers are tried in order: Gemini, Groq, then OpenRouter. With none configure
 ## Results and editing
 
 - A badge shows where the plan came from: an AI provider, the starter plan, or a saved (cached) result.
-- A **Look** switcher on the results page offers Classic plus four pixel-art looks: Packet Quests, Collector's Album, Quest Binder, and Seed Rack. Each replaces the top of the page with its own dashboard built around an animated pixel garden (20 plant sprites in `public/sprites/`, with look-alikes for the rest); the editor, guide, and other sections stay below, restyled to match. The choice is kept in the URL (`?look=`) and on this device.
+- Results open as a **Collector's Album**: one trading card per plant (difficulty, spacing, days to harvest, sun, what to buy) with Planted / Growing / Harvested stamps saved on this device, a season map, and a home-turf frost card.
+- **The bed these cards fill** is the garden editor: an animated pixel garden (20 plant sprites in `public/sprites/`, look-alikes for the other plants) with plant dropdowns, +/− counts, add-a-group, and a table view.
 - The results page shows the hardiness zone, frost dates, growing-season length, and a frost warning when frost is forecast.
 - Every zone is filled to the number of plants its size and spacing allow; areas of 8 sq ft or more get at least three plant groups.
-- Toggle **Show 1 ft grid** for square-foot lines in every area, or **View as table** for an accessible table of each group's area, quantity, spacing, and allocated size.
-- Drag one plant zone onto another to swap them, within a bed or across beds; both areas refill to capacity. Zoom with the +/− buttons, a pinch, or Ctrl/⌘ + scroll (1×–3×), and drag an empty part of the sketch to pan.
+- Toggle **View as table** for an accessible table of each group's area, quantity, spacing, and allocated size.
+- Click a patch to jump to its planting guide, or drag one patch onto another (mouse or pen) to swap them, within a bed or across beds; both areas refill to capacity.
 - Hover or focus a plant zone to see its quantity, spacing, allocated size, and placement reason.
 - Select a zone to jump to its planting-guide entry.
 - Use a group's plant dropdown to swap in one of that area's alternatives (suited to its sun, your categories, preferences, and the season). The new plant takes over the same zone at its own spacing.
@@ -75,7 +76,7 @@ Providers are tried in order: Gemini, Groq, then OpenRouter. With none configure
 - The **Shopping list** shows seeds to sow (with a germination buffer) or nursery starts to buy, plus soil-mix and compost volumes per area with an estimated bag count.
 - **Crop rotation**: save each season's plan on this device (up to 8, in `localStorage`). The next plan is checked against the most recent other season, area by area (matched by name), and flags crops returning to the same rotation group (fruiting → legume → leafy → root). Each flagged area recommends the next group and offers one-click swaps from its alternatives.
 - **Ask about my garden** answers follow-up questions. "When / how far apart / how many" questions about a plant in the guide are answered straight from the plan with no AI call; other questions go to the same AI providers with a compact plan summary, and suggested swaps appear as one-click buttons. Replies are cached for an hour, each client is limited to 20 AI questions per 10 minutes, and the chat shows a friendly notice when no provider is available.
-- Print the sketch, planting guide, tips, neighbor check, and shopping list as a compact landscape plan.
+- Print the album, garden, planting guide, tips, neighbor check, and shopping list as a compact landscape plan.
 
 Planner state is stored in `sessionStorage`, and saved seasons for crop rotation are stored in `localStorage` on this device only; there are no accounts.
 

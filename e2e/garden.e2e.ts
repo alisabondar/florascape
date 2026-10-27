@@ -27,7 +27,7 @@ async function planGarden(page: Page) {
   await page.getByRole("button", { name: "Generate My Garden" }).click();
 
   await expect(page).toHaveURL(/\/planner\/result/);
-  await expect(page.getByText("Starter plan", { exact: true })).toBeVisible();
+  await expect(page.getByText("Starter plan", { exact: true }).first()).toBeVisible();
 }
 
 const groupNames = (page: Page) => page.locator(".plant-group-adjustment").evaluateAll((rows) =>
@@ -36,15 +36,16 @@ const groupNames = (page: Page) => page.locator(".plant-group-adjustment").evalu
 
 test("the three planner steps produce a starter plan", async ({ page }) => {
   await planGarden(page);
-  await expect(page.getByRole("heading", { name: "Your garden sketch" })).toBeVisible();
-  await expect(page.locator(".patch-hit").first()).toBeVisible();
+  await expect(page.locator("main.look-album")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "The bed these cards fill" })).toBeVisible();
+  await expect(page.locator(".pixel-zone").first()).toBeVisible();
   expect((await groupNames(page)).length).toBeGreaterThanOrEqual(3);
 });
 
 test("Shuffle Plants changes the plants", async ({ page }) => {
   await planGarden(page);
   const before = await groupNames(page);
-  await page.getByRole("button", { name: "Shuffle Plants" }).click();
+  await page.getByRole("toolbar", { name: "Plan actions" }).getByRole("button", { name: "Shuffle" }).click();
   await expect.poll(() => groupNames(page)).not.toEqual(before);
 });
 
@@ -68,25 +69,17 @@ test("Add to calendar downloads an .ics file", async ({ page }) => {
   expect(contents).toContain("BEGIN:VEVENT");
 });
 
-test("every results look renders its dashboard and keeps the editor", async ({ page }) => {
+test("the album's bed editor swaps a plant and the pixel garden follows", async ({ page }) => {
   await planGarden(page);
-  const looks = [
-    ["Packet Quests", "quests"],
-    ["Collector's Album", "album"],
-    ["Quest Binder", "quest-binder"],
-    ["Seed Rack", "seed-rack"],
-  ] as const;
-
-  for (const [label, id] of looks) {
-    await page.getByRole("group", { name: "Results page look" }).getByRole("button", { name: label }).click();
-    await expect(page).toHaveURL(new RegExp(`look=${id}`));
-    await expect(page.locator(`main.look-${id}`)).toBeVisible();
-    await expect(page.locator(".pixel-zone").first()).toBeVisible();
-    await expect(page.locator("h1")).toHaveCount(1);
-    await expect(page.getByText("Edit plant groups")).toBeVisible();
-  }
-
-  await page.getByRole("group", { name: "Results page look" }).getByRole("button", { name: "Classic" }).click();
-  await expect(page.getByRole("heading", { name: "Garden Blueprint" })).toBeVisible();
-  await expect(page.locator(".pixel-plot")).toHaveCount(0);
+  await expect(page.locator("h1")).toHaveCount(1);
+  const trigger = page.locator(".plant-group-adjustment .ui-select-trigger").first();
+  await trigger.click();
+  // The second option is the first alternative (the first is the current plant).
+  const option = page.locator(".ui-select-item").nth(1);
+  const newName = (await option.locator("span").first().textContent())?.trim() ?? "";
+  expect(newName).not.toBe("");
+  await option.click();
+  await expect(trigger).toContainText(newName);
+  await expect(page.locator(`.pixel-zone[aria-label^="${newName},"]`).first()).toBeVisible();
+  await expect(page.getByText("Edit plant groups")).toBeVisible();
 });
