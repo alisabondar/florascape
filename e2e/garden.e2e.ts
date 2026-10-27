@@ -72,6 +72,8 @@ test("Add to calendar downloads an .ics file", async ({ page }) => {
 test("the album's bed editor swaps a plant and the pixel garden follows", async ({ page }) => {
   await planGarden(page);
   await expect(page.locator("h1")).toHaveCount(1);
+  // The editor starts folded under its heading.
+  await page.getByText("Edit plant groups").click();
   const trigger = page.locator(".plant-group-adjustment .ui-select-trigger").first();
   await trigger.click();
   // The second option is the first alternative (the first is the current plant).

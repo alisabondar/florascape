@@ -271,8 +271,6 @@ export interface StoredPlannerResult {
   selectedPlants?: string[];
 }
 
-// ---------- Sketch zoom ----------
-
 // ---------- AI providers ----------
 
 export interface AiGenerateRequest {

@@ -6,6 +6,9 @@ import { useEffect, useState } from "react";
 import CropRotation from "../../components/CropRotation";
 import GardenChat from "../../components/GardenChat";
 import AlbumDashboard from "../../components/looks/Album";
+import AlbumShelf from "../../components/albums/AlbumShelf";
+import NotesTabs from "../../components/NotesTabs";
+import { saveAlbum } from "../../components/albums/store";
 import LevelBadge from "../../components/progress/LevelBadge";
 import { recordProgress } from "../../components/progress/store";
 import PixelSprite from "../../components/PixelSprite";
@@ -18,13 +21,11 @@ import {
 import {
   createExampleGardenPlan,
   createFallbackGardenPlan,
-  groupGuideByTiming,
   shufflePlan,
   slugify,
   swapPlant,
   swapZones,
 } from "../../../lib/garden-plan";
-import { getPlantSectionSizes } from "../../../lib/garden-layout";
 import { LOADING_STAGES, providerLabel, readPlanStream } from "../../../lib/plan/read-plan-stream";
 import {
   getAreaCopy,
@@ -40,7 +41,6 @@ import type {
   ClimateContext,
   GardenPlan,
   GrowingUnitInput,
-  GuideEntry,
   InGroundInput,
   Layout,
   PlannerInput,
@@ -61,12 +61,6 @@ type GenerateResponse = Partial<PlanResponseBody> & { error?: string };
 type PlanTransform = (plan: GardenPlan, options: { climate: ClimateContext | null }) => GardenPlan;
 
 type TipGroupKey = "preferenceHelp" | "companionPlanting" | "avoid" | "watering" | "commonMistakes";
-
-interface SectionSize {
-  bedName: string;
-  width: number;
-  height: number;
-}
 
 /** Results are written only by the planner pages, so any stored object is taken as one. */
 function isStoredResult(value: unknown): value is StoredPlannerResult {
@@ -256,125 +250,6 @@ function TipsSection({ tips }: { tips: PlanTips | undefined }) {
   );
 }
 
-function sectionSizeText(sections: SectionSize[] = []) {
-  return sections
-    .map((section) => `${section.bedName}: about ${section.width} × ${section.height} ft`)
-    .join("; ");
-}
-
-function PlantingGuide({ guide, layout }: { guide: GuideEntry[] | undefined; layout: Layout | undefined }) {
-  const visibleGuide = guide?.filter((item: GuideEntry) => item.quantity > 0) || [];
-  if (!visibleGuide.length) {
-    return null;
-  }
-  const sectionSizes: Record<string, SectionSize[]> = layout ? getPlantSectionSizes(layout) : {};
-
-  return (
-    <section className="result-content-section planting-guide print-section">
-      <div className="result-section-heading">
-        <span>02</span>
-        <div>
-          <h2>General Planting Guide</h2>
-          <p>Use this as a starting point for buying and planting.</p>
-        </div>
-      </div>
-
-      <p className="seed-disclaimer">
-        “Target” means the healthy mature plants the space can support. Sow a reasonable buffer
-        for germination, then thin to the target. You usually do not need to empty the whole packet.
-        Always follow the packet or plant tag because cultivars vary. Follow its planting depth and
-        keep the seedbed evenly moist while plants establish.
-      </p>
-
-      {groupGuideByTiming(visibleGuide).map((group) => (
-        <div className="guide-timing-group screen-guide-list" key={group.key}>
-          <h3 className="guide-timing-heading">
-            {group.title}
-            <span>
-              {group.plantCount} {group.plantCount === 1 ? "plant" : "plants"}
-            </span>
-          </h3>
-          <div className="guide-list">
-            {group.items.map((item: GuideEntry) => {
-              const sizes = sectionSizes[item.plantName.toLowerCase()] || [];
-              return (
-                <article className="guide-card" id={item.id} key={item.id}>
-                  <div className="guide-card-heading">
-                    <div>
-                      <h3>{item.plantName}</h3>
-                      <span>{item.timingLabel || item.whenToPlant}</span>
-                    </div>
-                    <strong>Target: {item.quantity} mature {item.quantity === 1 ? "plant" : "plants"}</strong>
-                  </div>
-                  <p className="guide-timing">{item.timingDetails}</p>
-                  <dl>
-                    <div>
-                      <dt>Spacing</dt>
-                      <dd>{item.spacingInches} inches</dd>
-                    </div>
-                    <div>
-                      <dt>How much to sow</dt>
-                      <dd>
-                        {item.sowingAmount || `Start a few extra seeds and thin to ${item.quantity} healthy plants.`}
-                      </dd>
-                    </div>
-                    {sizes.length ? (
-                      <div>
-                        <dt>Allocated space</dt>
-                        <dd>{sectionSizeText(sizes)}</dd>
-                      </div>
-                    ) : null}
-                    {item.plantingDepth ? (
-                      <div>
-                        <dt>Specific depth</dt>
-                        <dd>{item.plantingDepth}</dd>
-                      </div>
-                    ) : null}
-                    {item.watering ? (
-                      <div>
-                        <dt>Specific watering</dt>
-                        <dd>{item.watering}</dd>
-                      </div>
-                    ) : null}
-                  </dl>
-                  {item.notes ? <p className="guide-note">{item.notes}</p> : null}
-                </article>
-              );
-            })}
-          </div>
-        </div>
-      ))}
-
-      <table className="print-only print-guide-table">
-        <thead>
-          <tr>
-            <th>Plant and timing</th>
-            <th>Target and space</th>
-            <th>Spacing</th>
-            <th>How much to sow</th>
-            <th>Plant-specific care</th>
-          </tr>
-        </thead>
-        <tbody>
-          {visibleGuide.map((item) => {
-            const sizes = sectionSizes[item.plantName.toLowerCase()] || [];
-            const care = [item.plantingDepth, item.watering, item.notes].filter(Boolean).join(" ");
-            return (
-              <tr key={`print-${item.id}`}>
-                <td><strong>{item.plantName}</strong><br />{item.timingLabel}<br />{item.timingDetails}</td>
-                <td>{item.quantity} mature<br />{sectionSizeText(sizes)}</td>
-                <td>{item.spacingInches} in</td>
-                <td>{item.sowingAmount}</td>
-                <td>{care || "Follow the guide header."}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </section>
-  );
-}
-
 const STARTER_PLAN_SOURCES = new Set(["fallback-example", "starter-plan"]);
 
 /** "Starter plan", "Saved result", or "AI plan · Gemini"; empty before a plan exists. */
@@ -391,6 +266,12 @@ function planSourceLabel(result: StoredPlannerResult | null): { kind: "starter" 
   // Provider names look like "gemini:gemini-3.6-flash"; show the readable provider part.
   const provider = String(result.modelUsed).split(":")[0];
   return { kind: "ai", label: `AI plan · ${provider.charAt(0).toUpperCase()}${provider.slice(1)}` };
+}
+
+/** Keeps the plan in this tab and saves it to the device's albums. */
+function persistResult(result: StoredPlannerResult) {
+  writeSessionJson(PLANNER_RESULT_KEY, result);
+  saveAlbum(result);
 }
 
 // Matches the ids the planting guide gives its cards (see normalizeGuide / guideEntryFromFacts).
@@ -446,7 +327,7 @@ export default function PlannerResultPage() {
           chat: [],
           aiGeneratedAt: new Date().toISOString(),
         };
-        writeSessionJson(PLANNER_RESULT_KEY, nextResult);
+        persistResult(nextResult);
         setResult(nextResult);
         setStatus("success");
       } catch (error) {
@@ -473,7 +354,7 @@ export default function PlannerResultPage() {
       chat: [],
       aiGeneratedAt: new Date().toISOString(),
     };
-    writeSessionJson(PLANNER_RESULT_KEY, nextResult);
+    persistResult(nextResult);
     setResult(nextResult);
     setStatus("success");
   }
@@ -502,7 +383,7 @@ export default function PlannerResultPage() {
           })),
         },
       };
-      writeSessionJson(PLANNER_RESULT_KEY, nextResult);
+      persistResult(nextResult);
       return nextResult;
     });
   }
@@ -516,7 +397,7 @@ export default function PlannerResultPage() {
         ...previous,
         plan: transform(previous.plan, { climate: previous.climate || null }),
       };
-      writeSessionJson(PLANNER_RESULT_KEY, nextResult);
+      persistResult(nextResult);
       return nextResult;
     });
   }
@@ -539,13 +420,18 @@ export default function PlannerResultPage() {
         return previous;
       }
       const nextResult = { ...previous, chat: nextMessages };
-      writeSessionJson(PLANNER_RESULT_KEY, nextResult);
+      persistResult(nextResult);
       return nextResult;
     });
   }
 
+  // Guides live on the plant cards as folded details: open the card's guide, then scroll to it.
   function scrollToGuide(guideId: string) {
-    document.getElementById(guideId)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    const target = document.getElementById(guideId);
+    if (target instanceof HTMLDetailsElement) {
+      target.open = true;
+    }
+    (target?.closest(".album-card") ?? target)?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
   const plan = result?.plan;
@@ -559,6 +445,13 @@ export default function PlannerResultPage() {
     const kinds = new Set(plan.layout.plants.map((item) => item.name.toLowerCase())).size;
     recordProgress({ kind: "plan-created", key: `plan:${planId}`, detail: { plantKinds: kinds } });
   }, [plan, planId]);
+
+  // Every plan is saved to this device's albums (also covers plans opened from an older session).
+  useEffect(() => {
+    if (result?.plan) {
+      saveAlbum(result);
+    }
+  }, [result]);
   const editHref = result?.plannerInput
     ? `/planner?edit=1&type=${encodeURIComponent(result.plannerInput.gardenType)}#planner`
     : "/planner?edit=1#planner";
@@ -651,15 +544,25 @@ export default function PlannerResultPage() {
 
                 {plan ? (
                   <>
-                    <PlantingGuide guide={plan.plantingGuide} layout={plan.layout} />
-                    <TipsSection tips={plan.tips} />
-                    <NeighborCheck layout={plan.layout} />
-                    <ShoppingList layout={plan.layout} />
-                    <CropRotation
-                      plan={plan}
-                      planId={result.aiGeneratedAt || result.generatedAt}
-                      zipCode={result.plannerInput?.zipCode}
-                      onApplySwap={handleSwapPlant}
+                    <NotesTabs
+                      title="Garden notes"
+                      tabs={[
+                        { id: "shopping", label: "Shopping list", content: <ShoppingList layout={plan.layout} /> },
+                        { id: "neighbors", label: "Neighbors", content: <NeighborCheck layout={plan.layout} /> },
+                        { id: "tips", label: "Tips", content: <TipsSection tips={plan.tips} /> },
+                        {
+                          id: "rotation",
+                          label: "Crop rotation",
+                          content: (
+                            <CropRotation
+                              plan={plan}
+                              planId={result.aiGeneratedAt || result.generatedAt}
+                              zipCode={result.plannerInput?.zipCode}
+                              onApplySwap={handleSwapPlant}
+                            />
+                          ),
+                        },
+                      ]}
                     />
                     <GardenChat
                       plan={plan}
@@ -668,6 +571,7 @@ export default function PlannerResultPage() {
                       onMessagesChange={handleChatMessagesChange}
                       onApplySwap={handleSwapPlant}
                     />
+                    <AlbumShelf currentId={planId} heading="Your other albums" />
                   </>
                 ) : null}
               </>
