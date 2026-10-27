@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import type { FormEvent } from "react";
+import LevelBadge from "../components/progress/LevelBadge";
 import AreaPreview, { previewAreas } from "../components/AreaPreview";
 import SunSidePicker from "../components/SunSidePicker";
 import PixelSprite from "../components/PixelSprite";
@@ -420,6 +421,7 @@ function PlannerForm() {
             FloraScape
           </Link>
           <div className="planner-nav-actions">
+            <LevelBadge />
             <Link
               href="/"
               className="planner-home-link"

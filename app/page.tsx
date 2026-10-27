@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import Link from "next/link";
 import PixelPlot from "./components/PixelPlot";
+import LevelBadge from "./components/progress/LevelBadge";
 import PixelSprite from "./components/PixelSprite";
 import { createExampleGardenPlan } from "../lib/garden-plan";
 import { findPlantFacts } from "../lib/plant-facts";
@@ -68,6 +69,7 @@ export default function Home() {
             FloraScape
           </Link>
           <div className="nav-links">
+            <LevelBadge />
             <a href="#how-it-works">How It Works</a>
             <a href="#features">Features</a>
             <Link href="/planner" className="btn">

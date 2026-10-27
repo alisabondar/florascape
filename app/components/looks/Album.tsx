@@ -6,6 +6,8 @@ import { groupGuideByTiming, startingAmountLabel } from "../../../lib/garden-pla
 import { findPlantFacts } from "../../../lib/plant-facts";
 import type { Plant, PlantSunNeeds } from "../../../lib/types";
 import BedEditor from "../BedEditor";
+import GardenerPanel from "../progress/GardenerPanel";
+import { recordProgress } from "../progress/store";
 import PixelSprite from "../PixelSprite";
 import type { LookDashboardProps } from "./types";
 import "./album.css";
@@ -138,12 +140,45 @@ export default function AlbumDashboard({
   }, [stamps, storageKey, loadedKey]);
 
   const toggleStamp = (name: string, stamp: Stamp) => {
+    const turningOn = stamps[name] !== stamp;
+    if (turningOn) {
+      // Each stamp pays out once per plant per album, so toggling can't farm XP.
+      const allHarvested =
+        stamp === "harvested" && cards.every((card) => card.name.toLowerCase() === name || stamps[card.name.toLowerCase()] === "harvested");
+      recordProgress({ kind: `stamp-${stamp}`, key: `stamp:${stamp}:${storageKey}:${name}`, detail: { allHarvested } });
+    }
     setStamps((current) => {
       const next = { ...current };
       if (next[name] === stamp) delete next[name];
       else next[name] = stamp;
       return next;
     });
+  };
+
+  // Planting quests: one per plant in the season map, ticked off as they're done.
+  const questKey = `${storageKey}_quests`;
+  const [quests, setQuests] = useState<string[]>([]);
+  useEffect(() => {
+    try {
+      const parsed: unknown = JSON.parse(window.localStorage.getItem(questKey) || "[]");
+      setQuests(Array.isArray(parsed) ? parsed.filter((item): item is string => typeof item === "string") : []);
+    } catch {
+      setQuests([]);
+    }
+  }, [questKey]);
+
+  const toggleQuest = (plantName: string) => {
+    const id = plantName.toLowerCase();
+    const next = quests.includes(id) ? quests.filter((item) => item !== id) : [...quests, id];
+    if (!quests.includes(id)) {
+      recordProgress({ kind: "quest-done", key: `quest:${storageKey}:${id}` });
+    }
+    setQuests(next);
+    try {
+      window.localStorage.setItem(questKey, JSON.stringify(next));
+    } catch {
+      // Storage may be disabled; quests just won't persist.
+    }
   };
 
   const collected = cards.filter((card) => stamps[card.name.toLowerCase()]).length;
@@ -185,7 +220,7 @@ export default function AlbumDashboard({
             >
               <i style={{ width: `${percent}%` }} />
             </div>
-            <p className="album-hint">Stamp a card once it&apos;s in the ground to add it to your set.</p>
+            <p className="album-hint">Stamp a card once it&apos;s in the ground to add it to your set and earn XP.</p>
           </div>
         </div>
 
@@ -254,8 +289,10 @@ export default function AlbumDashboard({
           />
         </section>
 
+        <GardenerPanel />
+
         <section className="album-box" aria-labelledby="album-season-title">
-          <h2 id="album-season-title">Season map</h2>
+          <h2 id="album-season-title">Season quests</h2>
           {levels.length ? (
             <ol className="album-levels">
               {levels.map((level, index) => (
@@ -263,9 +300,23 @@ export default function AlbumDashboard({
                   <span className="album-level-num px" aria-hidden="true">{index + 1}</span>
                   <div>
                     <h3>
-                      <span className="px">Level {index + 1}:</span> {LEVEL_TITLES[level.key] ?? level.title}
+                      <span className="px">Stage {index + 1}:</span> {LEVEL_TITLES[level.key] ?? level.title}
                     </h3>
-                    <p>{level.items.map((item) => item.plantName).join(", ")}</p>
+                    <ul className="album-quests">
+                      {level.items.map((item) => {
+                        const done = quests.includes(item.plantName.toLowerCase());
+                        const id = `quest-${level.key}-${item.plantName.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+                        return (
+                          <li key={item.plantName} className={done ? "done" : undefined}>
+                            <input id={id} type="checkbox" checked={done} onChange={() => toggleQuest(item.plantName)} />
+                            <label htmlFor={id}>
+                              {level.key === "now" ? "Plant" : level.key === "next_month" ? "Get ready to plant" : "Plan to plant"} {item.plantName}
+                              <span className="album-quest-xp px"> +15 XP</span>
+                            </label>
+                          </li>
+                        );
+                      })}
+                    </ul>
                   </div>
                 </li>
               ))}
