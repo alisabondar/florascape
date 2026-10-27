@@ -2,7 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import type { CSSProperties } from "react";
-import { groupGuideByTiming, startingAmountLabel } from "../../../lib/garden-plan";
+import { getPlantSectionSizes } from "../../../lib/garden-layout";
+import { groupGuideByTiming, slugify, startingAmountLabel } from "../../../lib/garden-plan";
 import { findPlantFacts } from "../../../lib/plant-facts";
 import type { Plant, PlantSunNeeds } from "../../../lib/types";
 import BedEditor from "../BedEditor";
@@ -189,6 +190,21 @@ export default function AlbumDashboard({
     ? `Your ${cards.length}-card garden set`
     : "Your garden album";
 
+  const guideByName = useMemo(
+    () => new Map(plan.plantingGuide.map((entry) => [entry.plantName.toLowerCase(), entry])),
+    [plan.plantingGuide],
+  );
+  const sectionSizes = useMemo(() => getPlantSectionSizes(plan.layout), [plan.layout]);
+
+  // Folded details (planting guides, editor) print open.
+  useEffect(() => {
+    const openAll = () => document.querySelectorAll<HTMLDetailsElement>(".album-dash details").forEach((item) => {
+      item.open = true;
+    });
+    window.addEventListener("beforeprint", openAll);
+    return () => window.removeEventListener("beforeprint", openAll);
+  }, []);
+
   return (
     <section className="look-dashboard album-dash" aria-labelledby="album-headline">
       <div className="album-toolbar no-print" role="toolbar" aria-label="Plan actions">
@@ -200,16 +216,30 @@ export default function AlbumDashboard({
         <a className="album-btn album-btn-ghost" href={editHref}>Edit inputs</a>
       </div>
 
+      {/* 1. The spread: what this plan is (left) and the garden itself (right). */}
       <div className="album-binder">
         <div className="album-page album-page-left">
           <p className="album-source px">{sourceLabel}</p>
           <h1 id="album-headline" className="album-headline">{headline}</h1>
           {plan.summary ? <p className="album-lead">{plan.summary}</p> : null}
           {inputSummary ? <p className="album-inputs">{inputSummary}</p> : null}
-          <p className="album-count px">{totalPlants} plants across {cards.length} cards</p>
           {warning ? <p className="album-warning" role="note">{warning}</p> : null}
+          {climate ? (
+            <dl className="album-turf-chips" aria-label="Home turf">
+              <div><dt>Zone</dt><dd className="px">{climate.hardinessZone || "Unknown"}</dd></div>
+              {climate.frost ? (
+                <>
+                  <div><dt>Last frost</dt><dd className="px">{formatMonthDay(climate.frost.lastSpringFrost)}</dd></div>
+                  <div><dt>First frost</dt><dd className="px">{formatMonthDay(climate.frost.firstFallFrost)}</dd></div>
+                  <div><dt>Season</dt><dd className="px">{climate.frost.growingSeasonDays} days</dd></div>
+                </>
+              ) : null}
+            </dl>
+          ) : null}
           <div className="album-progress">
-            <p className="px" id="album-progress-label">{collected} of {cards.length} cards collected</p>
+            <p className="px" id="album-progress-label">
+              {collected} of {cards.length} cards collected · {totalPlants} plants
+            </p>
             <div
               className="album-bar"
               role="progressbar"
@@ -225,72 +255,97 @@ export default function AlbumDashboard({
         </div>
 
         <div className="album-page album-page-right">
-          <h2 className="album-sr">Plant cards</h2>
-          <ul className="album-sleeves">
-            {cards.map((card, index) => {
-              const colors = RARITY_COLORS[card.rarity];
-              const key = card.name.toLowerCase();
-              const active = stamps[key];
-              const activeLabel = STAMPS.find((s) => s.id === active)?.label;
-              const style = { "--rar": colors.rar, "--bg": colors.bg } as CSSProperties;
-              return (
-                <li key={key} className="album-card" style={style}>
-                  <span className="album-rarity px">{card.rarity}</span>
-                  {activeLabel ? <span className={`album-stamp-mark is-${active}`} aria-hidden="true">{activeLabel}</span> : null}
-                  <div className="album-art" aria-hidden="true">
-                    <PixelSprite plantName={card.name} motion="grow" delay={index * 0.15} />
-                  </div>
-                  <h3 className="album-card-name">
-                    <button type="button" className="album-name-btn" onClick={() => onOpenGuide(card.firstGroup)}>
-                      {card.name}
-                    </button>
-                  </h3>
-                  <p className="album-ct">
-                    {card.quantity} plants — {startingAmountLabel(card.name, card.quantity)}
-                  </p>
-                  <dl className="album-stats">
-                    <dt>Spacing</dt>
-                    <dd className="px">{card.spacing} in</dd>
-                    <dt>Harvest</dt>
-                    <dd className="px">{card.days ? `~${card.days} days` : "Varies"}</dd>
-                    <dt>Sun</dt>
-                    <dd className="px">{card.sun}</dd>
-                  </dl>
-                  <div className="album-stamps no-print" role="group" aria-label={`${card.name} progress`}>
-                    {STAMPS.map((stamp) => (
-                      <button
-                        key={stamp.id}
-                        type="button"
-                        className="album-stamp-btn px"
-                        aria-pressed={active === stamp.id}
-                        onClick={() => toggleStamp(key, stamp.id)}
-                      >
-                        {stamp.label}
-                      </button>
-                    ))}
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
+          <section aria-labelledby="album-plot-title">
+            <h2 id="album-plot-title" className="album-page-title">The bed these cards fill</h2>
+            <BedEditor
+              layout={plan.layout}
+              alternatives={plan.alternatives}
+              onLayoutChange={onLayoutChange}
+              onSwapPlant={onSwapPlant}
+              onSwapZones={onSwapZones}
+              onZoneSelect={onOpenGuide}
+              collapsible
+            />
+          </section>
         </div>
       </div>
 
+      {/* 2. The cards: one per plant, each with its own planting guide. */}
+      <section className="album-cards-section" aria-labelledby="album-cards-title">
+        <h2 id="album-cards-title" className="album-section-title">Plant cards</h2>
+        <ul className="album-sleeves">
+          {cards.map((card, index) => {
+            const colors = RARITY_COLORS[card.rarity];
+            const key = card.name.toLowerCase();
+            const active = stamps[key];
+            const activeLabel = STAMPS.find((s) => s.id === active)?.label;
+            const guide = guideByName.get(key);
+            const sizes = sectionSizes[key] || [];
+            const style = { "--rar": colors.rar, "--bg": colors.bg } as CSSProperties;
+            return (
+              <li key={key} className="album-card" style={style}>
+                <span className="album-rarity px">{card.rarity}</span>
+                {activeLabel ? <span className={`album-stamp-mark is-${active}`} aria-hidden="true">{activeLabel}</span> : null}
+                <div className="album-art" aria-hidden="true">
+                  <PixelSprite plantName={card.name} motion="grow" delay={index * 0.15} />
+                </div>
+                <h3 className="album-card-name">{card.name}</h3>
+                <p className="album-ct">
+                  {card.quantity} plants — {startingAmountLabel(card.name, card.quantity)}
+                </p>
+                {guide ? <p className="album-when px">{guide.timingLabel}</p> : null}
+                <dl className="album-stats">
+                  <dt>Spacing</dt>
+                  <dd className="px">{card.spacing} in</dd>
+                  <dt>Harvest</dt>
+                  <dd className="px">{card.days ? `~${card.days} days` : "Varies"}</dd>
+                  <dt>Sun</dt>
+                  <dd className="px">{card.sun}</dd>
+                </dl>
+                {guide ? (
+                  <details className="album-guide" id={`guide-${slugify(card.name)}`}>
+                    <summary>Planting guide</summary>
+                    <p>{guide.timingDetails}</p>
+                    <dl>
+                      <dt>How much to sow</dt>
+                      <dd>{guide.sowingAmount || `Start a few extra seeds and thin to ${card.quantity} healthy plants.`}</dd>
+                      {sizes.length ? (
+                        <>
+                          <dt>Space</dt>
+                          <dd>{sizes.map((size) => `${size.bedName}: about ${size.width} × ${size.height} ft`).join("; ")}</dd>
+                        </>
+                      ) : null}
+                      {guide.plantingDepth ? (<><dt>Depth</dt><dd>{guide.plantingDepth}</dd></>) : null}
+                      {guide.watering ? (<><dt>Watering</dt><dd>{guide.watering}</dd></>) : null}
+                    </dl>
+                    {guide.notes ? <p className="album-guide-note">{guide.notes}</p> : null}
+                  </details>
+                ) : null}
+                <div className="album-stamps no-print" role="group" aria-label={`${card.name} progress`}>
+                  {STAMPS.map((stamp) => (
+                    <button
+                      key={stamp.id}
+                      type="button"
+                      className="album-stamp-btn px"
+                      aria-pressed={active === stamp.id}
+                      onClick={() => toggleStamp(key, stamp.id)}
+                    >
+                      {stamp.label}
+                    </button>
+                  ))}
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+        <p className="album-seed-note">
+          Counts are healthy mature plants the space supports. Sow a few extra seeds and thin to the count; follow the
+          packet for depth, since cultivars vary.
+        </p>
+      </section>
+
+      {/* 3. What to do next, and how far along you are. */}
       <div className="album-lower">
-        <section className="album-box album-plot" aria-labelledby="album-plot-title">
-          <h2 id="album-plot-title">The bed these cards fill</h2>
-          <BedEditor
-            layout={plan.layout}
-            alternatives={plan.alternatives}
-            onLayoutChange={onLayoutChange}
-            onSwapPlant={onSwapPlant}
-            onSwapZones={onSwapZones}
-            onZoneSelect={onOpenGuide}
-          />
-        </section>
-
-        <GardenerPanel />
-
         <section className="album-box" aria-labelledby="album-season-title">
           <h2 id="album-season-title">Season quests</h2>
           {levels.length ? (
@@ -326,25 +381,7 @@ export default function AlbumDashboard({
           )}
         </section>
 
-        {climate ? (
-          <section className="album-box album-turf" aria-labelledby="album-turf-title">
-            <h2 id="album-turf-title">Home turf</h2>
-            <dl className="album-stats">
-              <dt>Zone</dt>
-              <dd className="px">{climate.hardinessZone || "Unknown"}</dd>
-              {climate.frost ? (
-                <>
-                  <dt>Last spring frost</dt>
-                  <dd className="px">{formatMonthDay(climate.frost.lastSpringFrost)}</dd>
-                  <dt>First fall frost</dt>
-                  <dd className="px">{formatMonthDay(climate.frost.firstFallFrost)}</dd>
-                  <dt>Season</dt>
-                  <dd className="px">{climate.frost.growingSeasonDays} days</dd>
-                </>
-              ) : null}
-            </dl>
-          </section>
-        ) : null}
+        <GardenerPanel />
       </div>
     </section>
   );

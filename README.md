@@ -58,7 +58,8 @@ Providers are tried in order: Gemini, Groq, then OpenRouter. With none configure
 ## Results and editing
 
 - A badge shows where the plan came from: an AI provider, the starter plan, or a saved (cached) result.
-- Results open as a **Collector's Album**: one trading card per plant (difficulty, spacing, days to harvest, sun, what to buy) with Planted / Growing / Harvested stamps saved on this device, a season map, and a home-turf frost card.
+- Results open as a **Collector's Album**: one trading card per plant (difficulty, spacing, days to harvest, sun, what to buy) with Planted / Growing / Harvested stamps saved on this device and a folded planting guide on each card. The page reads top to bottom: the plan summary and frost dates beside the garden (plant-group editing folds under "Edit plant groups"), the plant cards, season quests beside your level, then Garden notes tabs (shopping list, neighbors, tips, crop rotation) and the garden helper.
+- **Saved albums:** every plan is saved automatically on this device (up to 12, newest first) and listed under "Your albums" on the homepage and below each results page, so levels and stamps always have a plan to come back to (`lib/saved-albums.ts`).
 - **Gardener levels:** earn XP for real gardening steps — a new plan, stamping cards Planted/Growing/Harvested, ticking off season quests, saving a season, keeping your crop rotation, and asking the garden helper (capped daily). Ten levels from Seed Saver to Master Gardener, nine badges, and small pop-ups for XP and level-ups; each reward pays out once per action, and progress is stored on this device (`lib/progress.ts`).
 - **The bed these cards fill** is the garden editor: an animated pixel garden (20 plant sprites in `public/sprites/`, look-alikes for the other plants) with plant dropdowns, +/− counts, add-a-group, and a table view.
 - The results page shows the hardiness zone, frost dates, growing-season length, and a frost warning when frost is forecast.
@@ -79,7 +80,7 @@ Providers are tried in order: Gemini, Groq, then OpenRouter. With none configure
 - **Ask about my garden** answers follow-up questions. "When / how far apart / how many" questions about a plant in the guide are answered straight from the plan with no AI call; other questions go to the same AI providers with a compact plan summary, and suggested swaps appear as one-click buttons. Replies are cached for an hour, each client is limited to 20 AI questions per 10 minutes, and the chat shows a friendly notice when no provider is available.
 - Print the album, garden, planting guide, tips, neighbor check, and shopping list as a compact landscape plan.
 
-Planner state is stored in `sessionStorage`, and saved seasons for crop rotation are stored in `localStorage` on this device only; there are no accounts.
+Planner state is stored in `sessionStorage`, and saved albums, progress, and saved seasons for crop rotation are stored in `localStorage` on this device only; there are no accounts.
 
 ## Reliability
 

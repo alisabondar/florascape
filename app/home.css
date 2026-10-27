@@ -175,3 +175,6 @@
 @media (prefers-reduced-motion: reduce) {
   .home-card { transition: none; }
 }
+
+.home-albums { margin-top: 28px; }
+.home-albums:empty { display: none; }

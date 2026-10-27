@@ -16,6 +16,8 @@ interface BedEditorProps {
   onSwapZones?: (firstId: string, secondId: string) => void;
   /** Called when a zone is clicked, e.g. to jump to the plant's guide entry. */
   onZoneSelect?: (plant: Plant) => void;
+  /** Fold the editing controls behind an "Edit plant groups" toggle. */
+  collapsible?: boolean;
 }
 
 function clone<T>(value: T): T {
@@ -46,6 +48,7 @@ export default function BedEditor({
   onSwapPlant,
   onSwapZones,
   onZoneSelect,
+  collapsible = false,
 }: BedEditorProps) {
   const [localLayout, setLocalLayout] = useState(() => clone(layout));
   const [templateCatalog, setTemplateCatalog] = useState(() => clone(layout.plants || []));
@@ -140,13 +143,13 @@ export default function BedEditor({
         Click a patch to open its planting guide{onSwapZones ? ", or drag one patch onto another to swap them" : ""}.
       </p>
 
-      <div className="garden-sketch-editor no-print">
-        <div className="garden-sketch-editor-heading">
+      <details className="garden-sketch-editor no-print" open={collapsible ? undefined : true}>
+        <summary className="garden-sketch-editor-heading">
           <div>
             <strong>Edit plant groups</strong>
             <span>Pick a different plant for any group, or use the controls to rebalance how much space each plant receives.</span>
           </div>
-        </div>
+        </summary>
 
         <div className="plant-group-adjustments">
           {localLayout.plants.map((plant) => (
@@ -237,19 +240,19 @@ export default function BedEditor({
             + Add group
           </button>
         </div>
-      </div>
 
-      <div className="garden-sketch-view-toggles no-print">
-        <button
-          type="button"
-          className="sketch-toggle"
-          aria-pressed={showTable}
-          aria-controls="garden-layout-table"
-          onClick={() => setShowTable((value) => !value)}
-        >
-          View as table
-        </button>
-      </div>
+        <div className="garden-sketch-view-toggles">
+          <button
+            type="button"
+            className="sketch-toggle"
+            aria-pressed={showTable}
+            aria-controls="garden-layout-table"
+            onClick={() => setShowTable((value) => !value)}
+          >
+            View as table
+          </button>
+        </div>
+      </details>
 
       {showTable ? (
         <div className="garden-layout-table-wrap no-print">

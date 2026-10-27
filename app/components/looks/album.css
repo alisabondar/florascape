@@ -329,8 +329,6 @@
 }
 
 
-/* The bed gets the full width so its tiles and sprites stay large; map and home turf share the row below. */
-.album-lower > :first-child { grid-column: 1 / -1; }
 
 /* Phones: bed editor controls stack into one column so nothing runs off the page. */
 @media (max-width: 560px) {
@@ -350,3 +348,81 @@
 .album-quests input { width: 18px; height: 18px; accent-color: var(--al-green); flex-shrink: 0; }
 .album-quests li.done label { text-decoration: line-through; color: var(--al-muted); }
 .album-quest-xp { color: var(--al-red); font-size: 0.75rem; }
+
+/* ===== Results layout: spread → plant cards → quests + level → notes tabs → chat ===== */
+.look-album .album-binder { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.4fr); }
+.look-album .album-binder::before { left: calc(100% * 0.85 / 2.25); }
+.look-album .album-page-title,
+.look-album .album-section-title,
+.look-album .notes-tabs-title {
+  font-family: var(--font-display); font-weight: 400; color: var(--al-green); margin: 0 0 12px; font-size: 1.5rem;
+}
+.look-album .album-section-title,
+.look-album .notes-tabs-title { color: var(--al-page); }
+
+.look-album .album-turf-chips {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 14px 0 6px;
+}
+.look-album .album-turf-chips div {
+  border: 2px solid var(--al-ink); border-radius: 8px; background: #fffdf5; padding: 6px 10px;
+}
+.look-album .album-turf-chips dt { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--al-muted); }
+.look-album .album-turf-chips dd { margin: 0; font-size: 1rem; color: var(--al-ink); }
+
+.look-album .album-cards-section { margin-top: 34px; }
+.look-album .album-cards-section .album-sleeves { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.look-album .album-when { margin: 2px 0 6px; color: var(--al-red); font-size: 0.85rem; }
+.look-album .album-seed-note { margin: 12px 4px 0; color: #e9dfc4; font-size: 0.85rem; max-width: 70ch; }
+
+.look-album .album-guide { margin: 8px 0 4px; border-top: 2px dotted #2b211866; padding-top: 6px; }
+.look-album .album-guide summary {
+  cursor: pointer; font-weight: 700; color: var(--al-green); list-style: none; display: flex; align-items: center; gap: 6px;
+}
+.look-album .album-guide summary::-webkit-details-marker { display: none; }
+.look-album .album-guide summary::before { content: "▸"; transition: transform 0.15s ease; }
+.look-album .album-guide[open] summary::before { transform: rotate(90deg); }
+.look-album .album-guide p { margin: 6px 0; font-size: 0.88rem; }
+.look-album .album-guide dl { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; font-size: 0.85rem; margin: 0; }
+.look-album .album-guide dt { font-weight: 700; }
+.look-album .album-guide dd { margin: 0; }
+.look-album .album-guide-note { color: var(--al-muted); }
+
+.look-album .album-lower { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); align-items: start; }
+
+/* Folded editor: the heading is the toggle. */
+.look-album .garden-sketch-editor > summary { cursor: pointer; list-style: none; }
+.look-album .garden-sketch-editor > summary::-webkit-details-marker { display: none; }
+.look-album .garden-sketch-editor > summary strong::after { content: " ▸"; }
+.look-album .garden-sketch-editor[open] > summary strong::after { content: " ▾"; }
+.look-album .garden-sketch-editor:not([open]) > summary { margin-bottom: 0; }
+
+/* Garden notes: one tabbed panel instead of four long sections. */
+.look-album .notes-tabs { margin-top: 34px; }
+.look-album .notes-tablist { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: -3px; position: relative; z-index: 1; }
+.look-album .notes-tablist [role="tab"] {
+  border: 3px solid var(--al-ink); border-bottom: 0; border-radius: 10px 10px 0 0; background: #d9cda9;
+  color: var(--al-ink); font: inherit; font-weight: 700; padding: 8px 16px; cursor: pointer;
+}
+.look-album .notes-tablist [role="tab"][aria-selected="true"] { background: var(--al-page); }
+.look-album .notes-panel {
+  border: 3px solid var(--al-ink); border-radius: 0 12px 12px 12px; background: var(--al-page); padding: 4px 0 0;
+}
+.look-album .notes-panel:focus-visible { outline: 3px solid var(--al-gold); outline-offset: 2px; }
+/* Sections inside a tab drop their own card frame and number; the tab names them. */
+.look-album .notes-panel > .result-content-section { margin: 0; border: 0; box-shadow: none; background: transparent; }
+.look-album .notes-panel .result-section-heading > span { display: none; }
+
+@media (max-width: 900px) {
+  .look-album .album-binder { grid-template-columns: minmax(0, 1fr); }
+  .look-album .album-binder::before { display: none; }
+  .look-album .album-cards-section .album-sleeves { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .look-album .album-lower { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 560px) {
+  .look-album .album-cards-section .album-sleeves { grid-template-columns: minmax(0, 1fr); }
+  .look-album .notes-tablist [role="tab"] { padding: 6px 10px; font-size: 0.85rem; }
+}
+@media print {
+  .look-album .notes-panel[hidden] { display: block !important; }
+  .look-album .notes-panel { border: 0; }
+}
