@@ -59,6 +59,7 @@ Providers are tried in order: Gemini, Groq, then OpenRouter. With none configure
 
 - A badge shows where the plan came from: an AI provider, the starter plan, or a saved (cached) result.
 - Results open as a **Collector's Album**: one trading card per plant (difficulty, spacing, days to harvest, sun, what to buy) with Planted / Growing / Harvested stamps saved on this device, a season map, and a home-turf frost card.
+- **Gardener levels:** earn XP for real gardening steps — a new plan, stamping cards Planted/Growing/Harvested, ticking off season quests, saving a season, keeping your crop rotation, and asking the garden helper (capped daily). Ten levels from Seed Saver to Master Gardener, nine badges, and small pop-ups for XP and level-ups; each reward pays out once per action, and progress is stored on this device (`lib/progress.ts`).
 - **The bed these cards fill** is the garden editor: an animated pixel garden (20 plant sprites in `public/sprites/`, look-alikes for the other plants) with plant dropdowns, +/− counts, add-a-group, and a table view.
 - The results page shows the hardiness zone, frost dates, growing-season length, and a frost warning when frost is forecast.
 - Every zone is filled to the number of plants its size and spacing allow; areas of 8 sq ft or more get at least three plant groups.
@@ -99,7 +100,7 @@ bun run build
 bun run test:e2e
 ```
 
-`bun run test:e2e` runs the Playwright browser tests. It starts its own dev server on port 3100 with `FLORASCAPE_AI=off` and `FLORASCAPE_CLIMATE=off`, so every plan is the offline starter plan. To test a server that is already running, start it with `bun run dev:e2e` and set `E2E_BASE_URL=http://localhost:3100`.
+`bun run test:e2e` runs the Playwright browser tests. It starts its own dev server on port 3100 (building into `.next-e2e`, so it can run beside `bun run dev`) with `FLORASCAPE_AI=off` and `FLORASCAPE_CLIMATE=off`, so every plan is the offline starter plan. To test a server that is already running, start it with `bun run dev:e2e` and set `E2E_BASE_URL=http://localhost:3100`.
 
 The plan route streams progress as newline-delimited JSON when the request sends `Accept: application/x-ndjson`; the loading screen shows each stage. Response schemas sent to AI providers are generated from the Zod schemas in `lib/schemas/`, which also validate API request bodies.
 

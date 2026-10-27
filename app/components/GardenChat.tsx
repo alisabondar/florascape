@@ -2,6 +2,7 @@
 
 import { MessageCircle, Send } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { recordProgress } from "./progress/store";
 import { answerFromPlan } from "../../lib/chat/plan-answers";
 import { CHAT_MESSAGE_MAX_LENGTH } from "../../lib/chat/prompt";
 import type { ChatMessage, ClimateContext, GardenPlan, SwapSuggestion } from "../../lib/types";
@@ -51,6 +52,7 @@ export default function GardenChat({ plan, climate, messages, onMessagesChange, 
       return;
     }
     const userMessage: ChatMessage = { id: newMessageId(), role: "user", text };
+    recordProgress({ kind: "chat-question", key: `chat:${userMessage.id}` });
     const withQuestion = [...messages, userMessage];
     onMessagesChange(withQuestion);
     setDraft("");

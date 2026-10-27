@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import ProgressToasts from "./components/progress/ProgressToasts";
 import "./globals.css";
 import "./theme.css";
 
@@ -20,7 +21,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <ProgressToasts />
+      </body>
     </html>
   );
 }

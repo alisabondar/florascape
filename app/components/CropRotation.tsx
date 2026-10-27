@@ -10,6 +10,7 @@ import {
   rotationCheck,
   snapshotSeason,
 } from "../../lib/garden-plan";
+import { recordProgress } from "./progress/store";
 import { GARDEN_HISTORY_KEY, readLocalJson, writeLocalJson } from "../../lib/session-storage";
 import type { GardenPlan, SavedSeason } from "../../lib/types";
 
@@ -35,13 +36,18 @@ export default function CropRotation({ plan, planId, zipCode, onApplySwap }: Cro
     writeLocalJson(GARDEN_HISTORY_KEY, next);
   }
 
+  const earlier = useMemo(() => previousSeason(history, planId), [history, planId]);
+  const check = useMemo(() => rotationCheck(plan, earlier), [plan, earlier]);
+
   function saveSeason() {
     updateHistory(addSeason(history, snapshotSeason({ plan, planId, zipCode })));
     setJustSaved(true);
+    recordProgress({ kind: "season-saved", key: `season:${planId}` });
+    // Keeping rotation: saving a plan that repeats no crop family from the previous season.
+    if (earlier && check.length === 0) {
+      recordProgress({ kind: "rotation-kept", key: `rotation:${planId}` });
+    }
   }
-
-  const earlier = useMemo(() => previousSeason(history, planId), [history, planId]);
-  const check = useMemo(() => rotationCheck(plan, earlier), [plan, earlier]);
   const currentSaved = history.some((entry) => entry.planId === planId);
 
   return (

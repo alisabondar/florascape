@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import CropRotation from "../../components/CropRotation";
 import GardenChat from "../../components/GardenChat";
 import AlbumDashboard from "../../components/looks/Album";
+import LevelBadge from "../../components/progress/LevelBadge";
+import { recordProgress } from "../../components/progress/store";
 import PixelSprite from "../../components/PixelSprite";
 import "./result-states.css";
 import {
@@ -547,6 +549,16 @@ export default function PlannerResultPage() {
   }
 
   const plan = result?.plan;
+  const planId = result?.aiGeneratedAt || result?.generatedAt;
+
+  // A new plan is a new album page: +XP once per plan.
+  useEffect(() => {
+    if (!plan || !planId) {
+      return;
+    }
+    const kinds = new Set(plan.layout.plants.map((item) => item.name.toLowerCase())).size;
+    recordProgress({ kind: "plan-created", key: `plan:${planId}`, detail: { plantKinds: kinds } });
+  }, [plan, planId]);
   const editHref = result?.plannerInput
     ? `/planner?edit=1&type=${encodeURIComponent(result.plannerInput.gardenType)}#planner`
     : "/planner?edit=1#planner";
@@ -568,6 +580,7 @@ export default function PlannerResultPage() {
         <div className="container nav-inner">
           <Link className="logo" href="/" aria-label="FloraScape home">FloraScape</Link>
           <div className="planner-nav-actions">
+            <LevelBadge />
             <a href={editHref} className="planner-back-link">Edit Inputs</a>
             <a href="/planner" className="btn">
               <Leaf size={17} strokeWidth={2.3} aria-hidden="true" />

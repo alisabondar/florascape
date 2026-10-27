@@ -343,3 +343,10 @@
   .look-album.look-album .sketch-add-btn { width: 100%; }
   .look-album.look-album .garden-sketch-meta { flex-wrap: wrap; }
 }
+
+/* Season quests: checkable planting tasks under each stage. */
+.album-quests { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 4px; }
+.album-quests li { display: flex; align-items: center; gap: 8px; }
+.album-quests input { width: 18px; height: 18px; accent-color: var(--al-green); flex-shrink: 0; }
+.album-quests li.done label { text-decoration: line-through; color: var(--al-muted); }
+.album-quest-xp { color: var(--al-red); font-size: 0.75rem; }

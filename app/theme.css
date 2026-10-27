@@ -253,3 +253,22 @@ body {
     display: none;
   }
 }
+
+/* Phones: logo, level chip, and the main action share one row. */
+@media (max-width: 560px) {
+  .landing-page .nav-links {
+    flex-wrap: nowrap;
+    gap: 0.4rem;
+  }
+
+  .landing-page .logo,
+  .planner-page .logo {
+    font-size: 1.3rem;
+  }
+
+  .landing-page .nav-links .btn {
+    padding: 0.45rem 0.7rem;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+}
