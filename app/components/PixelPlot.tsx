@@ -19,6 +19,8 @@ interface PixelPlotProps {
   showTags?: boolean;
   /** Largest tile size in px for one foot of bed. */
   maxTile?: number;
+  /** false draws every plant fully grown and still (e.g. a static sample). */
+  animate?: boolean;
   className?: string;
 }
 
@@ -36,6 +38,7 @@ export default function PixelPlot({
   selectedPlantId = null,
   showTags = true,
   maxTile = 44,
+  animate = true,
   className = "",
 }: PixelPlotProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -101,6 +104,25 @@ export default function PixelPlot({
   }
 
   const model = useMemo(() => layoutToSvgModel(layout, 1, 0), [layout]);
+  // Divider lines sit midway in the gap between consecutive sections of the same bed
+  // (sections run along a bed's long axis, in the order the layout allocated them).
+  const dividers = useMemo(() => {
+    const lines: { key: string; x: number; y: number; width: number; height: number; vertical: boolean }[] = [];
+    model.beds.forEach((bed) => {
+      const patches = model.plantPatches.filter((patch) => patch.bedId === bed.id);
+      const vertical = bed.width >= bed.height;
+      for (let index = 1; index < patches.length; index += 1) {
+        const previous = patches[index - 1];
+        const next = patches[index];
+        lines.push(
+          vertical
+            ? { key: `${bed.id}-${index}`, x: (previous.x + previous.width + next.x) / 2, y: bed.y, width: 0, height: bed.height, vertical }
+            : { key: `${bed.id}-${index}`, x: bed.x, y: (previous.y + previous.height + next.y) / 2, width: bed.width, height: 0, vertical },
+        );
+      }
+    });
+    return lines;
+  }, [model]);
   const plants = useMemo(() => new Map(layout.plants.map((plant) => [plant.id, plant])), [layout.plants]);
   const tile = Math.max(18, Math.min(maxTile, Math.floor(width / Math.max(1, layout.garden.width))));
   const spriteScale = Math.max(1, Math.floor((tile * 0.9) / 16));
@@ -122,6 +144,18 @@ export default function PixelPlot({
             <span className="pixel-bed-name">{bed.name}</span>
           </div>
         ))}
+        {dividers.map((line) => (
+          <span
+            key={line.key}
+            className="pixel-zone-divider"
+            aria-hidden="true"
+            style={
+              line.vertical
+                ? { left: line.x * tile - 1.5, top: line.y * tile + 3, width: 3, height: line.height * tile - 6 }
+                : { left: line.x * tile + 3, top: line.y * tile - 1.5, width: line.width * tile - 6, height: 3 }
+            }
+          />
+        ))}
         {model.plantPatches.map((patch, zoneIndex) => {
           const plant = plants.get(patch.plantId);
           if (!plant) {
@@ -136,7 +170,7 @@ export default function PixelPlot({
               type="button"
               key={patch.id}
               data-plant-id={plant.id}
-              className={`pixel-zone${selected ? " selected" : ""}${drag?.fromId === plant.id ? " drag-source" : ""}${drag?.overId === plant.id ? " drop-target" : ""}`}
+              className={`pixel-zone${spriteCount === 1 ? " single" : ""}${selected ? " selected" : ""}${drag?.fromId === plant.id ? " drag-source" : ""}${drag?.overId === plant.id ? " drop-target" : ""}`}
               style={{
                 left: patch.x * tile,
                 top: patch.y * tile,
@@ -167,6 +201,7 @@ export default function PixelPlot({
                   key={index}
                   plantName={plant.name}
                   scale={spriteScale}
+                  motion={animate ? "grow" : "still"}
                   delay={zoneIndex * 0.25 + index * 0.04}
                 />
               ))}

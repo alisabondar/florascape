@@ -26,7 +26,11 @@
   border: 2px solid #142219;
 }
 .home-cover-body { padding: 36px 32px; display: flex; flex-direction: column; gap: 18px; }
-.home-cover-vol { margin: 0; color: var(--al-gold); font-size: 0.95rem; letter-spacing: 0.08em; }
+.home-cover-vol, .home-kicker {
+  margin: 0; font-family: var(--font-body); font-weight: 600; font-size: 0.85rem;
+  text-transform: uppercase; letter-spacing: 0.14em;
+}
+.home-cover-vol { color: var(--al-gold); }
 .home-plate {
   container-type: inline-size;
   background: var(--al-paper); border: 3px solid var(--al-ink); border-radius: 10px; padding: 18px 22px;
