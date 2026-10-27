@@ -71,10 +71,10 @@ export default function Home() {
             FloraScape
           </Link>
           <div className="nav-links">
-            <NavAlbumsLink />
             <LevelBadge />
             <a href="#how-it-works">How It Works</a>
             <a href="#features">Features</a>
+            <NavAlbumsLink />
             <Link href="/planner" className="btn">
               Start Planning
             </Link>
