@@ -103,6 +103,7 @@ export default function PixelPlot({
     }
   }
 
+  const interactive = Boolean(onZoneSelect || onSwapZones);
   const model = useMemo(() => layoutToSvgModel(layout, 1, 0), [layout]);
   // Divider lines sit midway in the gap between consecutive sections of the same bed
   // (sections run along a bed's long axis, in the order the layout allocated them).
@@ -128,7 +129,7 @@ export default function PixelPlot({
   const spriteScale = Math.max(1, Math.floor((tile * 0.9) / 16));
 
   return (
-    <div ref={containerRef} className={`pixel-plot ${className}`.trim()}>
+    <div ref={containerRef} className={`pixel-plot${interactive ? "" : " static"} ${className}`.trim()}>
       <div
         className="pixel-plot-ground"
         style={{ width: layout.garden.width * tile, height: layout.garden.height * tile, "--tile": `${tile}px` } as CSSProperties}
@@ -165,37 +166,16 @@ export default function PixelPlot({
           const rows = Math.max(1, Math.floor(patch.height));
           const spriteCount = Math.min(MAX_SPRITES_PER_ZONE, columns * rows, Math.max(1, plant.quantity || 1));
           const selected = plant.id === selectedPlantId;
-          return (
-            <button
-              type="button"
-              key={patch.id}
-              data-plant-id={plant.id}
-              className={`pixel-zone${spriteCount === 1 ? " single" : ""}${selected ? " selected" : ""}${drag?.fromId === plant.id ? " drag-source" : ""}${drag?.overId === plant.id ? " drop-target" : ""}`}
-              style={{
-                left: patch.x * tile,
-                top: patch.y * tile,
-                width: patch.width * tile,
-                height: patch.height * tile,
-                gridTemplateColumns: `repeat(${Math.min(columns, spriteCount)}, 1fr)`,
-              }}
-              onClick={() => {
-                if (suppressClickRef.current) {
-                  suppressClickRef.current = false;
-                  return;
-                }
-                onZoneSelect?.(plant);
-              }}
-              onPointerDown={(event) => onPointerDown(event, plant.id)}
-              onPointerMove={onPointerMove}
-              onPointerUp={onPointerUp}
-              onPointerCancel={() => {
-                dragRef.current = null;
-                setDrag(null);
-              }}
-              aria-pressed={onZoneSelect ? selected : undefined}
-              aria-label={`${plant.name}, ${plant.quantity} mature plants, ${startingAmountLabel(plant.name, plant.quantity)}`}
-              title={`${plant.name}: ${plant.quantity} mature plants (${startingAmountLabel(plant.name, plant.quantity)}) · ${plant.spacingInches} in spacing · about ${Math.round(patch.width * 4) / 4} × ${Math.round(patch.height * 4) / 4} ft${plant.placementReason ? `\n${plant.placementReason}` : ""}`}
-            >
+          const label = `${plant.name}, ${plant.quantity} mature plants, ${startingAmountLabel(plant.name, plant.quantity)}`;
+          const zoneStyle = {
+            left: patch.x * tile,
+            top: patch.y * tile,
+            width: patch.width * tile,
+            height: patch.height * tile,
+            gridTemplateColumns: `repeat(${Math.min(columns, spriteCount)}, 1fr)`,
+          };
+          const contents = (
+            <>
               {Array.from({ length: spriteCount }, (_, index) => (
                 <PixelSprite
                   key={index}
@@ -217,6 +197,49 @@ export default function PixelPlot({
                   )}
                 </span>
               ) : null}
+            </>
+          );
+          // Without click or drag handlers (e.g. a sample garden), zones are plain pictures:
+          // no button, no hover or focus highlight.
+          if (!interactive) {
+            return (
+              <div
+                key={patch.id}
+                role="img"
+                aria-label={label}
+                className={`pixel-zone static${spriteCount === 1 ? " single" : ""}`}
+                style={zoneStyle}
+              >
+                {contents}
+              </div>
+            );
+          }
+          return (
+            <button
+              type="button"
+              key={patch.id}
+              data-plant-id={plant.id}
+              className={`pixel-zone${spriteCount === 1 ? " single" : ""}${selected ? " selected" : ""}${drag?.fromId === plant.id ? " drag-source" : ""}${drag?.overId === plant.id ? " drop-target" : ""}`}
+              style={zoneStyle}
+              onClick={() => {
+                if (suppressClickRef.current) {
+                  suppressClickRef.current = false;
+                  return;
+                }
+                onZoneSelect?.(plant);
+              }}
+              onPointerDown={(event) => onPointerDown(event, plant.id)}
+              onPointerMove={onPointerMove}
+              onPointerUp={onPointerUp}
+              onPointerCancel={() => {
+                dragRef.current = null;
+                setDrag(null);
+              }}
+              aria-pressed={onZoneSelect ? selected : undefined}
+              aria-label={label}
+              title={`${plant.name}: ${plant.quantity} mature plants (${startingAmountLabel(plant.name, plant.quantity)}) · ${plant.spacingInches} in spacing · about ${Math.round(patch.width * 4) / 4} × ${Math.round(patch.height * 4) / 4} ft${plant.placementReason ? `\n${plant.placementReason}` : ""}`}
+            >
+              {contents}
             </button>
           );
         })}

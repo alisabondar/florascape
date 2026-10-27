@@ -13,7 +13,7 @@
   padding-bottom: 32px;
 }
 .look-album .px {
-  font-family: "Pixelify Sans", sans-serif;
+  font-family: var(--font-body);
   font-variant-ligatures: none;
 }
 .look-album :focus-visible {
@@ -89,7 +89,7 @@
 }
 .album-stamp-mark {
   position: absolute; top: 22px; left: 16px; transform: rotate(-12deg); border: 3px solid; padding: 0 6px;
-  font-family: "Pixelify Sans", sans-serif; font-variant-ligatures: none; font-size: 0.9rem;
+  font-family: var(--font-body); font-variant-ligatures: none; font-size: 0.9rem;
   background: #fffc; z-index: 1; color: #3f6b35;
 }
 .album-stamp-mark.is-growing { color: var(--al-blue); }
@@ -152,7 +152,7 @@
 .look-album .seed-disclaimer,
 .look-album .shopping-subtle,
 .look-album .shopping-assumptions { color: #5d5142; }
-.look-album .section-kicker { color: var(--al-red); font-family: "Pixelify Sans", sans-serif; text-transform: none; letter-spacing: 0; }
+.look-album .section-kicker { color: var(--al-red); font-family: var(--font-body); text-transform: none; letter-spacing: 0; }
 .look-album .look-dashboard-container ~ * .garden-method-recommendation,
 .look-album .garden-method-recommendation {
   background: var(--al-page); color: var(--al-ink); border: 2px dashed var(--al-green-dark);
@@ -207,7 +207,7 @@
   letter-spacing: 0.02em; text-transform: none;
 }
 .look-album .shopping-table td:last-child,
-.look-album .garden-layout-table td:last-child { font-family: "Pixelify Sans", sans-serif; font-variant-ligatures: none; }
+.look-album .garden-layout-table td:last-child { font-family: var(--font-body); font-variant-ligatures: none; }
 .look-album .shopping-table tbody tr:nth-child(even) td,
 .look-album .garden-layout-table tbody tr:nth-child(even) td { background: #fbf6e6; }
 
@@ -244,22 +244,22 @@
 }
 .look-album.look-album .plant-group-adjustment strong { color: var(--al-green); font-family: "Mali", cursive; font-size: 0.9rem; }
 .look-album.look-album .plant-group-adjustment span { color: #5d5142; font-size: 0.78rem; }
-.look-album.look-album .plant-group-adjustment .plant-group-count-label { font-family: "Pixelify Sans", sans-serif; color: var(--al-ink); }
+.look-album.look-album .plant-group-adjustment .plant-group-count-label { font-family: var(--font-body); color: var(--al-ink); }
 .look-album.look-album .quantity-stepper {
   border: 2px solid var(--al-ink); border-radius: 6px; background: #fff; box-shadow: 2px 2px 0 var(--al-ink);
 }
 .look-album.look-album .quantity-stepper button {
-  background: var(--al-page); color: var(--al-ink); font-family: "Pixelify Sans", sans-serif; font-weight: 700;
+  background: var(--al-page); color: var(--al-ink); font-family: var(--font-body); font-weight: 700;
 }
 .look-album.look-album .quantity-stepper button:hover { background: var(--al-gold); }
 .look-album.look-album .quantity-stepper button:disabled { color: #8a7d6a; background: #eee6cf; cursor: not-allowed; }
 .look-album.look-album .quantity-stepper output {
-  color: var(--al-ink); font-family: "Pixelify Sans", sans-serif; font-variant-ligatures: none; font-size: 0.95rem;
+  color: var(--al-ink); font-family: var(--font-body); font-variant-ligatures: none; font-size: 0.95rem;
 }
 .look-album .sketch-editor-field label,
 .look-album .sketch-editor-field > span { color: var(--al-ink); font-weight: 600; }
 .look-album.look-album .garden-sketch-meta {
-  color: var(--al-ink); font-family: "Pixelify Sans", sans-serif; font-variant-ligatures: none;
+  color: var(--al-ink); font-family: var(--font-body); font-variant-ligatures: none;
   background: var(--al-page); border: 2px dashed var(--al-muted, #5d5142); border-radius: 6px; padding: 6px 10px;
 }
 .look-album .garden-sketch-view-toggles { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -277,12 +277,12 @@
 .look-album .garden-chat-message { border: 2px solid var(--al-ink); }
 .look-album .garden-chat-message.user { background: var(--al-green); color: #fff; }
 .look-album .garden-chat-message.assistant { background: var(--al-page); color: var(--al-ink); }
-.look-album .garden-chat-source { color: #5d5142; font-family: "Pixelify Sans", sans-serif; }
+.look-album .garden-chat-source { color: #5d5142; font-family: var(--font-body); }
 .look-album .garden-chat-source.notice { color: #6b4a00; }
 .look-album .garden-chat-empty,
 .look-album .garden-chat-pending,
 .look-album .garden-chat-count { color: #5d5142; }
-.look-album .garden-chat-count { font-family: "Pixelify Sans", sans-serif; }
+.look-album .garden-chat-count { font-family: var(--font-body); }
 .look-album .garden-chat-suggestions button,
 .look-album .garden-chat-examples button {
   background: #fff; color: var(--al-ink); border: 2px solid var(--al-ink); border-radius: 20px; font-family: "Mali", cursive;
