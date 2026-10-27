@@ -16,3 +16,7 @@ bun.lockb
 
 # Next.js generated types
 next-env.d.ts
+
+# Extra Next.js build folders (see next.config.mjs distDir)
+/.next-e2e/
+/.next-preview/
