@@ -158,6 +158,7 @@ export default function PixelPlot({
               }}
               aria-pressed={onZoneSelect ? selected : undefined}
               aria-label={`${plant.name}, ${plant.quantity} mature plants, ${startingAmountLabel(plant.name, plant.quantity)}`}
+              title={`${plant.name}: ${plant.quantity} mature plants (${startingAmountLabel(plant.name, plant.quantity)}) · ${plant.spacingInches} in spacing · about ${Math.round(patch.width * 4) / 4} × ${Math.round(patch.height * 4) / 4} ft${plant.placementReason ? `\n${plant.placementReason}` : ""}`}
             >
               {Array.from({ length: spriteCount }, (_, index) => (
                 <PixelSprite
