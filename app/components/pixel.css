@@ -144,3 +144,13 @@
   box-shadow: 2px 2px 0 #a33224;
   pointer-events: none;
 }
+
+.pixel-zone.drag-source {
+  border: 2px dashed #fff4d6;
+  opacity: 0.75;
+}
+
+.pixel-zone.drop-target {
+  border: 3px solid #ffe27a;
+  background: rgba(255, 226, 122, 0.3);
+}

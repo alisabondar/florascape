@@ -3,7 +3,6 @@ import { allocatePlantZones, zoneOrder } from "./garden-layout";
 import { createFallbackGardenPlan, swapZones, zoneCapacity } from "./garden-plan";
 import { firstInvalidStep, validate, validateStep } from "./planner-validation";
 import type { GardenPlan, Layout, PlannerFormErrors, PlannerFormValues } from "./types";
-import { clampPan, clampZoom, panBy, zoomAt } from "./sketch-zoom";
 
 const blankForm: PlannerFormValues = {
   zipCode: "",
@@ -109,28 +108,5 @@ describe("zone swap", () => {
     const id = plan.layout.plants[0].id;
     expect(swapZones(plan, id, id)).toBe(plan);
     expect(swapZones(plan, id, "missing")).toBe(plan);
-  });
-});
-
-describe("zoom and pan math", () => {
-  test("zoom is clamped between 1× and 3×", () => {
-    expect(clampZoom(0.5)).toBe(1);
-    expect(clampZoom(2)).toBe(2);
-    expect(clampZoom(9)).toBe(3);
-  });
-
-  test("zooming keeps the focal point fixed", () => {
-    const view = zoomAt({ scale: 1, x: 0, y: 0 }, 2, { x: 100, y: 50 }, 400, 200);
-    expect(view).toEqual({ scale: 2, x: -100, y: -50 });
-    // The content point under the focus is the same before and after.
-    expect((100 - view.x) / view.scale).toBe(100);
-    expect(zoomAt(view, 1, { x: 100, y: 50 }, 400, 200)).toEqual({ scale: 1, x: 0, y: 0 });
-  });
-
-  test("panning stays within the sketch bounds", () => {
-    const zoomed = { scale: 2, x: -100, y: -50 };
-    expect(panBy(zoomed, 500, 500, 400, 200)).toEqual({ scale: 2, x: 0, y: 0 });
-    expect(panBy(zoomed, -1000, -1000, 400, 200)).toEqual({ scale: 2, x: -400, y: -200 });
-    expect(clampPan({ scale: 1, x: -30, y: 20 }, 400, 200)).toEqual({ scale: 1, x: 0, y: 0 });
   });
 });

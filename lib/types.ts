@@ -273,13 +273,6 @@ export interface StoredPlannerResult {
 
 // ---------- Sketch zoom ----------
 
-/** Pan/zoom state for the sketch viewport. */
-export interface ZoomView {
-  scale: number;
-  x: number;
-  y: number;
-}
-
 // ---------- AI providers ----------
 
 export interface AiGenerateRequest {

@@ -1,13 +1,11 @@
 "use client";
 
-import { CalendarPlus, Leaf, Printer, Shuffle, Sparkles, Sprout } from "lucide-react";
+import { Leaf, Sparkles, Sprout } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import CropRotation from "../../components/CropRotation";
 import GardenChat from "../../components/GardenChat";
-import GardenSketch from "../../components/GardenSketch";
-import { isResultLook, LOOK_DASHBOARDS, RESULT_LOOKS } from "../../components/looks";
-import type { ResultLookId } from "../../components/looks";
+import AlbumDashboard from "../../components/looks/Album";
 import {
   downloadPlantingCalendar,
   NeighborCheck,
@@ -365,60 +363,6 @@ function PlantingGuide({ guide, layout }: { guide: GuideEntry[] | undefined; lay
   );
 }
 
-function formatMonthDay(monthDay: string | null) {
-  if (!monthDay) {
-    return "None recorded";
-  }
-  const [month, day] = monthDay.split("-").map(Number);
-  return new Date(Date.UTC(2001, month - 1, day)).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    timeZone: "UTC",
-  });
-}
-
-function ClimateSummary({ climate }: { climate: ClimateContext | null | undefined }) {
-  if (!climate?.hardinessZone) {
-    return null;
-  }
-
-  const frostDays = climate.forecast?.frostWarning ? climate.forecast.frostDays : [];
-
-  return (
-    <section className="climate-summary print-section" aria-label="Local climate">
-      {frostDays.length ? (
-        <p className="result-warning frost-warning" role="alert">
-          <strong>Frost warning:</strong> frost is forecast on{" "}
-          {frostDays.map((date: string) => formatMonthDay(date.slice(5))).join(", ")}. Protect or delay
-          frost-tender plants.
-        </p>
-      ) : null}
-      <dl className="climate-facts">
-        <div>
-          <dt>Hardiness zone</dt>
-          <dd>{climate.hardinessZone}</dd>
-        </div>
-        {climate.frost ? (
-          <>
-            <div>
-              <dt>Last spring frost</dt>
-              <dd>{formatMonthDay(climate.frost.lastSpringFrost)}</dd>
-            </div>
-            <div>
-              <dt>First fall frost</dt>
-              <dd>{formatMonthDay(climate.frost.firstFallFrost)}</dd>
-            </div>
-            <div>
-              <dt>Growing season</dt>
-              <dd>{climate.frost.growingSeasonDays} days</dd>
-            </div>
-          </>
-        ) : null}
-      </dl>
-    </section>
-  );
-}
-
 const STARTER_PLAN_SOURCES = new Set(["fallback-example", "starter-plan"]);
 
 /** "Starter plan", "Saved result", or "AI plan · Gemini"; empty before a plan exists. */
@@ -437,42 +381,9 @@ function planSourceLabel(result: StoredPlannerResult | null): { kind: "starter" 
   return { kind: "ai", label: `AI plan · ${provider.charAt(0).toUpperCase()}${provider.slice(1)}` };
 }
 
-function PlanSourceBadge({ result }: { result: StoredPlannerResult | null }) {
-  const { kind, label } = planSourceLabel(result);
-  if (!kind) {
-    return null;
-  }
-  return (
-    <span className={`plan-source-badge ${kind}`} title={kind === "ai" ? result?.modelUsed : undefined}>
-      {label}
-    </span>
-  );
-}
-
-const LOOK_STORAGE_KEY = "florascape_result_look";
-
 // Matches the ids the planting guide gives its cards (see normalizeGuide / guideEntryFromFacts).
 function guideIdFor(plantName: string) {
   return `guide-${slugify(plantName)}`;
-}
-
-/** Picks how the results page looks; the choice is kept in the URL (?look=) and on this device. */
-function LookSwitcher({ look, onChange }: { look: ResultLookId; onChange: (look: ResultLookId) => void }) {
-  return (
-    <div className="look-switcher no-print" role="group" aria-label="Results page look">
-      <span>Look:</span>
-      {RESULT_LOOKS.map((option) => (
-        <button
-          type="button"
-          key={option.id}
-          aria-pressed={look === option.id}
-          onClick={() => onChange(option.id)}
-        >
-          {option.label}
-        </button>
-      ))}
-    </div>
-  );
 }
 
 export default function PlannerResultPage() {
@@ -481,27 +392,11 @@ export default function PlannerResultPage() {
   const [progress, setProgress] = useState<PlanProgressEvent | null>(null);
   const [apiError, setApiError] = useState("");
   const [hydrated, setHydrated] = useState(false);
-  const [look, setLook] = useState<ResultLookId>("classic");
 
   useEffect(() => {
     setResult(readStoredResult());
-    const requested = new URLSearchParams(window.location.search).get("look");
-    const saved = window.localStorage.getItem(LOOK_STORAGE_KEY);
-    if (isResultLook(requested)) {
-      setLook(requested);
-    } else if (isResultLook(saved)) {
-      setLook(saved);
-    }
     setHydrated(true);
   }, []);
-
-  function changeLook(next: ResultLookId) {
-    setLook(next);
-    window.localStorage.setItem(LOOK_STORAGE_KEY, next);
-    const url = new URL(window.location.href);
-    url.searchParams.set("look", next);
-    window.history.replaceState(null, "", url);
-  }
 
   useEffect(() => {
     if (!result?.plannerInput || result.plan || status !== "idle") {
@@ -672,116 +567,67 @@ export default function PlannerResultPage() {
         </div>
       </nav>
 
-      <main className={look === "classic" ? undefined : `look-root look-${look}`}>
-        {plan && result ? <LookSwitcher look={look} onChange={changeLook} /> : null}
-        {plan && result && look !== "classic" ? (
-          (() => {
-            const Dashboard = LOOK_DASHBOARDS[look];
-            return (
-              <div className="container look-dashboard-container">
-                <Dashboard
-                  plan={plan}
-                  climate={result.climate || null}
-                  plannerInput={result.plannerInput}
-                  sourceLabel={planSourceLabel(result).label}
-                  warning={result.apiWarning || ""}
-                  inputSummary={inputSummary(result.plannerInput)}
-                  editHref={editHref}
-                  canShuffle={Object.values(plan.alternatives || {}).some((list) => list.length > 0)}
-                  onShuffle={handleShuffle}
-                  onCalendar={() => downloadPlantingCalendar(plan, result.climate || null)}
-                  onPrint={() => window.print()}
-                  onSwapPlant={handleSwapPlant}
-                  onOpenGuide={(plantItem) => scrollToGuide(guideIdFor(plantItem.name))}
-                />
-              </div>
-            );
-          })()
-        ) : null}
-        {look === "classic" || !plan ? (
-        <section className="hero planner-result-hero">
-          <div className="container hero-content">
-            <h1>Garden Blueprint</h1>
-            <p>{inputSummary(result?.plannerInput)}</p>
+      <main className={plan ? "look-root look-album" : undefined}>
+        {plan && result ? (
+          <div className="container look-dashboard-container">
+            <AlbumDashboard
+              plan={plan}
+              climate={result.climate || null}
+              plannerInput={result.plannerInput}
+              sourceLabel={planSourceLabel(result).label}
+              warning={result.apiWarning || ""}
+              inputSummary={inputSummary(result.plannerInput)}
+              editHref={editHref}
+              canShuffle={Object.values(plan.alternatives || {}).some((list) => list.length > 0)}
+              onShuffle={handleShuffle}
+              onCalendar={() => downloadPlantingCalendar(plan, result.climate || null)}
+              onPrint={() => window.print()}
+              onSwapPlant={handleSwapPlant}
+              onSwapZones={handleSwapZones}
+              onLayoutChange={handleSketchLayoutChange}
+              onOpenGuide={(plantItem) => scrollToGuide(guideIdFor(plantItem.name))}
+            />
+            {result.plannerInput?.gardenType === "any" && plan.recommendedGardenType ? (
+              <p className="garden-method-recommendation">
+                <strong>Recommended setup:</strong> {getGardenMethodLabel(plan.recommendedGardenType)}
+              </p>
+            ) : null}
           </div>
-        </section>
-        ) : null}
+        ) : (
+          <section className="hero planner-result-hero">
+            <div className="container hero-content">
+              <h1>Garden Blueprint</h1>
+              <p>{inputSummary(result?.plannerInput)}</p>
+            </div>
+          </section>
+        )}
 
         <section className="section result-shell-section">
           <div className="container result-container">
             {result ? (
               <>
-                {look === "classic" || !plan ? (
-                <>
-                <div className="result-actions no-print">
-                  <div className="generation-state">
-                    <Sparkles size={18} aria-hidden="true" />
-                    {status === "loading" ? <span>Designing your garden…</span> : null}
-                    {status === "error" ? <span className="ai-error">{apiError}</span> : null}
-                    {status === "success" ? <span>Your plan is ready.</span> : null}
-                    {plan && status !== "loading" ? <PlanSourceBadge result={result} /> : null}
-                  </div>
-                  <div className="result-action-buttons">
-                    {status === "error" || (!plan && status !== "loading") ? (
-                      <button type="button" className="btn secondary-action" onClick={loadStarterPlan}>
-                        Use Starter Plan
-                      </button>
-                    ) : null}
-                    {plan && Object.values(plan.alternatives || {}).some((list) => list.length) ? (
-                      <button type="button" className="btn secondary-action" onClick={handleShuffle}>
-                        <Shuffle size={17} aria-hidden="true" />
-                        Shuffle Plants
-                      </button>
-                    ) : null}
-                    {plan ? (
-                      <button
-                        type="button"
-                        className="btn secondary-action"
-                        onClick={() => downloadPlantingCalendar(plan, result.climate || null)}
-                      >
-                        <CalendarPlus size={17} aria-hidden="true" />
-                        Add to calendar
-                      </button>
-                    ) : null}
-                    {plan ? (
-                      <button type="button" className="btn" onClick={() => window.print()}>
-                        <Printer size={17} aria-hidden="true" />
-                        Print Plan
-                      </button>
-                    ) : null}
-                  </div>
-                </div>
-
-                {result.apiWarning ? <p className="result-warning">{result.apiWarning}</p> : null}
-                <ClimateSummary climate={result.climate} />
-                </>
+                {!plan ? (
+                  <>
+                    <div className="result-actions no-print">
+                      <div className="generation-state">
+                        <Sparkles size={18} aria-hidden="true" />
+                        {status === "loading" ? <span>Designing your garden…</span> : null}
+                        {status === "error" ? <span className="ai-error">{apiError}</span> : null}
+                      </div>
+                      <div className="result-action-buttons">
+                        {status !== "loading" ? (
+                          <button type="button" className="btn secondary-action" onClick={loadStarterPlan}>
+                            Use Starter Plan
+                          </button>
+                        ) : null}
+                      </div>
+                    </div>
+                    {result.apiWarning ? <p className="result-warning">{result.apiWarning}</p> : null}
+                  </>
                 ) : null}
 
                 {plan ? (
                   <>
-                    <section className="result-content-section sketch-section print-section">
-                      <div className="result-section-heading">
-                        <span>01</span>
-                        <div>
-                          <h2>Your garden sketch</h2>
-                          <p>{plan.summary}</p>
-                        </div>
-                      </div>
-                      {result?.plannerInput?.gardenType === "any" && plan.recommendedGardenType ? (
-                        <p className="garden-method-recommendation">
-                          <strong>Recommended setup:</strong>{" "}
-                          {getGardenMethodLabel(plan.recommendedGardenType)}
-                        </p>
-                      ) : null}
-                      <GardenSketch
-                        layout={plan.layout}
-                        onLayoutChange={handleSketchLayoutChange}
-                        onPlantSectionClick={scrollToGuide}
-                        alternatives={plan.alternatives}
-                        onSwapPlant={handleSwapPlant}
-                        onSwapZones={handleSwapZones}
-                      />
-                    </section>
                     <PlantingGuide guide={plan.plantingGuide} layout={plan.layout} />
                     <TipsSection tips={plan.tips} />
                     <NeighborCheck layout={plan.layout} />
