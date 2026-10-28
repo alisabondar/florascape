@@ -573,13 +573,17 @@ export default function PlannerResultPage() {
                         },
                       ]}
                     />
-                    <GardenChat
-                      plan={plan}
-                      climate={result.climate || null}
-                      messages={result.chat || []}
-                      onMessagesChange={handleChatMessagesChange}
-                      onApplySwap={handleSwapPlant}
-                    />
+                    {/* The garden helper needs an AI provider, which isn't hooked up yet: shown faded and inert. */}
+                    <div className="coming-soon no-print" inert aria-label="Ask about my garden, coming soon">
+                      <span className="coming-soon-badge px">Coming soon</span>
+                      <GardenChat
+                        plan={plan}
+                        climate={result.climate || null}
+                        messages={result.chat || []}
+                        onMessagesChange={handleChatMessagesChange}
+                        onApplySwap={handleSwapPlant}
+                      />
+                    </div>
                     <AlbumShelf currentId={planId} heading="Your other albums" />
                   </>
                 ) : null}
