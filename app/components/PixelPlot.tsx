@@ -5,7 +5,6 @@ import type { CSSProperties, PointerEvent } from "react";
 import { layoutToSvgModel } from "../../lib/garden-layout";
 import { startingAmountLabel } from "../../lib/plan/shopping";
 import type { Layout, Plant } from "../../lib/types";
-import PixelSeed from "./PixelSeed";
 import PixelSprite from "./PixelSprite";
 import "./pixel.css";
 
@@ -190,9 +189,7 @@ export default function PixelPlot({
           };
           const contents = (
             <>
-              {Array.from({ length: spriteCount }, (_, index) => stage === 0 ? (
-                <PixelSeed key={index} scale={zoneScale} />
-              ) : (
+              {Array.from({ length: spriteCount }, (_, index) => (
                 <PixelSprite
                   key={index}
                   plantName={plant.name}
