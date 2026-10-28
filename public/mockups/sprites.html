@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FloraScape: plant sprites</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Pixelify+Sans:wght@400;700&family=Mali:wght@400;600&display=swap">
+<style>
+  :root { --ink: #2b1d14; --paper: #fff4d6; --flap: #a33224; --leaf: #3f6b35; --cork: #e9d6a8; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Mali", sans-serif;
+    color: var(--ink);
+    background: var(--cork);
+    background-image: radial-gradient(#d4bd86 1.2px, transparent 1.2px);
+    background-size: 14px 14px;
+    font-variant-ligatures: none;
+  }
+  header { max-width: 1180px; margin: 0 auto; padding: 32px 24px 8px; }
+  h1 { font-family: "Shrikhand", cursive; font-weight: 400; font-size: 2.6rem; margin: 0; color: var(--flap); }
+  header p { max-width: 62ch; }
+  .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 12px 0 0; font-family: "Pixelify Sans", sans-serif; }
+  .controls button, .controls label {
+    border: 3px solid var(--ink); background: var(--paper); padding: 6px 14px; font: inherit; cursor: pointer;
+    box-shadow: 3px 3px 0 var(--flap);
+  }
+  .controls button:focus-visible, .card:focus-visible { outline: 3px solid var(--leaf); outline-offset: 3px; }
+  main { max-width: 1180px; margin: 0 auto; padding: 16px 24px 48px; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 18px; }
+  .card {
+    position: relative; background: var(--paper); border: 3px solid var(--ink); border-radius: 6px 6px 0 0;
+    padding: 0 0 22px; box-shadow: 5px 5px 0 var(--flap); cursor: pointer; text-align: center;
+  }
+  /* Seed-envelope flap and zigzag bottom, as in the Packet Quests hybrid. */
+  .card .flap { background: var(--leaf); color: var(--paper); font-family: "Shrikhand", cursive; font-size: 1.15rem; padding: 6px 8px 8px; border-bottom: 3px solid var(--ink); }
+  .card::after {
+    content: ""; position: absolute; left: -3px; right: -3px; bottom: -12px; height: 12px;
+    background: linear-gradient(135deg, var(--paper) 6px, transparent 0) 0 0 / 12px 12px repeat-x,
+                linear-gradient(225deg, var(--paper) 6px, transparent 0) 0 0 / 12px 12px repeat-x;
+  }
+  canvas { display: block; margin: 12px auto 4px; image-rendering: pixelated; image-rendering: crisp-edges; background: #f3e4bd; border: 2px solid #d9c08a; }
+  .stage { font-family: "Pixelify Sans", sans-serif; font-size: .9rem; color: #6b4a32; }
+  .strip { display: flex; justify-content: center; gap: 4px; margin-top: 8px; }
+  .strip canvas { margin: 0; border-width: 1px; }
+  .strip[hidden] { display: none; }
+  footer { max-width: 1180px; margin: 0 auto; padding: 0 24px 40px; font-size: .9rem; }
+  @media (prefers-reduced-motion: reduce) { .reduced-note { display: inline; } }
+  .reduced-note { display: none; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Plant sprites</h1>
+  <p>Twenty original 16 × 24 pixel crops. Each grows from seed to harvest, then sways in the breeze. Click a packet to replay its growth.</p>
+  <div class="controls">
+    <button type="button" id="grow-all">Grow all</button>
+    <label><input type="checkbox" id="show-strip"> Show all frames</label>
+    <label>Scale <select id="scale"><option>4</option><option selected>5</option><option>6</option><option>8</option></select></label>
+    <span class="reduced-note">Reduced motion is on, so plants are shown fully grown without animation.</span>
+  </div>
+</header>
+<main id="grid" aria-live="polite"></main>
+<footer><p>Sheets live in <code>/sprites/sheets/&lt;id&gt;.png</code>: five 16 × 24 frames left to right (seed, sprout, young, mature, sway). Frame order and sizes are in <code>/sprites/sheets/manifest.json</code>.</p></footer>
+<script>
+(async () => {
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const manifest = await (await fetch("/sprites/sheets/manifest.json", { cache: "no-store" })).json();
+  const { frameWidth: W, frameHeight: H, frames: FRAMES } = manifest;
+  const MATURE = FRAMES.indexOf("mature");
+  const SWAY = FRAMES.indexOf("sway");
+  const GROW_MS = 520;
+  const SWAY_MS = 650;
+  const grid = document.getElementById("grid");
+  const scaleSelect = document.getElementById("scale");
+  const strip = document.getElementById("show-strip");
+  const sprites = [];
+
+  const load = (src) => new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = reject;
+    image.src = `${src}?v=${Date.now()}`;
+  });
+
+  function draw(canvas, image, frame, scale) {
+    canvas.width = W * scale;
+    canvas.height = H * scale;
+    const context = canvas.getContext("2d");
+    context.imageSmoothingEnabled = false;
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.drawImage(image, frame * W, 0, W, H, 0, 0, W * scale, H * scale);
+  }
+
+  for (const plant of manifest.plants) {
+    const image = await load(plant.sheet);
+    const card = document.createElement("article");
+    card.className = "card";
+    card.tabIndex = 0;
+    card.setAttribute("role", "button");
+    card.setAttribute("aria-label", `${plant.name}: replay growth`);
+    card.innerHTML = `<div class="flap">${plant.name}</div><canvas aria-hidden="true"></canvas><div class="stage"></div><div class="strip" hidden></div>`;
+    const canvas = card.querySelector("canvas");
+    const stage = card.querySelector(".stage");
+    const stripEl = card.querySelector(".strip");
+    FRAMES.forEach((name, index) => {
+      const mini = document.createElement("canvas");
+      mini.title = name;
+      stripEl.appendChild(mini);
+      draw(mini, image, index, 2);
+    });
+    const sprite = { image, canvas, stage, frame: MATURE, growStart: reduceMotion ? null : performance.now() + Math.random() * 600 };
+    const replay = () => { if (!reduceMotion) sprite.growStart = performance.now(); };
+    card.addEventListener("click", replay);
+    card.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); replay(); } });
+    grid.appendChild(card);
+    sprites.push(sprite);
+  }
+
+  function frameAt(sprite, now) {
+    if (sprite.growStart === null) return MATURE;
+    const elapsed = now - sprite.growStart;
+    if (elapsed < 0) return 0;
+    const growFrame = Math.floor(elapsed / GROW_MS);
+    if (growFrame <= MATURE) return growFrame;
+    // After growing: mature and sway alternate as an idle loop.
+    return Math.floor((elapsed - (MATURE + 1) * GROW_MS) / SWAY_MS) % 2 === 0 ? MATURE : SWAY;
+  }
+
+  let scale = Number(scaleSelect.value);
+  function tick(now) {
+    for (const sprite of sprites) {
+      const frame = frameAt(sprite, now);
+      if (frame !== sprite.drawn || sprite.scale !== scale) {
+        draw(sprite.canvas, sprite.image, frame, scale);
+        sprite.stage.textContent = FRAMES[frame];
+        sprite.drawn = frame;
+        sprite.scale = scale;
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  scaleSelect.addEventListener("change", () => { scale = Number(scaleSelect.value); });
+  strip.addEventListener("change", () => document.querySelectorAll(".strip").forEach((el) => { el.hidden = !strip.checked; }));
+  document.getElementById("grow-all").addEventListener("click", () => {
+    const now = performance.now();
+    if (!reduceMotion) sprites.forEach((sprite, index) => { sprite.growStart = now + index * 60; });
+  });
+})();
+</script>
+</body>
+</html>

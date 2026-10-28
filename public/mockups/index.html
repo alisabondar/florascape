@@ -1,0 +1,671 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FloraScape: ten UI concepts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Gaegu:wght@400;700&family=Kalam:wght@400;700&family=Crimson+Pro:wght@400;600&family=Fraunces:ital,wght@0,400;0,600;1,300&family=Patrick+Hand&family=Chewy&family=Nunito:wght@400;700;800&family=Cabin+Sketch:wght@400;700&family=Architects+Daughter&family=Dela+Gothic+One&family=Karla:wght@400;700&family=Pixelify+Sans:wght@400;700&family=Mali:wght@400;600&family=Grandstander:wght@500;700&family=Quicksand:wght@500;700&family=Homemade+Apple&family=Cormorant+Garamond:wght@400;600;700&family=Shantell+Sans:wght@400;600;800&family=Reenie+Beanie&display=swap">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,sans-serif;background:#e8e3d4;color:#222}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #1a5fd0;outline-offset:3px}
+h2,h3,h4,p{margin:0}
+ul{margin:0;padding:0}
+/* ---------- compact sticky index (<=56px) ---------- */
+.index{position:sticky;top:0;z-index:50;height:48px;background:#fffdf6;border-bottom:2px solid #2d3a2a;display:flex;align-items:center;gap:.6rem;padding:0 .8rem;font-size:.8rem}
+.index b.t{white-space:nowrap}
+.index ol{list-style:none;margin:0;padding:0;display:flex;gap:.35rem;overflow-x:auto;white-space:nowrap;scrollbar-width:thin;flex:1}
+.index a{display:inline-block;padding:.3rem .6rem;border:1px solid #c9c0a8;border-radius:99px;color:#222;text-decoration:none;line-height:1.2}
+.index a span{color:#5a5a5a;margin-left:.3rem}
+.index a:hover{background:#f1ead2}
+section.concept{scroll-margin-top:52px;position:relative;overflow:hidden}
+.wrap{max-width:1240px;margin:0 auto;padding:0 32px}
+/* ---------- caption ---------- */
+.caption{max-width:1240px;margin:0 auto;background:#fffdf6;color:#222;font-family:system-ui,sans-serif;border:1.5px solid #2d3a2a;border-radius:8px;padding:1rem 1.3rem;display:grid;grid-template-columns:1fr 1fr 1.5fr;gap:1rem;font-size:.9rem;line-height:1.45}
+.caption h3{font-size:1.2rem;grid-column:1/-1}
+.swatches{list-style:none}.swatches li{display:flex;align-items:center;gap:.4rem;margin-bottom:.2rem}
+.sw{width:22px;height:22px;border-radius:4px;border:1px solid #333;flex:none}
+.bul{padding-left:1.1rem}
+.capwrap{padding:28px 32px 40px}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media(max-width:900px){.caption{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* =====================================================
+   1. SEED PACKET — a rack of packets you open
+   ===================================================== */
+.c1{background:#e9d6b0;color:#2b2118;font-family:'Gaegu',cursive;font-size:1.2rem;padding-top:40px}
+.c1 .rackbar{display:flex;justify-content:space-between;align-items:center;border-bottom:4px solid #2b2118;padding-bottom:10px;margin-bottom:28px}
+.c1 .logo{font-family:'Shrikhand',cursive;font-size:1.8rem;color:#a33224}
+.c1 .rackbar a{color:#2b2118;margin-left:18px}
+.c1 .hero{display:grid;grid-template-columns:420px 1fr;gap:48px;align-items:center}
+.c1 .bigpacket{position:relative;background:#fbf1d9;border:4px solid #2b2118;height:520px;box-shadow:10px 10px 0 #a33224;padding:120px 34px 30px;clip-path:polygon(0 0,100% 0,100% 100%,96% 98%,92% 100%,88% 98%,84% 100%,80% 98%,76% 100%,72% 98%,68% 100%,64% 98%,60% 100%,56% 98%,52% 100%,48% 98%,44% 100%,40% 98%,36% 100%,32% 98%,28% 100%,24% 98%,20% 100%,16% 98%,12% 100%,8% 98%,4% 100%,0 98%)}
+.c1 .flap{position:absolute;inset:0 0 auto 0;height:100px;background:#a33224;clip-path:polygon(0 0,100% 0,100% 40%,50% 100%,0 40%)}
+.c1 .flap span{position:absolute;top:14px;width:100%;text-align:center;color:#fbf1d9;font-family:'Shrikhand',cursive;font-size:1.3rem}
+.c1 .bigpacket h2{font-family:'Shrikhand',cursive;font-weight:400;font-size:2.6rem;line-height:1.05;color:#a33224}
+.c1 .bigpacket svg{display:block;margin:14px auto 0;width:200px}
+.c1 .lot{position:absolute;bottom:26px;left:34px;right:34px;display:flex;justify-content:space-between;font-weight:700}
+.c1 .back h3{font-family:'Shrikhand',cursive;font-weight:400;font-size:1.6rem;margin-bottom:10px}
+.c1 .back p{max-width:46ch;line-height:1.4}
+.c1 .cta{display:inline-block;margin:18px 0 6px;background:#a33224;color:#fff;font-family:'Shrikhand',cursive;font-size:1.3rem;padding:12px 26px;border:3px solid #2b2118;text-decoration:none;box-shadow:4px 4px 0 #2b2118}
+.c1 .rackh{font-family:'Shrikhand',cursive;font-weight:400;font-size:1.8rem;margin:56px 0 16px}
+.c1 .rack{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.c1 details.pk{background:#fbf1d9;border:3px solid #2b2118;box-shadow:5px 5px 0 #2b2118}
+.c1 details.pk summary{list-style:none;cursor:pointer;padding:0 0 12px;text-align:center}
+.c1 details.pk summary::-webkit-details-marker{display:none}
+.c1 .pf{height:46px;clip-path:polygon(0 0,100% 0,100% 30%,50% 100%,0 30%);margin-bottom:6px}
+.c1 .pk h4{font-family:'Shrikhand',cursive;font-weight:400;font-size:1.4rem}
+.c1 .count{font-size:1.7rem;font-weight:700;line-height:1}
+.c1 .buy{display:inline-block;margin-top:6px;border:2px dashed #2b2118;padding:2px 10px}
+.c1 .open{padding:4px 14px 14px;border-top:2px dashed #2b2118;font-size:1.05rem;line-height:1.3}
+.c1 .hint{font-size:1rem;margin-top:6px;text-decoration:underline}
+.c1 .lower{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:18px;margin:22px 0 0}
+.c1 .env{background:#fbf1d9;border:3px solid #2b2118;padding:18px}
+.c1 .env h3{font-family:'Shrikhand',cursive;font-weight:400;font-size:1.4rem;margin-bottom:6px}
+.c1 .env li{margin-left:1.1rem;line-height:1.35}
+.c1 .env h4{color:#a33224;margin-top:8px}
+.c1 .stamp{display:inline-block;border:4px double #a33224;color:#a33224;font-family:'Shrikhand',cursive;font-size:2.4rem;padding:4px 16px;transform:rotate(-5deg);margin:6px 0 10px}
+
+/* =====================================================
+   2. FIELD JOURNAL — a two-page notebook spread
+   ===================================================== */
+.c2{background:#6f5a43;padding:50px 0 0;font-family:'Crimson Pro',serif;color:#33332f;font-size:1.15rem}
+.c2 .book{display:grid;grid-template-columns:1fr 1fr;border-radius:6px;box-shadow:0 18px 30px #0005;position:relative}
+.c2 .book::after{content:"";position:absolute;left:50%;top:0;bottom:0;width:40px;margin-left:-20px;background:linear-gradient(90deg,transparent,#0002 45%,#0003 50%,#0002 55%,transparent)}
+.c2 .page{min-height:760px;padding:44px 48px;background:#fbf8ef}
+.c2 .left{background-image:linear-gradient(#9fb8c966 1px,transparent 1px),linear-gradient(90deg,#9fb8c966 1px,transparent 1px);background-size:24px 24px;background-color:#fbf8ef;border-radius:6px 0 0 6px}
+.c2 .right{border-radius:0 6px 6px 0;background-image:repeating-linear-gradient(#fbf8ef 0 31px,#c9d6de 31px 32px);display:grid;grid-template-columns:1fr 170px;gap:24px}
+.c2 .k{font-family:'Kalam',cursive}
+.c2 .date{font-family:'Kalam',cursive;color:#6b6b62}
+.c2 h2{font-family:'Kalam',cursive;font-weight:700;font-size:2.7rem;line-height:1.1;margin:8px 0 10px;color:#3c5a2b}
+.c2 .left p.lead{max-width:40ch;line-height:1.6}
+.c2 .cta{display:inline-block;margin-top:14px;font-family:'Kalam',cursive;font-size:1.25rem;color:#fff;background:#4a6636;padding:8px 20px;border-radius:3px 16px 4px 14px;text-decoration:none}
+.c2 .bedfig{margin-top:30px}
+.c2 .bedfig svg{width:100%}
+.c2 figcaption{font-family:'Kalam',cursive;color:#6b6b62;font-size:1rem}
+.c2 .right h3{font-family:'Kalam',cursive;font-size:1.6rem;font-weight:700;color:#3c5a2b;line-height:32px}
+.c2 .right p,.c2 .right li{line-height:32px}
+.c2 .right ul{list-style:none}
+.c2 .entry b{font-family:'Kalam',cursive;color:#7a3f2c}
+.c2 .margin{border-left:2px solid #e3a3a3;padding-left:14px;font-family:'Kalam',cursive;font-size:1.02rem;color:#5a4a3a;line-height:1.35}
+.c2 .margin p{margin-bottom:22px}
+.c2 .tape{position:relative;background:#fffdf6;padding:12px 14px;transform:rotate(-2deg);box-shadow:0 2px 6px #0002;margin-top:20px;line-height:1.4!important}
+.c2 .tape::before{content:"";position:absolute;top:-10px;left:30%;width:70px;height:20px;background:#efe2a8d9;transform:rotate(4deg)}
+.c2 .tape p{line-height:1.4}
+
+/* =====================================================
+   3. STORYBOOK — one illustrated landscape
+   ===================================================== */
+.c3{background:#cfe3e8;font-family:'Patrick Hand',cursive;color:#3f3125;font-size:1.25rem}
+.c3 .scene{position:relative;height:1180px}
+.c3 .scene>svg{position:absolute;inset:0;width:100%;height:100%}
+.c3 .sky{position:absolute;top:60px;left:0;right:0;text-align:center}
+.c3 .logo{font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size:1.5rem}
+.c3 h2{font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size:4.4rem;line-height:1.05;margin:20px auto 16px;max-width:14ch}
+.c3 .sky p{max-width:44ch;margin:0 auto;line-height:1.45}
+.c3 .cta{display:inline-block;margin-top:20px;background:#b5503f;color:#fff;font-family:'Fraunces',serif;font-size:1.25rem;padding:12px 30px;border-radius:40px;text-decoration:none}
+.c3 .sign{position:absolute;background:#fffaf0;border:3px solid #4a3a2c;border-radius:18px;padding:12px 16px;width:260px;line-height:1.3;font-size:1.1rem;box-shadow:0 6px 0 #4a3a2c33}
+.c3 .sign h3{font-family:'Fraunces',serif;font-weight:600;font-size:1.15rem;color:#5c7f3c;margin-bottom:4px}
+.c3 .sign::after{content:"";position:absolute;left:50%;bottom:-40px;width:8px;height:40px;background:#7a5a3e;margin-left:-4px}
+.c3 .bedlbl{position:absolute;background:#fffaf0e6;border-radius:14px;padding:4px 10px;font-size:1.05rem;border:2px solid #4a3a2c}
+.c3 .moon{position:absolute;right:6%;top:46px;width:250px;background:#fffaf0;border-radius:50% 50% 46% 54%;padding:30px 26px;text-align:center;border:3px solid #4a3a2c;line-height:1.3}
+.c3 .moon b{font-family:'Fraunces',serif;font-size:2rem;display:block}
+
+/* =====================================================
+   4. STICKER SCRAPBOOK — overlapping collage
+   ===================================================== */
+.c4{background:#f4ead7;background-image:radial-gradient(#d9c9a6 1.3px,transparent 1.3px);background-size:14px 14px;font-family:'Nunito',sans-serif;color:#1d1d3a}
+.c4 .board{position:relative;height:1080px;max-width:1240px;margin:0 auto}
+.c4 .st{position:absolute;background:#fff;border:4px solid #1d1d3a;box-shadow:0 0 0 7px #fff,0 0 0 10px #1d1d3a,8px 12px 0 10px #1d1d3a22}
+.c4 .logo{top:40px;left:40px;font-family:'Chewy',cursive;font-size:2rem;padding:6px 18px;border-radius:40px;background:#7bd3b0;transform:rotate(-4deg)}
+.c4 .title{top:120px;left:60px;width:600px;padding:30px 34px;border-radius:30px;background:#ffd23f;transform:rotate(-2deg)}
+.c4 .title h2{font-family:'Chewy',cursive;font-weight:400;font-size:4rem;line-height:1}
+.c4 .title p{margin-top:12px;font-size:1.15rem;line-height:1.5;max-width:44ch}
+.c4 .cta{position:absolute;top:470px;left:120px;font-family:'Chewy',cursive;font-size:1.6rem;background:#e0457b;color:#fff;padding:14px 30px;border-radius:40px;border:4px solid #1d1d3a;box-shadow:0 0 0 6px #fff,0 0 0 9px #1d1d3a;transform:rotate(3deg);text-decoration:none}
+.c4 .polaroid{top:80px;right:40px;width:500px;padding:18px 18px 60px;border-radius:6px;transform:rotate(4deg)}
+.c4 .polaroid svg{width:100%;display:block;background:#bfe9ff}
+.c4 .polaroid{display:flex;flex-direction:column-reverse}
+.c4 .polaroid p{font-family:'Chewy',cursive;font-size:1.5rem;text-align:center;margin:0 0 10px}
+.c4 .tape{position:absolute;width:120px;height:32px;background:#ff8fabbb;transform:rotate(-12deg);z-index:3}
+.c4 .chip{border-radius:50px;padding:10px 18px;font-weight:700;line-height:1.25;font-size:1rem;z-index:2}
+.c4 .chip small{display:block;font-weight:400}
+.c4 .guide{top:600px;left:50px;width:400px;padding:24px;border-radius:20px;transform:rotate(-3deg);background:#fff}
+.c4 h3{font-family:'Chewy',cursive;font-weight:400;font-size:1.9rem;margin-bottom:8px}
+.c4 .guide h4{display:inline-block;background:#7bd3b0;border-radius:20px;padding:0 10px;margin:8px 0 2px;font-weight:800}
+.c4 .guide li{margin-left:1.1rem;line-height:1.45}
+.c4 .frost{top:640px;left:520px;width:300px;height:300px;border-radius:50%;padding:60px 40px;text-align:center;background:#bfe9ff;transform:rotate(6deg)}
+.c4 .frost b{font-family:'Chewy',cursive;font-size:3rem;display:block;line-height:1}
+.c4 .shop{top:620px;right:50px;width:300px;padding:22px;border-radius:12px;transform:rotate(-5deg);background:#fff}
+.c4 .shop li{list-style:none;padding:4px 0;border-bottom:2px dotted #1d1d3a55}
+
+/* =====================================================
+   5. CHALKBOARD — shed wall with hanging tools
+   ===================================================== */
+.c5{background:#8a5a36;background-image:repeating-linear-gradient(90deg,#8a5a36 0 118px,#6e4527 118px 122px);font-family:'Architects Daughter',cursive;color:#f1efe6;padding:30px 0 0}
+.c5 .pegs{display:flex;gap:30px;justify-content:center;list-style:none;padding:0 0 10px}
+.c5 .pegs a{display:flex;flex-direction:column;align-items:center;color:#fdf6e3;text-decoration:none;font-size:1.05rem}
+.c5 .pegs svg{width:70px;height:110px}
+.c5 .pegs a:hover svg{transform:rotate(6deg)}
+.c5 .board{background:#2f3b36;border:22px solid #5b3a20;border-radius:6px;box-shadow:inset 0 0 60px #0007,0 10px 0 #4a2e18;padding:40px 46px;display:grid;grid-template-columns:1.1fr 1fr;gap:40px}
+.c5 .logo{font-family:'Cabin Sketch',cursive;font-size:1.6rem;color:#f2d675}
+.c5 h2{font-family:'Cabin Sketch',cursive;font-weight:400;font-size:3.8rem;line-height:1.05;margin:12px 0 16px;text-shadow:0 0 3px #fff5}
+.c5 .lead{font-size:1.15rem;line-height:1.55;max-width:44ch}
+.c5 .cta{display:inline-block;margin-top:18px;font-family:'Cabin Sketch',cursive;font-size:1.4rem;color:#2f3b36;background:#f2d675;padding:10px 24px;border-radius:4px;text-decoration:none}
+.c5 .bedchalk svg{width:100%}
+.c5 .chores{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);border-top:3px dashed #f1efe699;padding-top:20px}
+.c5 .chores>div{padding:0 22px;border-left:3px dashed #f1efe666}
+.c5 .chores>div:first-child{border-left:0;padding-left:0}
+.c5 h3{font-family:'Cabin Sketch',cursive;font-weight:700;font-size:1.8rem;color:#f0a8a0}
+.c5 .chores li{list-style:none;margin:10px 0;line-height:1.4;font-size:1.08rem}
+.c5 .chores li::before{content:"☐ ";color:#f2d675}
+.c5 .tags{display:flex;justify-content:center;gap:40px;padding:20px 0 0}
+.c5 .tag{background:#efe1b9;color:#3a2a1a;width:270px;padding:22px 20px 18px;border-radius:6px 6px 6px 40px;position:relative;transform:rotate(-3deg);font-size:1.05rem;line-height:1.4}
+.c5 .tag:nth-child(2){transform:rotate(2deg)}
+.c5 .tag::before{content:"";position:absolute;top:10px;left:14px;width:14px;height:14px;border-radius:50%;background:#8a5a36;border:2px solid #3a2a1a}
+.c5 .tag h3{color:#7a3f2c;font-size:1.4rem;padding-left:20px}
+
+/* =====================================================
+   6. RISO ZINE — editorial poster grid
+   ===================================================== */
+.c6{background:#f3efe4;color:#1e2a3a;font-family:'Karla',sans-serif;padding:36px 0 0}
+.c6 .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:0;border:4px solid #1e2a3a}
+.c6 .cell{border:2px solid #1e2a3a;padding:22px;position:relative}
+.c6 .mast{grid-column:1/-1;display:flex;justify-content:space-between;align-items:baseline;background:#00838a;color:#f3efe4;font-weight:700}
+.c6 .mast b{font-family:'Dela Gothic One',sans-serif;font-weight:400;font-size:1.4rem}
+.c6 .huge{grid-column:1/9;padding:30px 28px;overflow:hidden}
+.c6 .huge h2{font-family:'Dela Gothic One',sans-serif;font-weight:400;font-size:7.4rem;line-height:.88;color:#00838a;letter-spacing:-.02em;text-shadow:7px 5px 0 #ff48b099;mix-blend-mode:multiply}
+.c6 .intro{grid-column:9/13;background:#ff48b0;color:#1e2a3a;display:flex;flex-direction:column;justify-content:space-between;font-size:1.2rem;line-height:1.5}
+.c6 .cta{display:inline-block;margin-top:18px;background:#1e2a3a;color:#f3efe4;font-family:'Dela Gothic One',sans-serif;padding:14px 22px;text-decoration:none;font-size:1.1rem}
+.c6 .bedcell{grid-column:1/7;background-image:radial-gradient(#ff48b055 1.6px,transparent 1.8px);background-size:8px 8px}
+.c6 .bedcell svg{width:100%}
+.c6 h3{font-family:'Dela Gothic One',sans-serif;font-weight:400;font-size:1.5rem;margin-bottom:10px}
+.c6 .counts{grid-column:7/10}
+.c6 .counts li{list-style:none;border-bottom:2px solid #1e2a3a;padding:10px 0;line-height:1.3}
+.c6 .counts b{font-family:'Dela Gothic One',sans-serif;font-weight:400;font-size:2.2rem;color:#00838a;display:block;line-height:1}
+.c6 .zone7{grid-column:10/13;background:#00838a;color:#f3efe4}
+.c6 .zone7 .n{font-family:'Dela Gothic One',sans-serif;font-size:8rem;line-height:.85;color:#f3efe4;text-shadow:6px 6px 0 #ff48b0}
+.c6 .zone7 p{line-height:1.5;margin-top:12px}
+.c6 .guide{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:0;padding:0}
+.c6 .guide>div{padding:22px;border-right:2px solid #1e2a3a}
+.c6 .guide>div:last-child{border:0}
+.c6 .guide li{margin-left:1.1rem;line-height:1.5}
+.c6 .pg{position:absolute;right:14px;bottom:10px;font-family:'Dela Gothic One',sans-serif;font-size:.9rem}
+
+/* =====================================================
+   7. COZY GAME — HUD around a tile garden
+   ===================================================== */
+.c7{background:#a8d98a;background-image:linear-gradient(45deg,#9bcf7e 25%,transparent 25%,transparent 75%,#9bcf7e 75%),linear-gradient(45deg,#9bcf7e 25%,transparent 25%,transparent 75%,#9bcf7e 75%);background-size:32px 32px;background-position:0 0,16px 16px;font-family:'Mali',cursive;color:#3b2a20;padding:30px 0 0}
+.c7 .panel{background:#fff4d6;border:4px solid #3b2a20;box-shadow:inset -5px -5px 0 #e6c995,6px 6px 0 #3b2a20}
+.c7{font-variant-ligatures:none}
+.c7 .hud{display:flex;justify-content:space-between;align-items:center;padding:10px 18px;font-family:'Pixelify Sans',sans-serif;font-size:1.15rem}
+.c7 .hud span{display:inline-block;margin-left:22px}
+.c7 .logo{font-size:1.6rem;font-weight:700;color:#5c3a22}
+.c7 .play{display:grid;grid-template-columns:280px 1fr 260px;gap:22px;margin-top:22px}
+.c7 h3{font-family:'Pixelify Sans',sans-serif;font-size:1.4rem;background:#c78a4b;color:#fff4d6;margin:-4px -4px 12px;padding:6px 14px;border:4px solid #3b2a20}
+.c7 .quest{padding:0 0 14px}
+.c7 .quest li{list-style:none;padding:8px 16px;line-height:1.35;font-size:1rem}
+.c7 .quest li b{display:block;font-family:'Pixelify Sans',sans-serif;color:#5c7f2c}
+.c7 .quest li.done{opacity:.7;text-decoration:line-through}
+.c7 .field{padding:16px;position:relative}
+.c7 .tiles{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;background:#5c3a22;border:4px solid #3b2a20;padding:3px}
+.c7 .t{aspect-ratio:1;background:#8b5a3c;display:grid;place-items:center;font-size:1.6rem;line-height:1;position:relative;image-rendering:pixelated}
+.c7 .t.tom{background:#a8653f}.c7 .t.bas{background:#7a6a3c}.c7 .t.let{background:#957046}.c7 .t.car{background:#9a5e36}
+.c7 .t svg{width:70%;height:70%}
+.c7 .fieldlbl{display:flex;justify-content:space-between;font-family:'Pixelify Sans',sans-serif;margin-top:10px;font-size:1.05rem}
+.c7 .inv{padding:0 0 14px}
+.c7 .slots{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 14px}
+.c7 .slot{border:3px solid #3b2a20;background:#f4dfae;padding:8px;text-align:center;font-size:.9rem;line-height:1.25}
+.c7 .slot b{font-family:'Pixelify Sans',sans-serif;font-size:1.3rem;display:block}
+.c7 .slot svg{width:34px;height:34px}
+.c7 .weather{margin:14px;border:3px solid #3b2a20;padding:10px;background:#dff1ff;font-size:.95rem;line-height:1.4}
+.c7 .weather b{font-family:'Pixelify Sans',sans-serif;font-size:1.6rem}
+.c7 .dialog{margin-top:22px;display:grid;grid-template-columns:110px 1fr auto;gap:22px;align-items:center;padding:20px 26px}
+.c7 .dialog h2{font-family:'Pixelify Sans',sans-serif;font-size:2.4rem;line-height:1.05}
+.c7 .dialog p{font-size:1.15rem;line-height:1.45;margin-top:6px;max-width:58ch}
+.c7 .cta{font-family:'Pixelify Sans',sans-serif;font-size:1.4rem;background:#7cc35a;color:#2a1d14;border:4px solid #3b2a20;box-shadow:inset -4px -4px 0 #4f8f37;padding:14px 22px;text-decoration:none;white-space:nowrap}
+
+/* =====================================================
+   8. GREENHOUSE — window grid you look through
+   ===================================================== */
+.c8{background:linear-gradient(170deg,#ffe7a8 0,#fff3d1 25%,#dff1ec 60%,#cbe7df);font-family:'Quicksand',sans-serif;font-weight:500;color:#1f3f36;padding:30px 0 0}
+.c8 .roof{height:90px;background:#2f5d50;clip-path:polygon(0 100%,50% 0,100% 100%);display:grid;place-items:end center;padding-bottom:12px;color:#fff;font-family:'Grandstander',cursive;font-size:1.6rem}
+.c8 .frame{background:#2f5d50;padding:14px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:auto auto;gap:14px;border-radius:0 0 10px 10px}
+.c8 .pane{background:linear-gradient(135deg,#ffffffd9,#e9f6f1cc 60%,#ffffffe6);padding:26px;min-height:300px;position:relative;overflow:hidden}
+.c8 .pane::after{content:"";position:absolute;top:-40%;left:-30%;width:40%;height:200%;background:linear-gradient(90deg,transparent,#ffffff88,transparent);transform:rotate(25deg);pointer-events:none}
+.c8 .hero{grid-column:1/3}
+.c8 h2{font-family:'Grandstander',cursive;font-weight:700;font-size:3.6rem;line-height:1.05;color:#24493f;max-width:16ch}
+.c8 .hero p{font-size:1.2rem;line-height:1.55;max-width:48ch;margin-top:12px}
+.c8 .cta{display:inline-block;margin-top:18px;background:#2f5d50;color:#fff;font-family:'Grandstander',cursive;font-size:1.25rem;padding:12px 26px;border-radius:30px;text-decoration:none}
+.c8 h3{font-family:'Grandstander',cursive;font-weight:700;font-size:1.5rem;margin-bottom:8px;color:#2f5d50}
+.c8 .drops{position:absolute;inset:0;pointer-events:none}
+.c8 .drops i{position:absolute;width:6px;height:10px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;background:#9fd1c3aa;animation:drip 7s linear infinite}
+@keyframes drip{from{transform:translateY(-20px)}to{transform:translateY(340px)}}
+.c8 .bedpane{grid-row:span 2}
+.c8 .bedpane svg{width:100%}
+.c8 .bedpane li,.c8 .shop li{list-style:none;padding:6px 0;border-bottom:1px solid #2f5d5033;line-height:1.3}
+.c8 .pane li{line-height:1.45}
+.c8 .guide li{margin-left:1.1rem}
+.c8 .guide h4{color:#4c7a3a;margin-top:8px}
+.c8 .frost b{font-family:'Grandstander',cursive;font-size:3rem;display:block;line-height:1}
+.c8 .sill{height:40px;background:#c9714f;border-radius:0 0 8px 8px;margin:0 -10px;box-shadow:0 8px 0 #9e5537}
+
+/* =====================================================
+   9. HERBARIUM — one large specimen sheet
+   ===================================================== */
+.c9{background:#d9cfb8;font-family:'Cormorant Garamond',serif;color:#4f3c2e;font-size:1.25rem;padding:50px 0 0}
+.c9 .sheet{background:#f8f3e5;max-width:1080px;margin:0 auto;padding:56px 64px 48px;box-shadow:0 2px 0 #c9bea3,0 4px 0 #f8f3e5,0 6px 0 #c9bea3,0 20px 40px #4f3c2e44;position:relative}
+.c9 .head{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #b9a88f;padding-bottom:12px}
+.c9 .head b{font-weight:700;letter-spacing:.04em}
+.c9 h2{font-family:'Homemade Apple',cursive;font-weight:400;font-size:2.6rem;line-height:1.5;margin:28px 0 8px;color:#6d3f47;max-width:22ch}
+.c9 .intro{display:flex;gap:40px;align-items:flex-end;justify-content:space-between}
+.c9 .intro p{max-width:44ch;line-height:1.55}
+.c9 .cta{font-weight:700;font-size:1.2rem;color:#fff;background:#6d3f47;padding:12px 24px;text-decoration:none;white-space:nowrap}
+.c9 .specimen{position:relative;height:620px;margin-top:30px}
+.c9 .specimen svg{position:absolute;left:50%;top:0;width:520px;margin-left:-260px}
+.c9 .lab{position:absolute;width:250px;background:#fff;border:1px solid #b9a88f;padding:10px 14px;font-size:1.05rem;line-height:1.35;box-shadow:1px 2px 4px #4f3c2e22}
+.c9 .lab::before{content:"";position:absolute;top:-7px;left:18px;width:44px;height:14px;background:#ece2c8;border:1px solid #b9a88f}
+.c9 .lab i{font-family:'Homemade Apple',cursive;font-style:normal;font-size:.9rem;display:block;color:#6d3f47;margin-bottom:2px}
+.c9 .lab b{font-weight:700}
+.c9 .notes{display:grid;grid-template-columns:1.3fr 1fr;gap:40px;border-top:1px solid #b9a88f;padding-top:24px}
+.c9 h3{font-weight:700;font-size:1.4rem;margin-bottom:6px}
+.c9 .notes li{list-style:none;line-height:1.5}
+.c9 .notes li span{font-style:italic;color:#6d3f47}
+.c9 .acc{border:1px solid #4f3c2e;padding:14px 18px;background:#fff}
+.c9 .acc dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0}
+.c9 .acc dt{font-style:italic}
+.c9 .acc dd{margin:0;font-weight:700}
+
+/* =====================================================
+   10. ALLOTMENT MAP — full map, legend, numbered plots
+   ===================================================== */
+.c10{background:#e8dcb6;font-family:'Shantell Sans',cursive;color:#2d3a2a;padding:30px 0 0}
+.c10 .map{position:relative;height:1000px;background:#f7f0d8;border:3px solid #2d3a2a;border-radius:6px;box-shadow:inset 0 0 0 10px #f7f0d8,inset 0 0 0 12px #2d3a2a}
+.c10 .map>svg{position:absolute;inset:0;width:100%;height:100%}
+.c10 .cartouche{position:absolute;top:44px;left:44px;width:470px;background:#fffaf0;border:3px solid #2d3a2a;border-radius:4px 40px 4px 40px;padding:26px 30px}
+.c10 .logo{font-family:'Reenie Beanie',cursive;font-size:1.9rem}
+.c10 h2{font-weight:800;font-size:3rem;line-height:1.05;margin:6px 0 10px}
+.c10 .cartouche p{line-height:1.5}
+.c10 .cta{display:inline-block;margin-top:16px;background:#3f6e2f;color:#fff;font-weight:600;font-size:1.15rem;padding:10px 22px;border-radius:8px;text-decoration:none}
+.c10 .legend{position:absolute;right:44px;bottom:44px;width:380px;background:#fffaf0;border:3px solid #2d3a2a;padding:18px 22px}
+.c10 h3{font-weight:800;font-size:1.3rem;margin-bottom:8px}
+.c10 .legend li{list-style:none;display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:center;padding:5px 0;line-height:1.3;font-size:.98rem}
+.c10 .num{width:30px;height:30px;border-radius:50%;border:2.5px solid #2d3a2a;display:grid;place-items:center;font-weight:800}
+.c10 .callout{position:absolute;background:#fffaf0;border:2.5px solid #2d3a2a;border-radius:12px;padding:12px 16px;line-height:1.4;font-size:1rem}
+.c10 .callout b{font-family:'Reenie Beanie',cursive;font-size:1.6rem;font-weight:400;display:block;line-height:1}
+.c10 .guide{left:44px;bottom:44px;width:400px}
+.c10 .guide li{margin-left:1.1rem}
+.c10 .here{left:620px;top:60px;width:260px;background:#fff1c2}
+.c10 .frost{right:44px;top:60px;width:240px}
+
+@media(max-width:1000px){
+ .c1 .hero,.c1 .lower,.c2 .book,.c5 .board,.c7 .play,.c9 .notes{grid-template-columns:1fr}
+ .c1 .rack{grid-template-columns:1fr 1fr}
+ .c6 .grid>*{grid-column:1/-1!important}.c6 .huge h2{font-size:4rem}
+ .c8 .frame{grid-template-columns:1fr}.c8 .hero{grid-column:auto}
+ .c7 .dialog{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<nav class="index" aria-label="Mockup concepts">
+ <b class="t">FloraScape &times; 10</b>
+ <ol>
+  <li><a href="#seed-packet">1 Seed Packet<span>a rack of packets you open</span></a></li>
+  <li><a href="#field-journal">2 Field Journal<span>two-page notebook spread</span></a></li>
+  <li><a href="#storybook">3 Storybook<span>one illustrated landscape</span></a></li>
+  <li><a href="#scrapbook">4 Scrapbook<span>overlapping sticker collage</span></a></li>
+  <li><a href="#chalkboard">5 Chalkboard<span>shed wall, tools as nav</span></a></li>
+  <li><a href="#riso">6 Riso Zine<span>two-ink poster grid</span></a></li>
+  <li><a href="#cozy-game">7 Cozy Game<span>HUD around a tile garden</span></a></li>
+  <li><a href="#greenhouse">8 Greenhouse<span>a window of panes</span></a></li>
+  <li><a href="#herbarium">9 Herbarium<span>one specimen sheet</span></a></li>
+  <li><a href="#allotment">10 Allotment Map<span>numbered plots and legend</span></a></li>
+ </ol>
+</nav>
+<main>
+
+<!-- ======================= 1 SEED PACKET ======================= -->
+<section id="seed-packet" class="concept c1" aria-labelledby="h1">
+ <div class="wrap">
+  <header class="rackbar"><span class="logo">FloraScape Seed Co.</span><span><a href="#seed-packet">How it works</a><a href="#seed-packet">Planner</a></span></header>
+  <div class="hero">
+   <div class="bigpacket">
+    <div class="flap"><span>Est. for beginners</span></div>
+    <h2 id="h1">Your garden, packed into one packet.</h2>
+    <svg viewBox="0 0 200 170" aria-hidden="true"><circle cx="100" cy="80" r="70" fill="#e3a72f" stroke="#2b2118" stroke-width="4"/><path d="M100 160V70m0 30c-24-26-50-18-54-4 22 8 40 6 54 4zm0-10c24-26 50-18 54-4-22 8-40 6-54 4z" fill="#5d8f3f" stroke="#2b2118" stroke-width="4" stroke-linejoin="round"/><circle cx="100" cy="58" r="16" fill="#a33224" stroke="#2b2118" stroke-width="4"/></svg>
+    <p class="lot"><span>Lot 11215</span><span>Zone 7b</span><span>Free</span></p>
+   </div>
+   <div class="back">
+    <h3>Directions on the back</h3>
+    <p>Tell us your ZIP code, how big your bed is and which way the sun hits it. FloraScape hands you a rack of packets: one per plant, each with how many to grow and what to buy.</p>
+    <a class="cta" href="#seed-packet">Fill my packet</a>
+    <p>Takes about two minutes. No account needed.</p>
+   </div>
+  </div>
+
+  <h3 class="rackh">Your rack: 8 &times; 6 ft raised bed, Brooklyn 11215</h3>
+  <div class="rack">
+   <details class="pk" open><summary><div class="pf" style="background:#a33224"></div><h4>Tomato</h4><p class="count">4 plants</p><p class="buy">buy 4 starts</p><p class="hint">Tap to open</p></summary>
+    <div class="open">Back corner, full sun. 24 in apart. Set out after Apr 12.</div></details>
+   <details class="pk"><summary><div class="pf" style="background:#3f6b35"></div><h4>Basil</h4><p class="count">6 plants</p><p class="buy">buy 6 starts</p><p class="hint">Tap to open</p></summary>
+    <div class="open">Tuck between tomatoes. 12 in apart.</div></details>
+   <details class="pk"><summary><div class="pf" style="background:#e3a72f"></div><h4>Lettuce</h4><p class="count">24 plants</p><p class="buy">sow ~36 seeds</p><p class="hint">Tap to open</p></summary>
+    <div class="open">Front edge, part shade OK. Thin to 6 in.</div></details>
+   <details class="pk"><summary><div class="pf" style="background:#c46a2a"></div><h4>Carrot</h4><p class="count">48 plants</p><p class="buy">sow ~70 seeds</p><p class="hint">Tap to open</p></summary>
+    <div class="open">Sow thinly in rows. Thin to 2 in apart.</div></details>
+  </div>
+  <div class="lower">
+   <div class="env">
+    <h3>Opened: the bed inside</h3>
+    <svg viewBox="0 0 400 220" width="100%" role="img" aria-label="Bed sketch: tomatoes and basil at the back, lettuce and carrots at the front"><rect x="8" y="8" width="384" height="204" rx="6" fill="#d8b98a" stroke="#2b2118" stroke-width="4"/><rect x="20" y="20" width="220" height="90" fill="#e8836f" stroke="#2b2118" stroke-width="3"/><rect x="250" y="20" width="130" height="90" fill="#9fc27a" stroke="#2b2118" stroke-width="3"/><rect x="20" y="120" width="180" height="80" fill="#f2d675" stroke="#2b2118" stroke-width="3"/><rect x="210" y="120" width="170" height="80" fill="#f2b66d" stroke="#2b2118" stroke-width="3"/><g font-family="Gaegu" font-size="20" fill="#2b2118" font-weight="700"><text x="30" y="100">Tomato 4</text><text x="260" y="100">Basil 6</text><text x="30" y="190">Lettuce 24</text><text x="220" y="190">Carrot 48</text></g></svg>
+   </div>
+   <div class="env"><h3>Planting guide</h3><h4>Plant now</h4><ul><li>Sow lettuce and carrot seeds</li></ul><h4>Next month</h4><ul><li>Set out 4 tomato starts</li></ul><h4>Later</h4><ul><li>Basil once nights stay above 50&deg;F</li></ul></div>
+   <div class="env"><h3>Postmarked</h3><span class="stamp">Zone 7b</span><p>Last spring frost around <b>Apr 12</b>. First fall frost around <b>Oct 28</b>.</p></div>
+  </div>
+ </div>
+ <div class="capwrap"><aside class="caption"><h3>1. Seed Packet</h3><div><p>Fonts: <b>Shrikhand</b> (display) + <b>Gaegu</b> (body)</p></div><ul class="swatches"><li><span class="sw" style="background:#a33224"></span>Packet red #a33224</li><li><span class="sw" style="background:#e3a72f"></span>Mustard #e3a72f</li><li><span class="sw" style="background:#e9d6b0"></span>Kraft #e9d6b0</li><li><span class="sw" style="background:#2b2118"></span>Ink #2b2118</li><li><span class="sw" style="background:#3f6b35"></span>Leaf #3f6b35</li></ul><ul class="bul"><li>The hero is one big packet; results are a rack of packets, one per plant group, that open (native details/summary) to show spacing and timing.</li><li>The back of each packet gives the count and what to buy, and the frost card is a postmark.</li><li>The planner would be three envelopes to fill in turn: Where, Bed, Plants.</li></ul></aside></div>
+</section>
+
+<!-- ======================= 2 FIELD JOURNAL ======================= -->
+<section id="field-journal" class="concept c2" aria-labelledby="h2">
+ <div class="wrap">
+  <div class="book">
+   <div class="page left">
+    <p class="date">FloraScape &middot; notebook no. 1, March 14</p>
+    <h2 id="h2">Sketch your first garden, square by square.</h2>
+    <p class="lead">Measure your bed, mark which way is north, and FloraScape draws the plan on graph paper with spacing notes and the dates that matter where you live.</p>
+    <a class="cta" href="#field-journal">Start a new page</a>
+    <figure class="bedfig">
+     <svg viewBox="0 0 480 300" role="img" aria-label="Pencil sketch of an 8 by 6 foot bed on graph paper, four plant groups">
+      <g fill="none" stroke="#3a3a36" stroke-width="2.5" stroke-linecap="round">
+       <path d="M24 26 L456 22 L458 282 L22 286 Z"/>
+       <path d="M262 24 L260 284 M24 156 L456 152" stroke-dasharray="7 5"/>
+       <g stroke="#a54b38"><circle cx="90" cy="90" r="34"/><circle cx="190" cy="88" r="34"/></g>
+       <g stroke="#4a6636"><circle cx="300" cy="64" r="16"/><circle cx="350" cy="64" r="16"/><circle cx="400" cy="64" r="16"/><circle cx="300" cy="116" r="16"/><circle cx="350" cy="116" r="16"/><circle cx="400" cy="116" r="16"/></g>
+       <g stroke="#6f8f3a"><path d="M44 190 h200 M44 220 h200 M44 250 h200" stroke-dasharray="2 16"/></g>
+       <g stroke="#c46a2a"><path d="M284 186 h160 M284 206 h160 M284 226 h160 M284 246 h160 M284 266 h160" stroke-dasharray="1 9"/></g>
+       <path d="M440 300 l0 -20 m-6 8 l6 -8 6 8" />
+      </g>
+      <g font-family="Kalam" font-size="17" fill="#33332f"><text x="40" y="146">tomato &times;4 plants</text><text x="282" y="146">basil &times;6 plants</text><text x="40" y="276">lettuce &times;24</text><text x="290" y="282">carrot &times;48</text></g>
+     </svg>
+     <figcaption>Fig. 1: one square = 6 in. North is up.</figcaption>
+    </figure>
+   </div>
+   <div class="page right">
+    <div>
+     <h3>What to get</h3>
+     <ul>
+      <li class="entry"><b>Tomato</b>: 4 plants, buy 4 starts</li>
+      <li class="entry"><b>Basil</b>: 6 plants, buy 6 starts</li>
+      <li class="entry"><b>Lettuce</b>: 24 plants, sow ~36 seeds</li>
+      <li class="entry"><b>Carrot</b>: 48 plants, sow ~70 seeds</li>
+     </ul>
+     <h3 style="margin-top:32px">When to plant</h3>
+     <ul>
+      <li><b class="k">Now:</b> sow lettuce and carrots in the front half.</li>
+      <li><b class="k">Next month:</b> set out tomatoes after Apr 12.</li>
+      <li><b class="k">Later:</b> basil, once nights stay warm.</li>
+     </ul>
+    </div>
+    <div class="margin" aria-label="Margin notes">
+     <p>Tomatoes go in back so they don't shade the lettuce.</p>
+     <p>Basil next to tomatoes: they like the same watering.</p>
+     <div class="tape"><p><b>Zone 7b</b><br>Last frost ~Apr 12<br>First frost ~Oct 28</p></div>
+    </div>
+   </div>
+  </div>
+ </div>
+ <div class="capwrap"><aside class="caption"><h3>2. Botanical Field Journal</h3><div><p>Fonts: <b>Kalam</b> (handwriting) + <b>Crimson Pro</b> (body)</p></div><ul class="swatches"><li><span class="sw" style="background:#9fb8c9"></span>Graph blue #9fb8c9</li><li><span class="sw" style="background:#fbf8ef"></span>Paper #fbf8ef</li><li><span class="sw" style="background:#33332f"></span>Pencil #33332f</li><li><span class="sw" style="background:#4a6636"></span>Moss #4a6636</li><li><span class="sw" style="background:#efe2a8"></span>Tape #efe2a8</li></ul><ul class="bul"><li>The whole view is an open notebook: the hero and the scaled bed sketch on the graph-paper left page, notes on the ruled right page.</li><li>A pink margin rule holds tips; the frost card is a slip taped into the margin.</li><li>The planner would be a fresh page with fill-in-the-blank lines and a compass drawn in pencil.</li></ul></aside></div>
+</section>
+
+<!-- ======================= 3 STORYBOOK ======================= -->
+<section id="storybook" class="concept c3" aria-labelledby="h3">
+ <div class="scene">
+  <svg viewBox="0 0 1440 1180" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+   <defs><filter id="wc"><feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="3" seed="4"/><feDisplacementMap in="SourceGraphic" scale="26"/></filter></defs>
+   <rect width="1440" height="1180" fill="#cfe3e8"/>
+   <g filter="url(#wc)" opacity=".9">
+    <circle cx="200" cy="140" r="70" fill="#ffe2a0"/>
+    <path d="M0 560 C300 470 520 520 760 560 S1200 480 1440 540 V1180 H0Z" fill="#b9d8a2"/>
+    <path d="M0 700 C380 620 700 700 1000 660 S1300 640 1440 690 V1180 H0Z" fill="#9cc787"/>
+    <path d="M720 680 C640 780 860 840 700 940 S560 1080 760 1180 L860 1180 C660 1080 760 1000 820 940 S760 780 800 680Z" fill="#ead8b5"/>
+   </g>
+   <g filter="url(#wc)">
+    <ellipse cx="480" cy="790" rx="220" ry="70" fill="#a77b56"/>
+    <ellipse cx="400" cy="770" rx="70" ry="28" fill="#f2b8a9"/><ellipse cx="560" cy="770" rx="70" ry="28" fill="#a9d39a"/>
+    <ellipse cx="410" cy="820" rx="80" ry="24" fill="#d9ecc4"/><ellipse cx="560" cy="820" rx="80" ry="24" fill="#f6d49a"/>
+   </g>
+   <g stroke="#4a3a2c" stroke-width="3" fill="#7fae6a"><circle cx="370" cy="755" r="16"/><circle cx="430" cy="755" r="16"/><circle cx="540" cy="750" r="10"/><circle cx="575" cy="750" r="10"/><circle cx="610" cy="752" r="10"/></g>
+   <path d="M1100 620c0-18 30-26 40-8s-20 22-30 10" fill="none" stroke="#4a3a2c" stroke-width="4"/>
+   <g fill="#fffaf0" opacity=".85"><ellipse cx="1000" cy="200" rx="90" ry="30"/><ellipse cx="1060" cy="186" rx="60" ry="30"/></g>
+  </svg>
+  <div class="sky">
+   <p class="logo">FloraScape</p>
+   <h2 id="h3">Once upon a backyard, a little garden began.</h2>
+   <p>Answer three easy questions, and we'll tell your garden's story: what to grow, when to plant it, and who grows well together.</p>
+   <a class="cta" href="#storybook">Begin the story</a>
+  </div>
+  <div class="moon"><b>Zone 7b</b>Frost leaves around Apr 12 and comes back around Oct 28.</div>
+  <span class="bedlbl" style="left:22%;top:700px">Tomato: 4 plants, buy 4 starts</span>
+  <span class="bedlbl" style="left:36%;top:660px">Basil: 6 plants, buy 6 starts</span>
+  <span class="bedlbl" style="left:14%;top:868px">Lettuce: 24 plants, sow ~36 seeds</span>
+  <span class="bedlbl" style="left:36%;top:880px">Carrot: 48 plants, sow ~70 seeds</span>
+  <div class="sign" style="left:62%;top:720px"><h3>Chapter one: Plant now</h3>Sow lettuce and carrot seeds along the front of the bed.</div>
+  <div class="sign" style="left:46%;top:960px"><h3>Chapter two: Next month</h3>Four tomato starts move in after Apr 12.</div>
+  <div class="sign" style="left:72%;top:990px"><h3>Chapter three: Later on</h3>Basil joins once the nights stay warm.</div>
+ </div>
+ <div class="capwrap"><aside class="caption"><h3>3. Storybook Watercolor</h3><div><p>Fonts: <b>Fraunces</b> (soft italic display) + <b>Patrick Hand</b> (body)</p></div><ul class="swatches"><li><span class="sw" style="background:#cfe3e8"></span>Sky wash #cfe3e8</li><li><span class="sw" style="background:#f2b8a9"></span>Petal #f2b8a9</li><li><span class="sw" style="background:#9cc787"></span>Meadow #9cc787</li><li><span class="sw" style="background:#4a3a2c"></span>Bark #4a3a2c</li><li><span class="sw" style="background:#b5503f"></span>Robin #b5503f</li></ul><ul class="bul"><li>One full-bleed watercolor scene (SVG turbulence): the hero sits in the sky and the bed sits in the meadow, with no cards at all.</li><li>The planting guide is three chapter signposts along a winding path; the frost card is the moon.</li><li>Each planner step would move further along the path, with the scene filling in as you answer.</li></ul></aside></div>
+</section>
+
+<!-- ======================= 4 SCRAPBOOK ======================= -->
+<section id="scrapbook" class="concept c4" aria-labelledby="h4">
+ <div class="board">
+  <span class="st logo">FloraScape</span>
+  <div class="st title"><h2 id="h4">Stick together the garden of your dreams.</h2><p>Pick plants you love and stick them on your bed. We'll tell you how many fit, what to buy, and when each one goes in.</p></div>
+  <a class="cta" href="#scrapbook">Grab my stickers</a>
+  <span class="tape" style="top:66px;right:380px"></span>
+  <figure class="st polaroid" style="margin:0">
+   <svg viewBox="0 0 460 320" role="img" aria-label="Cartoon bed with sticker plants: tomatoes, basil, lettuce, carrots"><rect x="20" y="20" width="420" height="280" rx="30" fill="#c58b5e" stroke="#1d1d3a" stroke-width="6"/><g stroke="#1d1d3a" stroke-width="5"><circle cx="100" cy="100" r="40" fill="#ff6b6b"/><circle cx="200" cy="100" r="40" fill="#ff6b6b"/><circle cx="300" cy="90" r="22" fill="#7bd3b0"/><circle cx="360" cy="90" r="22" fill="#7bd3b0"/><circle cx="330" cy="140" r="22" fill="#7bd3b0"/><path d="M60 210q20-30 40 0t40 0 40 0 40 0" fill="none" stroke="#2e9b5f"/><path d="M280 200l12 50 12-50 12 50 12-50 12 50 12-50" fill="none" stroke="#f08a24"/></g></svg>
+   <p>My 8 &times; 6 ft bed, take 1</p>
+  </figure>
+  <span class="st chip" style="top:470px;right:430px;background:#ff8fab;transform:rotate(-6deg)">Tomato &middot; 4 plants<small>buy 4 starts</small></span>
+  <span class="st chip" style="top:450px;right:220px;background:#7bd3b0;transform:rotate(5deg)">Basil &middot; 6 plants<small>buy 6 starts</small></span>
+  <span class="st chip" style="top:530px;right:330px;background:#ffd23f;transform:rotate(-2deg)">Lettuce &middot; 24 plants<small>sow ~36 seeds</small></span>
+  <span class="st chip" style="top:520px;right:60px;background:#ffb36b;transform:rotate(7deg)">Carrot &middot; 48 plants<small>sow ~70 seeds</small></span>
+  <div class="st guide"><h3>Planting guide</h3><h4>Plant now</h4><ul><li>Sow lettuce and carrot seeds</li></ul><h4>Next month</h4><ul><li>Set out 4 tomato starts after Apr 12</li></ul><h4>Later</h4><ul><li>Basil once nights stay warm</li></ul></div>
+  <span class="tape" style="top:630px;left:230px;background:#7bd3b0bb;transform:rotate(8deg)"></span>
+  <div class="st frost"><b>Zone 7b</b><p>Last frost ~Apr 12<br>First frost ~Oct 28</p></div>
+  <div class="st shop"><h3>Shopping list</h3><ul><li>4 tomato starts</li><li>6 basil starts</li><li>1 packet lettuce seed</li><li>1 packet carrot seed</li></ul></div>
+ </div>
+ <div class="capwrap"><aside class="caption"><h3>4. Sticker Scrapbook</h3><div><p>Fonts: <b>Chewy</b> (display) + <b>Nunito</b> (body)</p></div><ul class="swatches"><li><span class="sw" style="background:#ff8fab"></span>Bubblegum #ff8fab</li><li><span class="sw" style="background:#ffd23f"></span>Sunny #ffd23f</li><li><span class="sw" style="background:#7bd3b0"></span>Mint #7bd3b0</li><li><span class="sw" style="background:#1d1d3a"></span>Outline #1d1d3a</li><li><span class="sw" style="background:#f4ead7"></span>Corkboard #f4ead7</li></ul><ul class="bul"><li>No grid: every piece is a die-cut sticker placed at its own angle and overlapping the others on a dotted board.</li><li>Plant counts are separate stickers next to the bed polaroid; the frost card is a round badge.</li><li>Plant categories in the planner would be a sticker sheet, and Shuffle re-sticks the board.</li></ul></aside></div>
+</section>
+
+<!-- ======================= 5 CHALKBOARD ======================= -->
+<section id="chalkboard" class="concept c5" aria-labelledby="h5">
+ <div class="wrap">
+  <nav aria-label="Shed tools"><ul class="pegs">
+   <li><a href="#chalkboard"><svg viewBox="0 0 70 110" aria-hidden="true"><circle cx="35" cy="8" r="5" fill="#3a2a1a"/><path d="M35 12v50" stroke="#c9a06a" stroke-width="7"/><path d="M18 62h34l-4 40H22z" fill="#9aa5a0" stroke="#2a2a2a" stroke-width="3"/></svg>Plan</a></li>
+   <li><a href="#chalkboard"><svg viewBox="0 0 70 110" aria-hidden="true"><circle cx="35" cy="8" r="5" fill="#3a2a1a"/><path d="M35 12v60" stroke="#c9a06a" stroke-width="7"/><path d="M14 72h42M20 72v30M35 72v30M50 72v30" stroke="#9aa5a0" stroke-width="5"/></svg>My beds</a></li>
+   <li><a href="#chalkboard"><svg viewBox="0 0 70 110" aria-hidden="true"><circle cx="35" cy="8" r="5" fill="#3a2a1a"/><path d="M20 30h30l6 60H14z" fill="#5d8f3f" stroke="#2a2a2a" stroke-width="3"/><path d="M56 40l12-8" stroke="#5d8f3f" stroke-width="6"/></svg>Calendar</a></li>
+   <li><a href="#chalkboard"><svg viewBox="0 0 70 110" aria-hidden="true"><circle cx="35" cy="8" r="5" fill="#3a2a1a"/><path d="M20 22c0 30 30 30 30 0" fill="none" stroke="#3a2a1a" stroke-width="3"/><rect x="14" y="40" width="42" height="60" rx="6" fill="#efe1b9" stroke="#2a2a2a" stroke-width="3"/></svg>Ask</a></li>
+  </ul></nav>
+  <div class="board">
+   <div>
+    <p class="logo">FloraScape</p>
+    <h2 id="h5">This week in the garden, chalked on the shed.</h2>
+    <p class="lead">FloraScape keeps the board up to date for your beds: what to sow this week, what waits for the last frost, and what to pick up at the store.</p>
+    <a class="cta" href="#chalkboard">Chalk up my plan</a>
+   </div>
+   <div class="bedchalk">
+    <svg viewBox="0 0 440 300" role="img" aria-label="Chalk drawing of the bed: tomatoes and basil back, lettuce and carrots front"><g fill="none" stroke="#f1efe6" stroke-width="3" stroke-linecap="round" stroke-dasharray="14 2 3 2"><path d="M20 20 L420 24 L418 280 L22 276Z"/><path d="M240 22v256M20 150h400"/></g><g fill="none" stroke-width="3"><g stroke="#f0a8a0"><circle cx="80" cy="85" r="30"/><circle cx="170" cy="85" r="30"/></g><g stroke="#9fd39a"><circle cx="280" cy="65" r="14"/><circle cx="330" cy="65" r="14"/><circle cx="380" cy="65" r="14"/><circle cx="280" cy="110" r="14"/><circle cx="330" cy="110" r="14"/><circle cx="380" cy="110" r="14"/></g><path d="M40 190h180M40 220h180M40 250h180" stroke="#9fd39a" stroke-dasharray="2 14"/><path d="M260 185h140M260 205h140M260 225h140M260 245h140" stroke="#f2d675" stroke-dasharray="1 8"/></g><g font-family="Architects Daughter" font-size="17" fill="#f1efe6"><text x="40" y="140">Tomato: 4 plants</text><text x="262" y="140">Basil: 6 plants</text><text x="40" y="272">Lettuce: 24 plants</text><text x="260" y="272">Carrot: 48 plants</text></g></svg>
+   </div>
+   <div class="chores">
+    <div><h3>This week</h3><ul><li>Sow ~36 lettuce seeds (24 plants)</li><li>Sow ~70 carrot seeds (48 plants)</li></ul></div>
+    <div><h3>Next month</h3><ul><li>Plant 4 tomato starts after Apr 12</li><li>Add stakes or cages</li></ul></div>
+    <div><h3>Later</h3><ul><li>Plant 6 basil starts once nights stay warm</li><li>Pull carrots in about 70 days</li></ul></div>
+   </div>
+  </div>
+  <div class="tags">
+   <div class="tag"><h3>Frost dates</h3><p>Zone 7b. Last spring frost around Apr 12, first fall frost around Oct 28.</p></div>
+   <div class="tag"><h3>Pick up</h3><p>4 tomato starts, 6 basil starts, 1 packet each of lettuce and carrot seed.</p></div>
+  </div>
+ </div>
+ <div class="capwrap"><aside class="caption"><h3>5. Garden-Shed Chalkboard</h3><div><p>Fonts: <b>Cabin Sketch</b> (display) + <b>Architects Daughter</b> (body)</p></div><ul class="swatches"><li><span class="sw" style="background:#2f3b36"></span>Slate #2f3b36</li><li><span class="sw" style="background:#f1efe6"></span>Chalk #f1efe6</li><li><span class="sw" style="background:#f2d675"></span>Chalk yellow #f2d675</li><li><span class="sw" style="background:#f0a8a0"></span>Chalk pink #f0a8a0</li><li><span class="sw" style="background:#8a5a36"></span>Shed plank #8a5a36</li></ul><ul class="bul"><li>The page is a shed wall: tools hanging on pegs are the nav, and one framed chalkboard holds the hero, the bed and a three-column chore board.</li><li>Frost dates and the shopping list hang below as paper tags; the counts are written straight into the chores.</li><li>The planner would be the board wiped clean, with chalk lines to write on.</li></ul></aside></div>
+</section>
+
+<!-- ======================= 6 RISO ======================= -->
+<section id="riso" class="concept c6" aria-labelledby="h6">
+ <div class="wrap">
+  <div class="grid">
+   <div class="cell mast"><b>FloraScape</b><span>A zine for one 8 &times; 6 ft bed, Brooklyn, spring issue</span></div>
+   <div class="cell huge"><h2 id="h6">Grow small. Grow loud.</h2><span class="pg">p. 1</span></div>
+   <div class="cell intro"><p>Your own guide to your own bed: sized to your space, timed to your frost dates, printed in two cheerful inks.</p><div><a class="cta" href="#riso">Print my zine</a></div><span class="pg">p. 2</span></div>
+   <div class="cell bedcell"><h3>The bed</h3>
+    <svg viewBox="0 0 440 280" role="img" aria-label="Two-ink bed plan: four zones"><g style="mix-blend-mode:multiply"><rect x="20" y="20" width="250" height="120" fill="#00838a"/><rect x="200" y="20" width="220" height="120" fill="#ff48b0" opacity=".85"/><rect x="20" y="150" width="200" height="110" fill="#ff48b0" opacity=".55"/><rect x="230" y="150" width="190" height="110" fill="#00838a" opacity=".55"/></g><g font-family="Dela Gothic One" font-size="20" fill="#1e2a3a"><text x="34" y="54">TOMATO</text><text x="300" y="54">BASIL</text><text x="34" y="184">LETTUCE</text><text x="244" y="184">CARROT</text></g></svg><span class="pg">p. 3</span></div>
+   <div class="cell counts"><h3>How many</h3><ul><li><b>4</b>tomato plants, buy 4 starts</li><li><b>6</b>basil plants, buy 6 starts</li><li><b>24</b>lettuce plants, sow ~36 seeds</li><li><b>48</b>carrot plants, sow ~70 seeds</li></ul><span class="pg">p. 4</span></div>
+   <div class="cell zone7"><h3>Where you are</h3><p class="n">7b</p><p>Last spring frost around Apr 12. First fall frost around Oct 28.</p><span class="pg">p. 5</span></div>
+   <div class="cell guide">
+    <div><h3>Plant now</h3><ul><li>Sow lettuce and carrot seeds along the front</li></ul></div>
+    <div><h3>Next month</h3><ul><li>Set out 4 tomato starts after Apr 12</li></ul></div>
+    <div><h3>Later</h3><ul><li>Basil goes in once nights stay above 50&deg;F</li></ul><span class="pg">p. 6</span></div>
+   </div>
+  </div>
+ </div>
+ <div class="capwrap"><aside class="caption"><h3>6. Risograph Zine</h3><div><p>Fonts: <b>Dela Gothic One</b> (display) + <b>Karla</b> (body)</p></div><ul class="swatches"><li><span class="sw" style="background:#00838a"></span>Riso teal #00838a</li><li><span class="sw" style="background:#ff48b0"></span>Fluoro pink #ff48b0</li><li><span class="sw" style="background:#f3efe4"></span>Newsprint #f3efe4</li><li><span class="sw" style="background:#1e2a3a"></span>Ink #1e2a3a</li></ul><ul class="bul"><li>An editorial 12-column poster grid with ruled cells, a huge headline and page numbers (the zine really is a sequence of pages).</li><li>Two inks only; where they overlap, multiply blending makes a third color. Counts and the zone are set as giant numerals.</li><li>The planner would be a folded zine you page through, one question per page.</li></ul></aside></div>
+</section>
+
+<!-- ======================= 7 COZY GAME ======================= -->
+<section id="cozy-game" class="concept c7" aria-labelledby="h7">
+ <div class="wrap">
+  <div class="panel hud"><span class="logo">FloraScape</span><span><span>Spring, day 14</span><span>Zone 7b</span><span>Next frost-free day: Apr 12</span></span></div>
+  <div class="play">
+   <div class="panel quest"><h3>Quest log</h3><ul>
+    <li class="done"><b>Set up your plot</b>8 &times; 6 ft raised bed, full sun</li>
+    <li><b>Plant now</b>Sow ~36 lettuce and ~70 carrot seeds</li>
+    <li><b>Next month</b>Plant 4 tomato starts after Apr 12</li>
+    <li><b>Later</b>Plant 6 basil starts when nights warm up</li>
+   </ul></div>
+   <div class="panel field">
+    <h3>Your plot</h3>
+    <div class="tiles" role="img" aria-label="Tile garden: tomatoes and basil across the back rows, lettuce and carrots in front">
+     <div class="t tom">🍅</div><div class="t tom">🍅</div><div class="t tom">🍅</div><div class="t tom">🍅</div><div class="t bas">🌿</div><div class="t bas">🌿</div><div class="t bas">🌿</div><div class="t"></div>
+     <div class="t tom"></div><div class="t tom"></div><div class="t tom"></div><div class="t tom"></div><div class="t bas">🌿</div><div class="t bas">🌿</div><div class="t bas">🌿</div><div class="t"></div>
+     <div class="t let">🥬</div><div class="t let">🥬</div><div class="t let">🥬</div><div class="t let">🥬</div><div class="t car">🥕</div><div class="t car">🥕</div><div class="t car">🥕</div><div class="t car">🥕</div>
+     <div class="t let">🥬</div><div class="t let">🥬</div><div class="t let">🥬</div><div class="t let">🥬</div><div class="t car">🥕</div><div class="t car">🥕</div><div class="t car">🥕</div><div class="t car">🥕</div>
+    </div>
+    <p class="fieldlbl"><span>Shuffle layout</span><span>Swap basil &#9662;</span></p>
+   </div>
+   <div class="panel inv"><h3>Inventory</h3>
+    <div class="slots">
+     <div class="slot"><b>&times;4</b>Tomato plants<br>buy 4 starts</div>
+     <div class="slot"><b>&times;6</b>Basil plants<br>buy 6 starts</div>
+     <div class="slot"><b>&times;24</b>Lettuce plants<br>sow ~36 seeds</div>
+     <div class="slot"><b>&times;48</b>Carrot plants<br>sow ~70 seeds</div>
+    </div>
+    <div class="weather"><b>7b</b> Frost ends ~Apr 12, returns ~Oct 28.</div>
+   </div>
+  </div>
+  <div class="panel dialog">
+   <svg viewBox="0 0 110 110" aria-hidden="true"><rect x="20" y="20" width="70" height="70" fill="#f2c18f" stroke="#3b2a20" stroke-width="5"/><rect x="10" y="10" width="90" height="22" fill="#e3a72f" stroke="#3b2a20" stroke-width="5"/><rect x="38" y="48" width="8" height="8" fill="#3b2a20"/><rect x="64" y="48" width="8" height="8" fill="#3b2a20"/><rect x="44" y="70" width="22" height="6" fill="#b5503f"/></svg>
+   <div><h2 id="h7">Your first season starts now.</h2><p>Set up your plot, pick your crops, and get a quest log of what to sow and when. No farming experience needed.</p></div>
+   <a class="cta" href="#cozy-game">Start new season</a>
+  </div>
+ </div>
+ <div class="capwrap"><aside class="caption"><h3>7. Cozy Farming Game</h3><div><p>Fonts: <b>Pixelify Sans</b> (UI and display) + <b>Mali</b> (body)</p></div><ul class="swatches"><li><span class="sw" style="background:#7cc35a"></span>Grass #7cc35a</li><li><span class="sw" style="background:#8b5a3c"></span>Soil #8b5a3c</li><li><span class="sw" style="background:#fff4d6"></span>Panel #fff4d6</li><li><span class="sw" style="background:#c78a4b"></span>Wood #c78a4b</li><li><span class="sw" style="background:#3b2a20"></span>Outline #3b2a20</li></ul><ul class="bul"><li>A game HUD: status bar on top, quest log (the planting guide) on the left, a top-down tile plot in the middle, inventory on the right.</li><li>The hero is the NPC dialog box at the bottom; the call to action is "Start new season".</li><li>The planner would be a character-creator style setup screen; crop rotation becomes "next season".</li></ul></aside></div>
+</section>
+
+<!-- ======================= 8 GREENHOUSE ======================= -->
+<section id="greenhouse" class="concept c8" aria-labelledby="h8">
+ <div class="wrap">
+  <div class="roof">FloraScape</div>
+  <div class="frame">
+   <div class="pane hero"><div class="drops" aria-hidden="true"><i style="left:20%;animation-delay:-2s"></i><i style="left:64%;animation-delay:-5s"></i><i style="left:88%"></i></div>
+    <h2 id="h8">Peek through the glass at the garden you'll grow.</h2>
+    <p>Each pane shows one piece of your plan: the bed, the frost dates, what to plant when, and what to buy. Tap a pane to wipe it clear.</p>
+    <a class="cta" href="#greenhouse">Wipe the window</a>
+   </div>
+   <div class="pane bedpane"><h3>The bed</h3>
+    <svg viewBox="0 0 300 200" role="img" aria-label="Bed sketch with four zones in terracotta frame"><rect x="6" y="6" width="288" height="188" rx="10" fill="#c9714f" stroke="#1f3f36" stroke-width="4"/><rect x="18" y="18" width="160" height="80" rx="8" fill="#f2a58c"/><rect x="186" y="18" width="96" height="80" rx="8" fill="#8fd0a2"/><rect x="18" y="106" width="130" height="76" rx="8" fill="#cdeccf"/><rect x="156" y="106" width="126" height="76" rx="8" fill="#ffd88a"/></svg>
+    <ul><li><b>Tomato</b>: 4 plants, buy 4 starts</li><li><b>Basil</b>: 6 plants, buy 6 starts</li><li><b>Lettuce</b>: 24 plants, sow ~36 seeds</li><li><b>Carrot</b>: 48 plants, sow ~70 seeds</li></ul>
+   </div>
+   <div class="pane guide"><h3>Planting guide</h3><h4>Plant now</h4><ul><li>Lettuce and carrot seeds</li></ul><h4>Next month</h4><ul><li>4 tomato starts, after Apr 12</li></ul><h4>Later</h4><ul><li>Basil once nights stay warm</li></ul></div>
+   <div class="pane frost"><h3>Outside the glass</h3><b>Zone 7b</b><p>Last spring frost around Apr 12. First fall frost around Oct 28.</p></div>
+  </div>
+  <div class="sill"></div>
+ </div>
+ <div class="capwrap"><aside class="caption"><h3>8. Greenhouse Window</h3><div><p>Fonts: <b>Grandstander</b> (display) + <b>Quicksand</b> (body)</p></div><ul class="swatches"><li><span class="sw" style="background:#dff1ec"></span>Glass #dff1ec</li><li><span class="sw" style="background:#2f5d50"></span>Frame #2f5d50</li><li><span class="sw" style="background:#ffe7a8"></span>Morning #ffe7a8</li><li><span class="sw" style="background:#8fd0a2"></span>Fern #8fd0a2</li><li><span class="sw" style="background:#c9714f"></span>Pot #c9714f</li></ul><ul class="bul"><li>The page is one greenhouse front: a gabled roof, green mullions as the grid and a terracotta sill. Every panel is a pane of glass.</li><li>The hero spans two panes and the bed pane runs the full height; light glare and condensation drips are the only motion.</li><li>Planner steps would be fogged panes that clear as you complete them.</li></ul></aside></div>
+</section>
+
+<!-- ======================= 9 HERBARIUM ======================= -->
+<section id="herbarium" class="concept c9" aria-labelledby="h9">
+ <div class="sheet">
+  <div class="head"><b>FloraScape Herbarium</b><span>Sheet no. 11215, collected spring</span></div>
+  <div class="intro">
+   <h2 id="h9">Collect your garden, one specimen at a time.</h2>
+  </div>
+  <div class="intro"><p>Every plant in your plan gets its own label: how many to grow, what to buy, how far apart, and when it goes in the ground.</p><a class="cta" href="#herbarium">Begin my collection</a></div>
+  <div class="specimen">
+   <svg viewBox="0 0 520 600" role="img" aria-label="Pressed-style drawing of the bed with four specimen zones">
+    <rect x="60" y="40" width="400" height="520" fill="#efe6cf" stroke="#b9a88f" stroke-width="2"/>
+    <g fill="none" stroke="#5b4636" stroke-width="2.5" stroke-linecap="round">
+     <path d="M150 300c-4-80 6-160-4-230"/><path d="M148 140c-40-20-64 4-70 24 30 8 56-4 70-24zm2 60c40-20 66 0 74 22-34 8-60-4-74-22z" fill="#c9d3ae"/><circle cx="146" cy="70" r="16" fill="#e8c3c3"/><circle cx="176" cy="96" r="12" fill="#e8c3c3"/>
+     <path d="M360 300c0-60 4-130-2-200"/><path d="M358 140c-30-14-46 0-50 16 22 6 40-2 50-16zm2 40c30-14 46 0 50 16-22 6-40-2-50-16zm-2 40c-30-14-46 0-50 16 22 6 40-2 50-16z" fill="#a9b98a"/>
+     <path d="M150 530c-30-40-40-80-20-110 20 20 30 60 20 110zm0 0c30-40 40-80 20-110-20 20-30 60-20 110z" fill="#d9e4b8"/>
+     <path d="M360 540l-10-110m10 110l12-110m-12 110v-120" stroke="#8a9a6b"/><path d="M350 430l-6 -30m28 30l8-30m-20 30v-36" stroke="#8a9a6b"/><path d="M352 540c0 10 16 10 16 0l-4-30h-8z" fill="#d98a4a"/>
+    </g>
+   </svg>
+   <div class="lab" style="left:0;top:40px"><i>Solanum lycopersicum</i><b>Tomato</b>, 4 plants. Buy 4 starts. Back of the bed, 24 in apart.</div>
+   <div class="lab" style="right:0;top:80px"><i>Ocimum basilicum</i><b>Basil</b>, 6 plants. Buy 6 starts. Beside the tomatoes, 12 in apart.</div>
+   <div class="lab" style="left:0;top:400px"><i>Lactuca sativa</i><b>Lettuce</b>, 24 plants. Sow ~36 seeds, thin to 6 in.</div>
+   <div class="lab" style="right:0;top:420px"><i>Daucus carota</i><b>Carrot</b>, 48 plants. Sow ~70 seeds, thin to 2 in.</div>
+  </div>
+  <div class="notes">
+   <div><h3>Collector's notes: planting guide</h3><ul><li><span>Plant now:</span> sow lettuce and carrot seeds.</li><li><span>Next month:</span> set out tomato starts after Apr 12.</li><li><span>Later:</span> basil, once nights stay above 50&deg;F.</li></ul></div>
+   <div class="acc"><h3>Locality</h3><dl><dt>Hardiness zone</dt><dd>7b</dd><dt>Last spring frost</dt><dd>around Apr 12</dd><dt>First fall frost</dt><dd>around Oct 28</dd><dt>Bed</dt><dd>8 &times; 6 ft, raised, full sun</dd></dl></div>
+  </div>
+ </div>
+ <div class="capwrap"><aside class="caption"><h3>9. Pressed-Flower Herbarium</h3><div><p>Fonts: <b>Homemade Apple</b> (collector's script) + <b>Cormorant Garamond</b> (body)</p></div><ul class="swatches"><li><span class="sw" style="background:#f8f3e5"></span>Sheet #f8f3e5</li><li><span class="sw" style="background:#4f3c2e"></span>Faded ink #4f3c2e</li><li><span class="sw" style="background:#6d3f47"></span>Pressed rose #6d3f47</li><li><span class="sw" style="background:#a9b98a"></span>Dried sage #a9b98a</li><li><span class="sw" style="background:#ffffff"></span>Label #ffffff</li></ul><ul class="bul"><li>The whole page is one large specimen sheet (with sheets stacked under it). The bed is the pressed specimen in the center.</li><li>Each plant group is a white label slip with a paper tab and its Latin name; frost and zone data sit on a "Locality" accession card.</li><li>The planner would be an accession card you fill in: where, when, bed size.</li></ul></aside></div>
+</section>
+
+<!-- ======================= 10 ALLOTMENT MAP ======================= -->
+<section id="allotment" class="concept c10" aria-labelledby="h10">
+ <div class="wrap">
+  <div class="map">
+   <svg viewBox="0 0 1176 1000" preserveAspectRatio="none" aria-hidden="true">
+    <g fill="none" stroke="#d9c48f" stroke-width="34" stroke-linecap="round"><path d="M0 560 C300 540 500 600 700 560 S1000 520 1176 560"/><path d="M640 0 C620 200 700 380 680 560 S640 860 700 1000"/></g>
+    <g fill="none" stroke="#2d3a2a" stroke-width="2" stroke-dasharray="6 8"><path d="M0 560 C300 540 500 600 700 560 S1000 520 1176 560"/><path d="M640 0 C620 200 700 380 680 560 S640 860 700 1000"/></g>
+    <ellipse cx="1040" cy="430" rx="110" ry="60" fill="#8fc1d4" stroke="#2d3a2a" stroke-width="3"/>
+    <g stroke="#2d3a2a" stroke-width="3"><circle cx="90" cy="520" r="24" fill="#9cc27a"/><circle cx="130" cy="500" r="20" fill="#8ab66a"/><circle cx="1110" cy="820" r="26" fill="#9cc27a"/></g>
+    <g transform="translate(130 640)" stroke="#2d3a2a" stroke-width="3">
+     <rect x="0" y="0" width="460" height="200" rx="8" fill="#d9b68a"/>
+     <rect x="14" y="14" width="250" height="80" fill="#f0b49a"/><rect x="274" y="14" width="172" height="80" fill="#9cc27a"/>
+     <rect x="14" y="106" width="200" height="80" fill="#d6e8b4"/><rect x="224" y="106" width="222" height="80" fill="#f2d27a"/>
+     <g fill="#3f6e2f"><circle cx="70" cy="54" r="14"/><circle cx="130" cy="54" r="14"/><circle cx="190" cy="54" r="14"/><circle cx="240" cy="54" r="14"/></g>
+     <g fill="#fffaf0" font-family="Shantell Sans" font-weight="800" font-size="20"><circle cx="30" cy="30" r="14"/><circle cx="290" cy="30" r="14"/><circle cx="30" cy="122" r="14"/><circle cx="240" cy="122" r="14"/></g>
+     <g font-family="Shantell Sans" font-weight="800" font-size="17" fill="#2d3a2a" text-anchor="middle" stroke="none"><text x="30" y="36">1</text><text x="290" y="36">2</text><text x="30" y="128">3</text><text x="240" y="128">4</text></g>
+    </g>
+    <g transform="translate(900 860)" stroke="#2d3a2a" stroke-width="3" fill="#fffaf0"><circle r="54"/><path d="M0 -50 L12 0 L0 50 L-12 0Z" fill="#2d3a2a"/><path d="M-50 0 L0 -10 L50 0 L0 10Z"/><text y="-62" text-anchor="middle" font-family="Reenie Beanie" font-size="30" fill="#2d3a2a" stroke="none">N</text></g>
+    <path d="M760 210 C700 300 560 400 420 630" fill="none" stroke="#2d3a2a" stroke-width="2.5" stroke-dasharray="4 6"/>
+    <text x="230" y="880" font-family="Reenie Beanie" font-size="34" fill="#2d3a2a">Your raised bed, 8 × 6 ft</text>
+    <text x="990" y="440" font-family="Reenie Beanie" font-size="28" fill="#2d3a2a">pond</text>
+   </svg>
+   <div class="cartouche"><p class="logo">FloraScape</p><h2 id="h10">Find your plot. We'll draw the map.</h2><p>Your yard becomes a little map with paths, a compass and a legend that says what grows where, how many, and what to buy.</p><a class="cta" href="#allotment">Draw my map</a></div>
+   <div class="callout here"><b>You are here</b>Brooklyn 11215. Your bed gets full sun from the south.</div>
+   <div class="callout frost"><b>Zone 7b</b>Last spring frost ~Apr 12. First fall frost ~Oct 28.</div>
+   <div class="legend"><h3>Legend</h3><ul>
+    <li><span class="num" style="background:#f0b49a">1</span><span>Tomato: 4 plants, buy 4 starts</span></li>
+    <li><span class="num" style="background:#9cc27a">2</span><span>Basil: 6 plants, buy 6 starts</span></li>
+    <li><span class="num" style="background:#d6e8b4">3</span><span>Lettuce: 24 plants, sow ~36 seeds</span></li>
+    <li><span class="num" style="background:#f2d27a">4</span><span>Carrot: 48 plants, sow ~70 seeds</span></li>
+   </ul></div>
+  </div>
+  <div class="callout" style="position:static;margin-top:18px;max-width:700px"><b>Route through the season</b><ul style="margin-left:1.1rem"><li>Plant now: sow plots 3 and 4 (lettuce, carrot)</li><li>Next month: plant plot 1, tomatoes, after Apr 12</li><li>Later: plant plot 2, basil, once nights stay warm</li></ul></div>
+ </div>
+ <div class="capwrap"><aside class="caption"><h3>10. Allotment Map</h3><div><p>Fonts: <b>Shantell Sans</b> (display and body) + <b>Reenie Beanie</b> (map annotations)</p></div><ul class="swatches"><li><span class="sw" style="background:#f7f0d8"></span>Map paper #f7f0d8</li><li><span class="sw" style="background:#d9c48f"></span>Path #d9c48f</li><li><span class="sw" style="background:#9cc27a"></span>Plot green #9cc27a</li><li><span class="sw" style="background:#8fc1d4"></span>Pond #8fc1d4</li><li><span class="sw" style="background:#2d3a2a"></span>Ink #2d3a2a</li></ul><ul class="bul"><li>The whole view is a hand-drawn map: the hero is a title cartouche, the bed is a numbered plot among paths and a pond, and the compass rose is real orientation.</li><li>A numbered legend gives counts and what to buy, and "You are here" and frost callouts pin to the map.</li><li>The planner would let you draw your plot outline on the map, with the sun compass as the map's compass.</li></ul></aside></div>
+</section>
+
+</main>
+</body>
+</html>

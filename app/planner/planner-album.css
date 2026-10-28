@@ -1,0 +1,268 @@
+/* Planner: the first pages of the Collector's Album. Scoped to .planner-page.planner-album. */
+
+.planner-page.planner-album { font-family: var(--font-body); color: var(--al-ink); }
+.planner-album .planner-section { padding-top: 3.6rem; }
+.planner-album .planner-grid { max-width: 860px; }
+
+/* ---- Album page ---- */
+.planner-album .panel.pa-page {
+  position: relative;
+  background: var(--al-page);
+  border: 4px solid var(--al-ink);
+  border-radius: 6px 14px 14px 6px;
+  box-shadow: 10px 12px 0 var(--al-green-dark);
+  padding: 2rem 2rem 1.8rem 3.6rem;
+  background-image: repeating-linear-gradient(transparent 0 31px, #e6d9b5 31px 32px);
+  background-color: var(--al-page);
+}
+.planner-album .pa-rings {
+  position: absolute; left: 10px; top: 24px; bottom: 24px; width: 24px;
+  background: repeating-linear-gradient(transparent 0 36px, #8a8f86 36px 50px, transparent 50px 96px);
+  border-right: 2px dashed var(--al-rule);
+  pointer-events: none;
+}
+.planner-album .panel-title-wrap { margin-bottom: 0.4rem; }
+.planner-album .panel .pa-title {
+  font-family: var(--font-display); font-weight: 400; color: var(--al-green);
+  font-size: clamp(2rem, 6vw, 2.7rem); line-height: 1.05; margin: 0 0 0.4rem;
+}
+.planner-album .panel-title-wrap p { color: var(--al-muted); margin: 0 0 0.6rem; line-height: 1.5; }
+
+/* ---- Binder tab dividers ---- */
+.planner-album .planner-progress { margin: 0 0 1.4rem; }
+.planner-album .planner-progress-count {
+  font-family: var(--font-body); color: var(--al-red); font-size: 0.95rem; margin: 0 0 0.4rem;
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+.planner-album .planner-progress ol {
+  position: absolute; top: -2.55rem; left: 3.2rem; right: 1rem;
+  display: flex; gap: 6px; margin: 0; padding: 0; list-style: none;
+}
+.planner-album .planner-progress li { flex: 0 1 auto; min-width: 0; }
+.planner-album .planner-progress button {
+  display: inline-flex; align-items: center; gap: 0.4rem; max-width: 100%;
+  height: 2.6rem; padding: 0 0.9rem; margin-top: 0.4rem;
+  font-family: var(--font-body); font-weight: 700; font-size: 0.9rem;
+  background: #d9cfb1; color: var(--al-ink);
+  border: 3px solid var(--al-ink); border-bottom: 0; border-radius: 10px 10px 0 0;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer;
+  box-shadow: none; transform: none;
+}
+.planner-album .planner-progress button span {
+  display: inline-grid; place-items: center; width: 1.4rem; height: 1.4rem; flex: none;
+  background: var(--al-paper); color: var(--al-ink); border: 2px solid var(--al-ink); border-radius: 3px;
+  font-size: 0.85rem;
+}
+.planner-album .planner-progress li.reachable button { background: var(--al-gold); color: var(--al-ink); }
+.planner-album .planner-progress li.reachable button:hover { background: #f0bd55; }
+.planner-album .planner-progress li.current button {
+  background: var(--al-page); color: var(--al-green-dark);
+  height: 3rem; margin-top: 0; position: relative; z-index: 1;
+  padding-bottom: 4px;
+}
+.planner-album .planner-progress li.current button span { background: var(--al-green); color: #fff; border-color: var(--al-green-dark); }
+.planner-album .planner-progress button:disabled {
+  background: #a9ad9c; color: #2b2f25; border-color: #3d3f36; cursor: not-allowed; opacity: 1;
+}
+.planner-album .planner-progress button:disabled span { background: #c4c7b8; }
+.planner-album .planner-progress button:focus-visible { outline: 3px solid var(--al-gold); outline-offset: 2px; }
+
+/* ---- Fields ---- */
+.planner-album .field { font-weight: 600; color: var(--al-ink); }
+.planner-album .field-help { color: var(--al-muted); }
+.planner-album .conditional-fieldset,
+.planner-album .plant-fieldset { border: 0; padding: 0; margin: 0 0 1.2rem; min-width: 0; }
+.planner-album .conditional-fieldset legend,
+.planner-album .plant-fieldset legend {
+  font-family: var(--font-display); font-weight: 400; color: var(--al-green);
+  font-size: 1.45rem; padding: 0; margin-bottom: 0.5rem;
+}
+.planner-album .planner-page .error,
+.planner-album .error { color: var(--al-red); font-weight: 700; }
+
+/* ---- Unit cards as sleeved cards ---- */
+.planner-album .garden-unit-list { gap: 1rem; }
+.planner-album .garden-unit-card.pa-sleeve {
+  background: var(--al-paper);
+  border: 3px solid var(--al-ink); border-radius: 10px;
+  box-shadow: inset 0 0 0 4px #fff, inset 0 0 0 6px var(--al-green-light), 4px 5px 0 var(--al-green-dark);
+  padding: 1rem 1.1rem;
+  position: relative;
+}
+.planner-album .garden-unit-card.pa-sleeve::before {
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 38%;
+  background: linear-gradient(170deg, #ffffff66, transparent 70%); border-radius: 8px 8px 0 0; pointer-events: none;
+}
+.planner-album .garden-unit-heading h3 { font-family: var(--font-body); color: var(--al-green-dark); font-size: 1.1rem; margin: 0; }
+.planner-album .icon-text-button {
+  border: 2px solid var(--al-ink); border-radius: 6px; background: var(--al-paper);
+  font-family: var(--font-body); font-weight: 700; position: relative;
+}
+.planner-album .danger-button { color: var(--al-red); border-color: var(--al-red); }
+.planner-album .danger-button:hover { background: #f6e1dc; }
+.planner-album .add-unit-button.pa-empty-sleeve {
+  display: flex; width: 100%; min-height: 4.4rem; margin-top: 1rem;
+  background: transparent; color: var(--al-green-dark);
+  border: 3px dashed var(--al-green-light); border-radius: 10px;
+  font-family: var(--font-body); font-weight: 700; font-size: 0.95rem;
+}
+.planner-album .add-unit-button.pa-empty-sleeve:hover { background: #ffffff80; border-color: var(--al-green); }
+.planner-album .icon-text-button:focus-visible,
+.planner-album .add-unit-button:focus-visible { outline: 3px solid var(--al-green); outline-offset: 2px; }
+
+/* ---- Sun side picker ---- */
+.planner-album .sun-compass { grid-template-columns: 5rem 1fr 5rem; grid-template-rows: auto 110px auto auto; }
+.planner-album .sun-compass-option {
+  font-family: var(--font-body); font-size: 0.9rem; color: var(--al-ink);
+  background: var(--al-paper); border: 2px solid var(--al-ink); border-radius: 4px;
+  box-shadow: 2px 2px 0 var(--al-ink); padding: 0.35rem 0.5rem; text-transform: uppercase;
+}
+.planner-album .sun-compass-option:hover { background: #fff; }
+.planner-album .sun-compass-option:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 var(--al-ink); }
+.planner-album .sun-compass-option[aria-pressed="true"] {
+  background: var(--al-gold); color: var(--al-ink); border-color: var(--al-ink);
+}
+.planner-album .sun-compass-option.shaded { text-transform: none; font-family: var(--font-body); font-weight: 700; }
+.planner-album .sun-compass-option.shaded[aria-pressed="true"] { background: var(--al-blue); color: #fff; }
+.planner-album .sun-compass-option:focus-visible { outline: 3px solid var(--al-green); outline-offset: 3px; }
+.planner-album [data-invalid] .sun-compass-option { border-color: var(--al-red); }
+
+.planner-album .sun-compass-plot {
+  position: relative; overflow: hidden;
+  border: 3px solid var(--al-ink); border-radius: 2px;
+  background: #6b4a2b; color: #fff; image-rendering: pixelated;
+  --sun: var(--al-gold);
+}
+.planner-album .sun-compass-soil {
+  position: absolute; inset: 0;
+  background-color: #7a4a2a; /* plain soil, matching the garden beds */
+}
+.planner-album .sun-compass-plot-label {
+  position: relative; font-family: var(--font-body); font-size: 0.95rem;
+  background: var(--al-ink); color: var(--al-paper); padding: 1px 6px;
+}
+.planner-album .sun-compass-plot.lit-north { box-shadow: inset 0 12px 0 var(--sun); }
+.planner-album .sun-compass-plot.lit-south { box-shadow: inset 0 -12px 0 var(--sun); }
+.planner-album .sun-compass-plot.lit-east { box-shadow: inset -12px 0 0 var(--sun); }
+.planner-album .sun-compass-plot.lit-west { box-shadow: inset 12px 0 0 var(--sun); }
+.planner-album .sun-compass-plot.lit-northeast { box-shadow: inset 0 12px 0 var(--sun), inset -12px 0 0 var(--sun); }
+.planner-album .sun-compass-plot.lit-northwest { box-shadow: inset 0 12px 0 var(--sun), inset 12px 0 0 var(--sun); }
+.planner-album .sun-compass-plot.lit-southeast { box-shadow: inset 0 -12px 0 var(--sun), inset -12px 0 0 var(--sun); }
+.planner-album .sun-compass-plot.lit-southwest { box-shadow: inset 0 -12px 0 var(--sun), inset 12px 0 0 var(--sun); }
+/* Box-shadow sits under the absolute soil layer, so lift the strip above it. */
+.planner-album .sun-compass-plot[class*="lit-"] .sun-compass-soil { inset: 12px; }
+.planner-album .sun-compass-plot.lit-north .sun-compass-soil { inset: 12px 0 0 0; }
+.planner-album .sun-compass-plot.lit-south .sun-compass-soil { inset: 0 0 12px 0; }
+.planner-album .sun-compass-plot.lit-east .sun-compass-soil { inset: 0 12px 0 0; }
+.planner-album .sun-compass-plot.lit-west .sun-compass-soil { inset: 0 0 0 12px; }
+.planner-album .sun-compass-plot.lit-northeast .sun-compass-soil { inset: 12px 12px 0 0; }
+.planner-album .sun-compass-plot.lit-northwest .sun-compass-soil { inset: 12px 0 0 12px; }
+.planner-album .sun-compass-plot.lit-southeast .sun-compass-soil { inset: 0 12px 12px 0; }
+.planner-album .sun-compass-plot.lit-southwest .sun-compass-soil { inset: 0 0 12px 12px; }
+.planner-album .sun-compass-plot.shaded .sun-compass-soil { filter: brightness(0.6) saturate(0.6); }
+.planner-album .sun-compass-result { font-family: var(--font-body); color: var(--al-green-dark); font-size: 1rem; }
+.planner-album .sun-compass-hint { color: var(--al-muted); }
+
+/* ---- Area preview ---- */
+.planner-album .area-preview {
+  background: transparent; border: 0; box-shadow: none; padding: 0; margin-top: 0.5rem;
+}
+.planner-album .area-preview svg { shape-rendering: crispEdges; }
+.planner-album .area-preview rect.area-preview-bed { stroke: var(--al-ink); stroke-width: 3; }
+.planner-album .area-preview .area-preview-soil-a { fill: #7a5532; stroke: none; }
+.planner-album .area-preview .area-preview-soil-b { fill: #5e3f24; stroke: none; }
+.planner-album .area-preview-name,
+.planner-album .area-preview-size { font-family: var(--font-body); font-size: 12px; fill: var(--al-ink); }
+.planner-album .area-preview-name { fill: var(--al-green-dark); font-weight: 700; }
+.planner-album .area-preview figcaption { font-family: var(--font-body); color: var(--al-muted); font-size: 0.85rem; }
+
+/* ---- Plant categories as collectible cards ---- */
+.planner-album .plant-options { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.9rem; }
+.planner-album .pa-plant-card {
+  position: relative; display: flex; flex-direction: column; align-items: stretch;
+  background: var(--al-paper); border: 3px solid var(--al-ink); border-radius: 10px;
+  box-shadow: inset 0 0 0 4px #fff, inset 0 0 0 6px var(--al-rule), 4px 5px 0 var(--al-green-dark);
+  padding: 8px; transition: transform 0.15s ease; cursor: pointer;
+}
+.planner-album .pa-plant-card:hover { transform: translateY(-2px); }
+/* Outline only for keyboard focus, so a clicked (or unclicked) card doesn't stay highlighted. */
+.planner-album .pa-plant-card:has(:focus-visible) { outline: 3px solid var(--al-green); outline-offset: 3px; }
+.planner-album .pa-plant-card.is-checked {
+  box-shadow: inset 0 0 0 4px #fff, inset 0 0 0 6px var(--al-green), 4px 5px 0 var(--al-green-dark);
+}
+.planner-album .pa-plant-art {
+  display: grid; place-items: end center; height: 96px; margin: 4px 4px 6px;
+  background: linear-gradient(#cfe3d0 0 70%, #8b6a45 70%); border: 2px solid var(--al-ink); border-radius: 4px;
+  image-rendering: pixelated; overflow: hidden;
+}
+.planner-album .pa-plant-stamp {
+  position: absolute; top: 14px; right: 8px; transform: rotate(-12deg) scale(0.6);
+  border: 3px double var(--al-red); color: var(--al-red); background: #fbf6e6e6;
+  padding: 2px 6px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em;
+  opacity: 0; transition: opacity 0.15s ease, transform 0.15s ease; pointer-events: none;
+}
+.planner-album .pa-plant-card.is-checked .pa-plant-stamp { opacity: 1; transform: rotate(-12deg) scale(1); }
+.planner-album .pa-plant-card .ui-checkbox-row {
+  border: 0; background: transparent; padding: 4px 4px 2px; font-weight: 700; font-size: 0.95rem;
+}
+.planner-album .ui-checkbox-root {
+  border: 2px solid var(--al-ink); border-radius: 3px; background: #fff; width: 20px; height: 20px;
+}
+.planner-album .ui-checkbox-root[data-state="checked"] { background: var(--al-green); border-color: var(--al-green-dark); }
+.planner-album .ui-checkbox-root:focus-visible { outline: 3px solid var(--al-green); outline-offset: 2px; }
+.planner-album .ui-checkbox-row.all-option {
+  /* The sixth card in the 3 × 2 grid. */
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  background: transparent; border: 3px dashed var(--al-green-light); border-radius: 10px;
+  font-weight: 700; padding: 0.7rem 0.9rem; min-height: 100%;
+}
+.planner-album .tooltip-wrap { color: var(--al-green); }
+.planner-album .tooltip-text { background: var(--al-ink); color: var(--al-paper); font-family: var(--font-body); }
+.planner-album .tooltip-wrap:focus-within .tooltip-text { opacity: 1; transform: translateY(0); }
+
+/* ---- Step actions ---- */
+.planner-album .planner-step-actions {
+  border-top: 2px dashed var(--al-rule); padding-top: 1rem; margin-top: 1rem;
+}
+
+/* ---- Restore loading ---- */
+.planner-album.planner-loading-page .planner-loading-card.pa-loading-card {
+  width: min(260px, 100%); padding: 1.6rem 1.4rem 1.2rem; text-align: center;
+  background: var(--al-page); border: 4px solid var(--al-ink); border-radius: 6px 14px 14px 6px;
+  box-shadow: 8px 10px 0 var(--al-green-dark);
+}
+.planner-album .pa-loading-sprite {
+  display: grid; place-items: end center; height: 120px;
+  background: linear-gradient(#cfe3d0 0 72%, #8b6a45 72%); border: 3px solid var(--al-ink); border-radius: 4px;
+}
+.planner-album .pa-loading-text { font-family: var(--font-body); color: var(--al-green-dark); margin: 0.8rem 0 0; }
+
+/* ---- Small screens ---- */
+@media (max-width: 640px) {
+  .planner-album .planner-section { padding-top: 3.2rem; }
+  .planner-album .panel.pa-page { padding: 1.4rem 1rem 1.3rem 2.4rem; box-shadow: 6px 8px 0 var(--al-green-dark); }
+  .planner-album .pa-rings { left: 4px; width: 18px; }
+  .planner-album .planner-progress ol { left: 2rem; right: 0.4rem; gap: 3px; }
+  .planner-album .planner-progress button { padding: 0 0.5rem; font-size: 0.78rem; gap: 0.3rem; }
+  .planner-album .planner-progress li:not(.current) button { font-size: 0; gap: 0; }
+  .planner-album .planner-progress li:not(.current) button span { font-size: 0.85rem; }
+  .planner-album .planner-progress li.current { flex: 1 1 auto; }
+  .planner-album .unit-input-grid { grid-template-columns: 1fr 1fr; }
+  .planner-album .unit-input-grid > .field:last-child { grid-column: 1 / -1; }
+  .planner-album .plant-options { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; }
+  .planner-album .pa-plant-art { height: 80px; }
+  .planner-album .sun-compass { grid-template-columns: 4.4rem 1fr 4.4rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .planner-album .pa-plant-card, .planner-album .pa-plant-stamp { transition: none; }
+  .planner-album .pa-plant-card:hover { transform: none; }
+}
+
+/* Phones: keep category tooltips inside the screen (they're right-aligned to the info icon). */
+@media (max-width: 560px) {
+  .planner-album .tooltip-text { width: min(150px, 42vw); }
+}
+
+/* The in-ground plot fieldset sits directly on the album page (no white panel behind it). */
+.planner-page.planner-album .conditional-fieldset { background: transparent; }

@@ -109,26 +109,8 @@ a {
   background: #2d4e31;
 }
 
-.landing-page .secondary-btn {
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  background: white;
-  color: #2d4330;
-  box-shadow: none;
-}
-
-.landing-page .secondary-btn:hover {
-  background: #f0efe8;
-}
-
 .landing-page .hero {
   padding: 5rem 0 4rem;
-}
-
-.landing-page .hero-grid {
-  display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: 4rem;
-  align-items: center;
 }
 
 .landing-page h1 {
@@ -147,118 +129,8 @@ a {
   max-width: 600px;
 }
 
-.landing-page .hero-actions {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.landing-page .mockup-wrap {
-  position: relative;
-  width: min(100%, 560px);
-  justify-self: center;
-}
-
-.landing-page .floating-card {
-  background: white;
-  border-radius: 28px;
-  padding: 1rem;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 5px 15px rgba(0, 0, 0, 0.04);
-}
-
-.landing-page .floating-card img {
-  width: 100%;
-  height: auto;
-  border-radius: 20px;
-  display: block;
-  object-fit: cover;
-}
-
-.landing-page .badge {
-  position: absolute;
-  background: white;
-  padding: 1rem 1.2rem;
-  border-radius: 18px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
-  max-width: 220px;
-}
-
-.landing-page .badge h4 {
-  margin-bottom: 0.4rem;
-  color: var(--green);
-}
-
-.landing-page .badge p {
-  font-size: 0.9rem;
-  line-height: 1.5;
-  color: #57615a;
-  margin-bottom: 0;
-}
-
-.landing-page .badge.one {
-  top: -30px;
-  right: -40px;
-}
-
-.landing-page .badge.two {
-  bottom: -20px;
-  left: -40px;
-}
-
 .landing-page .section {
   padding: 6rem 0;
-}
-
-.landing-page .section-header {
-  text-align: center;
-  max-width: 760px;
-  margin: 0 auto 4rem;
-}
-
-.landing-page .section-header h2 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  font-family: "Caveat", cursive;
-  color: var(--dark);
-}
-
-.landing-page .section-header p {
-  color: #5a665c;
-  line-height: 1.8;
-  font-size: 1.05rem;
-}
-
-.landing-page .features-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-}
-
-.landing-page .feature-card {
-  background: white;
-  padding: 2rem;
-  border-radius: 28px;
-  border: 1px solid rgba(0, 0, 0, 0.04);
-  transition: 0.25s ease;
-}
-
-.landing-page .feature-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
-}
-
-.landing-page .feature-card h3 {
-  margin-bottom: 0.8rem;
-  color: var(--dark);
-}
-
-.landing-page .feature-card p {
-  color: #5b665d;
-  line-height: 1.7;
-}
-
-.landing-page .steps-section {
-  background: #eef3eb;
 }
 
 .landing-page .steps {
@@ -272,20 +144,6 @@ a {
   text-align: center;
 }
 
-.landing-page .step-number {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  background: var(--green);
-  color: white;
-  margin: 0 auto 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 1.2rem;
-}
-
 .landing-page .step h3 {
   margin-bottom: 0.8rem;
 }
@@ -293,32 +151,6 @@ a {
 .landing-page .step p {
   color: #5d675f;
   line-height: 1.7;
-}
-
-.landing-page .cta {
-  background: linear-gradient(135deg, #2f5134, #446f49);
-  color: white;
-  border-radius: 40px;
-  padding: 5rem;
-  margin-top: 4rem;
-}
-
-.landing-page .cta h2 {
-  font-size: 3.2rem;
-  margin-bottom: 1rem;
-  font-family: "Caveat", cursive;
-}
-
-.landing-page .cta p {
-  max-width: 700px;
-  line-height: 1.8;
-  margin-bottom: 2rem;
-  color: rgba(255, 255, 255, 0.85);
-}
-
-.landing-page .cta .btn {
-  background: white;
-  color: var(--green);
 }
 
 .landing-page footer {
@@ -537,8 +369,10 @@ a {
 
 .ui-select-content {
   z-index: 200;
-  width: var(--radix-select-trigger-width);
-  max-height: var(--radix-select-content-available-height);
+  /* Never narrower than a readable list, even under a small trigger. */
+  width: max(var(--radix-select-trigger-width), 15rem);
+  max-width: min(22rem, calc(100vw - 2rem));
+  max-height: min(22rem, var(--radix-select-content-available-height));
   overflow: hidden;
   border: 1px solid #bfd0be;
   border-radius: 12px;
@@ -549,12 +383,23 @@ a {
 
 .ui-select-viewport {
   padding: 0.1rem;
+  max-height: inherit;
+  overflow-y: auto;
+}
+
+.ui-select-item-description {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: #69736a;
 }
 
 .ui-select-item {
   position: relative;
   border-radius: 9px;
-  padding: 0.65rem 2rem 0.65rem 0.7rem;
+  padding: 0.55rem 2rem 0.55rem 0.7rem;
+  line-height: 1.3;
   color: #243729;
   font-size: 0.92rem;
   cursor: pointer;
@@ -791,33 +636,6 @@ a {
   font-weight: 600;
 }
 
-.planner-page .garden-sketch-wrap {
-  margin-top: 1rem;
-  border: 1px solid #d2cab9;
-  border-radius: 16px;
-  background: #f8f3e8;
-  padding: 0.9rem;
-}
-
-.planner-page .garden-sketch-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.8rem;
-  margin-bottom: 0.45rem;
-  flex-wrap: wrap;
-}
-
-.planner-page .garden-sketch-toolbar h3 {
-  color: #274a2c;
-}
-
-.planner-page .garden-sketch-toolbar > span {
-  color: #657066;
-  font-size: 0.8rem;
-  font-weight: 600;
-}
-
 .planner-page .garden-sketch-editor {
   border: 1px solid #c9d8c5;
   border-radius: 12px;
@@ -877,8 +695,17 @@ a {
 
 .planner-page .plant-group-adjustment > div:first-child {
   display: flex;
+  flex: 1;
   flex-direction: column;
+  gap: 0.2rem;
   min-width: 0;
+}
+
+.planner-page .plant-group-adjustment .ui-select-trigger {
+  min-height: 38px;
+  padding: 0.45rem 0.65rem;
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 
 .planner-page .plant-group-adjustment strong {
@@ -955,127 +782,6 @@ a {
   font-size: 0.8rem;
   font-weight: 700;
   cursor: pointer;
-}
-
-.planner-page .sun-color-key {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.55rem 1rem;
-  margin: 0.2rem 0 0.65rem;
-  color: #536056;
-  font-size: 0.82rem;
-}
-
-.planner-page .sun-color-key span {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-}
-
-.planner-page .sun-color-key i {
-  width: 13px;
-  height: 13px;
-  border: 1px solid;
-  border-radius: 3px;
-}
-
-.planner-page .garden-sketch-stage {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  border-radius: 0;
-  border: 0;
-  background: transparent;
-}
-
-.planner-page .garden-sketch-zoom-layer {
-  position: relative;
-  width: 100%;
-}
-
-.planner-page .garden-zone-tooltip {
-  position: absolute;
-  z-index: 5;
-  width: 280px;
-  display: flex;
-  flex-direction: column;
-  gap: 0.18rem;
-  border: 1px solid #9eb39b;
-  border-radius: 11px;
-  background: rgba(255, 253, 247, 0.98);
-  box-shadow: 0 10px 28px rgba(33, 55, 37, 0.18);
-  color: #546057;
-  padding: 0.65rem 0.7rem;
-  pointer-events: none;
-  font-size: 0.88rem;
-  line-height: 1.35;
-}
-
-.planner-page .garden-zone-tooltip strong {
-  color: #284b2e;
-  font-size: 1rem;
-}
-
-.planner-page .garden-zone-tooltip p {
-  margin: 0.2rem 0 0;
-  color: #344f39;
-  line-height: 1.4;
-}
-
-.planner-page .garden-sketch-svg {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.planner-page .garden-sketch-overlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: auto;
-  width: 100%;
-  height: auto;
-}
-
-.planner-page .patch-hit {
-  fill: rgba(0, 0, 0, 0);
-  stroke: rgba(0, 0, 0, 0);
-  cursor: pointer;
-}
-
-.planner-page .patch-hit:focus {
-  outline: none;
-  stroke: #2f6538;
-  stroke-width: 2.5px;
-}
-
-.planner-page .bed-label {
-  font-size: 12px;
-  fill: #2f2d29;
-  pointer-events: none;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-}
-
-.planner-page .bed-dimension-label {
-  font-size: 11px;
-  font-weight: 800;
-  pointer-events: none;
-  paint-order: stroke;
-  stroke: rgba(255, 255, 255, 0.86);
-  stroke-width: 3px;
-  stroke-linejoin: round;
-}
-
-.planner-page .plant-zone-label {
-  font-size: 11px;
-  fill: #243b28;
-  pointer-events: none;
-  font-weight: 750;
-  paint-order: stroke;
-  stroke: rgba(255, 255, 255, 0.82);
-  stroke-width: 2.5px;
-  stroke-linejoin: round;
 }
 
 .planner-page .garden-sketch-meta {
@@ -1185,16 +891,43 @@ a {
   font-weight: 650;
 }
 
-.loading-steps i {
-  width: 5px;
-  height: 5px;
-  border-radius: 999px;
-  background: #8ca78a;
-  animation: loading-pulse 1.35s ease-in-out infinite alternate;
+.loading-steps {
+  list-style: none;
+  padding: 0;
+  flex-wrap: wrap;
 }
 
-.loading-steps i:nth-of-type(2) {
-  animation-delay: 0.35s;
+.loading-steps li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  opacity: 0.5;
+}
+
+.loading-steps li::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #c9d6c3;
+}
+
+.loading-steps li.done {
+  opacity: 0.8;
+}
+
+.loading-steps li.done::before {
+  background: #8ca78a;
+}
+
+.loading-steps li.active {
+  opacity: 1;
+  color: #2f4633;
+}
+
+.loading-steps li.active::before {
+  background: #3d5a32;
+  animation: loading-pulse 1.1s ease-in-out infinite alternate;
 }
 
 @keyframes loading-orbit {
@@ -1510,14 +1243,6 @@ a {
   .landing-page h1 {
     font-size: 3.5rem;
   }
-
-  .landing-page .badge {
-    display: none;
-  }
-
-  .landing-page .cta {
-    padding: 3rem 2rem;
-  }
 }
 
 @media (max-width: 700px) {
@@ -1561,14 +1286,13 @@ a {
   }
 
   .planner-page nav,
-  .planner-page footer,
-  .planner-page .planner-nav-actions,
-  .planner-page .garden-sketch-editor,
-  .planner-page .garden-zone-tooltip,
-  .planner-page .no-print,
-  .planner-result-page .screen-guide-list,
-  .planner-result-page .screen-tips-grid,
-  .planner-result-page .screen-only {
+.planner-page footer,
+.planner-page .planner-nav-actions,
+.planner-page .garden-sketch-editor,
+.planner-page .no-print,
+.planner-result-page .screen-guide-list,
+.planner-result-page .screen-tips-grid,
+.planner-result-page .screen-only {
     display: none !important;
   }
 
@@ -1628,56 +1352,6 @@ a {
   .planner-result-page .result-section-heading p {
     font-size: 8.5pt;
     line-height: 1.3;
-  }
-
-  .planner-result-page .sketch-section {
-    break-after: page;
-    page-break-after: always;
-  }
-
-  .planner-page .garden-sketch-wrap {
-    border: 1px solid #aebbaa;
-    border-radius: 10px;
-    background: #faf8f1;
-    margin-top: 0.05in;
-    padding: 0.08in;
-  }
-
-  .planner-page .garden-sketch-toolbar {
-    margin-bottom: 0.03in;
-  }
-
-  .planner-page .garden-sketch-toolbar h3 {
-    font-size: 11pt;
-  }
-
-  .planner-page .garden-sketch-toolbar > span {
-    display: none;
-  }
-
-  .planner-page .sun-color-key {
-    margin: 0 0 0.04in;
-    font-size: 7.5pt;
-  }
-
-  .planner-page .garden-sketch-stage {
-    display: flex;
-    justify-content: center;
-    overflow: hidden;
-    border: 0;
-    max-height: 5.35in;
-  }
-
-  .planner-page .garden-sketch-zoom-layer {
-    transform: none !important;
-  }
-
-  .planner-page .garden-sketch-svg,
-  .planner-page .garden-sketch-overlay {
-    max-width: 9.95in;
-    max-height: 5.2in;
-    width: auto;
-    height: auto;
   }
 
   .planner-page .garden-sketch-meta {
@@ -1786,4 +1460,602 @@ a {
   .landing-page .section {
     padding: 4rem 0;
   }
+}
+
+.planner-result-page .guide-timing-group + .guide-timing-group {
+  margin-top: 1.5rem;
+}
+
+.planner-result-page .guide-timing-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin: 0 0 0.75rem;
+  font-size: 1.05rem;
+}
+
+.planner-result-page .guide-timing-heading span {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #5c6b55;
+}
+
+.garden-sketch-view-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.75rem 0;
+}
+
+.sketch-toggle {
+  border: 1px solid #cfdcc4;
+  border-radius: 999px;
+  background: #fff;
+  color: #3d5a32;
+  padding: 0.3rem 0.8rem;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.sketch-toggle[aria-pressed="true"] {
+  background: #3d5a32;
+  border-color: #3d5a32;
+  color: #fff;
+}
+
+.garden-layout-table-wrap {
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+
+.garden-layout-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.garden-layout-table caption {
+  text-align: left;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.garden-layout-table th,
+.garden-layout-table td {
+  text-align: left;
+  padding: 0.45rem 0.6rem;
+  border-bottom: 1px solid #e3e8dc;
+}
+
+.garden-layout-table thead th {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #5c6b55;
+}
+
+.area-preview {
+  margin: 0 0 1.25rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px dashed #cfdcc4;
+  border-radius: 10px;
+  background: #f7faf3;
+}
+
+.area-preview svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.area-preview rect {
+  fill: #e7efdc;
+  stroke: #3d5a32;
+  stroke-width: 1.5;
+}
+
+.area-preview-name,
+.area-preview-size {
+  font-size: 11px;
+  fill: #3d5a32;
+}
+
+.area-preview figcaption {
+  margin-top: 0.4rem;
+  font-size: 0.75rem;
+  color: #5c6b55;
+}
+
+.planner-result-page .neighbor-areas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.planner-result-page .neighbor-area h3,
+.planner-result-page .shopping-columns h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.planner-result-page .neighbor-area ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.planner-result-page .neighbor-area li {
+  border-left: 4px solid #8fb07f;
+  background: #f4f8ef;
+  border-radius: 6px;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.9rem;
+}
+
+.planner-result-page .neighbor-area li.neighbor-conflict {
+  border-left-color: #c29342;
+  background: #fff8e9;
+}
+
+.planner-result-page .shopping-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.planner-result-page .shopping-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.planner-result-page .shopping-table th,
+.planner-result-page .shopping-table td {
+  text-align: left;
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1px solid #e3e8dc;
+}
+
+.planner-result-page .shopping-table thead th {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #5c6b55;
+}
+
+.planner-result-page .shopping-table tfoot th,
+.planner-result-page .shopping-table tfoot td {
+  font-weight: 700;
+  border-bottom: none;
+}
+
+.planner-result-page .shopping-subtle {
+  font-weight: 400;
+  color: #5c6b55;
+}
+
+.planner-result-page .shopping-bags,
+.planner-result-page .shopping-assumptions,
+.planner-result-page .neighbor-empty {
+  font-size: 0.85rem;
+  color: #4b5a45;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.planner-result-page .garden-chat-log {
+  max-height: 360px;
+  overflow-y: auto;
+  display: grid;
+  gap: 0.6rem;
+  padding: 0.75rem;
+  border: 1px solid #e3e8dc;
+  border-radius: 10px;
+  background: #fbfcf8;
+}
+
+.planner-result-page .garden-chat-message {
+  max-width: 85%;
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+  font-size: 0.92rem;
+}
+
+.planner-result-page .garden-chat-message p {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.planner-result-page .garden-chat-message.user {
+  justify-self: end;
+  background: #3d5a32;
+  color: #fff;
+}
+
+.planner-result-page .garden-chat-message.assistant {
+  justify-self: start;
+  background: #eef5e8;
+  color: #243328;
+}
+
+.planner-result-page .garden-chat-source {
+  display: block;
+  margin-bottom: 0.2rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #5c6b55;
+}
+
+.planner-result-page .garden-chat-source.notice {
+  color: #705824;
+}
+
+.planner-result-page .garden-chat-suggestions,
+.planner-result-page .garden-chat-examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.planner-result-page .garden-chat-suggestions button,
+.planner-result-page .garden-chat-examples button {
+  border: 1px solid #cfdcc4;
+  border-radius: 999px;
+  background: #fff;
+  color: #3d5a32;
+  padding: 0.25rem 0.7rem;
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.planner-result-page .garden-chat-suggestions button:disabled {
+  cursor: default;
+  opacity: 0.65;
+}
+
+.planner-result-page .garden-chat-empty {
+  display: flex;
+  gap: 0.6rem;
+  color: #4b5a45;
+  font-size: 0.9rem;
+}
+
+.planner-result-page .garden-chat-empty p {
+  margin: 0;
+}
+
+.planner-result-page .garden-chat-pending {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #5c6b55;
+}
+
+.planner-result-page .garden-chat-form {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.planner-result-page .garden-chat-form input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid #cfdcc4;
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+  font: inherit;
+}
+
+.planner-result-page .garden-chat-count {
+  font-size: 0.75rem;
+  color: #5c6b55;
+}
+
+.planner-result-page .rotation-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  color: #3d5a32;
+}
+
+.planner-result-page .rotation-check h3,
+.planner-result-page .rotation-history h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 0.6rem;
+  font-size: 1rem;
+}
+
+.planner-result-page .rotation-area {
+  border-left: 4px solid #c29342;
+  background: #fff8e9;
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.planner-result-page .rotation-area h4 {
+  margin: 0 0 0.3rem;
+}
+
+.planner-result-page .rotation-area ul,
+.planner-result-page .rotation-history ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.planner-result-page .rotation-next {
+  margin: 0.5rem 0 0;
+}
+
+.planner-result-page .rotation-swaps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.planner-result-page .rotation-swaps button,
+.planner-result-page .rotation-history button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border: 1px solid #cfdcc4;
+  border-radius: 999px;
+  background: #fff;
+  color: #3d5a32;
+  padding: 0.25rem 0.7rem;
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.planner-result-page .rotation-history {
+  margin-top: 1rem;
+}
+
+.planner-result-page .rotation-history li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.88rem;
+}
+
+.planner-result-page .rotation-ok,
+.planner-result-page .rotation-empty {
+  font-size: 0.9rem;
+  color: #4b5a45;
+}
+
+.planner-progress {
+  margin-bottom: 1.25rem;
+}
+
+.planner-progress-count {
+  margin: 0 0 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #5c6b55;
+}
+
+.planner-progress ol {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.planner-progress button {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: 100%;
+  border: 0;
+  border-top: 4px solid #e3e8dc;
+  background: transparent;
+  padding: 0.5rem 0 0;
+  font: inherit;
+  font-size: 0.85rem;
+  text-align: left;
+  color: #8a9683;
+  cursor: pointer;
+}
+
+.planner-progress button:disabled {
+  cursor: default;
+}
+
+.planner-progress button span {
+  display: inline-grid;
+  place-items: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background: #e3e8dc;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.planner-progress li.reachable button {
+  border-top-color: #8fb07f;
+  color: #3d5a32;
+}
+
+.planner-progress li.reachable button span {
+  background: #cfe0c3;
+}
+
+.planner-progress li.current button {
+  border-top-color: #3d5a32;
+  color: #243328;
+  font-weight: 600;
+}
+
+.planner-progress li.current button span {
+  background: #3d5a32;
+  color: #fff;
+}
+
+.planner-step-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.planner-step-actions .submit-btn {
+  flex: 1;
+}
+
+@media (max-width: 560px) {
+  .planner-progress button {
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 0.75rem;
+  }
+}
+
+.planner-page .planner-step-actions .submit-btn {
+  margin-top: 0;
+  width: auto;
+}
+
+.sun-side-field {
+  grid-column: 1 / -1;
+}
+
+.sun-compass {
+  display: grid;
+  grid-template-columns: 4.6rem 1fr 4.6rem;
+  grid-template-rows: auto 96px auto auto;
+  grid-template-areas:
+    ". n ."
+    "w plot e"
+    ". s ."
+    "shaded shaded shaded";
+  gap: 0.4rem;
+  max-width: 360px;
+  margin-top: 0.4rem;
+}
+
+.sun-compass-option {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  border: 1px solid #cfdcc4;
+  border-radius: 8px;
+  background: #fff;
+  color: #3d5a32;
+  padding: 0.4rem 0.5rem;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.sun-compass-option[aria-pressed="true"] {
+  background: #f3c75a;
+  border-color: #b48a2c;
+  color: #3b2f12;
+  font-weight: 600;
+}
+
+.sun-compass-option:focus-visible {
+  outline: 3px solid #3d5a32;
+  outline-offset: 2px;
+}
+
+.sun-compass-option.north { grid-area: n; }
+.sun-compass-option.south { grid-area: s; }
+.sun-compass-option.east { grid-area: e; align-self: center; }
+.sun-compass-option.west { grid-area: w; align-self: center; }
+.sun-compass-option.shaded { grid-area: shaded; justify-self: center; }
+
+.sun-compass-plot {
+  grid-area: plot;
+  display: grid;
+  place-items: center;
+  border: 2px solid #37342e;
+  border-radius: 4px;
+  background: #faf8f0;
+  font-size: 0.8rem;
+  color: #5c6b55;
+}
+
+/* A sun strip along the chosen side; corners light both adjoining edges. */
+.sun-compass-plot.lit-north { box-shadow: inset 0 10px 0 #f3c75a; }
+.sun-compass-plot.lit-south { box-shadow: inset 0 -10px 0 #f3c75a; }
+.sun-compass-plot.lit-east { box-shadow: inset -10px 0 0 #f3c75a; }
+.sun-compass-plot.lit-west { box-shadow: inset 10px 0 0 #f3c75a; }
+.sun-compass-plot.lit-northeast { box-shadow: inset 0 10px 0 #f3c75a, inset -10px 0 0 #f3c75a; }
+.sun-compass-plot.lit-northwest { box-shadow: inset 0 10px 0 #f3c75a, inset 10px 0 0 #f3c75a; }
+.sun-compass-plot.lit-southeast { box-shadow: inset 0 -10px 0 #f3c75a, inset -10px 0 0 #f3c75a; }
+.sun-compass-plot.lit-southwest { box-shadow: inset 0 -10px 0 #f3c75a, inset 10px 0 0 #f3c75a; }
+.sun-compass-plot.shaded { background: #dfe6ea; }
+
+.sun-compass-result {
+  margin: 0.45rem 0 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #3d5a32;
+}
+
+.sun-compass-hint {
+  margin: 0.4rem 0 0;
+  font-size: 0.78rem;
+  color: #5c6b55;
+}
+
+.sun-compass[data-invalid="true"] .sun-compass-plot {
+  border-color: #b3452f;
+}
+
+.sketch-toggle:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.planner-page .plant-group-count {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.2rem;
+  flex-shrink: 0;
+}
+
+.planner-page .plant-group-adjustment .plant-group-count-label {
+  font-size: 0.7rem;
+  color: #5c6b55;
+  white-space: nowrap;
+}
+
+.look-root .look-dashboard-container {
+  margin-top: 1rem;
 }
