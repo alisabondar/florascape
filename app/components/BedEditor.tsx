@@ -138,7 +138,7 @@ export default function BedEditor({
 
   return (
     <div className="bed-editor">
-      <PixelPlot layout={localLayout} stage={0} onZoneSelect={onZoneSelect} onSwapZones={onSwapZones} />
+      <PixelPlot layout={localLayout} stage={1} onZoneSelect={onZoneSelect} onSwapZones={onSwapZones} />
       <p className="bed-editor-hint no-print">
         Click a patch to open its planting guide{onSwapZones ? ", or drag one patch onto another to swap them" : ""}.
       </p>
