@@ -1,0 +1,47 @@
+{
+  "note": "Shared pixel palette for FloraScape plant sprites. One character per pixel; '.' is transparent.",
+  "frame": { "width": 16, "height": 24 },
+  "colors": {
+    "K": "#2b1d14",
+    "k": "#4a2f1f",
+    "z": "#5a341d",
+    "S": "#7a4a2a",
+    "s": "#9c6338",
+    "G": "#2f6b2f",
+    "g": "#4c9a3a",
+    "l": "#7cc24a",
+    "y": "#b8e06a",
+    "Y": "#d9e67a",
+    "T": "#2f6a5e",
+    "t": "#4f9a86",
+    "N": "#6aa83a",
+    "R": "#b02a1a",
+    "r": "#e2472e",
+    "p": "#ff9a7a",
+    "O": "#d9661a",
+    "o": "#f6a03c",
+    "U": "#e8b020",
+    "u": "#ffe27a",
+    "P": "#5e2f6e",
+    "v": "#9a5aa8",
+    "M": "#e0607e",
+    "m": "#f7a8b8",
+    "W": "#f4f0e0",
+    "w": "#e2d4a8",
+    "B": "#8a5a2b",
+    "b": "#c08a50"
+  },
+  "soilRows": [
+    "...zzSsSSsSSzz..",
+    "..zSSsSSSsSSSSz.",
+    ".zzzzzzzzzzzzzz."
+  ],
+  "frames": ["seed", "sprout", "young", "mature", "sway"],
+  "frameNotes": {
+    "seed": "Just the soil mound with a tiny seed or crack; plant not visible yet (may show 1-2 seed pixels).",
+    "sprout": "Two tiny leaves just out of the soil.",
+    "young": "Half-grown leafy plant, no fruit yet.",
+    "mature": "Full-grown plant, harvest-ready (fruit/flowers/heads visible).",
+    "sway": "Same as mature with leaves/stems shifted by 1px to suggest a breeze; alternates with mature as an idle loop."
+  }
+}

@@ -1,0 +1,276 @@
+/* ==========================================================================
+   FloraScape site theme: the Collector's Album look.
+   Loaded after globals.css; selectors mirror globals.css specificity so these
+   rules win. Page-specific layouts live in each page's own stylesheet.
+   ========================================================================== */
+
+:root {
+  --al-green: #2f4a3a;
+  --al-green-dark: #1f3328;
+  --al-green-light: #4f7a5e;
+  --al-page: #f3ead2;
+  --al-paper: #fbf6e6;
+  --al-ink: #2b2118;
+  --al-muted: #5d5142;
+  --al-red: #a33224;
+  --al-blue: #2d6c8a;
+  --al-gold: #e3a72f;
+  --al-rule: #d8c9a3;
+  --font-display: "Shrikhand", cursive;
+  --font-body: "Mali", cursive;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--al-ink);
+  /* Binder cloth: deep green with a faint woven texture. */
+  background-color: var(--al-green);
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.025) 0 2px, transparent 2px 6px),
+    repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.04) 0 2px, transparent 2px 6px);
+}
+
+.px {
+  /* Small labels and numbers: the body font, semibold, with even-width digits. */
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+:focus-visible {
+  outline: 3px solid var(--al-gold);
+  outline-offset: 2px;
+}
+
+/* ---------- Top bar: a cream label strip across the binder ---------- */
+.landing-page nav,
+.planner-page nav {
+  background: var(--al-paper);
+  border-bottom: 4px solid var(--al-green-dark);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.18);
+  backdrop-filter: none;
+}
+
+.landing-page .logo,
+.planner-page .logo {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.9rem;
+  color: var(--al-green);
+  letter-spacing: 0.01em;
+}
+
+.landing-page .nav-links a {
+  color: var(--al-ink);
+  font-weight: 600;
+}
+
+.landing-page .nav-links a:hover {
+  color: var(--al-red);
+}
+
+/* ---------- Buttons: cream album buttons with an inked edge ---------- */
+.landing-page .btn,
+.planner-page .btn {
+  background: var(--al-red);
+  color: #fff8e8;
+  border: 3px solid var(--al-ink);
+  border-radius: 10px;
+  box-shadow: 4px 4px 0 var(--al-ink);
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.landing-page .btn:hover,
+.planner-page .btn:hover {
+  background: #8f2a1e;
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 var(--al-ink);
+}
+
+.landing-page .btn:active,
+.planner-page .btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--al-ink);
+}
+
+.landing-page .nav-links .btn,
+.landing-page .nav-links .btn:hover {
+  color: #fff8e8;
+}
+
+.planner-page .btn.secondary-action,
+.planner-page .planner-back-link {
+  background: var(--al-paper);
+  color: var(--al-ink);
+  border: 3px solid var(--al-ink);
+  border-radius: 10px;
+  box-shadow: 3px 3px 0 var(--al-ink);
+  font-family: var(--font-display);
+  font-weight: 400;
+}
+
+.planner-page .planner-home-link {
+  border: 3px solid var(--al-ink);
+  background: var(--al-paper);
+  color: var(--al-ink);
+  border-radius: 10px;
+  box-shadow: 3px 3px 0 var(--al-ink);
+}
+
+/* ---------- Form controls: written on album paper ---------- */
+.planner-page .field {
+  color: var(--al-ink);
+  font-weight: 600;
+}
+
+.planner-page input,
+.planner-page select,
+.planner-page textarea,
+.ui-select-trigger {
+  background: #fffdf5;
+  border: 2px solid var(--al-ink);
+  border-radius: 8px;
+  color: var(--al-ink);
+  font-family: var(--font-body);
+}
+
+.planner-page input:focus,
+.planner-page select:focus,
+.planner-page textarea:focus {
+  border-color: var(--al-ink);
+  box-shadow: 0 0 0 3px var(--al-gold);
+  outline: none;
+}
+
+.ui-select-icon {
+  color: var(--al-ink);
+}
+
+.ui-select-content {
+  border: 2px solid var(--al-ink);
+  background: #fffdf5;
+  box-shadow: 4px 4px 0 var(--al-ink);
+  font-family: var(--font-body);
+}
+
+.ui-select-item[data-highlighted] {
+  background: #f1e2b8;
+  color: var(--al-ink);
+}
+
+.ui-select-item[data-state="checked"] {
+  color: var(--al-green);
+}
+
+.ui-checkbox-root {
+  border: 2px solid var(--al-ink);
+  border-radius: 4px;
+  background: #fffdf5;
+}
+
+.ui-checkbox-root[data-state="checked"] {
+  background: var(--al-green);
+  border-color: var(--al-ink);
+}
+
+.planner-page .error {
+  color: var(--al-red);
+  font-weight: 600;
+}
+
+/* ---------- Footer: a stamp on the binder ---------- */
+.landing-page footer,
+.planner-page footer {
+  background: transparent;
+  color: #f3ead2;
+  font-family: var(--font-body);
+  border-top: 0;
+}
+
+/* Print on plain paper everywhere: no binder cloth, ink text. */
+@media print {
+  body {
+    background: #fff !important;
+    color: #000;
+  }
+}
+
+/* Phones: keep the top bar to one row (logo + main action); page links stay in the content. */
+@media (max-width: 560px) {
+  .landing-page .nav-inner {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding: 0.6rem 0;
+  }
+
+  .landing-page .nav-links {
+    gap: 0;
+  }
+
+  .landing-page .nav-links a:not(.btn) {
+    display: none;
+  }
+
+  .landing-page .logo,
+  .planner-page .logo {
+    font-size: 1.5rem;
+  }
+
+  .landing-page .nav-links .btn {
+    padding: 0.55rem 0.9rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Phones: planner and results top bar on one row too. */
+@media (max-width: 700px) {
+  .planner-page .nav-inner {
+    flex-wrap: nowrap;
+    min-height: 0;
+    padding-block: 0.6rem;
+  }
+
+  .planner-page .planner-nav-actions {
+    width: auto;
+    flex-wrap: nowrap;
+    gap: 0.4rem;
+  }
+
+  .planner-page .planner-nav-actions .btn,
+  .planner-page .planner-nav-actions .planner-back-link {
+    width: auto;
+    padding: 0.45rem 0.7rem;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+}
+
+/* Phones: logo, level chip, and the main action share one row. */
+@media (max-width: 560px) {
+  .landing-page .nav-links {
+    flex-wrap: nowrap;
+    gap: 0.4rem;
+  }
+
+  .landing-page .logo,
+  .planner-page .logo {
+    font-size: 1.3rem;
+  }
+
+  .landing-page .nav-links .btn {
+    padding: 0.45rem 0.7rem;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+}
+
+/* Dropdown options sit in a scrolling list that clips anything outside it, so their
+   focus ring is drawn inside the option instead of around it. */
+.ui-select-item:focus-visible,
+.ui-select-item[data-highlighted] {
+  outline: 2px solid var(--al-gold);
+  outline-offset: -2px;
+}

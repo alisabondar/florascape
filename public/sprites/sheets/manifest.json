@@ -1,0 +1,113 @@
+{
+  "frameWidth": 16,
+  "frameHeight": 24,
+  "frames": [
+    "seed",
+    "sprout",
+    "young",
+    "mature",
+    "sway"
+  ],
+  "plants": [
+    {
+      "id": "basil",
+      "name": "Basil",
+      "sheet": "/sprites/sheets/basil.png"
+    },
+    {
+      "id": "bell-pepper",
+      "name": "Bell Pepper",
+      "sheet": "/sprites/sheets/bell-pepper.png"
+    },
+    {
+      "id": "carrot",
+      "name": "Carrot",
+      "sheet": "/sprites/sheets/carrot.png"
+    },
+    {
+      "id": "corn",
+      "name": "Corn",
+      "sheet": "/sprites/sheets/corn.png"
+    },
+    {
+      "id": "cucumber",
+      "name": "Cucumber",
+      "sheet": "/sprites/sheets/cucumber.png"
+    },
+    {
+      "id": "garlic",
+      "name": "Garlic",
+      "sheet": "/sprites/sheets/garlic.png"
+    },
+    {
+      "id": "green-bean",
+      "name": "Green Bean",
+      "sheet": "/sprites/sheets/green-bean.png"
+    },
+    {
+      "id": "kale",
+      "name": "Kale",
+      "sheet": "/sprites/sheets/kale.png"
+    },
+    {
+      "id": "lettuce",
+      "name": "Lettuce",
+      "sheet": "/sprites/sheets/lettuce.png"
+    },
+    {
+      "id": "marigold",
+      "name": "Marigold",
+      "sheet": "/sprites/sheets/marigold.png"
+    },
+    {
+      "id": "onion",
+      "name": "Onion",
+      "sheet": "/sprites/sheets/onion.png"
+    },
+    {
+      "id": "pea",
+      "name": "Pea",
+      "sheet": "/sprites/sheets/pea.png"
+    },
+    {
+      "id": "potato",
+      "name": "Potato",
+      "sheet": "/sprites/sheets/potato.png"
+    },
+    {
+      "id": "pumpkin",
+      "name": "Pumpkin",
+      "sheet": "/sprites/sheets/pumpkin.png"
+    },
+    {
+      "id": "radish",
+      "name": "Radish",
+      "sheet": "/sprites/sheets/radish.png"
+    },
+    {
+      "id": "spinach",
+      "name": "Spinach",
+      "sheet": "/sprites/sheets/spinach.png"
+    },
+    {
+      "id": "strawberry",
+      "name": "Strawberry",
+      "sheet": "/sprites/sheets/strawberry.png"
+    },
+    {
+      "id": "sunflower",
+      "name": "Sunflower",
+      "sheet": "/sprites/sheets/sunflower.png"
+    },
+    {
+      "id": "tomato",
+      "name": "Tomato",
+      "sheet": "/sprites/sheets/tomato.png"
+    },
+    {
+      "id": "zucchini",
+      "name": "Zucchini",
+      "sheet": "/sprites/sheets/zucchini.png"
+    }
+  ]
+}
