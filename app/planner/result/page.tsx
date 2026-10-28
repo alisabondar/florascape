@@ -579,7 +579,8 @@ export default function PlannerResultPage() {
                       <GardenChat
                         plan={plan}
                         climate={result.climate || null}
-                        messages={result.chat || []}
+                        // No past replies (e.g. "AI unavailable" notices) while the helper is coming soon.
+                        messages={[]}
                         onMessagesChange={handleChatMessagesChange}
                         onApplySwap={handleSwapPlant}
                       />
