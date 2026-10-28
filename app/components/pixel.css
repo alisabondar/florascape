@@ -107,8 +107,8 @@
   background: transparent;
   cursor: pointer;
   font: inherit;
-  /* Sprites are taller than a tile and may rise above their zone, like crops in a farm game. */
-  overflow: visible;
+  /* Everything (sprites and tag) stays inside its zone. */
+  overflow: hidden;
 }
 
 .pixel-zone:hover,
