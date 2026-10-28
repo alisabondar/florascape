@@ -21,10 +21,14 @@ interface PixelPlotProps {
   maxTile?: number;
   /** false draws every plant fully grown and still (e.g. a static sample). */
   animate?: boolean;
+  /** Draw every plant at one still growth stage (0 seed … 3 mature) instead. */
+  stage?: 0 | 1 | 2 | 3;
   className?: string;
 }
 
 const MAX_SPRITES_PER_ZONE = 24;
+/** Room kept at the bottom of a zone for its tag, in px. */
+const TAG_HEIGHT = 22;
 
 /**
  * Top-down pixel garden: each bed is a soil-tile grid (one tile per foot) and each plant
@@ -39,6 +43,7 @@ export default function PixelPlot({
   showTags = true,
   maxTile = 44,
   animate = true,
+  stage,
   className = "",
 }: PixelPlotProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -162,8 +167,15 @@ export default function PixelPlot({
           if (!plant) {
             return null;
           }
-          const columns = Math.max(1, Math.floor(patch.width));
-          const rows = Math.max(1, Math.floor(patch.height));
+          // Only as many sprites as fit fully inside the zone, above the tag (no overflow, no overlap).
+          const tagSpace = showTags ? TAG_HEIGHT : 0;
+          const innerWidth = patch.width * tile - 4;
+          const innerHeight = patch.height * tile - 4 - tagSpace;
+          // Narrow or short zones shrink their sprites so at least one fits whole.
+          const zoneScale = Math.max(1, Math.min(spriteScale, Math.floor(innerWidth / 16), Math.floor(innerHeight / 24)));
+          // A zone too small for even one whole sprite shows just its tag.
+          const columns = Math.max(0, Math.floor(innerWidth / (16 * zoneScale)));
+          const rows = Math.max(0, Math.floor(innerHeight / (24 * zoneScale)));
           const spriteCount = Math.min(MAX_SPRITES_PER_ZONE, columns * rows, Math.max(1, plant.quantity || 1));
           const selected = plant.id === selectedPlantId;
           const label = `${plant.name}, ${plant.quantity} mature plants, ${startingAmountLabel(plant.name, plant.quantity)}`;
@@ -172,7 +184,8 @@ export default function PixelPlot({
             top: patch.y * tile,
             width: patch.width * tile,
             height: patch.height * tile,
-            gridTemplateColumns: `repeat(${Math.min(columns, spriteCount)}, 1fr)`,
+            gridTemplateColumns: `repeat(${Math.max(1, Math.min(columns, spriteCount))}, 1fr)`,
+            paddingBottom: tagSpace + 2,
           };
           const contents = (
             <>
@@ -180,8 +193,9 @@ export default function PixelPlot({
                 <PixelSprite
                   key={index}
                   plantName={plant.name}
-                  scale={spriteScale}
-                  motion={animate ? "grow" : "still"}
+                  scale={zoneScale}
+                  motion={stage !== undefined ? "still" : animate ? "grow" : "still"}
+                  stage={stage}
                   delay={zoneIndex * 0.25 + index * 0.04}
                 />
               ))}
