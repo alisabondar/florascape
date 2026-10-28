@@ -19,16 +19,16 @@ interface PixelPlotProps {
   showTags?: boolean;
   /** Largest tile size in px for one foot of bed. */
   maxTile?: number;
-  /** false draws every plant fully grown and still (e.g. a static sample). */
+  /** false draws every plant still (e.g. a static sample). */
   animate?: boolean;
+  /** Still growth stage per plant name (lowercase); plants not listed are drawn fully grown. */
+  stages?: Record<string, 0 | 1 | 2 | 3>;
   className?: string;
 }
 
-const MAX_SPRITES_PER_ZONE = 24;
-
 /**
  * Top-down pixel garden: each bed is a soil-tile grid (one tile per foot) and each plant
- * zone is filled with that plant's animated sprite. Zones come from the same layout model
+ * zone shows one sprite of its plant beside the group's total. Zones come from the same layout model
  * as the hand-drawn sketch, so edits, swaps, and shuffles appear in both.
  */
 export default function PixelPlot({
@@ -39,6 +39,7 @@ export default function PixelPlot({
   showTags = true,
   maxTile = 44,
   animate = true,
+  stages,
   className = "",
 }: PixelPlotProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -162,9 +163,12 @@ export default function PixelPlot({
           if (!plant) {
             return null;
           }
-          const columns = Math.max(1, Math.floor(patch.width));
-          const rows = Math.max(1, Math.floor(patch.height));
-          const spriteCount = Math.min(MAX_SPRITES_PER_ZONE, columns * rows, Math.max(1, plant.quantity || 1));
+          const stage = stages?.[plant.name.toLowerCase()] ?? 3;
+          // One sprite per zone, as large as fits (sprites are 16 × 24 px), leaving room for the tag.
+          const zoneScale = Math.max(
+            spriteScale,
+            Math.min(4, Math.floor((patch.width * tile * 0.7) / 16), Math.floor((patch.height * tile * 0.6) / 24)),
+          );
           const selected = plant.id === selectedPlantId;
           const label = `${plant.name}, ${plant.quantity} mature plants, ${startingAmountLabel(plant.name, plant.quantity)}`;
           const zoneStyle = {
@@ -172,19 +176,16 @@ export default function PixelPlot({
             top: patch.y * tile,
             width: patch.width * tile,
             height: patch.height * tile,
-            gridTemplateColumns: `repeat(${Math.min(columns, spriteCount)}, 1fr)`,
           };
           const contents = (
             <>
-              {Array.from({ length: spriteCount }, (_, index) => (
-                <PixelSprite
-                  key={index}
-                  plantName={plant.name}
-                  scale={spriteScale}
-                  motion={animate ? "grow" : "still"}
-                  delay={zoneIndex * 0.25 + index * 0.04}
-                />
-              ))}
+              <PixelSprite
+                plantName={plant.name}
+                scale={zoneScale}
+                motion={animate ? "grow" : "still"}
+                stage={stage}
+                delay={zoneIndex * 0.25}
+              />
               {showTags ? (
                 // Narrow zones get just the count; the full text is in the zone's aria-label.
                 <span className="pixel-zone-tag" aria-hidden="true">
@@ -207,7 +208,7 @@ export default function PixelPlot({
                 key={patch.id}
                 role="img"
                 aria-label={label}
-                className={`pixel-zone static${spriteCount === 1 ? " single" : ""}`}
+                className="pixel-zone static single"
                 style={zoneStyle}
               >
                 {contents}
@@ -219,7 +220,7 @@ export default function PixelPlot({
               type="button"
               key={patch.id}
               data-plant-id={plant.id}
-              className={`pixel-zone${spriteCount === 1 ? " single" : ""}${selected ? " selected" : ""}${drag?.fromId === plant.id ? " drag-source" : ""}${drag?.overId === plant.id ? " drop-target" : ""}`}
+              className={`pixel-zone single${selected ? " selected" : ""}${drag?.fromId === plant.id ? " drag-source" : ""}${drag?.overId === plant.id ? " drop-target" : ""}`}
               style={zoneStyle}
               onClick={() => {
                 if (suppressClickRef.current) {

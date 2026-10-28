@@ -18,6 +18,8 @@ interface BedEditorProps {
   onZoneSelect?: (plant: Plant) => void;
   /** Fold the editing controls behind an "Edit plant groups" toggle. */
   collapsible?: boolean;
+  /** Growth stage per plant name for the garden's sprites. */
+  stages?: Record<string, 0 | 1 | 2 | 3>;
 }
 
 function clone<T>(value: T): T {
@@ -49,6 +51,7 @@ export default function BedEditor({
   onSwapZones,
   onZoneSelect,
   collapsible = false,
+  stages,
 }: BedEditorProps) {
   const [localLayout, setLocalLayout] = useState(() => clone(layout));
   const [templateCatalog, setTemplateCatalog] = useState(() => clone(layout.plants || []));
@@ -138,7 +141,7 @@ export default function BedEditor({
 
   return (
     <div className="bed-editor">
-      <PixelPlot layout={localLayout} animate={false} onZoneSelect={onZoneSelect} onSwapZones={onSwapZones} />
+      <PixelPlot layout={localLayout} animate={false} stages={stages} onZoneSelect={onZoneSelect} onSwapZones={onSwapZones} />
       <p className="bed-editor-hint no-print">
         Click a patch to open its planting guide{onSwapZones ? ", or drag one patch onto another to swap them" : ""}.
       </p>
