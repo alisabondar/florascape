@@ -480,10 +480,10 @@ export default function PlannerResultPage() {
         <div className="container nav-inner">
           <Link className="logo" href="/" aria-label="FloraScape home">FloraScape</Link>
           <div className="planner-nav-actions">
+            <NavAlbumsLink />
             <LevelBadge />
             {/* With a plan, "Edit inputs" lives in the album toolbar instead. */}
             {plan ? null : <a href={editHref} className="planner-back-link">Edit Inputs</a>}
-            <NavAlbumsLink />
             <a href="/planner" className="btn">
               <Leaf size={17} strokeWidth={2.3} aria-hidden="true" />
               Start Over
