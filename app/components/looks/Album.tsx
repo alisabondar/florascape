@@ -86,24 +86,6 @@ function buildCards(plants: Plant[]): AlbumCard[] {
   return [...byName.values()];
 }
 
-type Stage = 0 | 1 | 2 | 3;
-const STAGE_LABELS = ["Seed", "Sprout", "Young", "Mature"] as const;
-const DAY_MS = 86_400_000;
-
-/**
- * How grown a card's sprite looks: a seed until it's stamped, then it grows with the days
- * since it was planted (toward its days to harvest). Stamps set a floor; Harvested is full grown.
- */
-function stageFor(stamp: Stamp | undefined, plantedAt: string | undefined, days: number | null, now: number): Stage {
-  if (!stamp) return 0;
-  if (stamp === "harvested") return 3;
-  const floor: Stage = stamp === "growing" ? 2 : 1;
-  const started = plantedAt ? Date.parse(plantedAt) : NaN;
-  if (!Number.isFinite(started)) return floor;
-  const grown = Math.min(3, 1 + Math.floor((2 * (now - started)) / (DAY_MS * (days || 60)))) as Stage;
-  return Math.max(floor, grown) as Stage;
-}
-
 const LEVEL_TITLES: Record<string, string> = {
   now: "Plant now",
   next_month: "Next month",
@@ -158,35 +140,8 @@ export default function AlbumDashboard({
     }
   }, [stamps, storageKey, loadedKey]);
 
-  // When each plant went in the ground, so its sprite can grow as the days pass.
-  const datesKey = `${storageKey}_planted`;
-  const [plantedAt, setPlantedAt] = useState<Record<string, string>>({});
-  const [now, setNow] = useState(0);
-  useEffect(() => {
-    try {
-      const parsed: unknown = JSON.parse(window.localStorage.getItem(datesKey) || "{}");
-      const next: Record<string, string> = {};
-      if (parsed && typeof parsed === "object") {
-        for (const [name, value] of Object.entries(parsed)) if (typeof value === "string") next[name] = value;
-      }
-      setPlantedAt(next);
-    } catch {
-      setPlantedAt({});
-    }
-    setNow(Date.now());
-  }, [datesKey]);
-
   const toggleStamp = (name: string, stamp: Stamp) => {
     const turningOn = stamps[name] !== stamp;
-    if (turningOn && stamp !== "harvested" && !plantedAt[name]) {
-      const next = { ...plantedAt, [name]: new Date().toISOString() };
-      setPlantedAt(next);
-      try {
-        window.localStorage.setItem(datesKey, JSON.stringify(next));
-      } catch {
-        // Storage may be disabled; the sprite just won't grow over time.
-      }
-    }
     if (turningOn) {
       // Each stamp pays out once per plant per album, so toggling can't farm XP.
       const allHarvested =
@@ -307,7 +262,6 @@ export default function AlbumDashboard({
             const colors = RARITY_COLORS[card.rarity];
             const key = card.name.toLowerCase();
             const active = stamps[key];
-            const stage = stageFor(active, plantedAt[key], card.days, now);
             const activeLabel = STAMPS.find((s) => s.id === active)?.label;
             const guide = guideByName.get(key);
             const sizes = sectionSizes[key] || [];
@@ -317,8 +271,7 @@ export default function AlbumDashboard({
                 <span className="album-rarity px">{card.rarity}</span>
                 {activeLabel ? <span className={`album-stamp-mark is-${active}`} aria-hidden="true">{activeLabel}</span> : null}
                 <div className="album-art" aria-hidden="true">
-                  <PixelSprite plantName={card.name} motion="still" stage={stage} />
-                  <span className="album-art-stage px">{STAGE_LABELS[stage]}</span>
+                  <PixelSprite plantName={card.name} motion="still" />
                 </div>
                 <h3 className="album-card-name">{card.name}</h3>
                 <p className="album-ct">
@@ -437,7 +390,7 @@ export default function AlbumDashboard({
           >
             <i style={{ width: `${percent}%` }} />
           </div>
-          <p className="album-hint">Stamp a card once it&apos;s in the ground to earn XP; its sprite grows from seed as the days pass.</p>
+          <p className="album-hint">Stamp a card once it&apos;s in the ground to add it to your set and earn XP.</p>
           </div>
         <p className="album-seed-note">
           Counts are healthy mature plants the space supports. Sow a few extra seeds and thin to the count; follow the

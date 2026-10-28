@@ -49,13 +49,10 @@ test("Shuffle Plants changes the plants", async ({ page }) => {
   await expect.poll(() => groupNames(page)).not.toEqual(before);
 });
 
-test("the chat answers a spacing question from the plan", async ({ page }) => {
+test("the garden helper is shown as coming soon and can't be used", async ({ page }) => {
   await planGarden(page);
-  await page.getByLabel("Ask a question about your garden").fill("How far apart should I plant the tomatoes?");
-  await page.getByRole("button", { name: "Ask", exact: true }).click();
-  const reply = page.locator(".garden-chat-message.assistant").last();
-  await expect(reply).toContainText("From your plan");
-  await expect(reply).toContainText(/Space Tomato about \d+ inches apart\./);
+  await expect(page.locator(".coming-soon-badge")).toHaveText(/coming soon/i);
+  await expect(page.locator(".coming-soon")).toHaveAttribute("inert", "");
 });
 
 test("Add to calendar downloads an .ics file", async ({ page }) => {

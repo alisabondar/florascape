@@ -427,12 +427,8 @@
   .look-album .notes-panel { border: 0; }
 }
 
-/* Card art is a still frame for the plant's current stage; only the totals row moves. */
+/* Card art is a still, fully grown plant; only the totals row moves. */
 .album-art { position: relative; }
-.album-art-stage {
-  position: absolute; left: 6px; bottom: 4px; font-size: 0.68rem; padding: 0 5px;
-  background: #fff4d6; border: 1px solid var(--al-ink); border-radius: 3px; color: var(--al-ink);
-}
 
 /* Clicking a garden patch spotlights its card. */
 .album-card.is-spotlit { animation: album-spotlight 2.4s ease-out; }
@@ -456,3 +452,11 @@
 }
 .album-totals .album-section-title, .album-totals .album-seed-note { color: var(--al-ink); }
 .album-totals .album-section-title { margin-top: 0; }
+
+/* Features that aren't available yet: faded, not interactive, with a badge. */
+.coming-soon { position: relative; margin-top: 28px; }
+.coming-soon > :not(.coming-soon-badge) { opacity: 0.45; filter: grayscale(0.6); pointer-events: none; user-select: none; }
+.coming-soon-badge {
+  position: absolute; top: 14px; right: 18px; z-index: 1; padding: 3px 10px; border-radius: 4px;
+  background: var(--al-gold); color: var(--al-ink); border: 2px solid var(--al-ink); font-size: 0.8rem;
+}
