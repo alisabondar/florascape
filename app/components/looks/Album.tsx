@@ -87,7 +87,6 @@ function buildCards(plants: Plant[]): AlbumCard[] {
 }
 
 type Stage = 0 | 1 | 2 | 3;
-const STAGE_LABELS = ["Seed", "Sprout", "Young", "Mature"] as const;
 const DAY_MS = 86_400_000;
 
 /**
@@ -227,6 +226,15 @@ export default function AlbumDashboard({
     }
   };
 
+  // The garden picture grows; the cards always show each plant fully grown.
+  const stages = useMemo(
+    () => Object.fromEntries(cards.map((card) => {
+      const key = card.name.toLowerCase();
+      return [key, stageFor(stamps[key], plantedAt[key], card.days, now)];
+    })),
+    [cards, stamps, plantedAt, now],
+  );
+
   const collected = cards.filter((card) => stamps[card.name.toLowerCase()]).length;
   const percent = cards.length ? Math.round((collected / cards.length) * 100) : 0;
   const levels = groupGuideByTiming(plan.plantingGuide);
@@ -294,6 +302,7 @@ export default function AlbumDashboard({
               onSwapZones={onSwapZones}
               onZoneSelect={onOpenGuide}
               collapsible
+              stages={stages}
             />
           </section>
         </div>
@@ -307,7 +316,6 @@ export default function AlbumDashboard({
             const colors = RARITY_COLORS[card.rarity];
             const key = card.name.toLowerCase();
             const active = stamps[key];
-            const stage = stageFor(active, plantedAt[key], card.days, now);
             const activeLabel = STAMPS.find((s) => s.id === active)?.label;
             const guide = guideByName.get(key);
             const sizes = sectionSizes[key] || [];
@@ -317,8 +325,7 @@ export default function AlbumDashboard({
                 <span className="album-rarity px">{card.rarity}</span>
                 {activeLabel ? <span className={`album-stamp-mark is-${active}`} aria-hidden="true">{activeLabel}</span> : null}
                 <div className="album-art" aria-hidden="true">
-                  <PixelSprite plantName={card.name} motion="still" stage={stage} />
-                  <span className="album-art-stage px">{STAGE_LABELS[stage]}</span>
+                  <PixelSprite plantName={card.name} motion="still" />
                 </div>
                 <h3 className="album-card-name">{card.name}</h3>
                 <p className="album-ct">
@@ -437,7 +444,7 @@ export default function AlbumDashboard({
           >
             <i style={{ width: `${percent}%` }} />
           </div>
-          <p className="album-hint">Stamp a card once it&apos;s in the ground to earn XP; its sprite grows from seed as the days pass.</p>
+          <p className="album-hint">Stamp a card once it&apos;s in the ground to earn XP; its patch in the garden grows from seed as the days pass.</p>
           </div>
         <p className="album-seed-note">
           Counts are healthy mature plants the space supports. Sow a few extra seeds and thin to the count; follow the

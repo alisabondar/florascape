@@ -422,8 +422,8 @@ function PlannerForm() {
             FloraScape
           </Link>
           <div className="planner-nav-actions">
-            <NavAlbumsLink />
             <LevelBadge />
+            <NavAlbumsLink />
             <Link
               href="/"
               className="planner-home-link"
