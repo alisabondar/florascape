@@ -35,7 +35,7 @@ export default function GardenerPanel() {
         </div>
       </div>
       <p className="gardener-how">
-        Earn XP by stamping cards, finishing planting quests, saving seasons, and keeping your crop rotation.
+        Earn XP by stamping cards and finishing quests.
       </p>
       <ul className="gardener-badges" aria-label="Badges">
         {BADGES.map((badge) => {

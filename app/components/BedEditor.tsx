@@ -138,16 +138,16 @@ export default function BedEditor({
 
   return (
     <div className="bed-editor">
-      <PixelPlot layout={localLayout} stage={1} onZoneSelect={onZoneSelect} onSwapZones={onSwapZones} />
+      <PixelPlot layout={localLayout} stage={3} maxTile={72} maxHeight={640} onZoneSelect={onZoneSelect} onSwapZones={onSwapZones} />
       <p className="bed-editor-hint no-print">
-        Click a patch to open its planting guide{onSwapZones ? ", or drag one patch onto another to swap them" : ""}.
+        Click a patch for its guide{onSwapZones ? " · drag one onto another to swap" : ""}.
       </p>
 
       <details className="garden-sketch-editor no-print" open={collapsible ? undefined : true}>
         <summary className="garden-sketch-editor-heading">
           <div>
             <strong>Edit plant groups</strong>
-            <span>Pick a different plant for any group, or use the controls to rebalance how much space each plant receives.</span>
+            <span>Swap plants or change how many of each.</span>
           </div>
         </summary>
 
@@ -188,7 +188,7 @@ export default function BedEditor({
                   </button>
                 </div>
                 <span className="plant-group-count-label">
-                  mature plants · {startingAmountLabel(plant.name, plant.quantity || 1)}
+                  plants · {startingAmountLabel(plant.name, plant.quantity || 1)}
                 </span>
               </div>
             </div>
@@ -281,14 +281,6 @@ export default function BedEditor({
           </table>
         </div>
       ) : null}
-
-      <div className="garden-sketch-meta">
-        <span>
-          {localLayout.garden.gardenTypeKey === "in_ground" ? "Plot size" : "Footprint"}: {localLayout.garden.width} × {localLayout.garden.height} ft
-        </span>
-        <span>{localLayout.beds.length} growing {localLayout.beds.length === 1 ? "area" : "areas"}</span>
-        <span>{localLayout.plants.length} plant groups</span>
-      </div>
     </div>
   );
 }

@@ -128,7 +128,7 @@ export default function GardenChat({ plan, climate, messages, onMessagesChange, 
         <span>07</span>
         <div>
           <h2 id="garden-chat-title">Ask about my garden</h2>
-          <p>Questions about timing, spacing, or quantities for your plants are answered right from your plan.</p>
+          <p>Timing, spacing, or quantities, answered from your plan.</p>
         </div>
       </div>
 

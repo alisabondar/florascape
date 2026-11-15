@@ -95,36 +95,69 @@
   background: #2b1d14;
   color: #fff4d6;
   white-space: nowrap;
+  /* Stays readable above plants that rise past the bed's top edge. */
+  z-index: 2;
 }
 
 .pixel-zone {
   position: absolute;
-  display: grid;
-  align-items: end;
-  justify-items: center;
-  padding: 2px;
-  border: 2px dashed transparent;
+  display: block;
+  padding: 0;
+  border: 0;
+  outline: 2px dashed transparent;
+  outline-offset: -2px;
   background: transparent;
   cursor: pointer;
   font: inherit;
-  /* Everything (sprites and tag) stays inside its zone. */
-  overflow: hidden;
+  /* Plants stand up out of their spots, so tall ones may rise past the zone's top edge. */
+  overflow: visible;
 }
 
 .pixel-zone:hover,
 .pixel-zone:focus-visible {
-  border-color: #ffe27a;
+  outline-color: #ffe27a;
   background: rgba(255, 226, 122, 0.12);
-  outline: none;
 }
 
 .pixel-zone.selected {
-  border: 2px solid #ffe27a;
+  outline: 2px solid #ffe27a;
   background: rgba(255, 226, 122, 0.2);
+}
+
+/* One disc per plant, as wide as its spacing: the room that plant gets. */
+.pixel-footprints {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.pixel-footprints circle {
+  fill: #5e361c;
+  stroke: #9c6338;
+  stroke-width: 1;
+}
+
+/* Too dense for a sprite each: small leafy dots, with one sprite as the zone's icon. */
+.pixel-footprints.dense circle {
+  fill: #5d9a3c;
+  stroke: #2f5a1f;
+}
+
+/* A sprite anchored at its bottom center, on its spot. */
+.pixel-spot {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  pointer-events: none;
+}
+
+.pixel-spot.icon {
+  filter: drop-shadow(0 0 0 #fff4d6) drop-shadow(1px 0 0 #fff4d6) drop-shadow(-1px 0 0 #fff4d6) drop-shadow(0 1px 0 #fff4d6) drop-shadow(0 -1px 0 #fff4d6);
 }
 
 .pixel-zone-tag {
   position: absolute;
+  z-index: 1;
   left: 50%;
   bottom: 2px;
   transform: translateX(-50%);
@@ -143,19 +176,13 @@
 }
 
 .pixel-zone.drag-source {
-  border: 2px dashed #fff4d6;
+  outline: 2px dashed #fff4d6;
   opacity: 0.75;
 }
 
 .pixel-zone.drop-target {
-  border: 3px solid #ffe27a;
+  outline: 3px solid #ffe27a;
   background: rgba(255, 226, 122, 0.3);
-}
-
-/* A single plant sits in the middle of its section. */
-.pixel-zone.single {
-  align-items: center;
-  align-content: center;
 }
 
 /* One line between neighboring sections of a bed. */
@@ -173,6 +200,39 @@
 .pixel-zone.static,
 .pixel-zone.static:hover {
   cursor: default;
-  border-color: transparent;
+  outline-color: transparent;
   background: transparent;
+}
+
+/* Dimension line between two plants, labeled with their spacing. */
+.pixel-spacing {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.pixel-spacing line {
+  stroke: #fff4d6;
+  stroke-width: 2;
+  filter: drop-shadow(0 1px 0 #2b1d14);
+}
+
+.pixel-spacing-label {
+  position: absolute;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+  padding: 0 4px;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: #2b1d14;
+  background: #fff4d6;
+  border: 2px solid #2b1d14;
+  white-space: nowrap;
+  pointer-events: none;
 }
