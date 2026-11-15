@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { getPlantSectionSizes, layoutToSvgModel } from "./garden-layout";
+import { getPlantSectionSizes, layoutToSvgModel, plantSpots } from "./garden-layout";
 import type { Layout } from "./types";
 
 const layout: Layout = {
@@ -63,5 +63,32 @@ describe("garden layout model", () => {
       width: Math.round((tomatoPatch?.width ?? 0) * 4) / 4,
       height: Math.round((tomatoPatch?.height ?? 0) * 4) / 4,
     });
+  });
+});
+
+describe("plantSpots", () => {
+  test("places plants on the spacing grid zoneCapacity counts", () => {
+    const zone = { x: 0, y: 0, width: 4, height: 2 };
+    const spots = plantSpots(zone, { spacingInches: 12, quantity: 8 });
+    expect(spots).toHaveLength(8);
+    expect(spots[0]).toEqual({ x: 0.5, y: 0.5 });
+    expect(spots[7]).toEqual({ x: 3.5, y: 1.5 });
+  });
+
+  test("keeps neighbors at least one spacing apart", () => {
+    const spots = plantSpots({ x: 1, y: 1, width: 3.3, height: 1.1 }, { spacingInches: 12, quantity: 99 });
+    expect(spots).toHaveLength(3);
+    expect(spots[1].x - spots[0].x).toBeGreaterThanOrEqual(1);
+  });
+
+  test("stops at the quantity", () => {
+    expect(plantSpots({ x: 0, y: 0, width: 4, height: 4 }, { spacingInches: 12, quantity: 5 })).toHaveLength(5);
+  });
+
+  test("circle beds drop spots outside the circle", () => {
+    const bed = { x: 0, y: 0, width: 4, height: 4, shape: "circle" as const };
+    const spots = plantSpots({ x: 0, y: 0, width: 4, height: 4 }, { spacingInches: 6, quantity: 999 }, bed);
+    expect(spots.length).toBeLessThan(64);
+    spots.forEach((spot) => expect(Math.hypot(spot.x - 2, spot.y - 2)).toBeLessThanOrEqual(2));
   });
 });

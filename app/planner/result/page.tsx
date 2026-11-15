@@ -177,7 +177,6 @@ function TipsSection({ tips }: { tips: PlanTips | undefined }) {
         <span>03</span>
         <div>
           <h2>Tips for this garden</h2>
-          <p>Small decisions that will help the plan succeed.</p>
         </div>
       </div>
 

@@ -37,7 +37,7 @@ const groupNames = (page: Page) => page.locator(".plant-group-adjustment").evalu
 test("the three planner steps produce a starter plan", async ({ page }) => {
   await planGarden(page);
   await expect(page.locator("main.look-album")).toBeVisible();
-  await expect(page.getByRole("heading", { name: "The bed these cards fill" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Your garden" })).toBeVisible();
   await expect(page.locator(".pixel-zone").first()).toBeVisible();
   expect((await groupNames(page)).length).toBeGreaterThanOrEqual(3);
 });

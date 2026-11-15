@@ -216,8 +216,8 @@ export default function AlbumDashboard({
         <a className="album-btn album-btn-ghost" href={editHref}>Edit inputs</a>
       </div>
 
-      {/* 1. The spread: what this plan is (left) and the garden itself (right). */}
-      <div className="album-binder">
+      {/* 1. The spread: what this plan is (top) and the garden itself, full width, below it. */}
+      <div className="album-binder album-binder-stacked">
         <div className="album-page album-page-left">
           <p className="album-source px">{sourceLabel}</p>
           <h1 id="album-headline" className="album-headline">{headline}</h1>
@@ -240,7 +240,7 @@ export default function AlbumDashboard({
 
         <div className="album-page album-page-right">
           <section aria-labelledby="album-plot-title">
-            <h2 id="album-plot-title" className="album-page-title">The bed these cards fill</h2>
+            <h2 id="album-plot-title" className="album-page-title">Your garden</h2>
             <BedEditor
               layout={plan.layout}
               alternatives={plan.alternatives}
@@ -291,12 +291,12 @@ export default function AlbumDashboard({
                     <summary>Planting guide</summary>
                     <p>{guide.timingDetails}</p>
                     <dl>
-                      <dt>How much to sow</dt>
-                      <dd>{guide.sowingAmount || `Start a few extra seeds and thin to ${card.quantity} healthy plants.`}</dd>
+                      <dt>Sow</dt>
+                      <dd>{guide.sowingAmount || `Sow a few extra; thin to ${card.quantity}.`}</dd>
                       {sizes.length ? (
                         <>
                           <dt>Space</dt>
-                          <dd>{sizes.map((size) => `${size.bedName}: about ${size.width} × ${size.height} ft`).join("; ")}</dd>
+                          <dd>{sizes.map((size) => `${size.width} × ${size.height} ft${plan.layout.beds.length > 1 ? ` in ${size.bedName}` : ""}`).join("; ")}</dd>
                         </>
                       ) : null}
                       {guide.plantingDepth ? (<><dt>Depth</dt><dd>{guide.plantingDepth}</dd></>) : null}
@@ -390,12 +390,8 @@ export default function AlbumDashboard({
           >
             <i style={{ width: `${percent}%` }} />
           </div>
-          <p className="album-hint">Stamp a card once it&apos;s in the ground to add it to your set and earn XP.</p>
+          <p className="album-hint">Stamp cards as you plant to earn XP.</p>
           </div>
-        <p className="album-seed-note">
-          Counts are healthy mature plants the space supports. Sow a few extra seeds and thin to the count; follow the
-          packet for depth, since cultivars vary.
-        </p>
       </section>
     </section>
   );

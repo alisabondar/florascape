@@ -148,12 +148,12 @@ export function normalizeGuide(rawGuide: unknown, plants: Plant[]): GuideEntry[]
       timingLabel: cleanText(raw?.timingLabel, seasonalTimingLabel(whenToPlant)),
       timingDetails: cleanText(
         raw?.timingDetails,
-        "Confirm local frost timing before planting.",
+        "Check your local frost dates before planting.",
       ),
       spacingInches: round(clampSpacingToFacts(plantName, spacing)),
       sowingAmount: cleanText(
         raw?.sowingAmount,
-        `Start a few extra seeds and thin to ${groups.reduce((sum, group) => sum + (Number(group.quantity) || 1), 0)} healthy plants.`,
+        `Sow a few extra; thin to ${groups.reduce((sum, group) => sum + (Number(group.quantity) || 1), 0)}.`,
       ),
       plantingDepth: cleanText(raw?.plantingDepth),
       watering: cleanText(raw?.watering),

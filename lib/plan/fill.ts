@@ -373,7 +373,7 @@ export function plantingWindowFromFacts(fact: PlantFact, climate: Climate, today
     return {
       whenToPlant: "next_season",
       timingLabel: `Plant this ${seasonName((now + 60) % 365)}`,
-      timingDetails: `${tender ? "Frost-tender: plant after your last spring frost." : "Tolerates light frost."} Confirm local frost timing before planting.`,
+      timingDetails: `${tender ? "Frost-tender: plant after your last spring frost." : "Tolerates light frost."}`,
     };
   }
 
@@ -412,7 +412,7 @@ export function guideEntryFromFacts(
     : {
         whenToPlant: "next_season",
         timingLabel: "Plant this spring",
-        timingDetails: "Confirm local frost timing before planting.",
+        timingDetails: "Check your local frost dates before planting.",
       };
 
   return {
@@ -421,7 +421,7 @@ export function guideEntryFromFacts(
     quantity,
     ...timing,
     spacingInches: spacing,
-    sowingAmount: `Start a few extra seeds and thin to ${quantity} healthy plants.`,
+    sowingAmount: `Sow a few extra; thin to ${quantity}.`,
     plantingDepth: "",
     watering: "",
     notes: "",

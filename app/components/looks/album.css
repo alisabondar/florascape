@@ -372,7 +372,6 @@
 .look-album .album-cards-section { margin-top: 34px; }
 .look-album .album-cards-section .album-sleeves { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .look-album .album-when { margin: 2px 0 6px; color: var(--al-red); font-size: 0.85rem; }
-.look-album .album-seed-note { margin: 12px 4px 0; color: #e9dfc4; font-size: 0.85rem; max-width: 70ch; }
 
 .look-album .album-guide { margin: 8px 0 4px; border-top: 2px dotted #2b211866; padding-top: 6px; }
 .look-album .album-guide summary {
@@ -450,7 +449,7 @@
 @media (prefers-reduced-motion: reduce) {
   .album-card.is-spotlit { animation: none; outline: 4px solid var(--al-gold); outline-offset: 4px; }
 }
-.album-totals .album-section-title, .album-totals .album-seed-note { color: var(--al-ink); }
+.album-totals .album-section-title { color: var(--al-ink); }
 .album-totals .album-section-title { margin-top: 0; }
 
 /* Features that aren't available yet: faded, not interactive, with a badge. */
@@ -459,4 +458,15 @@
 .coming-soon-badge {
   position: absolute; top: 14px; right: 18px; z-index: 1; padding: 3px 10px; border-radius: 4px;
   background: var(--al-gold); color: var(--al-ink); border: 2px solid var(--al-ink); font-size: 0.8rem;
+}
+
+/* Header on top, sketch below across the whole page, so the garden has room to draw big. */
+.look-album .album-binder.album-binder-stacked { grid-template-columns: minmax(0, 1fr); }
+.look-album .album-binder.album-binder-stacked::before { display: none; }
+.look-album .album-binder-stacked .album-page-left { padding: 32px 36px 24px; border-bottom: 3px dashed #d6caa8; }
+.look-album .album-binder-stacked .album-page-right { padding: 24px 36px 32px; }
+.look-album .album-binder-stacked .album-lead { max-width: 70ch; }
+@media (max-width: 760px) {
+  .look-album .album-binder-stacked .album-page-left,
+  .look-album .album-binder-stacked .album-page-right { padding: 22px 18px; }
 }

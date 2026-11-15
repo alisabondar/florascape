@@ -61,7 +61,7 @@ export function createFallbackGardenPlan(
 
   return {
     recommendedGardenType,
-    summary: `A beginner-friendly ${gardenTypeTitle(recommendedGardenType).toLowerCase()} plan sized to your submitted growing areas.`,
+    summary: `A beginner-friendly ${gardenTypeTitle(recommendedGardenType).toLowerCase()} plan for your space.`,
     layout,
     tips: {
       preferenceHelp: [],

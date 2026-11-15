@@ -13,18 +13,21 @@ interface PixelSpriteProps {
   /** With motion "still": which frame to show (0 seed, 1 sprout, 2 young, 3 mature). */
   stage?: 0 | 1 | 2 | 3;
   className?: string;
+  /** Extra inline style, e.g. a position inside a plot zone. */
+  style?: CSSProperties;
 }
 
 /**
  * One plant from its sprite sheet (five frames: seed, sprout, young, mature, sway).
  * Frames are stepped with CSS background-position, so there is no JavaScript timer.
  */
-export default function PixelSprite({ plantName, scale = 3, motion = "grow", delay = 0, stage = 3, className = "" }: PixelSpriteProps) {
+export default function PixelSprite({ plantName, scale = 3, motion = "grow", delay = 0, stage = 3, className = "", style: extraStyle }: PixelSpriteProps) {
   const style = {
     "--sprite-url": `url(${spriteSheetUrl(spriteIdFor(plantName))})`,
     "--sprite-w": `${SPRITE_FRAME.width * scale}px`,
     "--sprite-h": `${SPRITE_FRAME.height * scale}px`,
     "--sprite-delay": `${delay}s`,
+    ...extraStyle,
     ...(motion === "still" ? { backgroundPosition: `${stage * 25}% 0` } : {}),
   } as CSSProperties;
   return <span className={`pixel-sprite motion-${motion} ${className}`.trim()} style={style} aria-hidden="true" />;
