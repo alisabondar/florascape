@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { KeyboardEvent } from "react";
+import type { KeyboardEvent, ReactNode } from "react";
 import { layoutToSvgModel, plantSpots, singleBed } from "../../lib/garden-layout";
 import { findPlantFacts } from "../../lib/plant-facts";
 import { followUpOptions, MONTH_NAMES, monthTasks, patchState, seasonTimeline, seedSavingTip, startingMonth } from "../../lib/season";
@@ -26,6 +26,10 @@ interface GardenDioramaProps {
   onFollowUp?: (plantId: string, option: FollowUpOption | null) => void;
   /** Marks seeds saved (or not) from a finished plant group. */
   onSeedsSaved?: (plantId: string, saved: boolean) => void;
+  /** A control at the right end of the bed tabs (e.g. the Season / Layout switch). */
+  tabsEnd?: ReactNode;
+  /** A short line at the foot of the garden panel (e.g. "Click a patch for its guide."). */
+  footer?: ReactNode;
 }
 
 /** Most sprites drawn in one patch; denser patches thin their grid (labels keep the count). */
@@ -54,6 +58,8 @@ export default function GardenDiorama({
   showLabels = true,
   onFollowUp,
   onSeedsSaved,
+  tabsEnd,
+  footer,
 }: GardenDioramaProps) {
   // One bed at a time, picked with tabs: big enough to read, nothing hidden behind another bed.
   const [bedId, setBedId] = useState(sourceLayout.beds[0]?.id ?? "");
@@ -133,13 +139,19 @@ export default function GardenDiorama({
   const { width: gardenW, height: gardenH } = layout.garden;
 
   // Isometric projection: one foot along x goes right-down, along y goes left-down.
-  const unit = Math.max(4, Math.min(40, Math.floor((width - 24) / Math.max(1, gardenW + gardenH))));
+  // The frame is sized for the largest bed, so switching bed tabs never resizes it; smaller
+  // beds are drawn at the same scale and centered in it.
+  const span = gardenW + gardenH;
+  const frameSpan = Math.max(span, ...sourceLayout.beds.map((bed) => bed.width + bed.height + 4));
+  const unit = Math.max(4, Math.min(40, Math.floor((width - 24) / Math.max(1, frameSpan))));
   const depth = Math.max(4, Math.round(unit * 0.55));
-  const originX = gardenH * unit + 12;
-  const originY = Math.max(56, unit * 2.4); // room for the tallest sprites on the back row
+  const originX = 12 + ((frameSpan - span) * unit) / 2 + gardenH * unit;
+  // Room above the back corner for the bed name and the tallest sprites on the back row (at most 48px).
+  const originY = 44 + ((frameSpan - span) * unit) / 4;
   const project = (x: number, y: number) => ({ x: originX + (x - y) * unit, y: originY + ((x + y) * unit) / 2 });
-  const stageWidth = (gardenW + gardenH) * unit + 24;
-  const stageHeight = originY + ((gardenW + gardenH) * unit) / 2 + depth + 48;
+  const stageWidth = frameSpan * unit + 24;
+  // Below the front corner: the bed's side plus the patch labels that hang under it.
+  const stageHeight = 44 + (frameSpan * unit) / 2 + depth + 30;
   const points = (corners: { x: number; y: number }[]) => corners.map((point) => `${point.x},${point.y}`).join(" ");
   const corners = (x: number, y: number, w: number, h: number) => [project(x, y), project(x + w, y), project(x + w, y + h), project(x, y + h)];
 
@@ -200,12 +212,14 @@ export default function GardenDiorama({
 
   return (
     <div className="diorama" ref={containerRef}>
-      {sourceLayout.beds.length > 1 ? (
-        <div className="diorama-beds no-print" role="tablist" aria-label="Beds">
+      <div className="garden-tabs no-print">
+          {sourceLayout.beds.length > 1 ? (
+        <div className="garden-tablist" role="tablist" aria-label="Beds">
           {sourceLayout.beds.map((bed, index) => (
             <button
               type="button"
               role="tab"
+              className="garden-tab"
               key={bed.id}
               ref={(node) => {
                 tabRefs.current[index] = node;
@@ -220,7 +234,15 @@ export default function GardenDiorama({
             </button>
           ))}
         </div>
-      ) : null}
+          ) : (
+            <span className="garden-tab is-static" aria-current="page">
+              {layout.beds[0]?.name ?? "Garden"}
+              {layout.beds[0] ? <small>{layout.beds[0].width}×{layout.beds[0].height} ft</small> : null}
+            </span>
+          )}
+          {tabsEnd ? <span className="garden-tabs-end">{tabsEnd}</span> : null}
+      </div>
+      <div className="garden-panel">
       <div className="diorama-controls no-print">
         <p className="diorama-month px" aria-hidden="true">{monthName}</p>
         <button
@@ -349,6 +371,8 @@ export default function GardenDiorama({
         ) : null}
       </div>
       ) : null}
+      {footer ? <p className="garden-panel-footer no-print">{footer}</p> : null}
+      </div>
     </div>
   );
 }
@@ -396,12 +420,14 @@ function AfterHarvest({
             {plant.followUp && next ? (
               <p className="diorama-after-line">
                 <span className="diorama-tag plant">Then</span>
-                {plant.followUp.name} ×{plant.followUp.quantity}, sown in {MONTH_NAMES[next.plantMonth]}.
-                {onFollowUp ? (
-                  <button type="button" className="diorama-link" onClick={() => onFollowUp(plant.id, null)}>
-                    Remove
-                  </button>
-                ) : null}
+                <span className="diorama-after-text">
+                  {plant.followUp.name} ×{plant.followUp.quantity}, sown in {MONTH_NAMES[next.plantMonth]}.
+                  {onFollowUp ? (
+                    <button type="button" className="diorama-link" onClick={() => onFollowUp(plant.id, null)}>
+                      Remove
+                    </button>
+                  ) : null}
+                </span>
               </p>
             ) : onFollowUp && options.length ? (
               <div className="diorama-after-line">
@@ -416,11 +442,13 @@ function AfterHarvest({
               </div>
             ) : onFollowUp ? (
               <p className="diorama-after-line">
-                <span className="diorama-tag free">Rest</span>Too late for another crop before frost. Mulch the space or sow a cover crop.
+                <span className="diorama-tag free">Rest</span>
+                <span className="diorama-after-text">Too late for another crop before frost. Mulch the space or sow a cover crop.</span>
               </p>
             ) : null}
-            <p className="diorama-after-line">
+            <div className="diorama-after-line">
               <span className="diorama-tag seeds">Seeds</span>
+              <span className="diorama-after-text">
               {seeds.tip}
               {seeds.canSaveNow && onSeedsSaved ? (
                 <button
@@ -432,7 +460,8 @@ function AfterHarvest({
                   {plant.seedsSaved ? "Seeds saved ✓" : "Mark seeds saved"}
                 </button>
               ) : null}
-            </p>
+              </span>
+            </div>
           </div>
         );
       })}

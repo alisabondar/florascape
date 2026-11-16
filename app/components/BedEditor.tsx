@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { CalendarRange, LayoutGrid } from "lucide-react";
 import { startingAmountLabel } from "../../lib/plan/shopping";
 import { layoutTableRows } from "../../lib/plan/view";
 import { zoneCapacity } from "../../lib/plan/fill";
@@ -172,12 +173,22 @@ export default function BedEditor({
     commitLayout(next);
   }
 
+  const viewSwitch = (
+    <div className="bed-editor-views" role="group" aria-label="Garden view">
+      <button type="button" aria-pressed={view === "season"} onClick={() => setView("season")}>
+        <CalendarRange size={16} aria-hidden="true" />
+        Season
+      </button>
+      <button type="button" aria-pressed={view === "layout"} onClick={() => setView("layout")}>
+        <LayoutGrid size={16} aria-hidden="true" />
+        Layout
+      </button>
+    </div>
+  );
+  const hint = `Click a patch for its guide${view === "layout" && onSwapZones ? ", or drag one onto another to swap" : ""}.`;
+
   return (
     <div className="bed-editor">
-      <div className="bed-editor-views no-print" role="group" aria-label="Garden view">
-        <button type="button" aria-pressed={view === "season"} onClick={() => setView("season")}>Season</button>
-        <button type="button" aria-pressed={view === "layout"} onClick={() => setView("layout")}>Layout</button>
-      </div>
       {view === "season" ? (
         <GardenDiorama
           layout={localLayout}
@@ -185,13 +196,21 @@ export default function BedEditor({
           onZoneSelect={onZoneSelect}
           onFollowUp={onLayoutChange ? setFollowUp : undefined}
           onSeedsSaved={onLayoutChange ? setSeedsSaved : undefined}
+          tabsEnd={viewSwitch}
+          footer={hint}
         />
       ) : (
-        <PixelPlot layout={localLayout} stage={3} maxTile={72} maxHeight={640} onZoneSelect={onZoneSelect} onSwapZones={onSwapZones} />
+        <div className="diorama">
+          <div className="garden-tabs no-print">
+            <span className="garden-tab is-static" aria-current="page">All beds</span>
+            <span className="garden-tabs-end">{viewSwitch}</span>
+          </div>
+          <div className="garden-panel">
+            <PixelPlot layout={localLayout} stage={3} maxTile={72} maxHeight={640} onZoneSelect={onZoneSelect} onSwapZones={onSwapZones} />
+            <p className="garden-panel-footer no-print">{hint}</p>
+          </div>
+        </div>
       )}
-      <p className="bed-editor-hint no-print">
-        Click a patch for its guide{view === "layout" && onSwapZones ? " · drag one onto another to swap" : ""}.
-      </p>
 
       <details className="garden-sketch-editor no-print" open={collapsible ? undefined : true}>
         <summary className="garden-sketch-editor-heading">
