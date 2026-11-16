@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import Link from "next/link";
-import PixelPlot from "./components/PixelPlot";
+import GardenDiorama from "./components/GardenDiorama";
 import NavAlbumsLink from "./components/albums/NavAlbumsLink";
 import LevelBadge from "./components/progress/LevelBadge";
 import AlbumShelf from "./components/albums/AlbumShelf";
@@ -17,8 +17,8 @@ interface HeroCard {
 
 const heroCards: HeroCard[] = [
   { plant: "Tomato", color: "#a33224", bg: "#fde3d6" },
-  { plant: "Basil", color: "#3f6b35", bg: "#e2f0d4" },
-  { plant: "Lettuce", color: "#2d6c8a", bg: "#dcecf2" },
+  { plant: "Lavender", color: "#5e2f6e", bg: "#efe2f2" },
+  { plant: "Swiss Chard", color: "#3f6b35", bg: "#e2f0d4" },
   { plant: "Sunflower", color: "#8a5a00", bg: "#fdf0c8" },
 ];
 
@@ -44,20 +44,18 @@ interface Feature {
 }
 
 const features: Feature[] = [
-  { title: "Real climate data", body: "Your ZIP sets the hardiness zone and last and first frost dates.", tag: "Zone", sprite: "Pea", color: "#2d6c8a" },
-  { title: "A filled pixel garden", body: "See every bed planted, then edit groups or drag to swap them.", tag: "Plot", sprite: "Carrot", color: "#3f6b35" },
-  { title: "Planting guide", body: "What to start indoors, sow, or transplant, ordered by timing.", tag: "Timing", sprite: "Radish", color: "#8a5a00" },
-  { title: "Shopping list", body: "Seeds and starts with how much to buy for your beds.", tag: "Supplies", sprite: "Potato", color: "#a33224" },
-  { title: "Neighbor check", body: "Flags good companions and plants that shouldn't share a bed.", tag: "Pairs", sprite: "Onion", color: "#3f6b35" },
-  { title: "Crop rotation", body: "Notes on what to move where next season to keep soil healthy.", tag: "Seasons", sprite: "Pumpkin", color: "#8a5a00" },
-  { title: "Calendar export", body: "Add planting dates to your own calendar in one click.", tag: "Dates", sprite: "Strawberry", color: "#2d6c8a" },
-  { title: "Ask about my garden", body: "Chat with questions about your plan and get answers for it.", tag: "Chat", sprite: "Spinach", color: "#a33224" },
+  { title: "Season view", body: "Your beds in 3D. Drag through the year to see what to plant, what to pick, and when space frees up.", tag: "Season", sprite: "Zinnia", color: "#3f6b35" },
+  { title: "Real climate data", body: "Your ZIP sets the hardiness zone and your last and first frost dates.", tag: "Zone", sprite: "Pea", color: "#2d6c8a" },
+  { title: "Planting guide", body: "What to sow or transplant and when, with dates you can add to your calendar.", tag: "Timing", sprite: "Radish", color: "#8a5a00" },
+  { title: "Shopping list", body: "Seeds, starts, and soil, with how much to buy for your beds.", tag: "Supplies", sprite: "Potato", color: "#a33224" },
+  { title: "Neighbor check", body: "Flags good companions and plants that shouldn't share a bed.", tag: "Pairs", sprite: "Onion", color: "#2d6c8a" },
+  { title: "Crop rotation", body: "Save each season and see what to move where next year.", tag: "Seasons", sprite: "Pumpkin", color: "#8a5a00" },
 ];
 
-const levels = [
-  { title: "Location & type", body: "Enter your ZIP code and pick in-ground, raised beds, or containers." },
-  { title: "Your space", body: "Add each bed's size and which side gets the sun." },
-  { title: "What to grow", body: "Choose plant categories like vegetables, herbs, or flowers." },
+const steps = [
+  { title: "Where", body: "Your ZIP code and garden type" },
+  { title: "Your space", body: "Each bed's size and sunny side" },
+  { title: "What to grow", body: "Vegetables, herbs, flowers, or all" },
 ];
 
 export default function Home() {
@@ -72,11 +70,11 @@ export default function Home() {
           </Link>
           <div className="nav-links">
             <LevelBadge />
-            <a href="#how-it-works">How It Works</a>
+            <a href="#how-it-works">How it works</a>
             <a href="#features">Features</a>
             <NavAlbumsLink />
             <Link href="/planner" className="btn">
-              Start Planning
+              Start planning
             </Link>
           </div>
         </div>
@@ -92,55 +90,42 @@ export default function Home() {
                 <span />
               </div>
               <div className="home-cover-body">
-                <p className="home-cover-vol">Vol. 1 · Garden Collection</p>
                 <div className="home-plate">
                   <h1 id="home-title">FloraScape</h1>
                   <p className="home-tagline">Collect a garden that fits your space and climate.</p>
                 </div>
                 <p className="home-cover-lead">
-                  Answer three quick questions and FloraScape fills a pixel garden sized to your beds, with
-                  planting dates for your frost zone and a guide you can actually follow.
+                  Three quick questions, then a planted garden with dates for your frost zone.
                 </p>
+                <ol className="home-steps" id="how-it-works" aria-label="How it works">
+                  {steps.map((step, index) => (
+                    <li key={step.title}>
+                      <span className="home-step-num px" aria-hidden="true">{index + 1}</span>
+                      <span>
+                        <b>{step.title}</b>
+                        {step.body}
+                      </span>
+                    </li>
+                  ))}
+                </ol>
                 <div className="home-actions">
                   <Link href="/planner" className="btn">
-                    Start your album
+                    Start planning
                   </Link>
-                  <a href="#how-it-works" className="home-btn-ghost">
-                    See how it works
+                  <a href="#features" className="home-btn-ghost">
+                    See what you get
                   </a>
                 </div>
               </div>
             </div>
 
             <div className="home-showcase">
-              <ul className="home-fan" aria-label="Sample plant cards">
-                {heroCards.map((card, index) => (
-                  <li
-                    key={card.plant}
-                    className="home-card"
-                    style={{ "--rar": card.color, "--bg": card.bg, "--i": index } as CSSProperties}
-                  >
-                    <span className="home-rarity px">{cardDetails(card.plant).rarity}</span>
-                    <div className="home-card-art">
-                      <PixelSprite plantName={card.plant} scale={3} motion="grow" delay={index * 0.3} />
-                    </div>
-                    <p className="home-card-name">{card.plant}</p>
-                    <dl className="home-stats">
-                      {cardDetails(card.plant).stats.map(([label, value]) => (
-                        <div key={label}>
-                          <dt>{label}</dt>
-                          <dd>{value}</dd>
-                        </div>
-                      ))}
-                    </dl>
-                  </li>
-                ))}
-              </ul>
 
               {examplePlan ? (
                 <figure className="home-sample">
-                  <figcaption className="home-kicker">Sample page · example garden</figcaption>
-                  <PixelPlot layout={examplePlan.layout} showTags={false} maxTile={22} animate={false} />
+                  <figcaption className="home-kicker">Example garden · drag through the season</figcaption>
+                  {/* Opens in July, when most of the sample is ready to pick. */}
+                  <GardenDiorama layout={examplePlan.layout} initialMonth={6} showTasks={false} showLabels={false} />
                 </figure>
               ) : null}
             </div>
@@ -152,10 +137,10 @@ export default function Home() {
           <AlbumShelf />
         </div>
 
+
         <section className="home-section" id="features" aria-labelledby="features-title">
           <div className="container home-page-sheet">
             <header className="home-section-head">
-              <p className="home-kicker">Page 2 · The collection</p>
               <h2 id="features-title">Everything in your album</h2>
               <p>Each plan comes with the full set. No cards to trade for.</p>
             </header>
@@ -174,47 +159,38 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="home-section" id="how-it-works" aria-labelledby="how-title">
-          <div className="container home-page-sheet">
-            <header className="home-section-head">
-              <p className="home-kicker">Page 3 · Season map</p>
-              <h2 id="how-title">Three levels to a full plan</h2>
-              <p>Three short steps, then your album is ready to explore and edit.</p>
-            </header>
-            <ol className="home-levels">
-              {levels.map((level, index) => (
-                <li key={level.title} className="home-level">
-                  <span className="home-level-num px" aria-hidden="true">
-                    {index + 1}
-                  </span>
-                  <h3>
-                    <span className="home-sr">Level {index + 1}: </span>
-                    {level.title}
-                  </h3>
-                  <p>{level.body}</p>
-                </li>
-              ))}
-              <li className="home-level home-level-goal">
-                <span className="home-level-num px" aria-hidden="true">
-                  ★
-                </span>
-                <h3>Collect your plan</h3>
-                <p>Get your filled garden, guide, shopping list, and calendar.</p>
-              </li>
-            </ol>
-          </div>
-        </section>
-
         <section className="home-section" aria-labelledby="cta-title">
           <div className="container home-cta">
-            <span className="home-stamp px" aria-hidden="true">
-              Ready to plant
-            </span>
-            <h2 id="cta-title">Start your first page today.</h2>
-            <p>Bring your bed sizes and a few ideas. We&apos;ll fill in the rest, and you can swap anything you like.</p>
-            <Link href="/planner" className="btn">
-              Open the planner
-            </Link>
+            <div className="home-cta-text">
+              <h2 id="cta-title">Ready to plant?</h2>
+              <p>Start your album: every plant you grow becomes a card to collect.</p>
+              <Link href="/planner" className="btn">
+                Start planning
+              </Link>
+            </div>
+                <ul className="home-fan" aria-label="Sample plant cards">
+                  {heroCards.map((card, index) => (
+                    <li
+                      key={card.plant}
+                      className="home-card"
+                      style={{ "--rar": card.color, "--bg": card.bg, "--i": index } as CSSProperties}
+                    >
+                      <span className="home-rarity px">{cardDetails(card.plant).rarity}</span>
+                      <div className="home-card-art">
+                        <PixelSprite plantName={card.plant} scale={3} motion="sway" delay={index * 0.3} />
+                      </div>
+                      <p className="home-card-name">{card.plant}</p>
+                      <dl className="home-stats">
+                        {cardDetails(card.plant).stats.map(([label, value]) => (
+                          <div key={label}>
+                            <dt>{label}</dt>
+                            <dd>{value}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    </li>
+                  ))}
+                </ul>
           </div>
         </section>
       </main>

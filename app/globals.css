@@ -22,7 +22,7 @@ html {
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-body);
   background: radial-gradient(circle at 8% -10%, #f0f6e6, transparent 35%),
     radial-gradient(circle at 95% 0%, #efe9d5, transparent 40%), var(--cream);
   color: var(--green-900);
@@ -57,7 +57,7 @@ a {
 }
 
 .landing-page .logo {
-  font-family: "Caveat", cursive;
+  font-family: var(--font-body);
   font-size: 2.4rem;
   color: var(--green);
   font-weight: 700;
@@ -118,7 +118,7 @@ a {
   line-height: 0.95;
   margin-bottom: 1.5rem;
   color: var(--dark);
-  font-family: "Caveat", cursive;
+  font-family: var(--font-body);
 }
 
 .landing-page .hero p {
@@ -183,7 +183,7 @@ a {
 }
 
 .planner-page .logo {
-  font-family: "Caveat", cursive;
+  font-family: var(--font-body);
   font-size: 2.45rem;
   font-weight: 700;
   color: var(--green-800);
@@ -257,7 +257,7 @@ a {
 }
 
 .planner-page h1 {
-  font-family: "Caveat", cursive;
+  font-family: var(--font-body);
   font-size: clamp(2.2rem, 5vw, 3.4rem);
   line-height: 1;
   margin-bottom: 0.35rem;
@@ -295,7 +295,7 @@ a {
 }
 
 .planner-page .panel h2 {
-  font-family: "Caveat", cursive;
+  font-family: var(--font-body);
   font-size: 2.2rem;
   line-height: 1;
   margin-bottom: 0.55rem;
@@ -450,7 +450,7 @@ a {
 .planner-page .conditional-fieldset legend {
   padding: 0 0.45rem;
   color: var(--green-800);
-  font-family: "Caveat", cursive;
+  font-family: var(--font-body);
   font-size: 1.6rem;
   font-weight: 700;
 }

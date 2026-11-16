@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { getPlantSectionSizes, layoutToSvgModel, plantSpots } from "./garden-layout";
+import { getPlantSectionSizes, layoutToSvgModel, plantSpots, singleBed } from "./garden-layout";
 import type { Layout } from "./types";
 
 const layout: Layout = {
@@ -90,5 +90,32 @@ describe("plantSpots", () => {
     const spots = plantSpots({ x: 0, y: 0, width: 4, height: 4 }, { spacingInches: 6, quantity: 999 }, bed);
     expect(spots.length).toBeLessThan(64);
     spots.forEach((spot) => expect(Math.hypot(spot.x - 2, spot.y - 2)).toBeLessThanOrEqual(2));
+  });
+});
+
+describe("singleBed", () => {
+  const grid: Layout = {
+    ...layout,
+    garden: { ...layout.garden, width: 20, height: 11 },
+    beds: [
+      { id: "a", name: "A", x: 1, y: 1, width: 8, height: 4, shape: "rect" },
+      { id: "c", name: "C", x: 3, y: 7, width: 6, height: 3, shape: "rect" },
+    ],
+    plants: [
+      { ...layout.plants[0], id: "p1", bedId: "c", x: 5, y: 8.5 },
+      { ...layout.plants[1], id: "p2", bedId: "a", x: 4, y: 3 },
+    ],
+  };
+
+  test("keeps one bed and its plants, moved to the corner", () => {
+    const one = singleBed(grid, "c");
+    expect(one.beds).toEqual([{ id: "c", name: "C", x: 1, y: 1, width: 6, height: 3, shape: "rect" }]);
+    expect(one.plants.map((plant) => [plant.id, plant.x, plant.y])).toEqual([["p1", 3, 2.5]]);
+    expect(one.garden).toMatchObject({ width: 8, height: 5 });
+  });
+
+  test("keeps the bed's zones the same size", () => {
+    const size = (value: Layout) => layoutToSvgModel(value, 1, 0).plantPatches.map((patch) => [patch.width, patch.height]);
+    expect(size(singleBed(grid, "c"))).toEqual(size(grid).filter((_, index) => layoutToSvgModel(grid, 1, 0).plantPatches[index].bedId === "c"));
   });
 });

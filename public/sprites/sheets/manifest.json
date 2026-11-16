@@ -15,9 +15,34 @@
       "sheet": "/sprites/sheets/basil.png"
     },
     {
+      "id": "beet",
+      "name": "Beet",
+      "sheet": "/sprites/sheets/beet.png"
+    },
+    {
       "id": "bell-pepper",
       "name": "Bell Pepper",
       "sheet": "/sprites/sheets/bell-pepper.png"
+    },
+    {
+      "id": "black-eyed-susan",
+      "name": "Black-eyed Susan",
+      "sheet": "/sprites/sheets/black-eyed-susan.png"
+    },
+    {
+      "id": "bok-choy",
+      "name": "Bok Choy",
+      "sheet": "/sprites/sheets/bok-choy.png"
+    },
+    {
+      "id": "broccoli",
+      "name": "Broccoli",
+      "sheet": "/sprites/sheets/broccoli.png"
+    },
+    {
+      "id": "cabbage",
+      "name": "Cabbage",
+      "sheet": "/sprites/sheets/cabbage.png"
     },
     {
       "id": "carrot",
@@ -25,14 +50,44 @@
       "sheet": "/sprites/sheets/carrot.png"
     },
     {
+      "id": "cauliflower",
+      "name": "Cauliflower",
+      "sheet": "/sprites/sheets/cauliflower.png"
+    },
+    {
+      "id": "chamomile",
+      "name": "Chamomile",
+      "sheet": "/sprites/sheets/chamomile.png"
+    },
+    {
+      "id": "cilantro",
+      "name": "Cilantro",
+      "sheet": "/sprites/sheets/cilantro.png"
+    },
+    {
       "id": "corn",
       "name": "Corn",
       "sheet": "/sprites/sheets/corn.png"
     },
     {
+      "id": "cosmos",
+      "name": "Cosmos",
+      "sheet": "/sprites/sheets/cosmos.png"
+    },
+    {
       "id": "cucumber",
       "name": "Cucumber",
       "sheet": "/sprites/sheets/cucumber.png"
+    },
+    {
+      "id": "dill",
+      "name": "Dill",
+      "sheet": "/sprites/sheets/dill.png"
+    },
+    {
+      "id": "eggplant",
+      "name": "Eggplant",
+      "sheet": "/sprites/sheets/eggplant.png"
     },
     {
       "id": "garlic",
@@ -45,9 +100,19 @@
       "sheet": "/sprites/sheets/green-bean.png"
     },
     {
+      "id": "hot-pepper",
+      "name": "Hot Pepper",
+      "sheet": "/sprites/sheets/hot-pepper.png"
+    },
+    {
       "id": "kale",
       "name": "Kale",
       "sheet": "/sprites/sheets/kale.png"
+    },
+    {
+      "id": "lavender",
+      "name": "Lavender",
+      "sheet": "/sprites/sheets/lavender.png"
     },
     {
       "id": "lettuce",
@@ -60,14 +125,39 @@
       "sheet": "/sprites/sheets/marigold.png"
     },
     {
+      "id": "mint",
+      "name": "Mint",
+      "sheet": "/sprites/sheets/mint.png"
+    },
+    {
+      "id": "nasturtium",
+      "name": "Nasturtium",
+      "sheet": "/sprites/sheets/nasturtium.png"
+    },
+    {
       "id": "onion",
       "name": "Onion",
       "sheet": "/sprites/sheets/onion.png"
     },
     {
+      "id": "pansy",
+      "name": "Pansy",
+      "sheet": "/sprites/sheets/pansy.png"
+    },
+    {
+      "id": "parsley",
+      "name": "Parsley",
+      "sheet": "/sprites/sheets/parsley.png"
+    },
+    {
       "id": "pea",
       "name": "Pea",
       "sheet": "/sprites/sheets/pea.png"
+    },
+    {
+      "id": "petunia",
+      "name": "Petunia",
+      "sheet": "/sprites/sheets/petunia.png"
     },
     {
       "id": "potato",
@@ -85,6 +175,16 @@
       "sheet": "/sprites/sheets/radish.png"
     },
     {
+      "id": "rosemary",
+      "name": "Rosemary",
+      "sheet": "/sprites/sheets/rosemary.png"
+    },
+    {
+      "id": "sage",
+      "name": "Sage",
+      "sheet": "/sprites/sheets/sage.png"
+    },
+    {
       "id": "spinach",
       "name": "Spinach",
       "sheet": "/sprites/sheets/spinach.png"
@@ -100,9 +200,29 @@
       "sheet": "/sprites/sheets/sunflower.png"
     },
     {
+      "id": "swiss-chard",
+      "name": "Swiss Chard",
+      "sheet": "/sprites/sheets/swiss-chard.png"
+    },
+    {
+      "id": "thyme",
+      "name": "Thyme",
+      "sheet": "/sprites/sheets/thyme.png"
+    },
+    {
       "id": "tomato",
       "name": "Tomato",
       "sheet": "/sprites/sheets/tomato.png"
+    },
+    {
+      "id": "watermelon",
+      "name": "Watermelon",
+      "sheet": "/sprites/sheets/watermelon.png"
+    },
+    {
+      "id": "zinnia",
+      "name": "Zinnia",
+      "sheet": "/sprites/sheets/zinnia.png"
     },
     {
       "id": "zucchini",

@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, Info, Plus, Sparkles, Trash2 } from "lucide-react";
+import { Copy, Info, Plus, Sparkles, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
@@ -190,14 +190,6 @@ function PlannerRestoreLoading() {
           <Link className="logo" href="/" aria-label="FloraScape home">
             FloraScape
           </Link>
-          <Link
-            href="/"
-            className="planner-home-link"
-            aria-label="Go to FloraScape home"
-            title="Home"
-          >
-            <Home size={21} strokeWidth={2.2} aria-hidden="true" />
-          </Link>
         </div>
       </nav>
       <main className="planner-loading-main" aria-label="Loading saved planner inputs">
@@ -290,6 +282,18 @@ function PlannerForm() {
 
   function addUnit() {
     setFormValues((prev) => ({ ...prev, units: [...prev.units, createUnit()] }));
+  }
+
+  /** Adds a copy of a card (same size and sun) right after it, for gardens with matching beds. */
+  function duplicateUnit(unitId: string) {
+    setFormValues((prev) => {
+      const index = prev.units.findIndex((unit) => unit.id === unitId);
+      if (index < 0) {
+        return prev;
+      }
+      const copy = { ...prev.units[index], id: createUnit().id };
+      return { ...prev, units: [...prev.units.slice(0, index + 1), copy, ...prev.units.slice(index + 1)] };
+    });
   }
 
   function removeUnit(unitId: string) {
@@ -424,14 +428,6 @@ function PlannerForm() {
           <div className="planner-nav-actions">
             <NavAlbumsLink />
             <LevelBadge />
-            <Link
-              href="/"
-              className="planner-home-link"
-              aria-label="Go to FloraScape home"
-              title="Home"
-            >
-              <Home size={21} strokeWidth={2.2} aria-hidden="true" />
-            </Link>
           </div>
         </div>
       </nav>
@@ -442,8 +438,8 @@ function PlannerForm() {
             <div className="panel form-panel pa-page">
               <span className="pa-rings" aria-hidden="true" />
               <div className="panel-title-wrap">
-                <h2 className="pa-title">Garden Planner</h2>
-                <p>Share your space, sunlight, and growing goals to build a practical plan.</p>
+                <h1 className="pa-title">Garden Planner</h1>
+                <p>Three quick steps and your garden is ready.</p>
               </div>
 
               <form onSubmit={handleSubmit} noValidate>
@@ -595,16 +591,27 @@ function PlannerForm() {
                             <article className="garden-unit-card pa-sleeve" key={unit.id}>
                               <div className="garden-unit-heading">
                                 <h3>{areaCopy.formLabel} {index + 1}</h3>
-                                {formValues.units.length > 1 ? (
+                                <div className="garden-unit-actions">
                                   <button
                                     type="button"
-                                    className="icon-text-button danger-button"
-                                    onClick={() => removeUnit(unit.id)}
+                                    className="icon-text-button"
+                                    onClick={() => duplicateUnit(unit.id)}
+                                    aria-label={`Duplicate ${areaCopy.formLabel.toLowerCase()} ${index + 1}`}
                                   >
-                                    <Trash2 size={16} aria-hidden="true" />
-                                    Remove
+                                    <Copy size={16} aria-hidden="true" />
+                                    Duplicate
                                   </button>
-                                ) : null}
+                                  {formValues.units.length > 1 ? (
+                                    <button
+                                      type="button"
+                                      className="icon-text-button danger-button"
+                                      onClick={() => removeUnit(unit.id)}
+                                    >
+                                      <Trash2 size={16} aria-hidden="true" />
+                                      Remove
+                                    </button>
+                                  ) : null}
+                                </div>
                               </div>
                               <div className="unit-input-grid">
                                 <label className="field">
