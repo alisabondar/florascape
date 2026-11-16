@@ -298,3 +298,71 @@ export function getPlantSectionSizes(layout: Layout): Record<string, PlantSectio
 
   return sectionsByPlant;
 }
+
+/** Where one plant sits, in garden feet (its center). */
+export interface PlantSpot {
+  x: number;
+  y: number;
+}
+
+/** Most spots drawn in one zone; past this the zone is too dense to read plant by plant. */
+export const MAX_SPOTS_PER_ZONE = 400;
+
+/**
+ * Plant positions inside a zone at the plant's spacing: the same plants-per-row × rows
+ * grid that zoneCapacity counts, spread evenly so neighbors are at least one spacing apart.
+ * Circle beds keep only spots inside the circle. Fills row by row up to the quantity.
+ */
+export function plantSpots(
+  zone: Pick<PlantZone, "x" | "y" | "width" | "height">,
+  plant: Pick<Plant, "spacingInches" | "quantity">,
+  bed?: Pick<Bed, "x" | "y" | "width" | "height" | "shape">,
+): PlantSpot[] {
+  const spacingFt = Math.max(1, Number(plant.spacingInches) || 8) / 12;
+  const perRow = Math.max(1, Math.floor(zone.width / spacingFt + 1e-9));
+  const rows = Math.max(1, Math.floor(zone.height / spacingFt + 1e-9));
+  const quantity = Math.min(MAX_SPOTS_PER_ZONE, Math.max(1, Math.floor(Number(plant.quantity) || 1)));
+  const circle = bed?.shape === "circle";
+  const cx = bed ? bed.x + bed.width / 2 : 0;
+  const cy = bed ? bed.y + bed.height / 2 : 0;
+  const radius = bed ? Math.min(bed.width, bed.height) / 2 : 0;
+  const spots: PlantSpot[] = [];
+
+  for (let row = 0; row < rows && spots.length < quantity; row += 1) {
+    for (let column = 0; column < perRow && spots.length < quantity; column += 1) {
+      const spot = {
+        x: zone.x + ((column + 0.5) * zone.width) / perRow,
+        y: zone.y + ((row + 0.5) * zone.height) / rows,
+      };
+      if (circle && Math.hypot(spot.x - cx, spot.y - cy) > radius - spacingFt / 4) {
+        continue;
+      }
+      spots.push(spot);
+    }
+  }
+  // A circle bed's zone may be too small for any spot inside the circle; keep one at its center.
+  if (!spots.length) {
+    spots.push({ x: zone.x + zone.width / 2, y: zone.y + zone.height / 2 });
+  }
+  return spots;
+}
+
+/**
+ * Just one bed of a garden, moved to the corner with a small margin, with only its plants.
+ * For views that show one bed at a time; zones and quantities are unchanged because
+ * they're relative to the bed.
+ */
+export function singleBed(layout: Layout, bedId: string, marginFt = 1): Layout {
+  const bed = layout.beds.find((item) => item.id === bedId);
+  if (!bed) {
+    return layout;
+  }
+  const dx = marginFt - bed.x;
+  const dy = marginFt - bed.y;
+  return {
+    ...layout,
+    garden: { ...layout.garden, width: bed.width + marginFt * 2, height: bed.height + marginFt * 2 },
+    beds: [{ ...bed, x: marginFt, y: marginFt }],
+    plants: layout.plants.filter((plant) => plant.bedId === bedId).map((plant) => ({ ...plant, x: plant.x + dx, y: plant.y + dy })),
+  };
+}

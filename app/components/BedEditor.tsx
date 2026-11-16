@@ -3,9 +3,13 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { startingAmountLabel } from "../../lib/plan/shopping";
 import { layoutTableRows } from "../../lib/plan/view";
+import { zoneCapacity } from "../../lib/plan/fill";
+import { layoutToSvgModel } from "../../lib/garden-layout";
+import type { FollowUpOption } from "../../lib/season";
 import { MAX_PLANT_QUANTITY } from "../../lib/planner-config";
-import type { AlternativesByBed, Layout, Plant } from "../../lib/types";
+import type { AlternativesByBed, ClimateContext, Layout, Plant } from "../../lib/types";
 import { SelectControl } from "./FormControls";
+import GardenDiorama from "./GardenDiorama";
 import PixelPlot from "./PixelPlot";
 
 interface BedEditorProps {
@@ -18,6 +22,8 @@ interface BedEditorProps {
   onZoneSelect?: (plant: Plant) => void;
   /** Fold the editing controls behind an "Edit plant groups" toggle. */
   collapsible?: boolean;
+  /** Frost dates for the season view; typical dates are used without them. */
+  climate?: ClimateContext | null;
 }
 
 function clone<T>(value: T): T {
@@ -49,7 +55,10 @@ export default function BedEditor({
   onSwapZones,
   onZoneSelect,
   collapsible = false,
+  climate = null,
 }: BedEditorProps) {
+  // "season": the 3/4 garden with a month scrubber; "layout": the flat plan for drag-to-swap.
+  const [view, setView] = useState<"season" | "layout">("season");
   const [localLayout, setLocalLayout] = useState(() => clone(layout));
   const [templateCatalog, setTemplateCatalog] = useState(() => clone(layout.plants || []));
   const [newPlantName, setNewPlantName] = useState(layout.plants?.[0]?.name || "");
@@ -92,6 +101,33 @@ export default function BedEditor({
     latestLayoutRef.current = nextLayout;
     setLocalLayout(nextLayout);
     onLayoutChange?.(nextLayout);
+  }
+
+  /** Puts a follow-up crop in a plant group's zone (or clears it), filled to the zone's capacity. */
+  function setFollowUp(plantId: string, option: FollowUpOption | null) {
+    const next = clone(latestLayoutRef.current);
+    const plant = next.plants.find((item) => item.id === plantId);
+    if (!plant) {
+      return;
+    }
+    if (!option) {
+      delete plant.followUp;
+    } else {
+      const patch = layoutToSvgModel(next, 1, 0).plantPatches.find((item) => item.plantId === plantId);
+      const shape = next.beds.find((bed) => bed.id === plant.bedId)?.shape;
+      const quantity = patch ? zoneCapacity(patch.width, patch.height, option.spacingInches, shape) : 1;
+      plant.followUp = { name: option.name, spacingInches: option.spacingInches, quantity };
+    }
+    commitLayout(next);
+  }
+
+  function setSeedsSaved(plantId: string, saved: boolean) {
+    const next = clone(latestLayoutRef.current);
+    const plant = next.plants.find((item) => item.id === plantId);
+    if (plant) {
+      plant.seedsSaved = saved || undefined;
+      commitLayout(next);
+    }
   }
 
   function adjustPlantQuantity(plantId: string, amount: number) {
@@ -138,16 +174,30 @@ export default function BedEditor({
 
   return (
     <div className="bed-editor">
-      <PixelPlot layout={localLayout} stage={1} onZoneSelect={onZoneSelect} onSwapZones={onSwapZones} />
+      <div className="bed-editor-views no-print" role="group" aria-label="Garden view">
+        <button type="button" aria-pressed={view === "season"} onClick={() => setView("season")}>Season</button>
+        <button type="button" aria-pressed={view === "layout"} onClick={() => setView("layout")}>Layout</button>
+      </div>
+      {view === "season" ? (
+        <GardenDiorama
+          layout={localLayout}
+          climate={climate}
+          onZoneSelect={onZoneSelect}
+          onFollowUp={onLayoutChange ? setFollowUp : undefined}
+          onSeedsSaved={onLayoutChange ? setSeedsSaved : undefined}
+        />
+      ) : (
+        <PixelPlot layout={localLayout} stage={3} maxTile={72} maxHeight={640} onZoneSelect={onZoneSelect} onSwapZones={onSwapZones} />
+      )}
       <p className="bed-editor-hint no-print">
-        Click a patch to open its planting guide{onSwapZones ? ", or drag one patch onto another to swap them" : ""}.
+        Click a patch for its guide{view === "layout" && onSwapZones ? " · drag one onto another to swap" : ""}.
       </p>
 
       <details className="garden-sketch-editor no-print" open={collapsible ? undefined : true}>
         <summary className="garden-sketch-editor-heading">
           <div>
             <strong>Edit plant groups</strong>
-            <span>Pick a different plant for any group, or use the controls to rebalance how much space each plant receives.</span>
+            <span>Swap plants or change how many of each.</span>
           </div>
         </summary>
 
@@ -188,7 +238,7 @@ export default function BedEditor({
                   </button>
                 </div>
                 <span className="plant-group-count-label">
-                  mature plants · {startingAmountLabel(plant.name, plant.quantity || 1)}
+                  plants · {startingAmountLabel(plant.name, plant.quantity || 1)}
                 </span>
               </div>
             </div>
@@ -281,14 +331,6 @@ export default function BedEditor({
           </table>
         </div>
       ) : null}
-
-      <div className="garden-sketch-meta">
-        <span>
-          {localLayout.garden.gardenTypeKey === "in_ground" ? "Plot size" : "Footprint"}: {localLayout.garden.width} × {localLayout.garden.height} ft
-        </span>
-        <span>{localLayout.beds.length} growing {localLayout.beds.length === 1 ? "area" : "areas"}</span>
-        <span>{localLayout.plants.length} plant groups</span>
-      </div>
     </div>
   );
 }

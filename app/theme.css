@@ -16,8 +16,17 @@
   --al-blue: #2d6c8a;
   --al-gold: #e3a72f;
   --al-rule: #d8c9a3;
-  --font-display: "Shrikhand", cursive;
-  --font-body: "Mali", cursive;
+  /* One font for the whole app: Jersey 15, a pixel-grid face that matches the sprites. */
+  --font-display: "Jersey 15", system-ui, sans-serif;
+  --font-body: "Jersey 15", system-ui, sans-serif;
+}
+
+html {
+  /* Jersey 15 has one weight; don't let the browser smear the pixels with fake bold or italics. */
+  font-synthesis: none;
+  /* Its lowercase is short (x-height 0.41); scale the letters to the old fonts' visual size
+     without touching layout, which stays in rem. */
+  font-size-adjust: ex-height 0.5;
 }
 
 body {

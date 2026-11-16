@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties, PointerEvent } from "react";
-import { layoutToSvgModel } from "../../lib/garden-layout";
+import { layoutToSvgModel, plantSpots } from "../../lib/garden-layout";
 import { startingAmountLabel } from "../../lib/plan/shopping";
 import type { Layout, Plant } from "../../lib/types";
 import PixelSprite from "./PixelSprite";
@@ -19,6 +19,8 @@ interface PixelPlotProps {
   showTags?: boolean;
   /** Largest tile size in px for one foot of bed. */
   maxTile?: number;
+  /** Tallest the ground may draw, in px; long gardens shrink their tiles to fit. */
+  maxHeight?: number;
   /** false draws every plant fully grown and still (e.g. a static sample). */
   animate?: boolean;
   /** Draw every plant at one still growth stage (0 seed … 3 mature) instead. */
@@ -26,8 +28,9 @@ interface PixelPlotProps {
   className?: string;
 }
 
-const MAX_SPRITES_PER_ZONE = 24;
-/** Room kept at the bottom of a zone for its tag, in px. */
+/** Past this many plants a zone draws footprint dots instead of one sprite each. */
+const MAX_SPRITES_PER_ZONE = 60;
+/** Room a zone tag takes at the bottom of its zone, in px. */
 const TAG_HEIGHT = 22;
 
 /**
@@ -42,6 +45,7 @@ export default function PixelPlot({
   selectedPlantId = null,
   showTags = true,
   maxTile = 44,
+  maxHeight,
   animate = true,
   stage,
   className = "",
@@ -130,7 +134,8 @@ export default function PixelPlot({
     return lines;
   }, [model]);
   const plants = useMemo(() => new Map(layout.plants.map((plant) => [plant.id, plant])), [layout.plants]);
-  const tile = Math.max(18, Math.min(maxTile, Math.floor(width / Math.max(1, layout.garden.width))));
+  const heightCap = maxHeight ? Math.floor(maxHeight / Math.max(1, layout.garden.height)) : Infinity;
+  const tile = Math.max(18, Math.min(maxTile, heightCap, Math.floor(width / Math.max(1, layout.garden.width))));
   const spriteScale = Math.max(1, Math.floor((tile * 0.9) / 16));
 
   return (
@@ -167,47 +172,76 @@ export default function PixelPlot({
           if (!plant) {
             return null;
           }
-          // Only as many sprites as fit fully inside the zone, above the tag (no overflow, no overlap).
-          const tagSpace = showTags ? TAG_HEIGHT : 0;
-          const innerWidth = patch.width * tile - 4;
-          const innerHeight = patch.height * tile - 4 - tagSpace;
-          // Narrow or short zones shrink their sprites so at least one fits whole.
-          const zoneScale = Math.max(1, Math.min(spriteScale, Math.floor(innerWidth / 16), Math.floor(innerHeight / 24)));
-          // A zone too small for even one whole sprite shows just its tag.
-          const columns = Math.max(0, Math.floor(innerWidth / (16 * zoneScale)));
-          const rows = Math.max(0, Math.floor(innerHeight / (24 * zoneScale)));
-          const spriteCount = Math.min(MAX_SPRITES_PER_ZONE, columns * rows, Math.max(1, plant.quantity || 1));
+          // Plants sit on the spacing grid the planner counts quantities from, so the
+          // picture shows the real number of plants and the room each one gets.
+          const bed = model.beds.find((item) => item.id === patch.bedId);
+          const spots = plantSpots(patch, plant, bed);
+          const cell = (Math.max(1, Number(plant.spacingInches) || 8) / 12) * tile;
+          // Each plant gets its own sprite only while one fits its spacing; denser zones
+          // switch to footprint dots with a single sprite as the zone's icon.
+          const detailed = cell >= 21 && spots.length <= MAX_SPRITES_PER_ZONE;
+          // Wider-spaced plants draw a bit bigger (a tomato reads larger than a radish), capped
+          // at 3× so a lone plant in a big section doesn't balloon.
+          const zoneScale = Math.max(1, Math.min(3, Math.floor((cell * 0.75) / 16), Math.round((cell * 0.4) / 16)));
+          const iconScale = Math.max(1, Math.min(2, spriteScale, Math.floor((Math.min(patch.width, patch.height) * tile * 0.6) / 24)));
+          const motion = stage !== undefined ? "still" : animate ? "grow" : "still";
           const selected = plant.id === selectedPlantId;
           const label = `${plant.name}, ${plant.quantity} mature plants, ${startingAmountLabel(plant.name, plant.quantity)}`;
-          const zoneStyle = {
-            left: patch.x * tile,
-            top: patch.y * tile,
-            width: patch.width * tile,
-            height: patch.height * tile,
-            gridTemplateColumns: `repeat(${Math.max(1, Math.min(columns, spriteCount))}, 1fr)`,
-            paddingBottom: tagSpace + 2,
-          };
+          const zoneWidth = patch.width * tile;
+          const zoneHeight = patch.height * tile;
+          const zoneStyle = { left: patch.x * tile, top: patch.y * tile, width: zoneWidth, height: zoneHeight };
+          // With a tag, rows squeeze up a little so the tag never hides a plant.
+          const squeeze = showTags && zoneHeight > TAG_HEIGHT * 2 ? (zoneHeight - TAG_HEIGHT) / zoneHeight : 1;
+          const spotX = (spot: { x: number }) => (spot.x - patch.x) * tile;
+          const spotY = (spot: { y: number }) => (spot.y - patch.y) * tile * squeeze;
+          const footprintRadius = Math.max(1.5, cell * squeeze * (detailed ? 0.46 : 0.36));
           const contents = (
             <>
-              {Array.from({ length: spriteCount }, (_, index) => (
+              <svg className={`pixel-footprints${detailed ? "" : " dense"}`} width={zoneWidth} height={zoneHeight} aria-hidden="true">
+                {spots.map((spot, index) => (
+                  <circle key={index} cx={spotX(spot)} cy={spotY(spot)} r={footprintRadius} />
+                ))}
+              </svg>
+              {detailed ? (
+                spots.map((spot, index) => (
+                  <PixelSprite
+                    key={index}
+                    className="pixel-spot"
+                    style={{ left: spotX(spot), top: spotY(spot) + cell * squeeze * 0.3 }}
+                    plantName={plant.name}
+                    scale={zoneScale}
+                    motion={motion}
+                    stage={stage}
+                    delay={zoneIndex * 0.25 + index * 0.04}
+                  />
+                ))
+              ) : (
                 <PixelSprite
-                  key={index}
+                  className="pixel-spot icon"
+                  style={{ left: zoneWidth / 2, top: (zoneHeight * squeeze) / 2 + 12 * iconScale }}
                   plantName={plant.name}
-                  scale={zoneScale}
-                  motion={stage !== undefined ? "still" : animate ? "grow" : "still"}
+                  scale={iconScale}
+                  motion={motion}
                   stage={stage}
-                  delay={zoneIndex * 0.25 + index * 0.04}
+                  delay={zoneIndex * 0.25}
                 />
-              ))}
+              )}
+              {showTags && detailed ? <SpacingMarker spots={spots.map((spot) => ({ x: spotX(spot), y: spotY(spot) }))} radius={footprintRadius} inches={plant.spacingInches} /> : null}
               {showTags ? (
                 // Narrow zones get just the count; the full text is in the zone's aria-label.
                 <span className="pixel-zone-tag" aria-hidden="true">
-                  {patch.width * tile >= 110 ? (
+                  {patch.width * tile >= 190 ? (
                     <>
                       <b>{plant.name}</b> · {plant.quantity} {plant.quantity === 1 ? "plant" : "plants"}
+                      {detailed ? null : ` · ${spacingLabel(plant.spacingInches)} apart`}
+                    </>
+                  ) : patch.width * tile >= 110 ? (
+                    <>
+                      <b>{plant.name}</b> · {plant.quantity}
+                      {detailed ? null : ` · ${spacingLabel(plant.spacingInches)}`}
                     </>
                   ) : (
-                    <b>×{plant.quantity}</b>
+                    <b>×{plant.quantity}{detailed ? null : ` · ${spacingLabel(plant.spacingInches)}`}</b>
                   )}
                 </span>
               ) : null}
@@ -221,7 +255,7 @@ export default function PixelPlot({
                 key={patch.id}
                 role="img"
                 aria-label={label}
-                className={`pixel-zone static${spriteCount === 1 ? " single" : ""}`}
+                className="pixel-zone static"
                 style={zoneStyle}
               >
                 {contents}
@@ -233,7 +267,7 @@ export default function PixelPlot({
               type="button"
               key={patch.id}
               data-plant-id={plant.id}
-              className={`pixel-zone${spriteCount === 1 ? " single" : ""}${selected ? " selected" : ""}${drag?.fromId === plant.id ? " drag-source" : ""}${drag?.overId === plant.id ? " drop-target" : ""}`}
+              className={`pixel-zone${selected ? " selected" : ""}${drag?.fromId === plant.id ? " drag-source" : ""}${drag?.overId === plant.id ? " drop-target" : ""}`}
               style={zoneStyle}
               onClick={() => {
                 if (suppressClickRef.current) {
@@ -259,5 +293,45 @@ export default function PixelPlot({
         })}
       </div>
     </div>
+  );
+}
+
+function spacingLabel(inches: number) {
+  return `${Math.round(Number(inches) || 8)}″`;
+}
+
+/**
+ * A dimension line between the first two plants of a zone (center to center), labeled
+ * with the spacing, so the gap reads straight off the sketch. A lone plant gets one
+ * across its circle instead.
+ */
+function SpacingMarker({ spots, radius, inches }: { spots: { x: number; y: number }[]; radius: number; inches: number }) {
+  const [first, second] = spots;
+  if (!first) {
+    return null;
+  }
+  const pair = second
+    ? { from: first, to: Math.abs(second.y - first.y) < 0.5 ? second : { x: first.x, y: second.y } }
+    : { from: { x: first.x - radius, y: first.y }, to: { x: first.x + radius, y: first.y } };
+  const horizontal = Math.abs(pair.to.y - pair.from.y) < 0.5;
+  const tick = 4;
+  const midX = (pair.from.x + pair.to.x) / 2;
+  const midY = (pair.from.y + pair.to.y) / 2;
+  return (
+    <>
+      <svg className="pixel-spacing" aria-hidden="true">
+        <line x1={pair.from.x} y1={pair.from.y} x2={pair.to.x} y2={pair.to.y} />
+        {[pair.from, pair.to].map((end, index) =>
+          horizontal ? (
+            <line key={index} x1={end.x} y1={end.y - tick} x2={end.x} y2={end.y + tick} />
+          ) : (
+            <line key={index} x1={end.x - tick} y1={end.y} x2={end.x + tick} y2={end.y} />
+          ),
+        )}
+      </svg>
+      <span className="pixel-spacing-label" style={{ left: midX, top: midY }} aria-hidden="true">
+        {spacingLabel(inches)}
+      </span>
+    </>
   );
 }

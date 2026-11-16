@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FloraScape: one font, twenty options</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;800;900&family=Baloo+2:wght@400;600;800&family=Grandstander:wght@400;600;800&family=Shantell+Sans:wght@400;600;800&family=Pixelify+Sans:wght@400;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Lexend:wght@400;600;800&family=Mali:wght@400;600;700&family=Silkscreen:wght@400;700&family=Press+Start+2P&family=VT323&family=DotGothic16&family=Tiny5&family=Jersey+10&family=Handjet:wght@400;600;800&family=Bytesized&family=Doto:wght@400;700;900&family=Micro+5&display=swap">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#2f4a3a;color:#2b2118;font-family:system-ui,sans-serif}
+h1,h2,h3,p{margin:0}
+.top{position:sticky;top:0;z-index:5;background:#fbf6e6;border-bottom:3px solid #1f3328;padding:10px 20px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:.85em}
+.top b{font-size:.95em}
+.top label{display:flex;gap:6px;align-items:center}
+.top input[type=text]{border:2px solid #2b2118;border-radius:8px;padding:6px 10px;font:inherit;min-width:240px}
+.intro{max-width:1200px;margin:24px auto 0;padding:0 20px;color:#f3ead2;font-size:.95em;line-height:1.5}
+.intro strong{color:#e3a72f}
+.grid{max-width:1200px;margin:20px auto 60px;padding:0 20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(520px,1fr));gap:22px}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+.opt{background:#f3ead2;border:5px solid #1f3328;border-radius:14px;box-shadow:0 8px 0 #1f3328;overflow:hidden}
+.meta{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:10px 16px;background:#1f3328;color:#f3ead2;font-family:system-ui,sans-serif;font-size:.8em}
+.meta b{font-size:1em;color:#e3a72f}
+.body{padding:18px 18px 16px;display:grid;gap:12px}
+.kicker{color:#a33224;font-size:.85em;font-weight:600}
+.h1{font-size:2.15em;line-height:1.05;color:#2f4a3a;font-weight:var(--hw,800)}
+.lead{font-size:1em;line-height:1.5;color:#2b2118}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.chip{border:2px solid #2b2118;border-radius:8px;padding:3px 8px;background:#fbf6e6;font-size:.8em}
+.chip b{font-variant-numeric:tabular-nums}
+.btn{border:3px solid #2b2118;border-radius:99px;padding:8px 16px;background:#fbf6e6;font:inherit;font-weight:700;box-shadow:0 3px 0 #2b2118}
+.btn.red{background:#a33224;color:#fff4d6}
+.card{display:grid;grid-template-columns:64px 1fr;gap:12px;align-items:center;border:3px solid #2b2118;border-radius:10px;background:#fff;padding:10px 12px}
+.card .art{width:64px;height:64px;display:grid;place-items:center;background:#e2f0d4;border-radius:6px}
+.card .sprite{width:32px;height:48px;background:url(/sprites/sheets/tomato.png) 75% 0/500% 100%;image-rendering:pixelated}
+.card h3{font-size:1.25em;font-weight:var(--hw,800);color:#2f4a3a}
+.card p{font-size:.85em;color:#5d5142}
+.stats{display:flex;gap:14px;font-size:.8em;margin-top:4px}
+.stats span b{display:block;font-size:1em;color:#2b2118;font-variant-numeric:tabular-nums}
+.months{display:grid;grid-template-columns:repeat(8,1fr);font-size:.75em;text-align:center;color:#5d5142;border-top:2px dashed #d8c9a3;padding-top:8px}
+.months .on{color:#2b2118;font-weight:700;text-decoration:underline 3px #e3a72f;text-underline-offset:4px}
+.tag{border:2px solid #2b2118;border-radius:4px;padding:0 6px;font-size:.72em;font-weight:700;background:#ffe27a}
+.small{font-size:.75em;color:#5d5142}
+.note{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px 16px;border-top:2px dashed #d8c9a3;background:#fbf6e6;font-family:system-ui,sans-serif;font-size:.8em;line-height:1.4}
+.sect{grid-column:1/-1;color:#f3ead2;font-family:system-ui,sans-serif;margin-top:14px}.sect h2{font-size:1.4em;color:#e3a72f}.sect p{font-size:.9em;opacity:.85}
+.note b{display:block;font-size:.7em;letter-spacing:.06em;text-transform:uppercase;color:#a33224}
+</style>
+</head>
+<body>
+<div class="top">
+ <b>One font for FloraScape</b>
+ <label>Try your own headline <input id="custom" type="text" value="Your 10-card garden set" aria-label="Headline text to preview"></label>
+ <span>Each card is set entirely in one font: headline, body, buttons, numbers and the tiniest labels.</span>
+</div>
+<p class="intro">Today the app loads <strong>five</strong> font families: Shrikhand, Mali, Gaegu, Caveat and Inter. Moving to one means a single download, one personality, and no mismatched weights. The font has to work for a chunky headline <em>and</em> for 12px labels like "Pick" or "~70 days", so check the bottom rows of each card.</p>
+<main class="grid" id="grid"></main>
+<script>
+const OPTIONS = [
+ {f:"Fredoka", w:[400,600,700], vibe:"Rounded, soft and toy-like", pros:"The closest to the pixel-garden mood. Bold headlines feel friendly, and it reads well down to 12px.", cons:"Very round, so long paragraphs feel a bit childish."},
+ {f:"Nunito", w:[400,600,900], vibe:"Rounded and calm, everyday", pros:"The most readable of the friendly fonts, and 900 still makes a strong headline.", cons:"Common on the web; less personality than the current Shrikhand."},
+ {f:"Baloo 2", w:[400,600,800], vibe:"Chunky, bubbly, game-like", pros:"The heavy weight is the closest stand-in for Shrikhand's punch, and it feels made for games.", cons:"Its tall line height needs spacing tweaks, and it gets heavy in dense UI."},
+ {f:"Grandstander", w:[400,600,800], vibe:"Playful and bouncy", pros:"Has the most character while staying legible. Feels hand-made, like the sprites.", cons:"The quirky shapes can feel tiring in tables like the shopping list."},
+ {f:"Shantell Sans", w:[400,600,800], vibe:"Handwritten marker, informal", pros:"Feels like a gardener's notes. A real variable font, very readable for a handwritten style.", cons:"Informal everywhere, including numbers and data."},
+ {f:"Pixelify Sans", w:[400,600,700], vibe:"Pixel font that matches the sprites", pros:"The whole app would match the art 1:1, the boldest identity of the ten.", cons:"Hard to read in long text and at small sizes. Risky for planting instructions."},
+ {f:"Fraunces", w:[400,600,800], vibe:"Soft vintage serif, seed-packet", pros:"Feels warm and printed, like old seed catalogs. Its optical sizes keep small text crisp.", cons:"More editorial than game-like, so it pulls away from the pixel art."},
+ {f:"Bricolage Grotesque", w:[400,600,800], vibe:"Characterful modern sans", pros:"Distinctive headlines with a quirky edge, and very readable body text and data.", cons:"Feels more indie-app than cozy-garden."},
+ {f:"Lexend", w:[400,600,800], vibe:"Clean, built for readability", pros:"Designed to cut reading effort, the best choice for long guides and accessibility.", cons:"Neutral. The charm has to come from the art and colors."},
+ {f:"Mali", w:[400,600,700], vibe:"Today's body font, used everywhere", pros:"No visual surprise: it keeps the current body look and drops the other four fonts.", cons:"No heavy weight (700 max), so headlines lose the Shrikhand impact."},
+ {section:"Pixel fonts", note:"Fonts in the same family as Pixelify Sans: drawn on a pixel grid, so text and sprites share one look. Sizes are tuned per font so each card reads at a similar size; single-weight fonts show their headline at the only weight they have."},
+ {f:"Silkscreen", w:[400,700], hw:700, sz:.8, vibe:"Crisp, tiny, classic UI bitmap", pros:"The cleanest small pixel caps, great for tags, stats and buttons, with a real bold.", cons:"Caps-heavy, wide letters; paragraphs get long and shouty."},
+ {f:"Press Start 2P", w:[400], hw:400, sz:.62, vibe:"8-bit arcade", pros:"The instantly recognisable retro-game look. Pure nostalgia.", cons:"Very wide and blocky. Unreadable for guides; headline-only in practice."},
+ {f:"VT323", w:[400], hw:400, sz:1.35, vibe:"Old terminal / green-screen", pros:"Tall, narrow and surprisingly readable for its style. Fits lots of text.", cons:"Feels like a computer, not a garden. Thin at small sizes."},
+ {f:"DotGothic16", w:[400], hw:400, sz:1, vibe:"Japanese RPG menu", pros:"Soft pixel dots read like a cozy console RPG. Good lowercase, decent body text.", cons:"One weight, so headlines need size, not boldness, for emphasis."},
+ {f:"Tiny5", w:[400], hw:400, sz:1.2, vibe:"Compact handheld-game", pros:"A tidy, small pixel font with clear lowercase; very close to the sprites' scale.", cons:"Gets fuzzy if not shown at whole-pixel sizes."},
+ {f:"Jersey 10", w:[400], hw:400, sz:1.4, vibe:"Chunky condensed pixel, sporty", pros:"Bold and punchy headlines with a strong silhouette; the nearest pixel take on Shrikhand.", cons:"Condensed letters crowd together in long text."},
+ {f:"Handjet", w:[400,600,800], hw:800, sz:1.15, vibe:"Variable pixel font with real weights", pros:"The only pixel font here with a full weight range, so one family covers headings and body.", cons:"Narrow and techy; less warm than DotGothic or Tiny5."},
+ {f:"Bytesized", w:[400], hw:400, sz:1.45, vibe:"Ultra-small bitmap", pros:"Charming at tag and label sizes, like a Game Boy item name.", cons:"Too small and thin for anything longer than a label."},
+ {f:"Doto", w:[400,700,900], hw:900, sz:1.05, vibe:"Round dot-matrix, variable", pros:"Built from round dots instead of squares, so it feels softer and more garden-like; real weights.", cons:"Dotted strokes shimmer at small sizes; better for display than body."},
+ {f:"Micro 5", w:[400], hw:400, sz:1.6, vibe:"Micro bitmap, very pixel-pure", pros:"The most authentic 5px-grid look, a perfect match for 16×24 sprites.", cons:"Needs big sizes to read; body text quickly becomes a texture."}];
+let n=0;
+function card(o){
+ if(o.section) return `<header class="sect"><h2>${o.section}</h2><p>${o.note}</p></header>`;
+ n+=1;
+ const fam=`'${o.f}'`;
+ return `<article class="opt" style="font-family:${fam},sans-serif;font-size:${16*(o.sz||1)}px;--hw:${o.hw||800}">
+  <div class="meta" style="font-size:13px"><span><b>${n}. ${o.f}</b> &nbsp;${o.vibe}</span><span>${o.w.join(" · ")}</span></div>
+  <div class="body">
+   <p class="kicker">Starter plan · 22150 · In-ground · 20 × 30 ft</p>
+   <h2 class="h1" data-h>${document.getElementById("custom").value}</h2>
+   <p class="lead">A beginner-friendly plan for your space. Sow a few extra; thin to 15. Frost-tender: plant after your last spring frost.</p>
+   <div class="row"><span class="chip">Zone <b>7a</b></span><span class="chip">Last frost <b>Apr 15</b></span><span class="chip">Season <b>186 days</b></span></div>
+   <div class="row"><button class="btn red" type="button">Start planning</button><button class="btn" type="button">Shuffle</button><button class="btn" type="button">Add to calendar</button></div>
+   <div class="card"><div class="art"><span class="sprite"></span></div><div><h3>Tomato</h3><p>2 plants · buy 2 starts</p><div class="stats"><span>Spacing<b>24 in</b></span><span>Harvest<b>~70 days</b></span><span>Sun<b>Full</b></span></div></div></div>
+   <div class="months">${["Mar","Apr","May","Jun","Jul","Aug","Sep","Oct"].map((m,k)=>`<span class="${k===4?"on":""}">${m}</span>`).join("")}</div>
+   <div class="row"><span class="tag">Pick</span><span class="small">Tomato, Basil, Bush Bean · 0 of 3 cards collected · 24 plants · Lv 3 Seedling Sitter</span></div>
+  </div>
+  <div class="note" style="font-size:13px"><div><b>Why it works</b>${o.pros}</div><div><b>Watch out</b>${o.cons}</div></div>
+ </article>`;
+}
+function render(){n=0;document.getElementById("grid").innerHTML=OPTIONS.map(card).join("");}
+document.getElementById("custom").addEventListener("input",e=>document.querySelectorAll("[data-h]").forEach(h=>h.textContent=e.target.value));
+render();
+</script>
+</body>
+</html>

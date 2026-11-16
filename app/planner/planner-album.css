@@ -266,3 +266,11 @@
 
 /* The in-ground plot fieldset sits directly on the album page (no white panel behind it). */
 .planner-page.planner-album .conditional-fieldset { background: transparent; }
+
+/* Duplicate and Remove sit together at the right of a card's heading. */
+.planner-album .garden-unit-actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+
+/* Dimension lines and section labels in the live preview. */
+.planner-album .area-preview .area-preview-dim { stroke: var(--al-muted); stroke-width: 1.5; }
+.planner-album .area-preview .area-preview-divider { stroke: #f3ead2; stroke-width: 2; stroke-dasharray: 5 4; }
+.planner-album .area-preview .area-preview-inner { font-family: var(--font-body); font-size: 12px; fill: #fff4d6; }

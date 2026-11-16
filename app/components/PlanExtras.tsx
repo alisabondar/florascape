@@ -35,10 +35,7 @@ export function NeighborCheck({ layout }: { layout: Layout }) {
         <span>04</span>
         <div>
           <h2>Neighbor check</h2>
-          <p>
-            Pairings gardeners commonly recommend or avoid, checked for the plants sharing each area.
-            Treat these as guidance, not guarantees.
-          </p>
+          <p>Common good and bad pairings in each area.</p>
         </div>
       </div>
       {areas.length ? (
@@ -67,7 +64,7 @@ export function NeighborCheck({ layout }: { layout: Layout }) {
           ))}
         </div>
       ) : (
-        <p className="neighbor-empty">No commonly noted pairings or conflicts among these plants.</p>
+        <p className="neighbor-empty">No known pairings or conflicts here.</p>
       )}
     </section>
   );
@@ -87,7 +84,6 @@ export function ShoppingList({ layout }: { layout: Layout }) {
         <span>05</span>
         <div>
           <h2>Shopping list</h2>
-          <p>What to buy for the current layout.</p>
         </div>
       </div>
 
@@ -155,12 +151,10 @@ export function ShoppingList({ layout }: { layout: Layout }) {
       </div>
 
       <p className="shopping-assumptions">
-        Assumptions: seed counts add a {bufferPercent}% germination buffer to the target; transplants
-        count one nursery start per plant.{" "}
+        Seeds include {bufferPercent}% extra for germination.{" "}
         {soil.inGround
-          ? `In-ground areas get a ${SHOPPING_ASSUMPTIONS.topDressingInches}-inch compost top-dressing.`
-          : `Raised beds and containers are filled ${SHOPPING_ASSUMPTIONS.raisedBedDepthFt} ft deep, with about ${compostPercent}% of the mix as compost (included in the soil-mix volume).`}{" "}
-        Bag sizes vary, so check the label.
+          ? `Compost is a ${SHOPPING_ASSUMPTIONS.topDressingInches}-inch top-dressing.`
+          : `Beds filled ${SHOPPING_ASSUMPTIONS.raisedBedDepthFt} ft deep, ${compostPercent}% compost.`}
       </p>
     </section>
   );

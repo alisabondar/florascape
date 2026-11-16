@@ -58,7 +58,7 @@ export async function createPlanResponse({
 
   if (!providers.length) {
     emit({ type: "generating", provider: "starter-plan" });
-    return starterPlan("The custom planner is not configured, so a starter plan is shown instead.");
+    return starterPlan("Custom planning is off, so this is a starter plan.");
   }
 
   const result = await generateWithProviders<GardenPlan>({

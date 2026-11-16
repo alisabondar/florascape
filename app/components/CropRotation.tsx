@@ -56,10 +56,7 @@ export default function CropRotation({ plan, planId, zipCode, onApplySwap }: Cro
         <span>06</span>
         <div>
           <h2 id="rotation-title">Crop rotation</h2>
-          <p>
-            Save each season on this device. Next time, FloraScape checks whether a crop family is
-            returning to the same area, which can build up soil pests and disease.
-          </p>
+          <p>Save each season; next time we flag crop families returning to the same spot.</p>
         </div>
       </div>
 

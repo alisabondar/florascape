@@ -72,6 +72,13 @@ export interface Bed {
   sunExposureLabel?: string;
 }
 
+/** A crop that takes over a zone after its first crop is done. */
+export interface FollowUpCrop {
+  name: string;
+  spacingInches: number;
+  quantity: number;
+}
+
 /** A plant group placed in one growing area. */
 export interface Plant {
   id: string;
@@ -85,6 +92,10 @@ export interface Plant {
   placementReason: string;
   /** Locked share of the bed's zone length; absent until the bed is filled. */
   areaShare?: number;
+  /** A second crop sown in the same zone once this one finishes, for the rest of the season. */
+  followUp?: FollowUpCrop;
+  /** The gardener marked seeds saved from this group after it finished. */
+  seedsSaved?: boolean;
   guideId?: string;
 }
 
