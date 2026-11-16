@@ -9,43 +9,134 @@
   font-family: var(--font-body);
 }
 
-/* ---------- bed tabs ---------- */
-.diorama-beds {
+/* ---------- binder tabs on top of the garden panel ---------- */
+/* Bed tabs sit on the panel's top edge like the planner's step tabs; the selected one joins
+   the panel. The Season / Layout switch sits at the right end of the same strip. */
+.garden-tabs {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 12px;
+  align-items: flex-end;
+  gap: 12px;
+  padding: 0 14px;
+  min-height: 3rem;
 }
 
-.diorama-beds [role="tab"] {
-  display: inline-flex;
-  align-items: baseline;
+.garden-tablist {
+  display: flex;
+  align-items: flex-end;
   gap: 6px;
-  min-height: 44px;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.garden-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  height: 2.6rem;
   padding: 0 14px;
-  border: 3px solid var(--dio-ink);
-  border-radius: 10px;
-  background: var(--dio-cream);
+  border: 3px solid var(--dio-ink, #2b1d14);
+  border-bottom: 0;
+  border-radius: 10px 10px 0 0;
+  background: #d9cfb1;
   font: inherit;
   font-weight: 700;
-  color: var(--dio-ink);
+  color: var(--dio-ink, #2b1d14);
+  white-space: nowrap;
   cursor: pointer;
-  align-items: center;
 }
 
-.diorama-beds [role="tab"] small {
+.garden-tab small {
   font-size: 0.75rem;
   color: #6b5d48;
 }
 
-.diorama-beds [role="tab"][aria-selected="true"] {
-  background: var(--dio-green);
-  color: var(--dio-cream);
-  box-shadow: 0 3px 0 var(--dio-ink);
+.garden-tab:hover {
+  background: #e6dcbf;
 }
 
-.diorama-beds [role="tab"][aria-selected="true"] small {
-  color: #cfe8b8;
+.garden-tab[aria-selected="true"],
+.garden-tab.is-static {
+  position: relative;
+  z-index: 1;
+  height: 3rem;
+  margin-bottom: -3px;
+  padding-bottom: 3px;
+  background: #fbf6e6;
+  color: var(--dio-green, #3f6b35);
+  cursor: default;
+}
+
+.garden-tab:focus-visible {
+  outline: 3px solid var(--dio-gold, #e8b020);
+  outline-offset: 2px;
+}
+
+.garden-tabs-end {
+  margin-left: auto;
+  padding-bottom: 6px;
+  flex: none;
+}
+
+/* Season / Layout: a compact pill switch with icons. */
+.bed-editor-views {
+  display: inline-flex;
+  padding: 3px;
+  gap: 2px;
+  border: 2px solid #2b1d14;
+  border-radius: 99px;
+  background: #fff4d6;
+}
+
+.bed-editor-views button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 99px;
+  background: none;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #2b1d14;
+  cursor: pointer;
+}
+
+.bed-editor-views button:hover {
+  background: #f1e5c2;
+}
+
+.bed-editor-views button[aria-pressed="true"] {
+  background: #3f6b35;
+  color: #fff4d6;
+}
+
+/* The panel the tabs belong to: timeline, garden, and this month's notes. */
+.garden-panel {
+  position: relative;
+  padding: 16px;
+  border: 3px solid #2b1d14;
+  border-radius: 12px;
+  background: #fbf6e6;
+}
+
+.garden-panel-footer {
+  margin: 12px 0 0;
+  font-size: 0.85rem;
+  color: #6b5d48;
+}
+
+@media (max-width: 560px) {
+  /* The switch takes its own line above the tabs; tabs scroll sideways if there are many. */
+  .garden-tabs { flex-wrap: wrap; padding: 0 8px; }
+  .garden-tabs-end { order: -1; width: 100%; display: flex; justify-content: flex-end; padding-bottom: 8px; }
+  .garden-panel { padding: 12px; }
+  /* Names only, so four bed tabs fit across a phone; sizes are in each bed's label. */
+  .garden-tab { padding: 0 10px; }
+  .garden-tab small { display: none; }
 }
 
 /* ---------- controls ---------- */
@@ -53,12 +144,12 @@
   display: grid;
   grid-template-columns: auto auto minmax(0, 1fr);
   align-items: center;
-  gap: 8px 14px;
-  margin-bottom: 12px;
+  gap: 8px 12px;
+  margin-bottom: 4px;
 }
 
 .diorama-month {
-  min-width: 3.2em;
+  min-width: 2.4em;
   margin: 0;
   font-family: var(--font-display);
   font-size: 1.9rem;
@@ -255,11 +346,11 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 6px 18px;
-  margin-top: 10px;
-  padding: 10px 14px;
-  border: 2px dashed #b88a2a;
-  border-radius: 10px;
-  background: #fff8e4;
+  margin-top: 12px;
+  padding: 12px 16px;
+  border: 2px solid #d8c9a3;
+  border-radius: 12px;
+  background: #fbf6e6;
   font-size: 0.9rem;
 }
 
@@ -302,36 +393,6 @@
   .diorama-sprite { animation: none; }
 }
 
-/* Season / Layout switch above the garden. */
-.bed-editor-views {
-  display: inline-flex;
-  margin-bottom: 12px;
-  border: 3px solid #2b1d14;
-  border-radius: 99px;
-  overflow: hidden;
-  background: #fff4d6;
-}
-
-.bed-editor-views button {
-  min-height: 44px;
-  padding: 0 18px;
-  border: 0;
-  background: none;
-  font: inherit;
-  font-weight: 700;
-  color: #2b1d14;
-  cursor: pointer;
-}
-
-.bed-editor-views button + button {
-  border-left: 3px solid #2b1d14;
-}
-
-.bed-editor-views button[aria-pressed="true"] {
-  background: #3f6b35;
-  color: #fff4d6;
-}
-
 /* ---------- after harvest: follow-up crops and seed saving ---------- */
 .diorama-after {
   display: grid;
@@ -341,10 +402,10 @@
 
 .diorama-after-row {
   display: grid;
-  gap: 6px;
-  padding: 10px 14px;
-  border: 2px solid var(--dio-ink);
-  border-radius: 10px;
+  gap: 10px;
+  padding: 14px 16px;
+  border: 2px solid #d8c9a3;
+  border-radius: 12px;
   background: #fff;
   font-size: 0.9rem;
 }
@@ -354,12 +415,29 @@
   margin: 0;
 }
 
+/* Each line: a fixed-width tag column, then its content, so tags and text align row to row. */
 .diorama-after-line {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  align-items: start;
+  gap: 6px 12px;
+  line-height: 1.5;
+}
+
+.diorama-after-line > .diorama-tag {
+  justify-self: start;
+  margin: 2px 0 0;
+}
+
+.diorama-after-text {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 6px 8px;
-  line-height: 1.45;
+  gap: 4px 10px;
+}
+
+@media (max-width: 560px) {
+  .diorama-after-line { grid-template-columns: minmax(0, 1fr); }
 }
 
 .diorama-chips {
@@ -393,7 +471,7 @@
 
 .diorama-link {
   min-height: 44px;
-  padding: 0 6px;
+  padding: 0;
   border: 0;
   background: none;
   font: inherit;

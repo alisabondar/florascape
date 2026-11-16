@@ -1,5 +1,5 @@
 import { findPlantFacts, PLANT_FACTS } from "./plant-facts";
-import type { AreaSunExposure, ClimateContext, FollowUpCrop, Layout, Plant } from "./types";
+import type { AreaSunExposure, ClimateContext, Layout, Plant } from "./types";
 
 /** Where a plant group is in its season during one month. */
 export type SeasonStage = "empty" | "planted" | "growing" | "harvest" | "done";

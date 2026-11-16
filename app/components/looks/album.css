@@ -231,13 +231,12 @@
 .look-album .bed-editor,
 .look-album .garden-sketch-editor { color: var(--al-ink); }
 .look-album .garden-sketch-editor {
-  background: var(--al-page); border: 3px solid var(--al-green-dark); border-radius: 10px; padding: 14px 16px;
+  background: var(--al-page); border: 3px solid var(--al-green-dark); border-radius: 12px; padding: 14px 16px; margin-top: 16px;
 }
 .look-album .garden-sketch-editor-heading h3,
 .look-album .garden-sketch-editor-heading strong { font-family: var(--font-body); font-weight: 400; color: var(--al-green); }
 .look-album .garden-sketch-editor-heading p,
-.look-album .garden-sketch-editor-heading span,
-.look-album .bed-editor-hint { color: #5d5142; }
+.look-album .garden-sketch-editor-heading span { color: #5d5142; }
 .look-album.look-album .plant-group-adjustment {
   background: #fff; border: 3px solid var(--al-ink); border-radius: 10px;
   box-shadow: 3px 3px 0 var(--al-rule); padding: 8px 10px;
@@ -307,8 +306,9 @@
 }
 @media (max-width: 420px) {
   .album-sleeves { grid-template-columns: 1fr; }
-  .album-toolbar { justify-content: stretch; }
-  .album-btn { flex: 1 1 auto; text-align: center; }
+  /* Four actions as an even 2x2 grid instead of a ragged 3 + 1. */
+  .album-toolbar { display: grid; grid-template-columns: 1fr 1fr; }
+  .album-btn { text-align: center; }
 }
 @media print {
   .look-album, .look-album .result-shell-section { background: #fff !important; color: #000; }

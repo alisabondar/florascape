@@ -149,7 +149,7 @@ export default function Home() {
                 <li key={feature.title} className="home-feature" style={{ "--rar": feature.color } as CSSProperties}>
                   <span className="home-rarity px">{feature.tag}</span>
                   <div className="home-feature-art">
-                    <PixelSprite plantName={feature.sprite} scale={2} motion="sway" />
+                    <PixelSprite plantName={feature.sprite} scale={3} motion="sway" />
                   </div>
                   <h3>{feature.title}</h3>
                   <p>{feature.body}</p>

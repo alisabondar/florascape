@@ -106,3 +106,16 @@ bun run test:e2e
 The plan route streams progress as newline-delimited JSON when the request sends `Accept: application/x-ndjson`; the loading screen shows each stage. Response schemas sent to AI providers are generated from the Zod schemas in `lib/schemas/`, which also validate API request bodies.
 
 Specs and audit records live in `docs/` and `AUDIT.md`.
+
+### Demo video
+
+`docs/demo.mp4` is recorded by clicking through the app. With the offline server running (`bun run dev:e2e`) and `ffmpeg` on your PATH, run `node scripts/record-demo.mjs`. It uses a fresh browser profile, so your saved albums and XP aren't touched. GitHub only plays a video inline if you upload it: drag `docs/demo.mp4` into the README editor on github.com.
+
+To record it with a screen recorder such as Screen Studio (its zoom and cursor effects follow real clicks), use presenter mode. It plays the same walkthrough in a visible app window with the real mouse pointer:
+
+1. `brew install cliclick`, and allow your terminal app in System Settings → Privacy & Security → Accessibility (so it can move the pointer).
+2. In Screen Studio, allow Screen Recording when it asks.
+3. Run `bun run dev:e2e`, then `node scripts/record-demo.mjs --present`. A 1440×900 FloraScape window opens with a 5-second countdown (`--countdown 10` for longer); start recording that window during it.
+4. Don't touch the mouse until the terminal prints "Demo finished", then stop and export in Screen Studio.
+
+`--present --dry-run` checks the walkthrough headlessly without moving the pointer.
