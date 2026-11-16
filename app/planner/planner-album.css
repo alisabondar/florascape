@@ -274,3 +274,15 @@
 .planner-album .area-preview .area-preview-dim { stroke: var(--al-muted); stroke-width: 1.5; }
 .planner-album .area-preview .area-preview-divider { stroke: #f3ead2; stroke-width: 2; stroke-dasharray: 5 4; }
 .planner-album .area-preview .area-preview-inner { font-family: var(--font-body); font-size: 12px; fill: #fff4d6; }
+
+/* Step buttons: readable text, Back sized like a real button next to the wide primary. */
+.planner-album .planner-step-actions .btn.btn {
+  min-height: 52px;
+  padding: 0 1.4rem;
+  font-size: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.planner-album .planner-step-actions .secondary-action { min-width: 7rem; }
