@@ -346,3 +346,23 @@ export function plantSpots(
   }
   return spots;
 }
+
+/**
+ * Just one bed of a garden, moved to the corner with a small margin, with only its plants.
+ * For views that show one bed at a time; zones and quantities are unchanged because
+ * they're relative to the bed.
+ */
+export function singleBed(layout: Layout, bedId: string, marginFt = 1): Layout {
+  const bed = layout.beds.find((item) => item.id === bedId);
+  if (!bed) {
+    return layout;
+  }
+  const dx = marginFt - bed.x;
+  const dy = marginFt - bed.y;
+  return {
+    ...layout,
+    garden: { ...layout.garden, width: bed.width + marginFt * 2, height: bed.height + marginFt * 2 },
+    beds: [{ ...bed, x: marginFt, y: marginFt }],
+    plants: layout.plants.filter((plant) => plant.bedId === bedId).map((plant) => ({ ...plant, x: plant.x + dx, y: plant.y + dy })),
+  };
+}

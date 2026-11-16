@@ -116,5 +116,7 @@ export function soilShoppingItems(layout: Pick<Layout, "garden" | "beds">): Soil
 }
 
 export function buildShoppingList(layout: Layout): ShoppingList {
-  return { plants: plantShoppingItems(layout.plants), soil: soilShoppingItems(layout) };
+  // Follow-up crops need their own seeds or starts too.
+  const followUps = layout.plants.flatMap((plant) => (plant.followUp ? [plant.followUp] : []));
+  return { plants: plantShoppingItems([...layout.plants, ...followUps]), soil: soilShoppingItems(layout) };
 }

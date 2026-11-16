@@ -1,0 +1,410 @@
+/* Isometric garden with a month scrubber. Colors follow the pixel plot (pixel.css). */
+.diorama {
+  --dio-ink: #2b1d14;
+  --dio-cream: #fff4d6;
+  --dio-green: #3f6b35;
+  --dio-red: #a33224;
+  --dio-gold: #e8b020;
+  width: 100%;
+  font-family: var(--font-body);
+}
+
+/* ---------- bed tabs ---------- */
+.diorama-beds {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.diorama-beds [role="tab"] {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 3px solid var(--dio-ink);
+  border-radius: 10px;
+  background: var(--dio-cream);
+  font: inherit;
+  font-weight: 700;
+  color: var(--dio-ink);
+  cursor: pointer;
+  align-items: center;
+}
+
+.diorama-beds [role="tab"] small {
+  font-size: 0.75rem;
+  color: #6b5d48;
+}
+
+.diorama-beds [role="tab"][aria-selected="true"] {
+  background: var(--dio-green);
+  color: var(--dio-cream);
+  box-shadow: 0 3px 0 var(--dio-ink);
+}
+
+.diorama-beds [role="tab"][aria-selected="true"] small {
+  color: #cfe8b8;
+}
+
+/* ---------- controls ---------- */
+.diorama-controls {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px 14px;
+  margin-bottom: 12px;
+}
+
+.diorama-month {
+  min-width: 3.2em;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  line-height: 1;
+  color: var(--dio-green);
+}
+
+.diorama-play {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 3px solid var(--dio-ink);
+  border-radius: 50%;
+  background: var(--dio-cream);
+  box-shadow: 0 3px 0 var(--dio-ink);
+  color: var(--dio-ink);
+  cursor: pointer;
+  transition: transform 120ms ease-out, box-shadow 120ms ease-out;
+}
+
+.diorama-play svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+.diorama-play:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--dio-ink);
+}
+
+.diorama-play[aria-pressed="true"] {
+  background: var(--dio-green);
+  color: var(--dio-cream);
+}
+
+.diorama-scrub input[type="range"] {
+  width: 100%;
+  height: 28px;
+  margin: 0;
+  accent-color: var(--dio-green);
+  cursor: pointer;
+}
+
+.diorama-ticks {
+  display: grid;
+}
+
+/* Tick labels double as month buttons: 44px tall hit area, compact text. */
+.diorama-tick {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 0.78rem;
+  color: #6b5d48;
+  cursor: pointer;
+}
+
+.diorama-tick[aria-pressed="true"] {
+  color: var(--dio-ink);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-decoration-color: var(--dio-gold);
+  text-underline-offset: 4px;
+}
+
+.diorama-tick:hover {
+  color: var(--dio-ink);
+}
+
+/* ---------- the scene ---------- */
+.diorama-stage {
+  position: relative;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.diorama-ground {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+
+.diorama-lawn {
+  fill: #8cc666;
+  stroke: #5e9a44;
+  stroke-width: 2;
+}
+
+.diorama-bed-top {
+  fill: #8a5530;
+  stroke: var(--dio-ink);
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+
+.diorama-bed-side {
+  stroke: var(--dio-ink);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.diorama-bed-side.left { fill: #7a4a2a; }
+.diorama-bed-side.right { fill: #5e361c; }
+
+.diorama-bed-name {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  fill: var(--dio-ink);
+  paint-order: stroke;
+  stroke: var(--dio-cream);
+  stroke-width: 3px;
+}
+
+/* Patches sit on the bed top; their tint follows the month's stage. */
+.diorama-patch {
+  fill: transparent;
+  stroke: #b07a48;
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+  transition: fill 200ms ease-out;
+}
+
+.diorama-patch.stage-planted { fill: rgba(255, 244, 214, 0.18); }
+.diorama-patch.stage-harvest { fill: rgba(232, 176, 32, 0.28); stroke: var(--dio-gold); stroke-dasharray: none; stroke-width: 2; }
+.diorama-patch.stage-done { fill: rgba(201, 191, 166, 0.45); }
+
+.diorama-patch.interactive {
+  cursor: pointer;
+  pointer-events: all;
+}
+
+.diorama-patch.interactive:hover,
+.diorama-patch.interactive:focus-visible {
+  fill: rgba(255, 226, 122, 0.3);
+  stroke: #ffe27a;
+  stroke-width: 3;
+  stroke-dasharray: none;
+  outline: none;
+}
+
+.diorama-sprite {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  pointer-events: none;
+  animation: diorama-pop 260ms ease-out both;
+}
+
+.diorama-sprite.stage-done {
+  opacity: 0.5;
+  filter: grayscale(0.7);
+}
+
+@keyframes diorama-pop {
+  from { transform: translate(-50%, -100%) scale(0.7); opacity: 0; }
+  to { transform: translate(-50%, -100%) scale(1); }
+}
+
+.diorama-label {
+  position: absolute;
+  z-index: 1;
+  transform: translate(-50%, 0);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 6px;
+  font-size: 0.72rem;
+  white-space: nowrap;
+  color: var(--dio-ink);
+  background: var(--dio-cream);
+  border: 2px solid var(--dio-ink);
+  pointer-events: none;
+}
+
+.diorama-label em {
+  font-style: normal;
+  font-weight: 700;
+  padding: 0 4px;
+  border-radius: 3px;
+}
+
+.diorama-label.stage-planted em { background: #cfe8b8; }
+.diorama-label.stage-harvest em { background: #ffe27a; }
+.diorama-label.stage-done em { background: #e2d8c2; }
+
+/* ---------- this month's jobs ---------- */
+.diorama-tasks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 18px;
+  margin-top: 10px;
+  padding: 10px 14px;
+  border: 2px dashed #b88a2a;
+  border-radius: 10px;
+  background: #fff8e4;
+  font-size: 0.9rem;
+}
+
+.diorama-tasks p {
+  margin: 0;
+}
+
+.diorama-tasks-title {
+  font-family: var(--font-display);
+  color: var(--dio-green);
+}
+
+.diorama-tag {
+  display: inline-block;
+  margin-right: 6px;
+  padding: 0 6px;
+  border: 2px solid var(--dio-ink);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.diorama-tag.plant { background: #cfe8b8; }
+.diorama-tag.pick { background: #ffe27a; }
+.diorama-tag.free { background: #e2d8c2; }
+
+@media (max-width: 560px) {
+  .diorama-controls { grid-template-columns: auto 1fr; }
+  .diorama-scrub { grid-column: 1 / -1; }
+  .diorama-month { font-size: 1.5rem; }
+  .diorama-tick { font-size: 0.7rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .diorama-sprite { animation: none; }
+  .diorama-patch, .diorama-play { transition: none; }
+}
+
+@media print {
+  .diorama-sprite { animation: none; }
+}
+
+/* Season / Layout switch above the garden. */
+.bed-editor-views {
+  display: inline-flex;
+  margin-bottom: 12px;
+  border: 3px solid #2b1d14;
+  border-radius: 99px;
+  overflow: hidden;
+  background: #fff4d6;
+}
+
+.bed-editor-views button {
+  min-height: 44px;
+  padding: 0 18px;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 700;
+  color: #2b1d14;
+  cursor: pointer;
+}
+
+.bed-editor-views button + button {
+  border-left: 3px solid #2b1d14;
+}
+
+.bed-editor-views button[aria-pressed="true"] {
+  background: #3f6b35;
+  color: #fff4d6;
+}
+
+/* ---------- after harvest: follow-up crops and seed saving ---------- */
+.diorama-after {
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.diorama-after-row {
+  display: grid;
+  gap: 6px;
+  padding: 10px 14px;
+  border: 2px solid var(--dio-ink);
+  border-radius: 10px;
+  background: #fff;
+  font-size: 0.9rem;
+}
+
+.diorama-after-head,
+.diorama-after-line {
+  margin: 0;
+}
+
+.diorama-after-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  line-height: 1.45;
+}
+
+.diorama-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.diorama-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 2px solid var(--dio-ink);
+  border-radius: 99px;
+  background: #cfe8b8;
+  font: inherit;
+  color: var(--dio-ink);
+  cursor: pointer;
+}
+
+.diorama-chip small {
+  color: #4b5a3e;
+}
+
+.diorama-chip:hover,
+.diorama-chip:focus-visible {
+  background: #b8dc98;
+}
+
+.diorama-link {
+  min-height: 44px;
+  padding: 0 6px;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--dio-red);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.diorama-link[aria-pressed="true"] {
+  color: var(--dio-green);
+  font-weight: 700;
+}
+
+.diorama-tag.seeds { background: #f2dfb0; }

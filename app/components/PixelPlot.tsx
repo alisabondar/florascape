@@ -180,9 +180,10 @@ export default function PixelPlot({
           // Each plant gets its own sprite only while one fits its spacing; denser zones
           // switch to footprint dots with a single sprite as the zone's icon.
           const detailed = cell >= 21 && spots.length <= MAX_SPRITES_PER_ZONE;
-          // Wider-spaced plants draw bigger, so a tomato reads larger than a radish.
-          const zoneScale = Math.max(1, Math.min(4, Math.floor((cell * 0.75) / 16), Math.max(spriteScale, Math.floor((cell * 0.6) / 16))));
-          const iconScale = Math.max(1, Math.min(spriteScale, Math.floor((Math.min(patch.width, patch.height) * tile * 0.6) / 24)));
+          // Wider-spaced plants draw a bit bigger (a tomato reads larger than a radish), capped
+          // at 3× so a lone plant in a big section doesn't balloon.
+          const zoneScale = Math.max(1, Math.min(3, Math.floor((cell * 0.75) / 16), Math.round((cell * 0.4) / 16)));
+          const iconScale = Math.max(1, Math.min(2, spriteScale, Math.floor((Math.min(patch.width, patch.height) * tile * 0.6) / 24)));
           const motion = stage !== undefined ? "still" : animate ? "grow" : "still";
           const selected = plant.id === selectedPlantId;
           const label = `${plant.name}, ${plant.quantity} mature plants, ${startingAmountLabel(plant.name, plant.quantity)}`;

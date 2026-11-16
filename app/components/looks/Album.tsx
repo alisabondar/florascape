@@ -248,6 +248,7 @@ export default function AlbumDashboard({
               onSwapPlant={onSwapPlant}
               onSwapZones={onSwapZones}
               onZoneSelect={onOpenGuide}
+              climate={climate}
               collapsible
             />
           </section>

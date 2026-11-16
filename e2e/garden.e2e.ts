@@ -38,7 +38,7 @@ test("the three planner steps produce a starter plan", async ({ page }) => {
   await planGarden(page);
   await expect(page.locator("main.look-album")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Your garden" })).toBeVisible();
-  await expect(page.locator(".pixel-zone").first()).toBeVisible();
+  await expect(page.locator(".diorama-patch").first()).toBeVisible();
   expect((await groupNames(page)).length).toBeGreaterThanOrEqual(3);
 });
 
@@ -66,7 +66,7 @@ test("Add to calendar downloads an .ics file", async ({ page }) => {
   expect(contents).toContain("BEGIN:VEVENT");
 });
 
-test("the album's bed editor swaps a plant and the pixel garden follows", async ({ page }) => {
+test("the album's bed editor swaps a plant and both garden views follow", async ({ page }) => {
   await planGarden(page);
   await expect(page.locator("h1")).toHaveCount(1);
   // The editor starts folded under its heading.
@@ -79,6 +79,8 @@ test("the album's bed editor swaps a plant and the pixel garden follows", async 
   expect(newName).not.toBe("");
   await option.click();
   await expect(trigger).toContainText(newName);
+  await expect(page.locator(`.diorama-patch[aria-label^="${newName},"]`).first()).toBeVisible();
+  await page.getByRole("button", { name: "Layout" }).click();
   await expect(page.locator(`.pixel-zone[aria-label^="${newName},"]`).first()).toBeVisible();
   await expect(page.getByText("Edit plant groups")).toBeVisible();
 });

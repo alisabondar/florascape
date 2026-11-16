@@ -8,13 +8,12 @@
 /* ---------- Hero: binder cover ---------- */
 .home-hero { padding: 48px 0 32px; }
 .home-hero-grid {
-  display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 40px; align-items: center;
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 32px; align-items: stretch;
 }
 .home-cover {
   position: relative; display: grid; grid-template-columns: 48px minmax(0, 1fr);
   background: var(--al-green-dark); border: 4px solid #142219; border-radius: 8px 18px 18px 8px;
   box-shadow: 0 12px 0 #142219, inset 0 0 0 10px var(--al-green), inset 0 0 0 12px #142219;
-  min-height: 460px;
 }
 .home-cover-rings {
   display: flex; flex-direction: column; justify-content: space-evenly; align-items: center;
@@ -25,7 +24,7 @@
   background: radial-gradient(circle at 35% 35%, #e6e8e2, #8a8f86 60%, #4a4e48);
   border: 2px solid #142219;
 }
-.home-cover-body { padding: 36px 32px; display: flex; flex-direction: column; gap: 18px; }
+.home-cover-body { padding: 32px; display: flex; flex-direction: column; justify-content: center; gap: 20px; }
 .home-cover-vol, .home-kicker {
   margin: 0; font-family: var(--font-body); font-weight: 600; font-size: 0.85rem;
   text-transform: uppercase; letter-spacing: 0.14em;
@@ -54,8 +53,19 @@
 }
 .home-btn-ghost:hover { background: #ffffff1a; }
 
-/* ---------- Showcase: fanned cards + sample page ---------- */
-.home-showcase { display: grid; gap: 28px; min-width: 0; }
+/* Three steps, inside the cover: same rhythm as the actions below them. */
+.home-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.home-steps li { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 12px; align-items: center; color: var(--al-page); }
+.home-steps b { display: block; color: var(--al-gold); font-size: 1.05rem; }
+.home-step-num {
+  display: grid; place-items: center; width: 36px; height: 36px;
+  background: var(--al-paper); color: var(--al-green-dark); border: 3px solid #142219; border-radius: 50%;
+  box-shadow: 0 3px 0 #142219;
+}
+
+/* ---------- Showcase: the example garden, as tall as the cover ---------- */
+.home-showcase { display: grid; min-width: 0; }
+.home-showcase .home-sample { display: flex; flex-direction: column; justify-content: center; }
 .home-fan {
   list-style: none; margin: 0; padding: 0;
   display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; padding-top: 12px;
@@ -104,7 +114,7 @@
 
 .home-features {
   list-style: none; margin: 0; padding: 0; display: grid; gap: 18px;
-  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 .home-feature {
   background: #fff; border: 3px solid var(--al-ink); border-radius: 10px; padding: 10px 12px 14px; position: relative;
@@ -117,38 +127,20 @@
 .home-feature h3 {
   font-family: var(--font-display); font-weight: 400; font-size: 1.2rem; margin: 8px 0 4px; color: var(--al-ink);
 }
-.home-feature p { margin: 0; font-size: 0.95rem; line-height: 1.45; color: var(--al-ink); }
-
-/* ---------- Season map ---------- */
-.home-levels {
-  list-style: none; margin: 0; padding: 0; display: grid; gap: 18px;
-  grid-template-columns: repeat(4, minmax(0, 1fr)); position: relative;
-}
-.home-levels::before {
-  content: ""; position: absolute; top: 26px; left: 10%; right: 10%; border-top: 4px dashed var(--al-green-light);
-}
-.home-level {
-  position: relative; text-align: center; padding: 0 6px;
-}
-.home-level-num {
-  display: grid; place-items: center; width: 56px; height: 56px; margin: 0 auto 10px;
-  background: var(--al-green); color: #fff; border: 3px solid var(--al-ink); border-radius: 50%;
-  font-size: 1.5rem; box-shadow: 0 4px 0 var(--al-ink); position: relative;
-}
-.home-level-goal .home-level-num { background: var(--al-gold); color: var(--al-ink); }
-.home-level h3 { font-family: var(--font-display); font-weight: 400; font-size: 1.2rem; margin: 0 0 4px; color: var(--al-green); }
-.home-level p { margin: 0; font-size: 0.95rem; line-height: 1.45; }
+.home-feature p { margin: 0; font-size: 1rem; line-height: 1.5; color: var(--al-ink); }
 
 /* ---------- Final CTA ---------- */
 .home-cta {
-  position: relative; text-align: center; background: var(--al-paper); border: 6px solid var(--al-green-dark);
-  border-radius: 14px; box-shadow: 0 12px 0 var(--al-green-dark); padding: 48px 24px;
+  position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 32px; align-items: center;
+  background: var(--al-paper); border: 6px solid var(--al-green-dark);
+  border-radius: 14px; box-shadow: 0 12px 0 var(--al-green-dark); padding: 40px clamp(18px, 4vw, 44px);
 }
+.home-cta-text { display: grid; gap: 4px; justify-items: start; }
 .home-cta h2 {
   font-family: var(--font-display); font-weight: 400; color: var(--al-green);
   font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 0 0 10px;
 }
-.home-cta p { max-width: 52ch; margin: 0 auto 22px; line-height: 1.55; }
+.home-cta p { max-width: 40ch; margin: 0 0 18px; line-height: 1.55; }
 .home-album .home-cta .btn { display: inline-flex; padding: 12px 24px; font-size: 1.1rem; text-decoration: none; }
 .home-stamp {
   position: absolute; top: 18px; right: 22px; transform: rotate(-12deg);
@@ -159,8 +151,8 @@
 /* ---------- Responsive ---------- */
 @media (max-width: 960px) {
   .home-hero-grid { grid-template-columns: minmax(0, 1fr); }
-  .home-levels { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .home-levels::before { display: none; }
+  .home-features { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .home-cta { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 560px) {
   .home-hero { padding-top: 24px; }
@@ -169,7 +161,7 @@
   .home-cover-body { padding: 24px 18px; }
   .home-fan { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 18px; }
   .home-card { margin-inline: 2px; }
-  .home-levels { grid-template-columns: minmax(0, 1fr); }
+  .home-features { grid-template-columns: minmax(0, 1fr); }
   .home-stamp { position: static; display: inline-block; margin-bottom: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {

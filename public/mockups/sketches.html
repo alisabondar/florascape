@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FloraScape: ten garden sketch concepts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Karla:wght@400;700&family=Architects+Daughter&family=Reenie+Beanie&family=Patrick+Hand&family=Pixelify+Sans:wght@400;700&family=Fraunces:ital,wght@0,400;0,600;1,300&display=swap">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Karla,system-ui,sans-serif;background:#e8e3d4;color:#222}
+h2,h3,p{margin:0}
+button{font:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #1a5fd0;outline-offset:2px}
+.index{position:sticky;top:0;z-index:50;height:48px;background:#fffdf6;border-bottom:2px solid #2d3a2a;display:flex;align-items:center;gap:.6rem;padding:0 .8rem;font-size:.8rem}
+.index b{white-space:nowrap}
+.index ol{list-style:none;margin:0;padding:0;display:flex;gap:.35rem;overflow-x:auto;white-space:nowrap;flex:1}
+.index a{display:inline-block;padding:.3rem .6rem;border:1px solid #c9c0a8;border-radius:99px;color:#222;text-decoration:none}
+.index a:hover{background:#f1ead2}
+.intro{max-width:1100px;margin:28px auto 0;padding:0 24px;font-size:.95rem;color:#3a3a2e}
+.intro h1{font-family:Shrikhand,cursive;font-weight:400;color:#2d4a2a;font-size:2rem;margin:0 0 6px}
+section.concept{scroll-margin-top:56px;max-width:1100px;margin:28px auto;padding:0 24px}
+.card{background:#fffdf6;border:2px solid #2d3a2a;border-radius:12px;overflow:hidden;box-shadow:0 6px 0 #2d3a2a}
+.head{display:flex;gap:16px;align-items:baseline;justify-content:space-between;padding:16px 20px;border-bottom:1.5px dashed #c9c0a8;flex-wrap:wrap}
+.head h2{font-family:Shrikhand,cursive;font-weight:400;font-size:1.45rem;color:#2d4a2a}
+.head h2 span{color:#a33224;margin-right:.35rem}
+.head p{font-size:.9rem;color:#4b4b3f;max-width:62ch}
+.stage{padding:20px;overflow-x:auto}
+.notes{display:grid;grid-template-columns:1fr 1fr;gap:12px 24px;padding:14px 20px 18px;border-top:1.5px dashed #c9c0a8;font-size:.86rem;line-height:1.45}
+.notes b{display:block;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:#a33224;margin-bottom:2px}
+@media(max-width:700px){.notes{grid-template-columns:1fr}}
+.sprite{display:inline-block;width:16px;height:24px;background-size:500% 100%;background-position:75% 0;image-rendering:pixelated}
+svg text{font-family:Karla,sans-serif}
+
+/* 1 square-foot grid */
+.c1 .stage{background:#f3ead2}
+.c1 .pop{margin-top:12px;font-size:.9rem;min-height:1.4em;color:#2d3a2a}
+
+/* 2 planting day */
+.c2 .wrap{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:20px;align-items:start}
+.c2 ol{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.c2 .day{border:2px solid #2d3a2a;border-radius:10px;padding:10px 12px;background:#fff}
+.c2 .day h3{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:#a33224;margin-bottom:6px}
+.c2 label{display:flex;gap:8px;align-items:center;font-size:.9rem;padding:3px 0}
+.c2 label small{color:#6a6a5a;margin-left:auto}
+.c2 .bar{height:10px;border:2px solid #2d3a2a;border-radius:99px;overflow:hidden;margin:4px 0 12px;background:#fff}
+.c2 .bar i{display:block;height:100%;background:#4c9a3a;width:0;transition:width .3s}
+@media(max-width:800px){.c2 .wrap{grid-template-columns:1fr}}
+
+/* 3 tape measure */
+.c3 .stage{background:#1d3b5c;color:#e7f0fa}
+.c3 svg text{font-family:'Architects Daughter',cursive}
+
+/* 4 season scrubber */
+.c4 .ctrl{display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+.c4 input[type=range]{flex:1;min-width:220px;accent-color:#3f6b35}
+.c4 .month{font-family:Shrikhand,cursive;font-size:1.4rem;color:#2d4a2a;min-width:4.5em}
+.c4 .key{display:flex;gap:14px;flex-wrap:wrap;font-size:.8rem;margin-top:12px}
+.c4 .key span{display:inline-flex;align-items:center;gap:6px}
+.c4 .key i{width:14px;height:14px;border:1.5px solid #2d3a2a;border-radius:3px;display:inline-block}
+.c4 .tip{margin-top:10px;padding:8px 12px;background:#fff4d6;border:2px dashed #b88a2a;border-radius:8px;font-size:.88rem;min-height:2.4em}
+
+/* 5 elevation + sun */
+.c5 .stage{background:linear-gradient(#e6f1f7,#f6f1e2)}
+
+/* 6 isometric */
+.c6 .stage{background:#9fd07a;display:flex;justify-content:center}
+.c6 .iso{position:relative}
+.c6 .iso .sprite{position:absolute;transform:translate(-50%,-100%)}
+.c6 .iso .lbl{position:absolute;transform:translate(-50%,0);font-family:'Pixelify Sans',sans-serif;font-size:11px;background:#fff4d6;border:2px solid #2b1d14;padding:0 4px;white-space:nowrap;pointer-events:none}
+
+/* 7 callouts */
+.c7 .stage{background:#fbfaf5}
+
+/* 8 focus */
+.c8 .tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.c8 .tabs button{border:2px solid #2d3a2a;background:#fff;border-radius:99px;padding:6px 14px;font-weight:700}
+.c8 .tabs button[aria-selected=true]{background:#2d4a2a;color:#fff4d6}
+.c8 .wrap{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:20px;align-items:start}
+.c8 .side{display:grid;gap:10px}
+.c8 .row{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:center;border:2px solid #2d3a2a;border-radius:10px;padding:8px 10px;background:#fff}
+.c8 .row b{display:block}
+.c8 .row small{color:#5a5a4a}
+.c8 .big{position:relative;background:#7a4a2a;border:4px solid #2b1d14;box-shadow:inset 0 0 0 3px #9c6338;margin:0 auto}
+.c8 .big .sprite{position:absolute;transform:translate(-50%,-80%)}
+@media(max-width:800px){.c8 .wrap{grid-template-columns:1fr}}
+
+/* 9 sowing diagram */
+.c9 .stage{background:#fdfbf3}
+.c9 svg text{font-family:'Patrick Hand',cursive}
+
+/* 10 watercolor */
+.c10 .stage{background:#f7f1e3}
+.c10 svg text{font-family:'Reenie Beanie',cursive}
+</style>
+</head>
+<body>
+<nav class="index" aria-label="Sketch concepts">
+ <b>Sketch &times; 10</b>
+ <ol>
+  <li><a href="#sfg">1 Square-foot grid</a></li>
+  <li><a href="#day">2 Planting day</a></li>
+  <li><a href="#tape">3 Tape measure</a></li>
+  <li><a href="#season">4 Season scrubber</a></li>
+  <li><a href="#sun">5 Sun &amp; height</a></li>
+  <li><a href="#iso">6 Pixel diorama</a></li>
+  <li><a href="#callouts">7 Callouts</a></li>
+  <li><a href="#focus">8 One bed at a time</a></li>
+  <li><a href="#sow">9 Sowing diagram</a></li>
+  <li><a href="#water">10 Watercolor poster</a></li>
+ </ol>
+</nav>
+
+<div class="intro">
+ <h1>Ten ways to draw the garden</h1>
+ <p>All ten use the same sample garden (the home-page example: four beds, eight plants). Each one asks a different question for the gardener. 1–3 and 9 are about <b>getting plants in the ground</b>. 4–5 are about <b>planning the season</b>. 6, 7, 8 and 10 are about <b>reading the plan at a glance</b>. Any of them can be mixed with another.</p>
+</div>
+
+<section id="sfg" class="concept c1"><div class="card">
+ <div class="head"><h2><span>1</span>Square-foot grid</h2><p>Each bed is split into 1 ft squares, and each square says what goes in it and how many. No measuring needed: the gardener lays string every foot and fills squares.</p></div>
+ <div class="stage"><div id="c1"></div><p class="pop" id="c1pop">Tap a square.</p></div>
+ <div class="notes"><div><b>For the gardener</b>"4 beans here" is the most direct planting instruction there is. Square-foot gardening is a method many beginners already know.</div><div><b>Trade-off</b>A tomato takes one square but needs the empty squares around it, which can look like wasted space. Patches don't line up with whole feet today, so the planner would need to snap zones to the grid.</div></div>
+</div></section>
+
+<section id="day" class="concept c2"><div class="card">
+ <div class="head"><h2><span>2</span>Planting day map</h2><p>Patches are numbered in the order you plant them. The checklist on the side is the plan, and ticking a step colors that patch in as planted.</p></div>
+ <div class="stage"><div class="wrap"><div id="c2"></div><div><div class="bar" aria-hidden="true"><i id="c2bar"></i></div><ol id="c2list"></ol></div></div></div>
+ <div class="notes"><div><b>For the gardener</b>Turns the sketch into a to-do list you carry outside. It ties straight into the existing Planted / Growing / Harvested stamps and XP.</div><div><b>Trade-off</b>The numbers make the map busier. It works best as a mode you switch on ("Planting day") rather than the default view.</div></div>
+</div></section>
+
+<section id="tape" class="concept c3"><div class="card">
+ <div class="head"><h2><span>3</span>Tape-measure layout</h2><p>One bed as a blueprint: where each patch starts and ends, measured from the bed's left corner, with every planting hole marked. Built for laying out string lines.</p></div>
+ <div class="stage"><div id="c3"></div></div>
+ <div class="notes"><div><b>For the gardener</b>Answers "where exactly do I dig?" Spacing stops being a number to remember, because every hole is drawn.</div><div><b>Trade-off</b>Dense and technical, so one bed per view. It fits a "print layout" button better than the main result page.</div></div>
+</div></section>
+
+<section id="season" class="concept c4"><div class="card">
+ <div class="head"><h2><span>4</span>Season scrubber</h2><p>Drag through the months and the garden changes with them: empty, sown, growing, ready to harvest, done. The plan becomes a season, not a single picture.</p></div>
+ <div class="stage">
+  <div class="ctrl"><span class="month" id="c4m">May</span><input id="c4r" type="range" min="0" max="7" value="2" aria-label="Month"></div>
+  <div id="c4"></div>
+  <div class="key"><span><i style="background:#9c6338"></i>Empty</span><span><i style="background:#c9a36a;background-image:radial-gradient(#5a341d 1.5px,transparent 1.5px);background-size:5px 5px"></i>Just planted</span><span><i style="background:#6fb24a"></i>Growing</span><span><i style="background:#f0b929"></i>Harvest</span><span><i style="background:#c9bfa6"></i>Done</span></div>
+  <p class="tip" id="c4tip"></p>
+ </div>
+ <div class="notes"><div><b>For the gardener</b>Shows when things happen and spots gaps: "the lettuce patch is free in July, plant fall carrots?" It leads naturally into succession planting.</div><div><b>Trade-off</b>Needs dates for every plant, which the planting guide already has. A slider is less obvious on a phone, so add month chips there.</div></div>
+</div></section>
+
+<section id="sun" class="concept c5"><div class="card">
+ <div class="head"><h2><span>5</span>Sun &amp; height</h2><p>The plan from above, with a side view underneath that shows how tall each plant gets and where its shadow falls. Sun comes from the side the user chose (south here).</p></div>
+ <div class="stage"><div id="c5"></div></div>
+ <div class="notes"><div><b>For the gardener</b>Makes "tall plants on the north side" visible instead of a rule to trust. Warns when a 5 ft tomato will shade the lettuce.</div><div><b>Trade-off</b>Two drawings per bed take room. It could live as a toggle ("Show heights") under the main sketch.</div></div>
+</div></section>
+
+<section id="iso" class="concept c6"><div class="card">
+ <div class="head"><h2><span>6</span>Pixel diorama</h2><p>The same pixel art, drawn from a three-quarter view so the beds read as raised boxes and the side-on sprites finally match the camera. Every plant stands on its real spot.</p></div>
+ <div class="stage"><div id="c6" class="iso"></div></div>
+ <div class="notes"><div><b>For the gardener</b>The most charming option and the closest to today's style. It fixes the mixed top-down/side-on look that makes the current sketch hard to read.</div><div><b>Trade-off</b>Back rows hide behind front rows. It's harder to click a patch and to see exact spacing, so pair it with a flat view for editing.</div></div>
+</div></section>
+
+<section id="callouts" class="concept c7"><div class="card">
+ <div class="head"><h2><span>7</span>Callouts</h2><p>A clean flat plan with nothing written on the beds. Labels sit outside each bed and point in with leader lines, so tags never cover plants.</p></div>
+ <div class="stage"><div id="c7"></div></div>
+ <div class="notes"><div><b>For the gardener</b>Every patch gets its full name, count and spacing, even narrow ones that today show only "×7". It reads like a printed garden-center plan.</div><div><b>Trade-off</b>Needs margin around each bed for labels. Beds packed close together need smarter label placement.</div></div>
+</div></section>
+
+<section id="focus" class="concept c8"><div class="card">
+ <div class="head"><h2><span>8</span>One bed at a time</h2><p>Pick a bed and it fills the screen, with plants at true spacing. A minimap shows where you are, and the list beside it is that bed's plants only.</p></div>
+ <div class="stage"><div class="tabs" role="tablist" id="c8tabs"></div><div class="wrap"><div id="c8big"></div><div class="side"><div id="c8mini"></div><div id="c8list" class="side"></div></div></div></div>
+ <div class="notes"><div><b>For the gardener</b>Solves "too small when scaled" outright: any garden size gets a big, legible bed. Best on phones and in the garden.</div><div><b>Trade-off</b>You lose the whole-garden overview, which the minimap only partly covers.</div></div>
+</div></section>
+
+<section id="sow" class="concept c9"><div class="card">
+ <div class="head"><h2><span>9</span>Sowing diagram</h2><p>Each patch is drawn the way you plant it: seeds as dots along furrows, transplants as holes. Depth and spacing are printed on each row.</p></div>
+ <div class="stage"><div id="c9"></div></div>
+ <div class="notes"><div><b>For the gardener</b>Says what to physically do: "furrow ½″ deep, a seed every 6″". It separates direct-sown crops from bought starts, which matches the shopping list.</div><div><b>Trade-off</b>Instructional rather than pretty. It's strongest inside each plant's planting guide, zoomed to that one patch.</div></div>
+</div></section>
+
+<section id="water" class="concept c10"><div class="card">
+ <div class="head"><h2><span>10</span>Watercolor poster</h2><p>A soft illustrated plan: each plant is a painted canopy as wide as it grows, with hand-lettered names. The one you'd print and pin in the shed.</p></div>
+ <div class="stage"><div id="c10"></div></div>
+ <div class="notes"><div><b>For the gardener</b>The canopy size shows spacing without numbers: crowded blobs mean crowded plants. Feels like a keepsake, which fits the album and collecting theme.</div><div><b>Trade-off</b>Less precise for planting. It works best as the cover or print view, with a flat view for the details.</div></div>
+</div></section>
+
+<script>
+/* ---------- the sample garden (from createExampleGardenPlan) ---------- */
+const GARDEN = {w:20,h:11};
+const BEDS = [
+ {id:"bed-1",name:"Bed 1",x:1,y:1,w:8,h:4},{id:"bed-2",name:"Bed 2",x:11,y:1,w:8,h:4},
+ {id:"bed-3",name:"Bed 3",x:3,y:7,w:6,h:3},{id:"bed-4",name:"Bed 4",x:11,y:7,w:6,h:3}];
+const PATCHES = [
+ {n:"Bush Bean",bed:"bed-1",q:28,sp:6,x:1.18,y:1.18,w:2.45,h:3.64},
+ {n:"Tomato",bed:"bed-1",q:1,sp:24,x:3.73,y:1.18,w:3.74,h:3.64},
+ {n:"Marigold",bed:"bed-1",q:5,sp:8,x:7.57,y:1.18,w:1.25,h:3.64},
+ {n:"Leaf Lettuce",bed:"bed-2",q:6,sp:12,x:11.18,y:1.18,w:2.41,h:3.64},
+ {n:"Bush Bean",bed:"bed-2",q:21,sp:6,x:13.69,y:1.18,w:1.81,h:3.64},
+ {n:"Zinnia",bed:"bed-2",q:20,sp:8,x:15.6,y:1.18,w:3.22,h:3.64},
+ {n:"Tomato",bed:"bed-3",q:1,sp:24,x:3.13,y:7.13,w:2.37,h:2.73},
+ {n:"Bush Bean",bed:"bed-3",q:15,sp:6,x:5.58,y:7.13,w:1.63,h:2.73},
+ {n:"Basil",bed:"bed-3",q:8,sp:8,x:7.28,y:7.13,w:1.58,h:2.73},
+ {n:"Leaf Lettuce",bed:"bed-4",q:2,sp:12,x:11.13,y:7.13,w:1.99,h:2.73},
+ {n:"Spinach",bed:"bed-4",q:15,sp:6,x:13.2,y:7.13,w:1.82,h:2.73},
+ {n:"Thyme",bed:"bed-4",q:8,sp:8,x:15.1,y:7.13,w:1.77,h:2.73}];
+/* Per-plant facts for the mockups: color, sprite, height, how/when to plant (sample dates). */
+const PLANT = {
+ "Bush Bean":   {c:"#5aa04a",s:"green-bean",ht:20,how:"seed",depth:"1″",sow:"May 10",m:[2,3,4,5],ripe:[4,5]},
+ "Tomato":      {c:"#d8432e",s:"tomato",ht:60,how:"start",depth:"deep, to first leaves",sow:"May 20",m:[2,3,4,5,6],ripe:[4,5,6]},
+ "Marigold":    {c:"#f29a1f",s:"marigold",ht:12,how:"start",depth:"pot depth",sow:"May 1",m:[2,3,4,5,6],ripe:[3,4,5,6]},
+ "Leaf Lettuce":{c:"#8fd06a",s:"lettuce",ht:8,how:"seed",depth:"¼″",sow:"Mar 20",m:[0,1,2],ripe:[1,2]},
+ "Zinnia":      {c:"#e0607e",s:"marigold",ht:30,how:"seed",depth:"¼″",sow:"May 15",m:[2,3,4,5,6],ripe:[4,5,6]},
+ "Basil":       {c:"#3f8a3a",s:"basil",ht:18,how:"start",depth:"pot depth",sow:"May 25",m:[2,3,4,5],ripe:[3,4,5]},
+ "Spinach":     {c:"#2f6b2f",s:"spinach",ht:8,how:"seed",depth:"½″",sow:"Mar 15",m:[0,1,2],ripe:[1,2]},
+ "Thyme":       {c:"#7b9a5a",s:"basil",ht:8,how:"start",depth:"pot depth",sow:"Apr 25",m:[1,2,3,4,5,6,7],ripe:[3,4,5,6,7]}};
+const MONTHS = ["Mar","Apr","May","Jun","Jul","Aug","Sep","Oct"];
+const bedOf = id => BEDS.find(b => b.id === id);
+const inPatches = id => PATCHES.filter(p => p.bed === id);
+/* Same placement as lib/garden-layout plantSpots: per-row × rows at spacing, row by row. */
+function spots(p){
+ const s=p.sp/12, per=Math.max(1,Math.floor(p.w/s+1e-9)), rows=Math.max(1,Math.floor(p.h/s+1e-9)), out=[];
+ for(let r=0;r<rows&&out.length<p.q;r++)for(let c=0;c<per&&out.length<p.q;c++)out.push({x:p.x+(c+.5)*p.w/per,y:p.y+(r+.5)*p.h/rows,row:r,col:c,per,rows});
+ return out;
+}
+const sheet = n => `/sprites/sheets/${PLANT[n].s}.png`;
+const spriteHtml = (n,scale,style="") => `<span class="sprite" style="width:${16*scale}px;height:${24*scale}px;background-image:url(${sheet(n)});${style}"></span>`;
+const ftin = ft => { const t=Math.round(ft*12); const f=Math.floor(t/12), i=t%12; return f? (i?`${f}′ ${i}″`:`${f}′`) : `${i}″`; };
+const esc = s => s.replace(/&/g,"&amp;");
+const svgOpen = (w,h,extra="") => `<svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" style="max-width:100%;height:auto" ${extra}>`;
+
+/* ---------- 1 square-foot grid ---------- */
+(function(){
+ const S=46, pad=10, W=GARDEN.w*S+pad*2, H=GARDEN.h*S+pad*2;
+ let g=svgOpen(W,H,'role="img" aria-label="Square-foot grid of the sample garden"');
+ const cells=[];
+ BEDS.forEach(b=>{
+  g+=`<rect x="${pad+b.x*S-3}" y="${pad+b.y*S-3}" width="${b.w*S+6}" height="${b.h*S+6}" rx="4" fill="#6b4226"/>`;
+  g+=`<text x="${pad+b.x*S}" y="${pad+b.y*S-8}" font-size="12" font-weight="700" fill="#2d3a2a">${b.name}</text>`;
+  for(let cy=0;cy<b.h;cy++)for(let cx=0;cx<b.w;cx++){
+   const mx=b.x+cx+.5,my=b.y+cy+.5;
+   const p=inPatches(b.id).find(p=>mx>=p.x-.2&&mx<=p.x+p.w+.2&&my>=p.y&&my<=p.y+p.h);
+   const x=pad+(b.x+cx)*S,y=pad+(b.y+cy)*S;
+   g+=`<rect x="${x+1.5}" y="${y+1.5}" width="${S-3}" height="${S-3}" fill="${p?PLANT[p.n].c+'33':'#8a5a35'}" stroke="#c9a070" data-i="${cells.length}" style="cursor:pointer"/>`;
+   // How many of the patch's real plant spots fall in this square (so totals match the plan).
+   const per=p?spots(p).filter(s=>s.x>=b.x+cx&&s.x<b.x+cx+1&&s.y>=b.y+cy&&s.y<b.y+cy+1).length:0;
+   if(p&&per){
+    const label=String(per);
+    // Nested svg crops the sheet to its mature frame (frame 3 of 5).
+    g+=`<svg x="${x+5}" y="${y+4}" width="21" height="32" viewBox="48 0 16 24" pointer-events="none"><image href="${sheet(p.n)}" width="80" height="24" style="image-rendering:pixelated"/></svg>`;
+    g+=`<text x="${x+S-5}" y="${y+S-6}" text-anchor="end" font-size="13" font-weight="700" fill="#2b1d14" pointer-events="none">${label}</text>`;
+   }
+   cells.push(p?{p,per}:null);
+  }
+ });
+ g+="</svg>";
+ const el=document.getElementById("c1"); el.innerHTML=g;
+ el.addEventListener("click",e=>{const i=e.target.dataset?.i; if(i===undefined)return; const c=cells[i];
+  document.getElementById("c1pop").textContent=c? (c.per?`${c.p.n}: plant ${c.per} in this square, ${c.p.sp}″ apart.`:`${c.p.n} needs this square as room to spread (${c.p.sp}″ spacing). Leave it open.`):"Empty square: room for something else.";});
+})();
+
+/* ---------- 2 planting day ---------- */
+(function(){
+ const order=[...new Set(PATCHES.map(p=>PLANT[p.n].sow))].sort((a,b)=>new Date(a+" 2026")-new Date(b+" 2026"));
+ const steps=PATCHES.map((p,i)=>({p,i,date:PLANT[p.n].sow})).sort((a,b)=>new Date(a.date+" 2026")-new Date(b.date+" 2026"));
+ steps.forEach((s,k)=>s.k=k+1);
+ const done=new Set();
+ const S=38,pad=12,W=GARDEN.w*S+pad*2,H=GARDEN.h*S+pad*2;
+ function draw(){
+  let g=svgOpen(W,H,'role="img" aria-label="Planting order map"');
+  BEDS.forEach(b=>{g+=`<rect x="${pad+b.x*S}" y="${pad+b.y*S}" width="${b.w*S}" height="${b.h*S}" rx="4" fill="#9c6338" stroke="#2b1d14" stroke-width="3"/><text x="${pad+b.x*S}" y="${pad+b.y*S-4}" font-size="11" font-weight="700">${b.name}</text>`;});
+  steps.forEach(s=>{const p=s.p,x=pad+p.x*S,y=pad+p.y*S,w=p.w*S,h=p.h*S,ok=done.has(s.k);
+   g+=`<rect x="${x+2}" y="${y+2}" width="${w-4}" height="${h-4}" rx="3" fill="${ok?PLANT[p.n].c:'#b98552'}" stroke="${ok?'#2b1d14':'#e0c79a'}" stroke-dasharray="${ok?'':'4 3'}" stroke-width="2"/>`;
+   g+=`<circle cx="${x+w/2}" cy="${y+h/2}" r="13" fill="${ok?'#fff4d6':'#2b1d14'}" stroke="#2b1d14" stroke-width="2"/><text x="${x+w/2}" y="${y+h/2+4.5}" text-anchor="middle" font-size="13" font-weight="700" fill="${ok?'#2b1d14':'#fff4d6'}">${ok?'✓':s.k}</text><text x="${x+w/2}" y="${y+h/2+30}" text-anchor="middle" font-size="10" font-weight="700" fill="#2b1d14">${esc(p.n.replace("Leaf ",""))}</text>`;});
+  g+="</svg>"; document.getElementById("c2").innerHTML=g;
+  document.getElementById("c2bar").style.width=`${done.size/steps.length*100}%`;
+ }
+ const list=document.getElementById("c2list");
+ list.innerHTML=order.map(d=>`<li class="day"><h3>${d}</h3>${steps.filter(s=>s.date===d).map(s=>`<label><input type="checkbox" data-k="${s.k}"><b>${s.k}.</b> ${s.p.n} <small>${s.p.q} · ${bedOf(s.p.bed).name}</small></label>`).join("")}</li>`).join("");
+ list.addEventListener("change",e=>{const k=+e.target.dataset.k; e.target.checked?done.add(k):done.delete(k); draw();});
+ draw();
+})();
+
+/* ---------- 3 tape measure (Bed 1) ---------- */
+(function(){
+ const b=BEDS[0],S=96,padX=40,padY=86,W=b.w*S+padX*2,H=b.h*S+padY+60;
+ const ox=x=>padX+(x-b.x)*S, oy=y=>padY+(y-b.y)*S;
+ let g=svgOpen(W,H,'role="img" aria-label="Bed 1 measured layout"');
+ const grid=[];for(let i=0;i<=b.w*2;i++)grid.push(`<line x1="${ox(b.x+i/2)}" y1="${oy(b.y)}" x2="${ox(b.x+i/2)}" y2="${oy(b.y+b.h)}" stroke="#2f5a85" stroke-width="${i%2?0.6:1}"/>`);
+ for(let i=0;i<=b.h*2;i++)grid.push(`<line x1="${ox(b.x)}" y1="${oy(b.y+i/2)}" x2="${ox(b.x+b.w)}" y2="${oy(b.y+i/2)}" stroke="#2f5a85" stroke-width="${i%2?0.6:1}"/>`);
+ g+=grid.join("");
+ g+=`<rect x="${ox(b.x)}" y="${oy(b.y)}" width="${b.w*S}" height="${b.h*S}" fill="none" stroke="#e7f0fa" stroke-width="3"/>`;
+ // dimension chain along the top
+ const marks=[b.x,...inPatches(b.id).flatMap(p=>[p.x,p.x+p.w]),b.x+b.w].map(v=>Math.min(b.x+b.w,Math.max(b.x,v))).sort((a,c)=>a-c).filter((v,i,a)=>!i||v-a[i-1]>.3);
+ g+=`<line x1="${ox(b.x)}" y1="40" x2="${ox(b.x+b.w)}" y2="40" stroke="#ffd36a" stroke-width="1.5"/>`;
+ marks.forEach(v=>{g+=`<line x1="${ox(v)}" y1="32" x2="${ox(v)}" y2="${oy(b.y)}" stroke="#ffd36a" stroke-width="1" stroke-dasharray="3 3"/><text x="${ox(v)}" y="24" text-anchor="middle" font-size="14" fill="#ffd36a">${ftin(v-b.x)}</text>`;});
+ inPatches(b.id).forEach(p=>{
+  const x=ox(p.x),y=oy(p.y),w=p.w*S,h=p.h*S;
+  g+=`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${PLANT[p.n].c}22" stroke="#e7f0fa" stroke-dasharray="6 4"/>`;
+  spots(p).forEach(s=>{const cx=ox(s.x),cy=oy(s.y);g+=`<circle cx="${cx}" cy="${cy}" r="${p.sp/12*S*.46}" fill="none" stroke="#9cc3e8" stroke-width="1"/><path d="M${cx-5} ${cy}h10M${cx} ${cy-5}v10" stroke="#fff" stroke-width="2"/>`;});
+  const sp=spots(p), per=sp[0].per;
+  g+=`<text x="${x+w/2}" y="${oy(b.y+b.h)+26}" text-anchor="middle" font-size="16" fill="#fff">${p.n}</text>`;
+  g+=`<text x="${x+w/2}" y="${oy(b.y+b.h)+46}" text-anchor="middle" font-size="13" fill="#9cc3e8">${p.q} · ${p.sp}″ apart · ${per} per row</text>`;
+ });
+ g+=`<text x="${ox(b.x)}" y="${oy(b.y)-10}" font-size="13" fill="#9cc3e8">0 = left corner · grid every 6″</text>`;
+ g+="</svg>"; document.getElementById("c3").innerHTML=g;
+})();
+
+/* ---------- 4 season scrubber ---------- */
+(function(){
+ const S=38,pad=12,W=GARDEN.w*S+pad*2,H=GARDEN.h*S+pad*2;
+ const state=(n,m)=>{const f=PLANT[n];if(!f.m.includes(m))return f.m[0]>m?"empty":"done";if(m===f.m[0])return"sown";return f.ripe.includes(m)?"ripe":"grow";};
+ const fill={empty:"#9c6338",sown:"url(#dots)",grow:"#6fb24a",ripe:"#f0b929",done:"#c9bfa6"};
+ function draw(m){
+  let g=svgOpen(W,H,'role="img" aria-label="Garden in '+MONTHS[m]+'"')+`<defs><pattern id="dots" width="7" height="7" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="#c9a36a"/><circle cx="3.5" cy="3.5" r="1.6" fill="#5a341d"/></pattern></defs>`;
+  BEDS.forEach(b=>{g+=`<rect x="${pad+b.x*S}" y="${pad+b.y*S}" width="${b.w*S}" height="${b.h*S}" rx="4" fill="#7a4a2a" stroke="#2b1d14" stroke-width="3"/>`;});
+  const free=[];
+  PATCHES.forEach(p=>{const st=state(p.n,m),x=pad+p.x*S,y=pad+p.y*S,w=p.w*S,h=p.h*S;
+   if(st==="done"||st==="empty")free.push(p);
+   g+=`<rect x="${x+2}" y="${y+2}" width="${w-4}" height="${h-4}" rx="3" fill="${fill[st]}" stroke="#2b1d14" stroke-width="1.5"/>`;
+   g+=`<text x="${x+w/2}" y="${y+h/2}" text-anchor="middle" font-size="11" font-weight="700" fill="#2b1d14">${esc(p.n.replace("Leaf ",""))}</text>`;
+   g+=`<text x="${x+w/2}" y="${y+h/2+14}" text-anchor="middle" font-size="10" fill="#2b1d14">${{empty:"not yet",sown:"plant now",grow:"growing",ripe:"pick!",done:"finished"}[st]}</text>`;});
+  g+="</svg>"; document.getElementById("c4").innerHTML=g;
+  document.getElementById("c4m").textContent=MONTHS[m];
+  const done=free.filter(p=>state(p.n,m)==="done");
+  document.getElementById("c4tip").textContent=done.length?`${done.map(p=>`${p.n} in ${bedOf(p.bed).name}`).join(", ")} ${done.length>1?"are":"is"} finished, so that space is free. Plant fall carrots or garlic?`:`Everything planted is still in the ground in ${MONTHS[m]}.`;
+ }
+ const r=document.getElementById("c4r"); r.addEventListener("input",()=>draw(+r.value)); draw(2);
+})();
+
+/* ---------- 5 sun & height (Beds 1 and 2) ---------- */
+(function(){
+ const S=40,pad=20,W=GARDEN.w*S+pad*2,planH=6*S,elevH=180,H=planH+elevH+70;
+ let g=svgOpen(W,H,'role="img" aria-label="Plan and side view with plant heights and shade"');
+ // sun from the south (bottom of the plan)
+ 
+ BEDS.slice(0,2).forEach(b=>{g+=`<rect x="${pad+b.x*S}" y="${pad+b.y*S}" width="${b.w*S}" height="${b.h*S}" rx="4" fill="#9c6338" stroke="#2b1d14" stroke-width="3"/><text x="${pad+b.x*S}" y="${pad+b.y*S-5}" font-size="11" font-weight="700">${b.name} · top view</text>`;
+  inPatches(b.id).forEach(p=>{const f=PLANT[p.n];g+=`<rect x="${pad+p.x*S+2}" y="${pad+p.y*S+2}" width="${p.w*S-4}" height="${p.h*S-4}" rx="3" fill="${f.c}aa"/><text x="${pad+(p.x+p.w/2)*S}" y="${pad+(p.y+p.h/2)*S+4}" text-anchor="middle" font-size="10" font-weight="700">${esc(p.n.replace("Leaf ",""))}</text>`;});});
+ // side view: looking from the east, north on the left; we show each bed's patches by height along x (simplified elevation)
+ const base=planH+elevH, inPx=1.8;
+ g+=`<line x1="${pad}" y1="${base}" x2="${W-pad}" y2="${base}" stroke="#5a341d" stroke-width="4"/>`;
+ g+=`<text x="${pad}" y="${planH+22}" font-size="12" font-weight="700" fill="#2d3a2a">Side view · how tall each patch gets (inches)</text>`;
+ BEDS.slice(0,2).forEach(b=>inPatches(b.id).forEach(p=>{const f=PLANT[p.n],x=pad+p.x*S,w=p.w*S,h=f.ht*inPx;
+  g+=`<path d="M${x+4} ${base} Q${x+w/2} ${base-h*1.25} ${x+w-4} ${base} Z" fill="${f.c}" stroke="#2b1d14" stroke-width="1.5"/><text x="${x+w/2}" y="${base-h-6}" text-anchor="middle" font-size="11" font-weight="700">${f.ht}″</text>`;}));
+ // shade warning: tomato (60") next to marigold (12")
+ const t=PATCHES[1],mg=PATCHES[2];
+ g+=`<path d="M${pad+(t.x+t.w)*S} ${base-PLANT.Tomato.ht*inPx} L${pad+(mg.x+mg.w)*S} ${base} L${pad+(t.x+t.w)*S} ${base} Z" fill="#2b1d1422"/>`;
+ g+=`<g transform="translate(${pad+12},${planH+50})"><circle r="15" fill="#f6c343" stroke="#c08a2a" stroke-width="2"/><text x="22" y="5" font-size="11" font-weight="700" fill="#8a5a00">Afternoon sun (west)</text></g>`;
+ g+=`<g transform="translate(${pad+(mg.x)*S-130},${base+12})"><rect width="290" height="40" rx="6" fill="#fff4d6" stroke="#b88a2a" stroke-width="2"/><text x="10" y="17" font-size="11.5" font-weight="700" fill="#8a5a00">⚠ Afternoon shade</text><text x="10" y="32" font-size="11.5" fill="#5a4a2a">The 5 ft tomato shades the marigolds after 3 pm</text></g>`;
+ g+="</svg>"; document.getElementById("c5").innerHTML=g;
+})();
+
+/* ---------- 6 isometric pixel diorama ---------- */
+(function(){
+ const room=document.getElementById("c6").parentElement.clientWidth-40;
+ const K=Math.max(14,Math.min(26,Math.floor(room/(GARDEN.w+GARDEN.h)))), ox=GARDEN.h*K+20, oy=70;
+ const P=(x,y)=>({x:ox+(x-y)*K, y:oy+(x+y)*K/2});
+ const W=(GARDEN.w+GARDEN.h)*K+40, H=(GARDEN.w+GARDEN.h)*K/2+90, D=14;
+ let g=`<svg width="${W}" height="${H}" style="position:absolute;left:0;top:0">`;
+ [...BEDS].sort((a,b)=>(a.x+a.y)-(b.x+b.y)).forEach(b=>{
+  const a=P(b.x,b.y),c=P(b.x+b.w,b.y),d=P(b.x+b.w,b.y+b.h),e=P(b.x,b.y+b.h);
+  g+=`<polygon points="${e.x},${e.y} ${d.x},${d.y} ${d.x},${d.y+D} ${e.x},${e.y+D}" fill="#7a4a2a" stroke="#2b1d14" stroke-width="2"/>`;
+  g+=`<polygon points="${d.x},${d.y} ${c.x},${c.y} ${c.x},${c.y+D} ${d.x},${d.y+D}" fill="#5e361c" stroke="#2b1d14" stroke-width="2"/>`;
+  g+=`<polygon points="${a.x},${a.y} ${c.x},${c.y} ${d.x},${d.y} ${e.x},${e.y}" fill="#8a5530" stroke="#2b1d14" stroke-width="3"/>`;
+ });
+ g+="</svg>";
+ let s="";
+ const all=PATCHES.flatMap(p=>spots(p).map(sp=>({p,sp}))).sort((a,b)=>(a.sp.x+a.sp.y)-(b.sp.x+b.sp.y));
+ all.forEach(({p,sp})=>{const q=P(sp.x,sp.y),sc=p.sp>=24?3:p.sp>=12?2:1;s+=spriteHtml(p.n,sc,`left:${q.x}px;top:${q.y+4}px`);});
+ PATCHES.forEach(p=>{const q=P(p.x+p.w/2,p.y+p.h);s+=`<span class="lbl" style="left:${q.x}px;top:${q.y+6}px">${p.n.replace("Leaf ","")} ×${p.q}</span>`;});
+ const el=document.getElementById("c6"); el.style.width=W+"px"; el.style.height=H+"px"; el.innerHTML=g+s;
+})();
+
+/* ---------- 7 callouts ---------- */
+(function(){
+ const S=40,padX=30,top=70,W=GARDEN.w*S+padX*2,H=GARDEN.h*S+top+80;
+ let g=svgOpen(W,H,'role="img" aria-label="Plan with labels outside the beds"');
+ BEDS.forEach(b=>{g+=`<rect x="${padX+b.x*S}" y="${top+b.y*S}" width="${b.w*S}" height="${b.h*S}" rx="6" fill="#efe6d2" stroke="#2d3a2a" stroke-width="2.5"/>`;});
+ PATCHES.forEach((p,i)=>{const b=bedOf(p.bed),f=PLANT[p.n],x=padX+p.x*S,y=top+p.y*S,w=p.w*S,h=p.h*S;
+  g+=`<rect x="${x+2}" y="${y+2}" width="${w-4}" height="${h-4}" rx="4" fill="${f.c}" opacity=".85"/>`;
+  spots(p).forEach(s=>{g+=`<circle cx="${padX+s.x*S}" cy="${top+s.y*S}" r="${Math.max(2,Math.min(p.sp/12*S*.4,16))}" fill="#fff" opacity=".55"/>`;});
+  const upper=b.y<5, cx=x+w/2, ly=upper? top+b.y*S-40 + (i%2)*0 : top+(b.y+b.h)*S+38;
+  const lx=cx, edge=upper? top+b.y*S : top+(b.y+b.h)*S;
+  g+=`<line x1="${cx}" y1="${y+h/2}" x2="${cx}" y2="${edge}" stroke="#2d3a2a" stroke-width="1.2" stroke-dasharray="2 2"/><line x1="${cx}" y1="${edge}" x2="${lx}" y2="${upper?ly+8:ly-16}" stroke="#2d3a2a" stroke-width="1.2"/><circle cx="${cx}" cy="${y+h/2}" r="3" fill="#2d3a2a"/>`;
+  g+=`<text x="${lx}" y="${upper?ly-6:ly}" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2d3a2a">${esc(p.n)}</text><text x="${lx}" y="${upper?ly+8:ly+14}" text-anchor="middle" font-size="11" fill="#5a5a4a">${p.q} · ${p.sp}″ apart</text>`;});
+ BEDS.forEach(b=>{g+=`<text x="${padX+b.x*S-4}" y="${top+(b.y+b.h/2)*S}" text-anchor="end" font-size="11" font-weight="700" fill="#a33224" transform="rotate(-90 ${padX+b.x*S-8} ${top+(b.y+b.h/2)*S})">${b.name}</text>`;});
+ g+="</svg>"; document.getElementById("c7").innerHTML=g;
+})();
+
+/* ---------- 8 one bed at a time ---------- */
+(function(){
+ const tabs=document.getElementById("c8tabs");
+ tabs.innerHTML=BEDS.map((b,i)=>`<button role="tab" aria-selected="${!i}" data-i="${i}">${b.name} <small>${b.w}×${b.h} ft</small></button>`).join("");
+ function show(i){
+  [...tabs.children].forEach((t,k)=>t.setAttribute("aria-selected",k===i));
+  const b=BEDS[i], avail=Math.min(640,document.getElementById("c8big").clientWidth||640), S=Math.floor(avail/b.w);
+  let h=`<div class="big" style="width:${b.w*S+8}px;height:${b.h*S+8}px">`;
+  inPatches(b.id).forEach(p=>{const f=PLANT[p.n], cell=p.sp/12*S, sc=Math.max(1,Math.min(4,Math.floor(cell*.8/16)));
+   h+=`<div style="position:absolute;left:${(p.x-b.x)*S}px;top:${(p.y-b.y)*S}px;width:${p.w*S}px;height:${p.h*S}px;outline:2px dashed #e0c79a55;outline-offset:-3px"></div>`;
+   spots(p).forEach(s=>{const x=(s.x-b.x)*S,y=(s.y-b.y)*S; h+=`<div style="position:absolute;left:${x-cell*.45}px;top:${y-cell*.45}px;width:${cell*.9}px;height:${cell*.9}px;border-radius:50%;background:#5e361c;border:1px solid #9c6338"></div>`+spriteHtml(p.n,sc,`left:${x}px;top:${y+cell*.2}px`);});});
+  h+="</div>"; document.getElementById("c8big").innerHTML=h;
+  const m=6; let mini=svgOpen(GARDEN.w*m+8,GARDEN.h*m+8,'aria-label="Minimap"')+`<rect width="${GARDEN.w*m+8}" height="${GARDEN.h*m+8}" rx="6" fill="#9fd07a"/>`;
+  BEDS.forEach((bb,k)=>{mini+=`<rect x="${4+bb.x*m}" y="${4+bb.y*m}" width="${bb.w*m}" height="${bb.h*m}" fill="${k===i?'#a33224':'#7a4a2a'}" stroke="#2b1d14"/>`;}); mini+="</svg>";
+  document.getElementById("c8mini").innerHTML=mini;
+  document.getElementById("c8list").innerHTML=inPatches(b.id).map(p=>`<div class="row"><span>${spriteHtml(p.n,1,"position:static")}</span><div><b>${p.n}</b><small>${p.q} ${p.q===1?"plant":"plants"} · ${p.sp}″ apart · ${PLANT[p.n].how==="seed"?"sow seeds":"buy starts"}</small></div></div>`).join("");
+ }
+ tabs.addEventListener("click",e=>{const t=e.target.closest("button"); if(t) show(+t.dataset.i);});
+ show(0);
+})();
+
+/* ---------- 9 sowing diagram (Bed 1 and Bed 4) ---------- */
+(function(){
+ const S=70,gap=60,padX=150;
+ const beds=[BEDS[0],BEDS[3]];
+ const W=Math.max(...beds.map(b=>b.w))*S+padX+40;
+ let y0=30, g="", H=0;
+ beds.forEach(b=>{
+  g+=`<text x="10" y="${y0}" font-size="20" fill="#2d3a2a">${b.name}</text>`;
+  const ox=padX, oy=y0+14;
+  g+=`<rect x="${ox}" y="${oy}" width="${b.w*S}" height="${b.h*S}" rx="6" fill="#d9b98c" stroke="#5a341d" stroke-width="3"/>`;
+  inPatches(b.id).forEach((p,pi)=>{const f=PLANT[p.n], sp=spots(p), x=ox+(p.x-b.x)*S, w=p.w*S;
+   g+=`<line x1="${x+w}" y1="${oy}" x2="${x+w}" y2="${oy+b.h*S}" stroke="#5a341d" stroke-dasharray="5 4"/>`;
+   const rows=[...new Set(sp.map(s=>s.row))];
+   rows.forEach(r=>{const rs=sp.filter(s=>s.row===r), ry=oy+(rs[0].y-b.y)*S;
+    if(f.how==="seed"){g+=`<line x1="${x+6}" y1="${ry}" x2="${x+w-6}" y2="${ry}" stroke="#7a4a2a" stroke-width="5" stroke-linecap="round"/>`; rs.forEach(s=>{g+=`<circle cx="${ox+(s.x-b.x)*S}" cy="${ry}" r="3.2" fill="#fff4d6" stroke="#2b1d14"/>`;});}
+    else rs.forEach(s=>{const cx=ox+(s.x-b.x)*S; g+=`<circle cx="${cx}" cy="${ry}" r="${Math.min(14,p.sp/12*S*.25)}" fill="#5a341d"/><path d="M${cx-6} ${ry-6}l12 12M${cx+6} ${ry-6}l-12 12" stroke="#fff4d6" stroke-width="2"/>`;});
+   });
+   g+=`<text x="${x+w/2}" y="${oy+b.h*S+22}" text-anchor="middle" font-size="17" fill="#2d3a2a">${esc(p.n)}</text>`;
+   g+=`<text x="${x+w/2}" y="${oy+b.h*S+40}" text-anchor="middle" font-size="14" fill="#7a4a2a">${f.how==="seed"?`sow ${f.depth} deep · every ${p.sp}″`:`${p.q} start${p.q>1?"s":""} · holes ${p.sp}″ apart`}</text>`;
+  });
+  y0=oy+b.h*S+gap+30; H=y0;
+ });
+ g=`<g>${g}</g><g transform="translate(10,60)"><text font-size="15" fill="#2d3a2a">Key</text><line x1="0" y1="20" x2="40" y2="20" stroke="#7a4a2a" stroke-width="5" stroke-linecap="round"/><circle cx="20" cy="20" r="3.2" fill="#fff4d6" stroke="#2b1d14"/><text x="48" y="25" font-size="13">furrow, seeds</text><circle cx="16" cy="46" r="9" fill="#5a341d"/><path d="M10 40l12 12M22 40l-12 12" stroke="#fff4d6" stroke-width="2"/><text x="48" y="51" font-size="13">hole for a start</text></g>`;
+ document.getElementById("c9").innerHTML=svgOpen(W,H,'role="img" aria-label="Sowing diagram"')+g+"</svg>";
+})();
+
+/* ---------- 10 watercolor poster ---------- */
+(function(){
+ const S=44,pad=30,W=GARDEN.w*S+pad*2,H=GARDEN.h*S+pad*2+50;
+ let g=svgOpen(W,H,'role="img" aria-label="Watercolor garden poster"')+`<defs>
+  <filter id="wc" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="3" seed="3"/><feDisplacementMap in="SourceGraphic" scale="9"/><feGaussianBlur stdDeviation=".6"/></filter>
+  <filter id="paper"><feTurbulence baseFrequency=".9" numOctaves="2" seed="8"/><feColorMatrix values="0 0 0 0 .55  0 0 0 0 .5  0 0 0 0 .4  0 0 0 .08 0"/><feComposite in2="SourceGraphic" operator="in"/></filter></defs>`;
+ g+=`<rect width="${W}" height="${H}" fill="#f7f1e3"/><rect width="${W}" height="${H}" fill="#fff" filter="url(#paper)"/>`;
+ BEDS.forEach(b=>{g+=`<rect x="${pad+b.x*S}" y="${pad+b.y*S}" width="${b.w*S}" height="${b.h*S}" rx="10" fill="#c99a6b" opacity=".55" filter="url(#wc)"/><rect x="${pad+b.x*S}" y="${pad+b.y*S}" width="${b.w*S}" height="${b.h*S}" rx="10" fill="none" stroke="#6b4a2c" stroke-width="1.6" opacity=".7" filter="url(#wc)"/>`;});
+ PATCHES.forEach((p,i)=>{const f=PLANT[p.n], k=inPatches(p.bed).indexOf(p);
+  spots(p).forEach((s,i)=>{const r=Math.max(4,p.sp/12*S*.5);g+=`<circle cx="${pad+s.x*S}" cy="${pad+s.y*S}" r="${r}" fill="${f.c}" opacity="${.45+((i*37)%20)/100}" filter="url(#wc)"/>`;});
+  g+=`<text x="${pad+(p.x+p.w/2)*S}" y="${pad+(p.y+p.h)*S+22+(k%2)*20}" text-anchor="middle" font-size="24" fill="#3a2c1e">${esc(p.n.replace("Leaf ",""))}</text>`;});
+ g+=`<text x="${W-pad}" y="${H-12}" text-anchor="end" font-size="30" fill="#a33224">our garden · spring 2027</text>`;
+ g+="</svg>"; document.getElementById("c10").innerHTML=g;
+})();
+</script>
+</body>
+</html>
