@@ -1,5 +1,9 @@
 # FloraScape
 
+[![FloraScape demo — click to watch](docs/florascape-demo-poster.jpg)](docs/florascape-demo.mp4)
+
+▶️ [Watch the 2-minute demo](docs/florascape-demo.mp4)
+
 FloraScape helps beginner gardeners turn a real growing space into an illustrated garden blueprint and planting guide. The planner combines user-provided dimensions and sunlight with real climate data and AI plant recommendations, then shows the result as a Collector's Album with an editable, animated pixel-art garden.
 
 ## Architecture
