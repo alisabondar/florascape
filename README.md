@@ -54,10 +54,10 @@ Providers are tried in order: Gemini, Groq, then OpenRouter. With none configure
 
 - The planner has three steps (Location & type, Your space, What to grow) with a progress indicator; Next checks only the current step, and finished steps can be revisited.
 - In-ground gardens collect total dimensions, the sunniest side (picked on a compass around the plot), and an optional section count.
-- Raised beds and containers use repeatable dimension and sunlight cards.
+- Raised beds and containers use repeatable dimension and sunlight cards, each with a **Duplicate** button.
 - “Any” lets the AI recommend in-ground planting, raised beds, or containers from the available areas and preferences.
 - Free-form preferences are treated as user intent, including named plants and requests for troubleshooting help.
-- A live, to-scale preview of the entered plot, beds, or containers updates as dimensions change.
+- A live, to-scale preview of the entered plot, beds, or containers updates as dimensions change, with labeled dimensions and in-ground sections.
 
 ## Results and editing
 
@@ -65,7 +65,9 @@ Providers are tried in order: Gemini, Groq, then OpenRouter. With none configure
 - Results open as a **Collector's Album**: one trading card per plant (difficulty, spacing, days to harvest, sun, what to buy) with Planted / Growing / Harvested stamps saved on this device and a folded planting guide on each card. The page reads top to bottom: the plan summary and frost dates beside the garden (plant-group editing folds under "Edit plant groups"), the plant cards, season quests beside your level, then Garden notes tabs (shopping list, neighbors, tips, crop rotation) and the garden helper.
 - **Saved albums:** every plan is saved automatically on this device (up to 12, newest first) and listed under "Your albums" on the homepage and below each results page, so levels and stamps always have a plan to come back to (`lib/saved-albums.ts`).
 - **Gardener levels:** earn XP for real gardening steps — a new plan, stamping cards Planted/Growing/Harvested, ticking off season quests, saving a season, keeping your crop rotation, and asking the garden helper (capped daily). Ten levels from Seed Saver to Master Gardener, nine badges, and small pop-ups for XP and level-ups; each reward pays out once per action, and progress is stored on this device (`lib/progress.ts`).
-- **The bed these cards fill** is the garden editor: an animated pixel garden (20 plant sprites in `public/sprites/`, look-alikes for the other plants) with plant dropdowns, +/− counts, add-a-group, and a table view.
+- **The bed these cards fill** is the garden editor: an animated pixel garden (44 plant sprites in `public/sprites/`, close look-alikes for the other plants) with plant dropdowns, +/− counts, add-a-group, and a table view. Binder tabs switch between beds.
+- **Season view** shows each bed as an isometric 3D pixel garden. Drag the month slider (or press play) to watch every patch go from planting to growing, harvest, and finished, with a list of jobs for that month. **Layout view** keeps the flat plan with drag-to-swap.
+- **Follow-up crops:** after harvest, finished patches suggest a second crop that still matures before your first frost (matched to season, sun, and crop family), with seed-saving tips and a "seeds saved" mark. Follow-ups appear in later months and on the shopping list (`lib/season.ts`).
 - The results page shows the hardiness zone, frost dates, growing-season length, and a frost warning when frost is forecast.
 - Every zone is filled to the number of plants its size and spacing allow; areas of 8 sq ft or more get at least three plant groups.
 - Toggle **View as table** for an accessible table of each group's area, quantity, spacing, and allocated size.
@@ -81,7 +83,7 @@ Providers are tried in order: Gemini, Groq, then OpenRouter. With none configure
 - The **Neighbor check** lists commonly recommended pairings and conflicts among plants sharing an area, from the curated `lib/companions.json` table.
 - The **Shopping list** shows seeds to sow (with a germination buffer) or nursery starts to buy, plus soil-mix and compost volumes per area with an estimated bag count.
 - **Crop rotation**: save each season's plan on this device (up to 8, in `localStorage`). The next plan is checked against the most recent other season, area by area (matched by name), and flags crops returning to the same rotation group (fruiting → legume → leafy → root). Each flagged area recommends the next group and offers one-click swaps from its alternatives.
-- **Ask about my garden** answers follow-up questions. "When / how far apart / how many" questions about a plant in the guide are answered straight from the plan with no AI call; other questions go to the same AI providers with a compact plan summary, and suggested swaps appear as one-click buttons. Replies are cached for an hour, each client is limited to 20 AI questions per 10 minutes, and the chat shows a friendly notice when no provider is available.
+- **Ask about my garden** (shown as *Coming soon* in the app for now; the `/api/garden-chat` route still works) answers follow-up questions. "When / how far apart / how many" questions about a plant in the guide are answered straight from the plan with no AI call; other questions go to the same AI providers with a compact plan summary, and suggested swaps appear as one-click buttons. Replies are cached for an hour, each client is limited to 20 AI questions per 10 minutes, and the chat shows a friendly notice when no provider is available.
 - Print the album, garden, planting guide, tips, neighbor check, and shopping list as a compact landscape plan.
 
 Planner state is stored in `sessionStorage`, and saved albums, progress, and saved seasons for crop rotation are stored in `localStorage` on this device only; there are no accounts.
@@ -113,7 +115,13 @@ Specs and audit records live in `docs/` and `AUDIT.md`.
 
 ### Demo video
 
-`docs/demo.mp4` is recorded by clicking through the app. With the offline server running (`bun run dev:e2e`) and `ffmpeg` on your PATH, run `node scripts/record-demo.mjs`. It uses a fresh browser profile, so your saved albums and XP aren't touched. GitHub only plays a video inline if you upload it: drag `docs/demo.mp4` into the README editor on github.com.
+`docs/demo.mp4` is recorded by clicking through the app. With the offline server running (`bun run dev:e2e`) and `ffmpeg` on your PATH, run `node scripts/record-demo.mjs`. It uses a fresh browser profile, so your saved albums and XP aren't touched.
+
+The demo at the top of this README is `docs/florascape-demo.gif` (GitHub autoplays GIFs but not videos), made from the full-quality `docs/florascape-demo.mp4` with:
+
+```bash
+ffmpeg -i docs/florascape-demo.mp4 -vf "setpts=PTS/2,fps=12,scale=1200:-1:flags=lanczos,split[a][b];[a]palettegen=max_colors=128:stats_mode=diff[p];[b][p]paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle" docs/florascape-demo.gif
+```
 
 To record it with a screen recorder such as Screen Studio (its zoom and cursor effects follow real clicks), use presenter mode. It plays the same walkthrough in a visible app window with the real mouse pointer:
 
