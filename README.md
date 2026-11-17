@@ -94,6 +94,7 @@ Planner state is stored in `sessionStorage`, and saved albums, progress, and sav
 - Each provider gets one retry for a 429, 5xx, or invalid response; other errors move straight to the next provider.
 - If every provider fails, or none is configured, the server creates a local starter plan from the submitted dimensions, still filled and with alternatives.
 - Successful plans are cached in memory for one hour per normalized input.
+- AI plan calls are rate-limited to 10 per client per hour and 300 per day across the whole site; past either limit the planner serves the starter plan with a short notice. Cache hits don't count. Limits are in memory, so each server instance counts separately; use free-tier API keys with no billing attached as the hard cost cap.
 - If a climate source fails, generation continues without it.
 - Gardening recommendations still require local judgment and seed-packet instructions; frost dates are historical medians, not guarantees.
 

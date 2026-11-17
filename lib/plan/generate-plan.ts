@@ -21,7 +21,15 @@ export interface CreatePlanResponseOptions {
   lookupClimate: (zipCode: string) => Promise<ClimateContext | null>;
   emit?: (event: PlanStreamEvent) => void;
   now?: Date;
+  /**
+   * Called once, only when the plan is not cached and providers are configured.
+   * Returning false skips the AI call and serves the starter plan (rate limiting).
+   */
+  allowAi?: () => boolean;
 }
+
+export const RATE_LIMITED_WARNING =
+  "You've made a lot of plans in a short time, so this is a starter plan. Try again in a little while for a custom one.";
 
 /**
  * Produces the plan response body for a normalized planner input, reporting progress
@@ -35,6 +43,7 @@ export async function createPlanResponse({
   lookupClimate,
   emit = () => {},
   now = new Date(),
+  allowAi = () => true,
 }: CreatePlanResponseOptions): Promise<PlanResponseBody> {
   const cacheKey = planCacheKey(plannerInput);
   const cached = getCachedPlan(cacheKey);
@@ -59,6 +68,11 @@ export async function createPlanResponse({
   if (!providers.length) {
     emit({ type: "generating", provider: "starter-plan" });
     return starterPlan("Custom planning is off, so this is a starter plan.");
+  }
+
+  if (!allowAi()) {
+    emit({ type: "generating", provider: "starter-plan" });
+    return starterPlan(RATE_LIMITED_WARNING);
   }
 
   const result = await generateWithProviders<GardenPlan>({

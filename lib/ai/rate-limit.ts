@@ -22,3 +22,9 @@ export function createRateLimiter({ limit, windowMs }: { limit: number; windowMs
     },
   };
 }
+
+/** Best-effort client identity for rate limiting: the first forwarded IP, else "local". */
+export function clientKeyFromRequest(request: Request): string {
+  const forwarded = request.headers.get("x-forwarded-for");
+  return forwarded?.split(",")[0].trim() || request.headers.get("x-real-ip") || "local";
+}

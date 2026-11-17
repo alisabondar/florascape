@@ -1,14 +1,10 @@
 import { NextResponse } from "next/server";
 import { getConfiguredProviders } from "../../../lib/ai/providers";
+import { clientKeyFromRequest } from "../../../lib/ai/rate-limit";
 import { handleChat } from "../../../lib/chat/handle-chat";
 import { aiEnabled } from "../../../lib/runtime-flags";
 import { chatRequest, parseRequest } from "../../../lib/schemas/requests";
 import type { ClimateContext, GardenPlan } from "../../../lib/types";
-
-function clientKey(request: Request): string {
-  const forwarded = request.headers.get("x-forwarded-for");
-  return forwarded?.split(",")[0].trim() || request.headers.get("x-real-ip") || "local";
-}
 
 export async function POST(request: Request) {
   let payload: unknown;
@@ -29,7 +25,7 @@ export async function POST(request: Request) {
     plan: body.plan,
     climate: body.climate || null,
     messages: body.messages,
-    clientKey: clientKey(request),
+    clientKey: clientKeyFromRequest(request),
     providers: aiEnabled() ? getConfiguredProviders() : [],
   });
   return NextResponse.json(responseBody, { status });

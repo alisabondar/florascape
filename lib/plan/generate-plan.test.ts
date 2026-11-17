@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test } from "bun:test";
 import { clearPlanCache } from "../ai/plan-cache";
-import { createPlanResponse, planEventStream } from "./generate-plan";
+import { createPlanResponse, planEventStream, RATE_LIMITED_WARNING, STARTER_MODEL } from "./generate-plan";
 import { readPlanStream } from "./read-plan-stream";
 import type {
   AiGenerateResult,
@@ -92,5 +92,27 @@ describe("plan progress events", () => {
     const errorStream = new Response('{"type":"climate","climate":null}\n{"type":"error","error":"boom"}\n');
     await expect(readPlanStream(errorStream)).rejects.toThrow("boom");
     await expect(readPlanStream(new Response('{"type":"climate"}\n'))).rejects.toThrow("ended before a result");
+  });
+});
+
+describe("plan rate limiting", () => {
+  beforeEach(() => clearPlanCache());
+
+  test("a refused AI call serves the starter plan without calling providers", async () => {
+    let calls = 0;
+    const counting: AiProvider = { name: "count:model", generate: async (...args) => (calls++, valid.generate(...args)) };
+    const body = await createPlanResponse({ plannerInput, providers: [counting], lookupClimate, now, allowAi: () => false });
+    expect(calls).toBe(0);
+    expect(body.modelUsed).toBe(STARTER_MODEL);
+    expect(body.warning).toBe(RATE_LIMITED_WARNING);
+    expect(body.plan.layout.plants.length).toBeGreaterThan(0);
+  });
+
+  test("cached plans are served without asking the limiter", async () => {
+    await createPlanResponse({ plannerInput, providers: [valid], lookupClimate, now });
+    let asked = false;
+    const body = await createPlanResponse({ plannerInput, providers: [valid], lookupClimate, now, allowAi: () => ((asked = true), false) });
+    expect(asked).toBe(false);
+    expect(body.cached).toBe(true);
   });
 });

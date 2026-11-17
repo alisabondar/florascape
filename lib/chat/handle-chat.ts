@@ -2,7 +2,7 @@ import { generateWithProviders } from "../ai/generate";
 import { createTtlCache, hashKey } from "../ai/plan-cache";
 import { chatPlanSummary } from "./plan-summary";
 import { buildChatPrompt, CHAT_RESPONSE_SCHEMA, recentMessages } from "./prompt";
-import { createRateLimiter } from "./rate-limit";
+import { createRateLimiter } from "../ai/rate-limit";
 import { filterSwapSuggestions } from "./suggestions";
 import type { AiProvider, ChatAiResponse, ClimateContext, GardenPlan, SwapSuggestion } from "../types";
 

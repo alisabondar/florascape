@@ -3,7 +3,7 @@ import { CHAT_RATE_LIMIT, handleChat, RATE_LIMITED_REPLY, resetChatState, UNAVAI
 import { answerFromPlan } from "./plan-answers";
 import { chatPlanSummary } from "./plan-summary";
 import { buildChatPrompt, recentMessages } from "./prompt";
-import { createRateLimiter } from "./rate-limit";
+import { createRateLimiter } from "../ai/rate-limit";
 import { filterSwapSuggestions } from "./suggestions";
 import type { AiProvider, ClimateContext, GardenPlan } from "../types";
 

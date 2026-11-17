@@ -1,10 +1,16 @@
 import { NextResponse } from "next/server";
 import { getConfiguredProviders } from "../../../lib/ai/providers";
+import { clientKeyFromRequest, createRateLimiter } from "../../../lib/ai/rate-limit";
 import { getClimateContext } from "../../../lib/climate";
 import { normalizePlannerInput } from "../../../lib/garden-plan";
 import { createPlanResponse, planEventStream } from "../../../lib/plan/generate-plan";
 import { aiEnabled, climateEnabled } from "../../../lib/runtime-flags";
 import { parseRequest, planRequest } from "../../../lib/schemas/requests";
+
+// Limits AI plan calls only (cache hits and starter plans cost nothing). In-memory, so each
+// server instance counts separately; free-tier keys without billing are the hard cost cap.
+const perClient = createRateLimiter({ limit: 10, windowMs: 60 * 60 * 1000 });
+const sitewide = createRateLimiter({ limit: 300, windowMs: 24 * 60 * 60 * 1000 });
 
 export async function POST(request: Request) {
   let payload: unknown;
@@ -28,6 +34,7 @@ export async function POST(request: Request) {
     plannerInput,
     providers: aiEnabled() ? getConfiguredProviders() : [],
     lookupClimate: climateEnabled() ? getClimateContext : async () => null,
+    allowAi: () => perClient.check(clientKeyFromRequest(request)).allowed && sitewide.check("all").allowed,
   };
 
   if (request.headers.get("accept")?.includes("application/x-ndjson")) {
