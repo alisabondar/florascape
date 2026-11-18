@@ -83,7 +83,7 @@ Providers are tried in order: Gemini, Groq, then OpenRouter. With none configure
 - The **Neighbor check** lists commonly recommended pairings and conflicts among plants sharing an area, from the curated `lib/companions.json` table.
 - The **Shopping list** shows seeds to sow (with a germination buffer) or nursery starts to buy, plus soil-mix and compost volumes per area with an estimated bag count.
 - **Crop rotation**: save each season's plan on this device (up to 8, in `localStorage`). The next plan is checked against the most recent other season, area by area (matched by name), and flags crops returning to the same rotation group (fruiting → legume → leafy → root). Each flagged area recommends the next group and offers one-click swaps from its alternatives.
-- **Ask about my garden** (shown as *Coming soon* in the app for now; the `/api/garden-chat` route still works) answers follow-up questions. "When / how far apart / how many" questions about a plant in the guide are answered straight from the plan with no AI call; other questions go to the same AI providers with a compact plan summary, and suggested swaps appear as one-click buttons. Replies are cached for an hour, each client is limited to 20 AI questions per 10 minutes, and the chat shows a friendly notice when no provider is available.
+- **Ask about my garden** (shown as *Coming soon* in the app for now; its `/api/garden-chat` route returns 404 unless `FLORASCAPE_CHAT=on`) answers follow-up questions. "When / how far apart / how many" questions about a plant in the guide are answered straight from the plan with no AI call; other questions go to the same AI providers with a compact plan summary, and suggested swaps appear as one-click buttons. Replies are cached for an hour, each client is limited to 20 AI questions per 10 minutes (500 a day across the site), and the chat shows a friendly notice when no provider is available.
 - Print the album, garden, planting guide, tips, neighbor check, and shopping list as a compact landscape plan.
 
 Planner state is stored in `sessionStorage`, and saved albums, progress, and saved seasons for crop rotation are stored in `localStorage` on this device only; there are no accounts.
@@ -112,7 +112,7 @@ bun run test:e2e
 
 The plan route streams progress as newline-delimited JSON when the request sends `Accept: application/x-ndjson`; the loading screen shows each stage. Response schemas sent to AI providers are generated from the Zod schemas in `lib/schemas/`, which also validate API request bodies.
 
-Specs and audit records live in `docs/` and `AUDIT.md`.
+Specs and audit records live in `docs/` and `AUDIT.md`; early design mockups are in `docs/mockups/` (open the HTML files directly).
 
 ### Demo video
 
@@ -132,3 +132,7 @@ To record it with a screen recorder such as Screen Studio (its zoom and cursor e
 4. Don't touch the mouse until the terminal prints "Demo finished", then stop and export in Screen Studio.
 
 `--present --dry-run` checks the walkthrough headlessly without moving the pointer.
+
+## License
+
+MIT — see [LICENSE](LICENSE).

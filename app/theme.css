@@ -17,8 +17,8 @@
   --al-gold: #e3a72f;
   --al-rule: #d8c9a3;
   /* One font for the whole app: Jersey 15, a pixel-grid face that matches the sprites. */
-  --font-display: "Jersey 15", system-ui, sans-serif;
-  --font-body: "Jersey 15", system-ui, sans-serif;
+  --font-display: var(--font-jersey), "Jersey 15", system-ui, sans-serif;
+  --font-body: var(--font-jersey), "Jersey 15", system-ui, sans-serif;
 }
 
 html {

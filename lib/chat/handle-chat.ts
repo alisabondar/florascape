@@ -31,6 +31,7 @@ export interface HandleChatOptions {
 
 const CHAT_CACHE_TTL_MS = 60 * 60 * 1000;
 export const CHAT_RATE_LIMIT = { limit: 20, windowMs: 10 * 60 * 1000 };
+export const CHAT_DAILY_LIMIT = { limit: 500, windowMs: 24 * 60 * 60 * 1000 };
 
 export const UNAVAILABLE_REPLY =
   "The garden helper is unavailable right now. Your plan's guide, tips, and neighbor check above still apply; please try again in a little while.";
@@ -39,10 +40,12 @@ export const RATE_LIMITED_REPLY =
 
 const chatCache = createTtlCache<ChatResponseBody>(CHAT_CACHE_TTL_MS);
 const rateLimiter = createRateLimiter(CHAT_RATE_LIMIT);
+const sitewideLimiter = createRateLimiter(CHAT_DAILY_LIMIT);
 
 export function resetChatState() {
   chatCache.clear();
   rateLimiter.clear();
+  sitewideLimiter.clear();
 }
 
 function parseChatResponse(text: string, plan: GardenPlan | null | undefined): ChatReply | null {
@@ -84,7 +87,7 @@ export async function handleChat({
     return { status: 200, body: { ...cached, cached: true } };
   }
 
-  if (!rateLimiter.check(clientKey || "anonymous", now).allowed) {
+  if (!rateLimiter.check(clientKey || "anonymous", now).allowed || !sitewideLimiter.check("all", now).allowed) {
     return { status: 200, body: { reply: RATE_LIMITED_REPLY, suggestions: [], rateLimited: true } };
   }
 

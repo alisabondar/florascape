@@ -2,11 +2,15 @@ import { NextResponse } from "next/server";
 import { getConfiguredProviders } from "../../../lib/ai/providers";
 import { clientKeyFromRequest } from "../../../lib/ai/rate-limit";
 import { handleChat } from "../../../lib/chat/handle-chat";
-import { aiEnabled } from "../../../lib/runtime-flags";
+import { aiEnabled, chatEnabled } from "../../../lib/runtime-flags";
 import { chatRequest, parseRequest } from "../../../lib/schemas/requests";
 import type { ClimateContext, GardenPlan } from "../../../lib/types";
 
 export async function POST(request: Request) {
+  if (!chatEnabled()) {
+    return NextResponse.json({ error: "The garden helper is coming soon." }, { status: 404 });
+  }
+
   let payload: unknown;
   try {
     payload = await request.json();
