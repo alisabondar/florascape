@@ -2,9 +2,9 @@
 
 ![FloraScape demo](docs/florascape-demo.gif)
 
-▶️ [Watch the full-quality demo (MP4)](docs/florascape-demo.mp4)
-
 FloraScape helps beginner gardeners turn a real growing space into an illustrated garden blueprint and planting guide. The planner combines user-provided dimensions and sunlight with real climate data and AI plant recommendations, then shows the result as a Collector's Album with an editable, animated pixel-art garden.
+
+**Try it:** [florascaper.vercel.app](https://florascaper.vercel.app)
 
 ## Architecture
 
@@ -28,8 +28,9 @@ The application is written in strict TypeScript and intentionally separates prob
 | `lib/climate.ts` | Zone, frost-date, and forecast lookups with an in-memory cache |
 | `lib/plant-facts.json` | Spacing, maturity, sun, frost tolerance, category, easy-care flag, direct-sow vs. transplant, botanical family, and rotation group for common plants |
 | `lib/companions.json` | Curated helpful and conflicting plant pairs with reasons |
-| `lib/ai/` | Gemini and OpenAI-compatible providers, the fallback chain, and the TTL caches |
-| `lib/chat/` | Garden chat: plan-based answers, plan summary, prompt, swap filtering, and rate limit |
+| `lib/season.ts` | Season view timeline (plant / growing / pick / finished) and follow-up crops |
+| `lib/ai/` | Gemini and OpenAI-compatible providers, the fallback chain, the TTL caches, and the rate limiter |
+| `lib/chat/` | Garden chat: plan-based answers, plan summary, prompt, and swap filtering |
 
 ## Local setup
 
@@ -46,6 +47,9 @@ GROQ_API_KEY=
 GROQ_MODEL=
 OPENROUTER_API_KEY=
 OPENROUTER_MODEL=
+
+# The garden helper's AI route stays closed unless this is "on"
+FLORASCAPE_CHAT=
 ```
 
 Providers are tried in order: Gemini, Groq, then OpenRouter. With none configured, the planner returns a local starter plan.
