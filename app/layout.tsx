@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://florascaper.vercel.app"),
   title,
   description,
-  openGraph: { title, description, siteName: "FloraScape", type: "website" },
+  openGraph: { title, description, url: "/", siteName: "FloraScape", type: "website" },
   twitter: { card: "summary_large_image", title, description },
 };
 
